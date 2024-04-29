@@ -19,10 +19,14 @@
 
 .titleUser{
   font-size: 28px;
+  color: rgb(0, 80, 184);
 }
 
-.titleDescription{
-  margin-bottom: 0px;
-  font-size: 20px;
-
+.subName{
+  color: rgb(0, 80, 184);
+  font-size: 28px;
+}
+.date{
+  color: rgb(0, 80, 184);
+  font-size: 28px;
 }

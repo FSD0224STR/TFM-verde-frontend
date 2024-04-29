@@ -1,28 +1,42 @@
 import { useState,useEffect } from 'react'
 import './App.css'
-import './components/UserList'
 import { getUsers } from './apiServices/usersApi';
+import UsersList from './components/UsersList';
+
+
+
+const userDefault = {
+  name: 'pepito',
+  subName: 'perez',
+  dateOfBirth:'21/03/1996'
+}
+
 
 function App() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([userDefault])
 
-  useEffect(() => {
-    getUsers()
 
-  }, []);
+  // useEffect(() => {
+  //   setUsers(getUsers()) 
+
+
+  // }, []);
 
 
 
   return (
     <>
       
-      {users.map(user =>
+      <h1>LISTADO DE USUARIOS</h1>
+      
+     {users.map((user,index) =>(
     
-        <UserList
-          user={ user} />
+       <UsersList
+         user={user}
+         key={index} />
     
-    )}
-     
+    ))} 
+      
     </>
   )
 }
