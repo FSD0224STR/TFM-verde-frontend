@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import './App.css'
-import { getUsers } from './apiServices/usersApi';
+import userAPI from './apiServices/usersApi';
 import UsersList from './components/UsersList';
 
 
@@ -16,8 +16,14 @@ function App() {
   const [users, setUsers] = useState([])
 
 
+  const getUsers = () => {
+       userAPI.getAllUsers()
+      .then(allUsers => setUsers(allUsers))
+      .catch(err => alert("Ha ocurrido el siguiente error: " + err.message))
+  }
+
   useEffect(() => {
-    setUsers(getUsers()) 
+    getUsers()
 
 
   }, []);
