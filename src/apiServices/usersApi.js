@@ -24,4 +24,9 @@ const updateUser=async (id,modifiedData)=>{
   return user
 }
 
-export default { getAllUsers }
+export default { 
+  getAllUsers,
+  addUser,
+  deleteUser,
+  updateUser
+}
