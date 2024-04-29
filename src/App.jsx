@@ -13,14 +13,14 @@ const userDefault = {
 
 
 function App() {
-  const [users, setUsers] = useState([userDefault])
+  const [users, setUsers] = useState([])
 
 
-  // useEffect(() => {
-  //   setUsers(getUsers()) 
+  useEffect(() => {
+    setUsers(getUsers()) 
 
 
-  // }, []);
+  }, []);
 
 
 
