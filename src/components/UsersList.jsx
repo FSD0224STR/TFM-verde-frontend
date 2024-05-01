@@ -3,7 +3,7 @@
 export default  function UsersList({user}) {
      
 
-    const {name,subName,dateOfBirth}=user
+    const {name,surname,dateOfBirth}=user
    
 
     return (
@@ -15,7 +15,7 @@ export default  function UsersList({user}) {
             <h2 className= {'titleUser '}>{name}</h2>
        
             <div>
-                <h3 className={'subName'} >{subName}</h3>
+                <h3 className={'subName'} >{surname}</h3>
                 <h4 className='date'> {dateOfBirth}</h4>
             </div>
         </div>
