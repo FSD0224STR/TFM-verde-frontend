@@ -3,6 +3,12 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+ 
 }
 
 
@@ -29,4 +35,9 @@
 .date{
   color: rgb(0, 80, 184);
   font-size: 28px;
+}
+
+body {
+  background: linear-gradient( to left, rgb(216, 224, 224), rgb(101, 151, 153),rgb(255, 255, 255));
+  background-size: 400%;
 }

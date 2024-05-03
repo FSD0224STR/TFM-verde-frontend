@@ -11,6 +11,11 @@ const addUser=async (newuserdata)=>{
  const users=await response.json()
  return users
 }
+const loginUser=async (data)=>{
+ const response=await fetch(`${Servidorurl}/login`,{method:'POST',body:JSON.stringify(data),headers: { 'Content-Type': 'application/json'}})
+ const user=await response.json()
+ return user
+}
 
 const deleteUser=async (id)=>{
  const response=await fetch(`${Servidorurl}/user/${id}`, {method:'DELETE'} ) 
@@ -28,5 +33,6 @@ export default {
   getAllUsers,
   addUser,
   deleteUser,
-  updateUser
+  updateUser,
+  loginUser
 }
