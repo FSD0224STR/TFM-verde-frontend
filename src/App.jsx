@@ -33,10 +33,11 @@ function App() {
       {/* <h1>LISTADO DE USUARIOS</h1>
       
      {users.map((user,index) =>(
+      <UsersList 
+      user={user}
+      key={index} ></UsersList>
     
-       <UsersList
-         user={user}
-         key={index} />
+      
     
     ))}  */}
    <FormRegister />
