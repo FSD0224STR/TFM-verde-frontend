@@ -1,35 +1,16 @@
-import { useState,useEffect } from 'react'
-import './App.css'
-import userAPI from './apiServices/usersApi';
-import UsersList from './components/pure/UsersList';
-import FormRegister from './components/forms/registerForm/FormRegister';
-import LoginForm from './components/forms/loginForm/LoginForm';
+import { Route, Routes } from "react-router-dom";
 
+import "./App.css";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import LandingPage from "./pages/LandingPage";
+import EventsList from "./pages/EventsList";
+import ProfileList from "./pages/ProfileList";
+import SettingsProfile from "./pages/SettingsProfile";
+import NotFound from "./pages/NotFound";
 
-
-
-
-
-
-function App( ) {
-  // const [users, setUsers] = useState([])
-
-
-  // const getUsers = () => {
-  //      userAPI.getAllUsers()
-  //     .then(allUsers => setUsers(allUsers))
-  //     .catch(err => alert("Ha ocurrido el siguiente error: " + err.message))
-  // }
-
-  // useEffect(() => {
-  //   getUsers()
-
-
-  // }, []);
-
-
-
-
+function App() {
   return (
     <>
 
@@ -56,8 +37,18 @@ function App( ) {
  
      
       
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/events/:id" element={<EventsList />} />
+        <Route path="/profiles" element={<ProfileList />} />
+        <Route path="/profile/:id" element={<SettingsProfile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,7 +1,10 @@
+import {Password} from "@mui/icons-material";
+
 const Servidorurl= 'http://localhost:3000'
 
 const getAllUsers=async ()=>{
- const response=await fetch(`${Servidorurl}/users`)
+ const token = localStorage.getItem('access_token');
+ const response=await fetch(`${Servidorurl}/users`, {headers: { 'autorization:': `Bearer ${token}`}})
  const users=await response.json()
  return users
 }
@@ -29,10 +32,16 @@ const updateUser=async (id,modifiedData)=>{
   return user
 }
 
+const login = async (email, password) => {
+  const response = await fetch(`${Servidorurl}/users/login`,{method:'POST',body:JSON.stringify({email, password}),headers: { 'Content-Type': 'application/json'}})
+  return await response.json()
+}
+
 export default { 
   getAllUsers,
   addUser,
   deleteUser,
   updateUser,
-  loginUser
+  loginUser,
+  login
 }
