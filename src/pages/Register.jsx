@@ -6,7 +6,7 @@ export default function Register() {
     <div>
           <h1>register</h1>
           
-          {/* <FormRegister /> */}
+          <FormRegister />
     </div>
   )
 }

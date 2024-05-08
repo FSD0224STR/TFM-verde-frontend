@@ -14,29 +14,6 @@ function App() {
   return (
     <>
 
-      
-      {/* <h1>LISTADO DE USUARIOS</h1>
-      
-     {users.map((user,index) =>(
-      <UsersList 
-      user={user}
-      key={index} ></UsersList>
-    
-      
-    
-    ))}  */}
-
-    <p>Hola</p>
-
- 
-    <FormRegister />
-          
-    <LoginForm/>
-
- 
- 
-     
-      
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
