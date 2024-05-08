@@ -1,5 +1,4 @@
 import React from 'react'
-import UsersList from '../components/pure/UsersList';
 import userAPI from '../apiServices/usersApi';
 import { useState,useEffect } from 'react'
 export default function ProfileList() {
@@ -25,16 +24,6 @@ export default function ProfileList() {
           <h1>Lista de interasados</h1>
           
 
-
-      
-     {/* {users.map((user,index) =>(
-      <UsersList 
-      user={user}
-      key={index} ></UsersList>
-    
-      
-    
-    ))}  */}
     </div>
   )
 }

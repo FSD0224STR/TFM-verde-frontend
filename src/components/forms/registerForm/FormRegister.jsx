@@ -5,25 +5,23 @@ import {
   Grid,
   TextField,
   Typography,
-  Checkbox,
-  FormControlLabel,
-  Select,
-  MenuItem,
-  InputLabel,
 } from "@mui/material";
 import "./formRegister.css";
-import { Formik, useFormik } from "formik";
+import {useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
 
 export default function FormRegister() {
   let initialValuesForm = {
-    name: "", //este valor es referente al name del input pasra que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
+    name: "", //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
+    lastname:"",
     email: "",
+    roll:"",
     password: "",
     location: "",
     gener: "",
     age: "",
+    img: "",
+
   };
 
   const registerSchema = Yup.object().shape({
@@ -58,7 +56,7 @@ export default function FormRegister() {
         component="form"
         height={900}
         width={600}
-        m={5}
+        m={20}
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -69,16 +67,24 @@ export default function FormRegister() {
         sx={{ borderRadius: "10px", boxShadow: 5 }}
         bgcolor="white"
       >
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          justifyItems="space-evenly"
+          spacing={2}
+          sx={{ width: "100%",margin:10 }}
+        >
         <Typography
           color="primary"
-          variant="h6"
+          variant="body1"
           textAlign="left"
           fontWeight="bold"
         >
-          1. To match you well we need some information
+          1. Para que coincida bien con usted, necesitamos información
         </Typography>
 
-        <Grid item>
+        <Grid item xs={12} md={9}>
           <TextField
             id="gener"
             type="text"
@@ -93,7 +99,7 @@ export default function FormRegister() {
           />
         </Grid>
 
-        <Grid item>
+        <Grid item xs={12} md={9}>
           <Typography component="p"> What's your age ?</Typography>
           <TextField
             id="age"
@@ -109,7 +115,7 @@ export default function FormRegister() {
           />
         </Grid>
 
-        <Box component="div">
+        <Grid item component="div" xs={12} md={9}>
           <Typography component="p">Where do you want to Dancing?</Typography>
           <TextField
             id="location"
@@ -118,22 +124,14 @@ export default function FormRegister() {
             label="location"
             variant="outlined"
             fullWidth
-            value={values.location}
+            value={values.city}
             onChange={handleChange}
-            error={errors.location}
-            helperText={errors.location}
+            error={errors.city}
+            helperText={errors.city}
           />
-        </Box>
-        <Grid
-          container
-          alignItems="center"
-          justifyContent="center"
-          justifyItems="space-evenly"
-          spacing={2}
-          sx={{ width: "100%" }}
-        >
+        </Grid>
           <Grid item xs={12} md={9}>
-            <Typography component="p">What is your first name?</Typography>
+            <Typography component="p" color="primary">What is your first name?</Typography>
             <TextField
               id="nameRegister"
               type="text"
