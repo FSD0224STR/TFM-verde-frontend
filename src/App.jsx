@@ -8,7 +8,10 @@ import LoginForm from './components/forms/loginForm/LoginForm';
 
 
 
-function App() {
+
+
+
+function App( ) {
   // const [users, setUsers] = useState([])
 
 
@@ -29,6 +32,7 @@ function App() {
 
   return (
     <>
+
       
       {/* <h1>LISTADO DE USUARIOS</h1>
       
@@ -40,11 +44,16 @@ function App() {
       
     
     ))}  */}
-   <FormRegister />
-    
-     
-      
-      <LoginForm/>
+
+    <p>Hola</p>
+
+ 
+    <FormRegister />
+          
+    <LoginForm/>
+
+ 
+ 
      
       
     </>
