@@ -1,27 +1,25 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import React,{useState} from "react";
+import { Box, Button, Grid, TextField, Typography,FormControl,FormControlLabel,FormLabel,Radio,RadioGroup } from "@mui/material";
 import "./formRegister.css";
-import {useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 export default function FormRegister() {
+  const [value, setValue] = useState('female');
+  const handleChangeGender = (event) => {
+    setValue(event.target.value);
+  };
+
   let initialValuesForm = {
     name: "", //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
-    lastname:"",
+    lastname: "",
     email: "",
-    roll:"",
+    role: "",
     password: "",
     location: "",
-    gener: "",
+    // gender: {value},
     age: "",
     img: "",
-
   };
 
   const registerSchema = Yup.object().shape({
@@ -34,6 +32,7 @@ export default function FormRegister() {
   });
 
   const handleSubmitMy = (data) => {
+    console.log('entrando en el el submit')
     //esta es todo lo qeu cambio en el inicio value
     // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit
     console.log(data);
@@ -52,8 +51,8 @@ export default function FormRegister() {
   return (
     <div className="form-container">
       <Box
-        onSubmit={handleSubmit}
         component="form"
+        onSubmit={handleSubmit}
         height={900}
         width={600}
         m={20}
@@ -73,65 +72,79 @@ export default function FormRegister() {
           justifyContent="center"
           justifyItems="space-evenly"
           spacing={2}
-          sx={{ width: "100%",margin:10 }}
+          sx={{ width: "100%", margin: 10 }}
         >
-        <Typography
-          color="primary"
-          variant="body1"
-          textAlign="left"
-          fontWeight="bold"
-        >
-          1. Para que coincida bien con usted, necesitamos información
-        </Typography>
+          <Typography
+            color="primary"
+            variant="body1"
+            textAlign="left"
+            fontWeight="bold"
+          >
+            1. Para que coincida bien con usted, necesitamos información
+          </Typography>
 
-        <Grid item xs={12} md={9}>
-          <TextField
-            id="gener"
-            type="text"
-            name="gener"
-            label="insert gener"
-            variant="outlined"
-            fullWidth
-            value={values.gener}
-            onChange={handleChange}
-            error={!!errors.gener}
-            helperText={errors.gener}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={9}>
-          <Typography component="p"> What's your age ?</Typography>
-          <TextField
-            id="age"
-            type="text"
-            name="age"
-            label="Age"
-            variant="outlined"
-            fullWidth
-            value={values.age}
-            onChange={handleChange}
-            error={errors.age}
-            helperText={errors.age}
-          />
-        </Grid>
-
-        <Grid item component="div" xs={12} md={9}>
-          <Typography component="p">Where do you want to Dancing?</Typography>
-          <TextField
-            id="location"
-            name="location"
-            type="text"
-            label="location"
-            variant="outlined"
-            fullWidth
-            value={values.city}
-            onChange={handleChange}
-            error={errors.city}
-            helperText={errors.city}
-          />
-        </Grid>
           <Grid item xs={12} md={9}>
-            <Typography component="p" color="primary">What is your first name?</Typography>
+            <FormControl>
+              <FormLabel sx={{textAlign:"left"}} >
+                Gender
+              </FormLabel>
+              <RadioGroup
+                row
+                name="gender"
+                value={value}
+                onChange={handleChangeGender}
+                
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                  
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} md={9}>
+            <Typography component="p" sx={{textAlign:"left"}}> What's your age ?</Typography>
+            <TextField
+              id="age"
+              type="text"
+              name="age"
+              label="Age"
+              variant="outlined"
+              fullWidth
+              value={values.age}
+              onChange={handleChange}
+              error={!!errors.age}
+              helperText={errors.age}
+            />
+          </Grid>
+
+          <Grid item component="div" xs={12} md={9}>
+            <Typography component="p">Where do you want to Dancing?</Typography>
+            <TextField
+              id="location"
+              name="location"
+              type="text"
+              label="location"
+              variant="outlined"
+              fullWidth
+              value={values.location}
+              onChange={handleChange}
+              error={!!errors.location}
+              helperText={errors.location}
+            />
+          </Grid>
+          <Grid item xs={12} md={9}>
+            <Typography component="p" >
+              What is your first name?
+            </Typography>
             <TextField
               id="nameRegister"
               type="text"
@@ -143,7 +156,7 @@ export default function FormRegister() {
               onChange={(e) => {
                 setFieldValue("name", e.target.value); //PARA RECOGER VALORES DE TARGET
               }}
-              error={errors.name}
+              error={!!errors.name}
               helperText={errors.name}
             />
           </Grid>
@@ -166,7 +179,7 @@ export default function FormRegister() {
               name="email"
               value={values.email}
               onChange={handleChange}
-              error={errors.email}
+              error={!!errors.email}
               helperText={errors.email}
             />
           </Grid>
@@ -181,12 +194,12 @@ export default function FormRegister() {
               name="password"
               value={values.password}
               onChange={handleChange}
-              error={errors.password}
+              error={!!errors.password}
               helperText={errors.password}
             />
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" onClick={()=>console.log("clicando")}>
           Enviar
         </Button>
       </Box>

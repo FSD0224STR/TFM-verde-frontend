@@ -15,7 +15,8 @@ export const main_theme= createTheme({
       default: '#1D6B68', //Color elegido por nosotros
     },
     text: {
-      primary: '#ffffff',
+      primary: '#2A9D8F',
+      register: '#2A9D8F'
     /*   secondary:'#00000' */
     },
     error: {
