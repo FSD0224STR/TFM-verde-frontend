@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 export default function FormRegister() {
+  const defaultImg = "http://via.placeholder.com/200";
   let initialValuesForm = {
     name: "", //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
     lastname: "",
@@ -26,18 +27,18 @@ export default function FormRegister() {
     location: "",
     gender: "Female",
     age: "",
-    imgProfile: "",
+    imgProfile: defaultImg,
     description: "",
   };
 
-  const registerSchema = Yup.object().shape({
-    name: Yup.string().required("Debes ingrensar un nombre"),
-    email: Yup.string().required("Debes ingrensar un email"),
-    password: Yup.string().required("Debes ingrensar un password"),
-    gener: Yup.string().required("Debes ingrensar un genero"),
-    age: Yup.string().required("Debes ingrensar una edad"),
-    location: Yup.string().required("Debes ingrensar un ubicacion"),
-  });
+  // const registerSchema = Yup.object().shape({
+  //   name: Yup.string().required("Debes ingrensar un nombre"),
+  //   email: Yup.string().required("Debes ingrensar un email"),
+  //   password: Yup.string().required("Debes ingrensar un password"),
+  //   gener: Yup.string().required("Debes ingrensar un genero"),
+  //   age: Yup.string().required("Debes ingrensar una edad"),
+  //   location: Yup.string().required("Debes ingrensar un ubicacion"),
+  // });
 
   const addNewUser = (data) => {
     console.log("entrando en el el submit");
@@ -53,7 +54,7 @@ export default function FormRegister() {
       //SEGUNDA PROPIEDAD Recibe el onSUbmit
       onSubmit: addNewUser,
       //validacion
-      validationSchema: registerSchema,
+      // validationSchema: registerSchema,
     });
   return (
     <div className="form-container">
@@ -63,8 +64,8 @@ export default function FormRegister() {
       <Box
         component="form"
         onSubmit={handleSubmit}
-        height={1500}
-        width={900}
+        height={1800}
+        width={1000}
         m={20}
         display="flex"
         flexDirection="column"
@@ -80,7 +81,7 @@ export default function FormRegister() {
           color="primary"
           variant="h6"
           fontWeight="bold"
-          sx={{ textAlign: "rigth", fontSize: "40px", mt: "20px" }}
+          sx={{ textAlign: "rigth", fontSize: "50px", mt: "20px" }}
         >
           Registro
         </Typography>
@@ -94,15 +95,51 @@ export default function FormRegister() {
           sx={{ width: "100%", margin: 10 }}
         >
           <Box>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "primary.main",
+            fontWeight: "bold",
+            textAlign: "left",
+            margin: "10px",
+          }}
+        >
+          1.Seleccione una foto para tu perfil
+        </Typography>
+            <img
+              style={{ maxWidth: "200px", maxHeight: "200px", padding:"10px",}}
+              src={values.imgProfile}
+            ></img>
             <Grid item xs={12}>
-              <input
-                name="imgProfile"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  setFieldValue("imgProfile", e.target.files[0]); //PARA RECOGER VALORES DE TARGET
-                }}
-              />
+              <Button variant="contained" sx={{ position: "relative",mb:"40px" }}>
+                <input
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                  name="imgProfile"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setFieldValue("imgProfile", e.target.files[0]); //PARA RECOGER VALORES DE TARGET
+                    if (e.target.files[0]) {
+                      const reader = new FileReader();
+                      reader.onload = function (e) {
+                        setFieldValue("imgProfile", e.target.result); //PARA RECOGER VALORES DE TARGET
+                      };
+                      reader.readAsDataURL(e.target.files[0]);
+                    } else {
+                      setFieldValue("imgProfile", defaultImg);
+                    }
+                  }}
+                />
+                Seleccionar foto
+              </Button>
             </Grid>
           </Box>
           <Grid
@@ -181,7 +218,17 @@ export default function FormRegister() {
           </Grid>
           <Grid item xs={12} md={9} sx={{ fontSize: "40px" }}>
             <Divider />
-            <Typography component="p" sx={{ textAlign: "left", mt: "20px",padding:"10px" }}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                mt: "20px",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
               {" "}
               Cual es tu edad ?
             </Typography>
@@ -193,7 +240,7 @@ export default function FormRegister() {
               variant="outlined"
               placeholder="Tu edad"
               fullWidth
-              sx={{ fontSize: "40px" }}
+              sx={{ fontSize: "10px", fontWeight: "bold" }}
               value={values.age}
               onChange={handleChange}
               error={!!errors.age}
@@ -202,7 +249,16 @@ export default function FormRegister() {
           </Grid>
 
           <Grid item component="div" xs={12} md={9}>
-            <Typography component="p" sx={{ textAlign: "left",padding:"10px" }}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
               Donde quieres ir a bailar?
             </Typography>
             <TextField
@@ -220,7 +276,16 @@ export default function FormRegister() {
             />
           </Grid>
           <Grid item xs={12} md={9}>
-            <Typography component="p" sx={{ textAlign: "left" ,padding:"10px"}}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
               cual es tu nombre?
             </Typography>
             <TextField
@@ -240,7 +305,16 @@ export default function FormRegister() {
             />
           </Grid>
           <Grid item xs={12} md={9}>
-            <Typography component="p" sx={{ textAlign: "left",padding:"10px" }}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
               Cual es tu apellido?
             </Typography>
             <TextField
@@ -324,17 +398,17 @@ export default function FormRegister() {
               error={!!errors.password}
               helperText={errors.password}
             />
-        <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ mt: "40px",padding: "10px" }}
-            >
-              Enviar
-            </Button>
+            <Grid item>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: "40px", fontSize: "24px" }}
+                size="large"
+              >
+                Enviar
+              </Button>
+            </Grid>
           </Grid>
-          </Grid>
-         
         </Grid>
       </Box>
     </div>
