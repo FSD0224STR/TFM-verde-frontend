@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from 'react';
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import "./LoginForm.css";
 import { Formik, useFormik,} from "formik";
@@ -8,7 +8,7 @@ import userAPI from '../../../apiServices/usersApi';
 
 //   const navigate = useNavigate()
 
- function LoginForm() {
+ export default function LoginForm() {
   let initialValuesForm = {
     email: "",
     password: "",
@@ -104,4 +104,4 @@ import userAPI from '../../../apiServices/usersApi';
     </div>
   );
 }
-export default LoginForm
+
