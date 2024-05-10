@@ -10,14 +10,16 @@ export const main_theme= createTheme({
     },
     secondary: {
       main: '#2A9D8F',
+      contrastText: '#ffffff' 
+      
     },
     background: {
       default: '#1D6B68', //Color elegido por nosotros
     },
     text: {
-      primary: '#2A9D8F',
-      register: '#2A9D8F'
-    /*   secondary:'#00000' */
+      primary: '#ffffff',
+      secondary: '#000000'
+   
     },
     error: {
       main: '#d32f2f',
