@@ -10,10 +10,10 @@ const getAllUsers=async ()=>{
 }
 
 const addUser = async (newUserData) => {
-  const response = await fetch(`${Servidorurl}/register`, {
+  const response = await fetch(`${Servidorurl}/users/register`, {
     method: 'POST', body: JSON.stringify(newUserData), headers: {
       'Content-Type': 'application/json',}})
- const users=await response.json()
+  const users=await response.json()
  return users
 }
 const loginUser=async (data)=>{

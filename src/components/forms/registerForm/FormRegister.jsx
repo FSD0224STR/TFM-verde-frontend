@@ -47,17 +47,8 @@ export default function FormRegister() {
 
   // };
   const addNewUser = async (newUserData) => {
-    const response = await usersApi.addUser(newUserData)
-    console.log('esto es response',response)
-
-    // if (response.error) setError(response.error)
-    // else {
-    //   const token = response.data
-    //   localStorage.setItem('access_token', token)
-    //   navigate('/home')
-    // }
-    // setLoading(false)
-    // setIsLoggedIn(true);
+    const user = await usersApi.addUser(newUserData)
+    console.log('esto es response',user)
   };
 
 
