@@ -68,6 +68,7 @@ export default function FormRegister() {
       // validationSchema: registerSchema,
     });
   return (
+    
     <div className="form-container">
       <h1 className="title-register">
         ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
