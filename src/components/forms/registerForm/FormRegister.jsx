@@ -15,16 +15,17 @@ import {
 import "./formRegister.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import usersApi from "../../../apiServices/usersApi";
 
 export default function FormRegister() {
   const defaultImg = "http://via.placeholder.com/200";
   let initialValuesForm = {
     name: "", //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
-    lastname: "",
+    subName: "",
     email: "",
     role: "Leader",
     password: "",
-    location: "",
+    city: "",
     gender: "Female",
     age: "",
     imgProfile: defaultImg,
@@ -37,16 +38,35 @@ export default function FormRegister() {
   //   password: Yup.string().required("Debes ingrensar un password"),
   //   gener: Yup.string().required("Debes ingrensar un genero"),
   //   age: Yup.string().required("Debes ingrensar una edad"),
-  //   location: Yup.string().required("Debes ingrensar un ubicacion"),
+  //   city: Yup.string().required("Debes ingrensar un ubicacion"),
   // });
 
-  const addNewUser = (data) => {
-    console.log("entrando en el el submit");
+  // const addNewUser = (data) => {
+  //   console.log("entrando en el el submit");
+  //   console.log(data);
 
-    console.log(data);
+  // };
+  const addNewUser = async (newUserData) => {
+    const response = await usersApi.addUser(newUserData)
+    console.log('esto es response',response)
+
+    // if (response.error) setError(response.error)
+    // else {
+    //   const token = response.data
+    //   localStorage.setItem('access_token', token)
+    //   navigate('/home')
+    // }
+    // setLoading(false)
+    // setIsLoggedIn(true);
   };
 
-  const { handleChange, handleSubmit, setFieldValue, values, errors } =
+
+
+
+
+
+
+  const { handleChange, handleSubmit, setFieldValue, values, errors, } =
     useFormik({
       //destructuring de formik
       //primero recibe los valores iniciales
@@ -262,17 +282,17 @@ export default function FormRegister() {
               Donde quieres ir a bailar?
             </Typography>
             <TextField
-              id="location"
-              name="location"
+              id="city"
+              name="city"
               type="text"
-              label="ubicación"
+              label="Ciudad"
               variant="outlined"
-              placeholder="tu ubicacion"
+              placeholder="tu Ciudad"
               fullWidth
-              value={values.location}
+              value={values.city}
               onChange={handleChange}
-              error={!!errors.location}
-              helperText={errors.location}
+              error={!!errors.city}
+              helperText={errors.city}
             />
           </Grid>
           <Grid item xs={12} md={9}>
@@ -318,17 +338,17 @@ export default function FormRegister() {
               Cual es tu apellido?
             </Typography>
             <TextField
-              id="lastnameRegister"
+              id="subNameRegister"
               type="text"
               label="Apellidos"
               variant="outlined"
               placeholder="tu apellido"
               fullWidth
-              name="lastname"
-              value={values.lastname} //necesito el value pero no el name apra setfiel
+              name="subName"
+              value={values.subName} //necesito el value pero no el name apra setfiel
               onChange={handleChange}
-              error={!!errors.lastname}
-              helperText={errors.lastname}
+              error={!!errors.subName}
+              helperText={errors.subName}
             />
           </Grid>
 
