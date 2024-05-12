@@ -13,10 +13,11 @@ export const main_theme= createTheme({
     },
     background: {
       default: '#1D6B68', //Color elegido por nosotros
+      secondary: '#ffffff'
     },
     text: {
       primary: '#ffffff',
-    /*   secondary:'#00000' */
+      secondary:'#278F8B' 
     },
     error: {
       main: '#d32f2f',

@@ -6,33 +6,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-   
-}
+  justify-content: center; 
+   align-items: center;
 
-.conteinerUsers {
-  width: 500px;
-  max-width: 90%;
-  background-color: #d3e7e5;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 20px;
-  box-shadow: 1px 4px 20px -1px rgba(0, 0, 0, 0.75);
 }
-
-.titleUser {
-  font-size: 28px;
-  color: rgb(0, 80, 184);
-}
-
-.surname {
-  color: rgb(0, 80, 184);
-  font-size: 28px;
-}
-.date {
-  color: rgb(0, 80, 184);
-  font-size: 28px;
-}
-
