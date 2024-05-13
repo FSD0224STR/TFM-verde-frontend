@@ -22,17 +22,8 @@ export const Footer = () => {
         component="main"
         style={{ flex: "1 0 auto", padding: theme.spacing(3) }}
       >
-        {/* Your main content goes here */}
-        <Typography variant="h6" gutterBottom style={{ color: "brown" }}>
-          Main Content
-        </Typography>
-        <Typography paragraph>
-          This is an example of a sticky footer using Material-UI.
-        </Typography>
-        <Typography paragraph style={{ color: "blue" }}>
-          Lets explore more about mui bottom navigation along with exploring
-          purecode
-        </Typography>
+    
+        
       </Container>
 {/* 
       <Paper

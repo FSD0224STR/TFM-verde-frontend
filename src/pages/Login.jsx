@@ -1,20 +1,12 @@
 import React from 'react'
-<<<<<<< HEAD
-
-=======
 import  LoginForm from '../components/forms/loginForm/LoginForm';
 import {SignIn} from '../components/forms/loginForm/SignIn';
 import "../App.css"
 import { Footer } from '../components/Footer';
->>>>>>> login
 
 export default function Login() {
   return (
     <div>
-<<<<<<< HEAD
-          <h1>Login</h1>
-        
-=======
 
       <main>
 
@@ -33,7 +25,6 @@ export default function Login() {
                 
 
           
->>>>>>> login
     </div>
     
   )
