@@ -1,64 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
   Grid,
   TextField,
   Typography,
-  Checkbox,
+  FormControl,
   FormControlLabel,
-  Select,
-  MenuItem,
-  InputLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Divider,
 } from "@mui/material";
 import "./formRegister.css";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import usersApi from "../../../apiServices/usersApi";
 
 export default function FormRegister() {
+  const defaultImg = "http://via.placeholder.com/200";
   let initialValuesForm = {
-    name: "", //este valor es referente al name del input pasra que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
+    name: "", //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
+    subName: "",
     email: "",
+    role: "Leader",
     password: "",
-    location: "",
-    gener: "",
+    city: "",
+    gender: "Female",
     age: "",
+    imgProfile: defaultImg,
+    description: "",
   };
 
-  const registerSchema = Yup.object().shape({
-    name: Yup.string().required("Debes ingrensar un nombre"),
-    email: Yup.string().required("Debes ingrensar un email"),
-    password: Yup.string().required("Debes ingrensar un password"),
-    gener: Yup.string().required("Debes ingrensar un genero"),
-    age: Yup.string().required("Debes ingrensar una edad"),
-    location: Yup.string().required("Debes ingrensar un ubicacion"),
-  });
+  // const registerSchema = Yup.object().shape({
+  //   name: Yup.string().required("Debes ingrensar un nombre"),
+  //   email: Yup.string().required("Debes ingrensar un email"),
+  //   password: Yup.string().required("Debes ingrensar un password"),
+  //   gener: Yup.string().required("Debes ingrensar un genero"),
+  //   age: Yup.string().required("Debes ingrensar una edad"),
+  //   city: Yup.string().required("Debes ingrensar un ubicacion"),
+  // });
 
-  const handleSubmitMy = (data) => {
-    //esta es todo lo qeu cambio en el inicio value
-    // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit
-    console.log(data);
+  // const addNewUser = (data) => {
+  //   console.log("entrando en el el submit");
+  //   console.log(data);
+
+  // };
+  const addNewUser = async (newUserData) => {
+    const user = await usersApi.addUser(newUserData)
+    console.log('esto es response',user)
   };
 
-  const { handleChange, handleSubmit, setFieldValue, values, errors } =
+
+
+
+
+
+
+  const { handleChange, handleSubmit, setFieldValue, values, errors, } =
     useFormik({
       //destructuring de formik
       //primero recibe los valores iniciales
       initialValues: initialValuesForm,
       //SEGUNDA PROPIEDAD Recibe el onSUbmit
-      onSubmit: handleSubmitMy,
+      onSubmit: addNewUser,
       //validacion
-      validationSchema: registerSchema,
+      // validationSchema: registerSchema,
     });
   return (
     <div className="form-container">
+      <h1 className="title-register">
+        ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
+      </h1>
       <Box
-        onSubmit={handleSubmit}
         component="form"
-        height={900}
-        width={600}
-        m={5}
+        onSubmit={handleSubmit}
+        height={1800}
+        width={1000}
+        m={20}
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -72,93 +91,297 @@ export default function FormRegister() {
         <Typography
           color="primary"
           variant="h6"
-          textAlign="left"
           fontWeight="bold"
+          sx={{ textAlign: "rigth", fontSize: "50px", mt: "20px" }}
         >
-          1. To match you well we need some information
+          Registro
         </Typography>
 
-        <Grid item>
-          <TextField
-            id="gener"
-            type="text"
-            name="gener"
-            label="insert gener"
-            variant="outlined"
-            fullWidth
-            value={values.gener}
-            onChange={handleChange}
-            error={!!errors.gener}
-            helperText={errors.gener}
-          />
-        </Grid>
-
-        <Grid item>
-          <Typography component="p"> What's your age ?</Typography>
-          <TextField
-            id="age"
-            type="text"
-            name="age"
-            label="Age"
-            variant="outlined"
-            fullWidth
-            value={values.age}
-            onChange={handleChange}
-            error={errors.age}
-            helperText={errors.age}
-          />
-        </Grid>
-
-        <Box component="div">
-          <Typography component="p">Where do you want to Dancing?</Typography>
-          <TextField
-            id="location"
-            name="location"
-            type="text"
-            label="location"
-            variant="outlined"
-            fullWidth
-            value={values.location}
-            onChange={handleChange}
-            error={errors.location}
-            helperText={errors.location}
-          />
-        </Box>
         <Grid
           container
           alignItems="center"
           justifyContent="center"
           justifyItems="space-evenly"
-          spacing={2}
-          sx={{ width: "100%" }}
+          spacing={3}
+          sx={{ width: "100%", margin: 10 }}
         >
+          <Box>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "primary.main",
+            fontWeight: "bold",
+            textAlign: "left",
+            margin: "10px",
+          }}
+        >
+          1.Seleccione una foto para tu perfil
+        </Typography>
+            <img
+              style={{ maxWidth: "200px", maxHeight: "200px", padding:"10px",}}
+              src={values.imgProfile}
+            ></img>
+            <Grid item xs={12}>
+              <Button variant="contained" sx={{ position: "relative",mb:"40px" }}>
+                <input
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                    cursor: "pointer",
+                  }}
+                  name="imgProfile"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setFieldValue("imgProfile", e.target.files[0]); //PARA RECOGER VALORES DE TARGET
+                    if (e.target.files[0]) {
+                      const reader = new FileReader();
+                      reader.onload = function (e) {
+                        setFieldValue("imgProfile", e.target.result); //PARA RECOGER VALORES DE TARGET
+                      };
+                      reader.readAsDataURL(e.target.files[0]);
+                    } else {
+                      setFieldValue("imgProfile", defaultImg);
+                    }
+                  }}
+                />
+                Seleccionar foto
+              </Button>
+            </Grid>
+          </Box>
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="center"
+            margin={2}
+          >
+            <Grid item xs={12} md={5}>
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    textAlign: "left",
+                    fontSize: 20,
+                    color: "primary.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Sexo
+                </FormLabel>
+                <RadioGroup
+                  row
+                  name="gender"
+                  value={values.gender}
+                  onChange={(e) => {
+                    setFieldValue("gender", e.target.value); //PARA RECOGER VALORES DE TARGET
+                  }}
+                >
+                  <FormControlLabel
+                    value="Female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="Male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={5}>
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    textAlign: "left",
+                    fontSize: 20,
+                    color: "primary.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Roll
+                </FormLabel>
+                <RadioGroup
+                  row
+                  name="role"
+                  value={values.role}
+                  onChange={(e) => {
+                    setFieldValue("role", e.target.value); //PARA RECOGER VALORES DE TARGET
+                  }}
+                >
+                  <FormControlLabel
+                    value="Leader"
+                    control={<Radio />}
+                    label="Leader"
+                  />
+                  <FormControlLabel
+                    value="Follower"
+                    control={<Radio />}
+                    label="Follower"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={9} sx={{ fontSize: "40px" }}>
+            <Divider />
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                mt: "20px",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Cual es tu edad ?
+            </Typography>
+            <TextField
+              id="age"
+              type="text"
+              name="age"
+              label="Edad"
+              variant="outlined"
+              placeholder="Tu edad"
+              fullWidth
+              sx={{ fontSize: "10px", fontWeight: "bold" }}
+              value={values.age}
+              onChange={handleChange}
+              error={!!errors.age}
+              helperText={errors.age}
+            />
+          </Grid>
+
+          <Grid item component="div" xs={12} md={9}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              Donde quieres ir a bailar?
+            </Typography>
+            <TextField
+              id="city"
+              name="city"
+              type="text"
+              label="Ciudad"
+              variant="outlined"
+              placeholder="tu Ciudad"
+              fullWidth
+              value={values.city}
+              onChange={handleChange}
+              error={!!errors.city}
+              helperText={errors.city}
+            />
+          </Grid>
           <Grid item xs={12} md={9}>
-            <Typography component="p">What is your first name?</Typography>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              cual es tu nombre?
+            </Typography>
             <TextField
               id="nameRegister"
               type="text"
-              label="name"
+              label="Nombre"
               variant="outlined"
+              placeholder="tu nombre"
               fullWidth
               //   name="name"
-              value={values.name} //necesito el value pero no el name apra setfiel
+              value={values.name} //necesito el value pero no el name para setfield
               onChange={(e) => {
                 setFieldValue("name", e.target.value); //PARA RECOGER VALORES DE TARGET
               }}
-              error={errors.name}
+              error={!!errors.name}
               helperText={errors.name}
+            />
+          </Grid>
+          <Grid item xs={12} md={9}>
+            <Typography
+              component="p"
+              sx={{
+                textAlign: "left",
+                padding: "10px",
+                color: "primary.main",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              Cual es tu apellido?
+            </Typography>
+            <TextField
+              id="subNameRegister"
+              type="text"
+              label="Apellidos"
+              variant="outlined"
+              placeholder="tu apellido"
+              fullWidth
+              name="subName"
+              value={values.subName} //necesito el value pero no el name apra setfiel
+              onChange={handleChange}
+              error={!!errors.subName}
+              helperText={errors.subName}
             />
           </Grid>
 
           <Grid item xs={12} md={9}>
+            <Divider />
+            <Box component="div">
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  margin: "10px",
+                }}
+              >
+                3.Hablanos un poco mas de ti.
+              </Typography>
+              <TextField
+                label="Descripción"
+                name="description"
+                multiline
+                rows={4}
+                fullWidth
+                sx={{ mb: "20px" }}
+                placeholder="maximo 300 caracteres"
+                value={values.description}
+                error={!!errors.description}
+                helperText={errors.description}
+                onChange={handleChange}
+              />
+            </Box>
+            <Divider />
             <Typography
               color="primary"
               variant="h6"
               align="left"
               fontWeight="bold"
+              margin="10px"
             >
-              2. Almost done. How do you want to log in?
+              4.Casi terminamos. ¿Cómo quieres iniciar sesión?
             </Typography>
+
             <TextField
               id="emailRegister"
               type="email"
@@ -168,7 +391,7 @@ export default function FormRegister() {
               name="email"
               value={values.email}
               onChange={handleChange}
-              error={errors.email}
+              error={!!errors.email}
               helperText={errors.email}
             />
           </Grid>
@@ -177,20 +400,27 @@ export default function FormRegister() {
             <TextField
               id="passRegister"
               type="password"
-              label="password"
+              label="Contraseña"
               variant="outlined"
               fullWidth
               name="password"
               value={values.password}
               onChange={handleChange}
-              error={errors.password}
+              error={!!errors.password}
               helperText={errors.password}
             />
+            <Grid item>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: "40px", fontSize: "24px" }}
+                size="large"
+              >
+                Enviar
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained">
-          Enviar
-        </Button>
       </Box>
     </div>
   );
