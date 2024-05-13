@@ -1,31 +1,30 @@
-import React from "react";
-import { useTheme, Paper, Typography, Container } from "@mui/material";
+import React from 'react';
+import { useTheme, Paper, Typography, Container } from '@mui/material';
 
-import "../App.css"
+import '../App.css'
 
 export const Footer = () => {
-  const theme = useTheme();
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        margin: 0,
-        padding: 0,
+   const theme = useTheme();
+   return (
+      <div
+         style={{
+            display: 'flex',
+            flexDirection: 'row',
+            margin: 0,
+            padding: 0,
         
-      }}
-    >
-      <Container
-
-      className="footer"
-    
-        component="main"
-        style={{ flex: "1 0 auto", padding: theme.spacing(3) }}
+         }}
       >
+         <Container
+
+            className="footer"
     
+            component="main"
+            style={{ flex: '1 0 auto', padding: theme.spacing(3) }}
+         >
         
-      </Container>
-{/* 
+         </Container>
+         {/* 
       <Paper
         square
         style={{
@@ -43,10 +42,10 @@ export const Footer = () => {
         }}
       >
         {/* Your footer content goes here */}
-        {/* <Typography variant="body2" color="red" align="center">
+         {/* <Typography variant="body2" color="red" align="center">
           Sticky Footer
         </Typography>
       </Paper>  */}
-    </div>
-  );
+      </div>
+   );
 };

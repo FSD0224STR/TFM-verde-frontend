@@ -2,10 +2,10 @@ import React from 'react'
 import FormRegister from '../components/forms/registerForm/FormRegister';
 
 export default function Register() {
-  return (
-    <div>
+   return (
+      <div>
          
-          <FormRegister />
-    </div>
-  )
+         <FormRegister />
+      </div>
+   )
 }
