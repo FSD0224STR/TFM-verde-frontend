@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import NavListDrawer from "./NavListDrawer";
+import MeetDancingIcon from "../../assets/MeetDancingIcon.png";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Drawer,
@@ -15,8 +17,8 @@ export default function NavBar() {
 
   return (
     <>
-      <AppBar position="static" sx={{ textAlign: "left" }}>
-        <Toolbar>
+      <AppBar position="static" sx={{ textAlign: "left", padding:"0.8rem"}}>
+        <Toolbar sx={{justifyContent:"space-between" }}>
           <IconButton
             color="inherit"
             size="large"
@@ -24,17 +26,16 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            MeetDancing
-          </Typography>
-          <Box sx={{display:{xs:"none",sm:"block"}}}>
-            <Button color="inherit">Sing Up</Button>
-            <Button color="inherit">Login</Button>
+          <Avatar src={MeetDancingIcon} alt="meetDancig icono" sx={{m:'auto',width:60,height:60}}></Avatar>
+                  <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
+                      <Typography mr='1rem'>¿Aun no eres miembro?</Typography>
+            <Button color="inherit" sx={{mr:"1rem",bgcolor:"#338DB8"}}>Sing Up</Button>
+            <Button color="inherit" sx={{bgcolor:"background.secondary",color:"text.secondary"}}>Login</Button>
           </Box>
         </Toolbar>
       </AppBar>
       <Drawer open={open} anchor="left" onClose={() => setOpen(false)}>
-        <NavListDrawer />
+        <NavListDrawer setOpen={setOpen} />
       </Drawer>
     </>
   );
