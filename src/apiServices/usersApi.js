@@ -9,13 +9,15 @@ const getAllUsers=async ()=>{
  return users
 }
 
-const addUser=async (newuserdata)=>{
- const response=await fetch(`${Servidorurl}/user`,{method:'POST',body:JSON.stringify(newtaskdata),headers: { 'Content-Type': 'application/json'}})
- const users=await response.json()
+const addUser = async (newUserData) => {
+  const response = await fetch(`${Servidorurl}/users/register`, {
+    method: 'POST', body: JSON.stringify(newUserData), headers: {
+      'Content-Type': 'application/json',}})
+  const users=await response.json()
  return users
 }
 const loginUser=async (data)=>{
- const response=await fetch(`${Servidorurl}/login`,{method:'POST',body:JSON.stringify(data),headers: { 'Content-Type': 'application/json'}})
+ const response=await fetch(`${Servidorurl}/login`,{method:'POST',body:JSON.stringify(data),headers: { 'Content-Type': 'application/json',}})
  const user=await response.json()
  return user
 }
