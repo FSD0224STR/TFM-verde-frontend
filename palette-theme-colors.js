@@ -10,6 +10,8 @@ export const main_theme= createTheme({
     },
     secondary: {
       main: '#2A9D8F',
+      contrastText: '#ffffff' 
+      
     },
     background: {
       default: '#1D6B68', //Color elegido por nosotros
