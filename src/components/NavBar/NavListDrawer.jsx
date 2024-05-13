@@ -18,13 +18,13 @@ import CardMembershipOutlinedIcon from "@mui/icons-material/CardMembershipOutlin
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-
+import { NavLink } from "react-router-dom";
 export default function NavListDrawer({ setOpen }) {
   return (
     <ThemeProvider theme={main_theme}>
       <Box
         sx={{
-          width: 350,
+          width: 430,
           minHeight: "100vh",
           bgcolor: "background.secondary",
           overflow: "hidden",
@@ -32,9 +32,7 @@ export default function NavListDrawer({ setOpen }) {
       >
         <nav>
           <List>
-            <ListItem
-              disablePadding
-            >
+            <ListItem disablePadding>
               <IconButton size="large" onClick={() => setOpen(false)}>
                 <CloseIcon />
               </IconButton>
@@ -57,8 +55,8 @@ export default function NavListDrawer({ setOpen }) {
                   fontSize: "2.8rem",
                   lineHeight: 1,
                   fontWeight: "bold",
-                    ml: "2rem",
-                  mt:"3rem"
+                  ml: "2rem",
+                  mt: "3rem",
                 }}
               >
                 Juntos somos mas!
@@ -86,14 +84,17 @@ export default function NavListDrawer({ setOpen }) {
                 </Typography>
               </Box>
               <Button
+                component={NavLink}
+                to="/register"
                 sx={{
                   bgcolor: "#338DB8",
-                                  //   m: "1.5rem",
-                    mb:"1.5rem",
+                  //   m: "1.5rem",
+                  mb: "3rem",
                   "&:hover": {
                     color: "text.primary",
-                    backgroundColor: "background.nav",
-                  },
+                      backgroundColor: "background.nav",
+                    },
+                    paddingBlock:"1rem"
                 }}
               >
                 Encuentra tu pareja de baile!
@@ -118,7 +119,7 @@ export default function NavListDrawer({ setOpen }) {
                 },
               }}
             >
-              <ListItemButton component="a" href="/">
+              <ListItemButton component={NavLink} to="/">
                 <ListItemIcon>
                   <HomeOutlinedIcon />
                 </ListItemIcon>
@@ -143,7 +144,7 @@ export default function NavListDrawer({ setOpen }) {
                 },
               }}
             >
-              <ListItemButton component="a" href="#membresia">
+              <ListItemButton component={NavLink} to="/membership">
                 <ListItemIcon>
                   <CardMembershipOutlinedIcon />
                 </ListItemIcon>
@@ -169,7 +170,7 @@ export default function NavListDrawer({ setOpen }) {
                 },
               }}
             >
-              <ListItemButton component="a" href="/login">
+              <ListItemButton component={NavLink} to="/login">
                 <ListItemIcon>
                   <LoginOutlinedIcon />
                 </ListItemIcon>
@@ -193,7 +194,7 @@ export default function NavListDrawer({ setOpen }) {
                 },
               }}
             >
-              <ListItemButton component="a" href="/register">
+              <ListItemButton component={NavLink} to="/register">
                 <ListItemIcon>
                   <HowToRegOutlinedIcon />
                 </ListItemIcon>

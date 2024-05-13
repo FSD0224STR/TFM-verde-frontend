@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { NavLink } from "react-router-dom";
 export default function NavBar() {
   const [open, setOpen] = useState(false);
 
@@ -21,16 +22,18 @@ export default function NavBar() {
         <Toolbar sx={{justifyContent:"space-between" }}>
           <IconButton
             color="inherit"
-            size="large"
+            size="3rem"
             onClick={() => setOpen(true)}
           >
-            <MenuIcon />
+            <MenuIcon viewBox="0 0 20 20"/>
+                  <Avatar src={MeetDancingIcon} alt="meetDancig icono" sx={{ m: 'auto',ml:"3rem", width: 50, height: 50 }}/>
+                      <Typography fontSize="2rem" fontWeight="bold" ml="0.5rem">MeetDancing</Typography>
           </IconButton>
-          <Avatar src={MeetDancingIcon} alt="meetDancig icono" sx={{m:'auto',width:60,height:60}}></Avatar>
+                 
                   <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
                       <Typography mr='1rem'>¿Aun no eres miembro?</Typography>
-            <Button color="inherit" sx={{mr:"1rem",bgcolor:"#338DB8"}}>Sing Up</Button>
-            <Button color="inherit" sx={{bgcolor:"background.secondary",color:"text.secondary"}}>Login</Button>
+            <Button component={NavLink} to='/register' color="inherit" sx={{mr:"1rem",bgcolor:"#338DB8",paddingInline:"1.5rem"}}>Sing Up</Button>
+            <Button component={NavLink} to='/login' color="inherit" sx={{bgcolor:"background.secondary",color:"text.secondary",paddingInline:"1.5rem"}}>Login</Button>
           </Box>
         </Toolbar>
       </AppBar>
