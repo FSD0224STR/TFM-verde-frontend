@@ -35,7 +35,7 @@ function Copyright(props) {
 }
 
 
-export default function SignIn() {
+export  function SignIn() {
   let initialValuesForm = {
     email: "",
     password: "",
@@ -177,3 +177,4 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
+
