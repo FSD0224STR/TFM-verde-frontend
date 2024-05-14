@@ -80,7 +80,7 @@ export default function NavListDrawer({ setOpen }) {
                               margin: '1rem',
                            }}
                         >
-                  Registrate Gratis
+                  Registrate de forma gratuita
                         </Typography>
                      </Box>
                      <Button
@@ -91,10 +91,11 @@ export default function NavListDrawer({ setOpen }) {
                            //   m: "1.5rem",
                            mb: '3rem',
                            '&:hover': {
-                              color: 'text.primary',
+                              color: 'primary.main',
                               backgroundColor: 'background.nav',
                            },
-                           paddingBlock:'1rem'
+                           paddingBlock: '1rem',
+                           color:'text.primary'
                         }}
                      >
                 Encuentra tu pareja de baile!
