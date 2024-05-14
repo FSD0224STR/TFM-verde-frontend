@@ -25,7 +25,7 @@ export default function NavBar() {
             size="3rem"
             onClick={() => setOpen(true)}
           >
-            <MenuIcon viewBox="0 0 20 20"/>
+          <MenuIcon viewBox="0 0 20 20"/>
                   <Avatar src={MeetDancingIcon} alt="meetDancig icono" sx={{ m: 'auto',ml:"3rem", width: 50, height: 50 }}/>
                       <Typography fontSize="2rem" fontWeight="bold" ml="0.5rem">MeetDancing</Typography>
           </IconButton>
