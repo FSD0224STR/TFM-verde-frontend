@@ -7,9 +7,9 @@ export default function LandingPage() {
       <>
          <NavBar />
 
-         <Container sx={{display:'flex' ,textAlign:'center'}}>
+         {/* <Container sx={{display:'flex' ,textAlign:'center'}}>
             <h1>LandingPage</h1>
-         </Container>
+         </Container> */}
      
       </>
    );
