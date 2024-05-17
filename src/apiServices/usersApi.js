@@ -8,6 +8,11 @@ const getAllUsers=async ()=>{
    const users=await response.json()
    return users
 }
+const ListOfInterestedUsers = async () => {
+   const response = await fetch(`${Servidorurl}/users`)
+   const ListUsers = await response.json()
+   return ListUsers
+}
 
 const addUser = async (newUserData) => {
    const response = await fetch(`${Servidorurl}/users/register`, {
@@ -45,5 +50,6 @@ export default {
    deleteUser,
    updateUser,
    loginUser,
-   login
+   login,
+   ListOfInterestedUsers
 }

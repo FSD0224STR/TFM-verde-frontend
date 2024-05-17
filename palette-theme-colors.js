@@ -31,5 +31,9 @@ export const main_theme= createTheme({
          main: '#187d1a',
       },
       divider: 'rgba(9,144,8,0.12)',
+      stack: {
+         primary:'#92cbdf',
+         secondary:'#6fb260'
+      }
    },
 });

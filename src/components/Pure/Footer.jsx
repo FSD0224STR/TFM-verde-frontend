@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme, Paper, Typography, Container } from '@mui/material';
 
-import '../App.css'
+// import '../../app.css'
 
 export const Footer = () => {
    const theme = useTheme();
