@@ -1,7 +1,8 @@
 import userAPI from '../apiServices/usersApi';
 import { useState,useEffect } from 'react'
 import User from '../components/pure/User';
-import { Grid,Box, Typography } from '@mui/material';
+import { Grid,Box, Typography,Paper} from '@mui/material';
+import NavBar from '../components/NavBar/NavBar';
 export default function ProfileList() {
 
    const [users, setUsers] = useState([])
@@ -19,17 +20,22 @@ export default function ProfileList() {
    }
 
    return (
-      <Box width='100%' display='flex' flexDirection='column' alignContent='center'justifyContent='center' alignItems='center' margin='1rem'>
-         <Typography textAlign="center" variant='h2' mb="1rem">Lista de interesados</Typography>
-         <Grid container display='flex' maxWidth="90%" alignContent='center' spacing={2} columnSpacing={1} ml='2rem'>
-            {users.map((user) => (
-               <Grid item  key={user.id}  xs={12} sm={6} md={4} lg={3} >
-                  <User
-                     userApi={user} />
-               </Grid>
+      <>
+         <NavBar/>
+         <Paper square={false} sx={{maxWidth:'90%', m:'3rem', pb:'2rem'}}>
+            <Typography textAlign="center" variant='h2'  my="3rem" color='text.secondary'>Lista de interesados</Typography>
+            <Box width='100%' display='flex' flexDirection='column'justifyContent='center' alignItems='center'>
+               <Grid container  maxWidth="92%" justifyContent='center' spacing={4}  >
+                  {users.map((user) => (
+                     <Grid item key={user.id} display='flex' justifyContent='center'  xs={12} sm={6} md={4} lg={3} >
+                        <User
+                           userApi={user} />
+                     </Grid>
 
-            ))}
-         </Grid>
-      </Box>
+                  ))}
+               </Grid>
+            </Box>
+         </Paper>
+      </>
    )
 }

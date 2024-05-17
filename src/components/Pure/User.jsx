@@ -10,6 +10,13 @@ import {
    Chip,
    Stack,
 } from '@mui/material';
+
+const listImages = {
+   img1:'',
+   img2:'',
+   img3:'',
+}
+
 export default function User({ userApi }) {
    const {
       name,
@@ -23,6 +30,7 @@ export default function User({ userApi }) {
       status,
       rating,
       age,
+      imgProfile
    } = userApi;
 
    return (
@@ -52,6 +60,7 @@ export default function User({ userApi }) {
                      sx={{
                         fontSize: '1.5rem',
                         fontWeight: 'bold',
+                      
                      }}
                   >
                      {name} {subName}
@@ -59,6 +68,8 @@ export default function User({ userApi }) {
                   <Typography
                      sx={{
                         fontSize: '1.1rem',
+                        fontWeight: 'bold',
+                        
                      }}
                   >
               ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
@@ -67,9 +78,13 @@ export default function User({ userApi }) {
                <Box position="static">
                   <CardMedia
                      component="img"
-                     title="green iguana"
-                     src="https://reqres.in/img/faces/8-image.jpg"
-                     sx={{}}
+                     title="Profile picture"
+                     src={imgProfile}
+                     sx={{ 
+                        width: '100%', // Adjust the width as needed
+                        height: '300px', // Set the desired height
+                        objectFit: 'cover', // Adjust the object fit as needed
+                     }}
                   />
                </Box>
             </Box>
