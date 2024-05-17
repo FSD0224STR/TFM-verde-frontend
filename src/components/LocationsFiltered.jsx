@@ -11,59 +11,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import Stack from '@mui/material/Stack';
 
-import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
-
-const Switch = styled(BaseSwitch)`
-  font-size: 0;
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 20px;
-  background: #B11010;
-  border-radius: 10px;
-  margin: 10px;
-  cursor: pointer;
-
-  & .${switchClasses.thumb} {
-    display: block;
-    width: 14px;
-    height: 14px;
-    top: 3px;
-    left: 3px;
-    border-radius: 16px;
-    background-color: #fff;
-    position: relative;
-    transition: all 100ms ease;
-  }
-
-  & .${switchClasses.input} {
-    cursor: inherit;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    z-index: 1;
-    margin: 0;
-  }
-
-  &.${switchClasses.disabled} {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  &.${switchClasses.checked} {
-    background: #00c853;
-
-    & .${switchClasses.thumb} {
-      left: 14px;
-      top: 3px;
-      background-color: #ffff;
-    }
-  }
-`
-export default function EventCard() {
+export default function LocationFiltered() {
  
    return (
 
@@ -92,11 +40,6 @@ export default function EventCard() {
 
                }}
             />
-            <Switch   sx={{
-               position: 'absolute', 
-               right: 0, 
-               top: 0, 
-            }} />
 
             <Stack  direction="column"
                divider={<Divider orientation="row" flexItem />}
@@ -150,13 +93,13 @@ Participantes: 10/30 plazas
             </Stack>
          
             <ThemeProvider theme={buttons_theme}>
-               <Button variant="contained" startIcon={<PersonSearchOutlinedIcon />} sx={{ borderRadius: 50,
+               <Button variant="contained"  sx={{ borderRadius: 50,
                   position: 'absolute', 
                   bottom:'10%',
-                  marginLeft:'24%',
+                  marginLeft:'15%',
 
                }} >
-               Encuentra tu pareja
+               Ver mas información del centro
                </Button>
             </ThemeProvider>
 
