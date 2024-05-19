@@ -9,6 +9,7 @@ import EventsList from './pages/EventsList';
 import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
+import DetailUser from './pages/DetailUser';
 
 function App() {
    return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/events/:id" element={<EventsList />} />
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/profile/:id" element={<SettingsProfile />} />
+            <Route path="/profile" element={<DetailUser />} />
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>

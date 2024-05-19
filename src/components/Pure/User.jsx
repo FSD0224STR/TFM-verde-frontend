@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import {
    Card,
    CardMedia,
@@ -10,14 +10,13 @@ import {
    Chip,
    Stack,
 } from '@mui/material';
-
-const listImages = {
-   img1:'',
-   img2:'',
-   img3:'',
-}
+import { useNavigate } from 'react-router-dom';
+import RoleComponent from './RoleComponent';
 
 export default function User({ userApi }) {
+
+   const navigate = useNavigate()
+
    const {
       name,
       subName,
@@ -94,24 +93,7 @@ export default function User({ userApi }) {
                   maxHeight: '8rem', // Altura para 3 líneas de texto
                }}
             >
-               <Stack direction="row" spacing={1}>
-                  {role === 'Leader' ? (
-                     <Chip
-                        label="Leader"
-                        color="success"
-                        size="small"
-                        sx={{
-                           '&.MuiChip-root': { backgroundColor: 'stack.secondary' },
-                        }}
-                     />
-                  ) : (
-                     <Chip
-                        label="Follower"
-                        sx={{ '&.MuiChip-root': { backgroundColor: 'stack.primary' } }}
-                        size="small"
-                     />
-                  )}
-               </Stack>
+               <RoleComponent role={role} />
                <Typography variant="body" color="text.secondary" fontSize="1.2rem">
                   {description}
                </Typography>
@@ -122,6 +104,7 @@ export default function User({ userApi }) {
             >
                <CardActions>
                   <Button
+                     onClick={()=> navigate('/profile')}
                      size="medium"
                      sx={{
                         position: 'relative',
