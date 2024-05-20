@@ -1,5 +1,4 @@
 import { Chip,Stack } from '@mui/material'
-import React from 'react'
 
 export default function RoleComponent({role}) {
    return (
