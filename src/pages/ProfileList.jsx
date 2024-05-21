@@ -26,8 +26,8 @@ export default function ProfileList() {
             <Typography textAlign="center" variant='h2'  my="3rem" color='text.secondary'>Lista de interesados</Typography>
             <Box width='100%' display='flex' flexDirection='column'justifyContent='center' alignItems='center'>
                <Grid container  maxWidth="92%" justifyContent='center' spacing={4}  >
-                  {users.map((user) => (
-                     <Grid item key={user.id} display='flex' justifyContent='center'  xs={12} sm={6} md={4} lg={3} >
+                  {users.map((user,index) => (
+                     <Grid item key={index} display='flex' justifyContent='center'  xs={12} sm={6} md={4} lg={3} >
                         <User
                            userApi={user} />
                      </Grid>

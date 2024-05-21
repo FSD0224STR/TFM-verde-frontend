@@ -6,23 +6,48 @@ import {
    Button,
    IconButton,
 } from '@mui/material';
-import React from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import AvatarMaria from '../../assets/1.jpg';
+import BoxMessageDestinatario from './BoxMessageDestinatario';
+import BoxMessageRemitente from './BoxMessageRemitente';
+import { useState } from 'react';
+import InvitationMessageText from './InvitationMessageText';
+import { Message } from '@mui/icons-material';
 
 export default function ComponentMessage({ setOpenMessage }) {
-    
-   //    const handleCloseMessage = () => {
-   //       setOpenMessage(false)
-   //    }
+   const [invitationMessage, setInvitationMessage] = useState(false);
+   const [responseInvitation, setResponseInvitation] = useState(null);
+   const [message, setMessage] = useState('');
+   const [messageSend, setSendMessage] = useState([]);
+
+   const handleMessageChange = (e) => {
+      setMessage(e.target.value);
+      //   console.log('esto es message',message)
+   };
+
+   const handleSendMessage = () => {
+      if (message.trim() !== '') {
+         const newMessage = { messageSend: message, isSender: true };
+         setSendMessage([ newMessage,...messageSend]);
+         setMessage(' ');
+      //  console.log('enviando', messageSend)
+      }
+   };
+   const ControlInvitacion = () => {
+      if (invitationMessage) {
+         return alert('ya has enviado un invitacion');
+      } else {
+         setInvitationMessage(true);
+      }
+   };
 
    return (
       <Box
          component="section"
          bgcolor="#b3e6e2"
-         border={1}
-         borderColor="primary.main"
+         borderRadius={2}
          sx={{
             width: '736px',
             minHeight: '640px',
@@ -36,7 +61,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                <Avatar
                   sx={{ width: '40px', height: '40px' }}
                   alt="Maria Sanchez"
-                  src="../../assets/1.jpg"
+                  src={AvatarMaria}
                />
 
                <Typography
@@ -44,12 +69,22 @@ export default function ComponentMessage({ setOpenMessage }) {
                   variant="h6"
                   sx={{ flexGrow: 1 }}
                   ml="1rem"
+                  mt="0.4rem"
                >
             Maria Sanchez
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
-               <IconButton onClick={()=>setOpenMessage(false)}>
+               <Button
+                  variant="contained"
+                  sx={{ bgcolor: 'secondary.variante', p: '0.5rem', mr: '0.5rem' }}
+                  onClick={ControlInvitacion}
+               >
+                  {invitationMessage
+                     ? 'Solicitud Enviada'
+                     : 'Invita a maria a este evento'}
+               </Button>
+               <IconButton onClick={() => setOpenMessage(false)}>
                   <CancelIcon
                      color="primary"
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
@@ -60,8 +95,33 @@ export default function ComponentMessage({ setOpenMessage }) {
                </IconButton>
             </Box>
          </Box>
-         <Box flexGrow={1}>
-            <p>hola</p>
+
+         <Box display="flex"  flexDirection="column-reverse"  flexGrow={1}>
+            <Box
+               display="flex"
+               flexDirection="column-reverse"
+              
+               sx={{
+                  maxHeight: '500px', // Ajusta esta altura según tus necesidades
+                  overflowY: 'auto',
+                  overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
+               }}
+            >
+               {messageSend.map((msg, index) => (
+               //    console.log( 'esto es el map de messageSend',msg)
+                  <BoxMessageRemitente key={index} msg={msg.messageSend} />
+               ))}
+               {/* 
+               {messageSend.slice(0).reverse().map((msg, index) => (
+                  <BoxMessageDestinatario key={index} msg={msg.messageSend} />  
+               ))}  */}
+               {invitationMessage && (
+                  <InvitationMessageText
+                     responseInvitation={responseInvitation}
+                     setResponseInvitation={setResponseInvitation}
+                  />
+               )}
+            </Box>
          </Box>
          <Box display="flex" m="1rem">
             <Avatar
@@ -75,12 +135,15 @@ export default function ComponentMessage({ setOpenMessage }) {
                placeholder="escribe un mensaje "
                multiline
                fullWidth
+               value={message}
                sx={{ mr: '1rem', width: '100%' }}
+               onChange={handleMessageChange}
             />
             <Button
                sx={{ px: '2rem', py: '1rem' }}
                variant="contained"
                endIcon={<SendIcon />}
+               onClick={handleSendMessage}
             >
           Send
             </Button>
