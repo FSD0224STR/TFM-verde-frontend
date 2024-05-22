@@ -3,20 +3,23 @@ import { useState,useEffect } from 'react'
 import User from '../components/pure/User';
 import { Grid,Box, Typography,Paper} from '@mui/material';
 import NavBar from '../components/NavBar/NavBar';
+
 export default function ProfileList() {
 
    const [users, setUsers] = useState([])
 
    useEffect(() => {
-      console.log('entrando en el useEffect')
       getUsers()
 
    }, []);
 
-   const getUsers = () => {
-      userAPI.ListOfInterestedUsers()
-         .then(allUsers => setUsers(allUsers))
-         .catch(err => alert('Ha ocurrido el siguiente error: ' + err.message))
+   const getUsers = async () => {
+      try {
+         const allUsers = await userAPI.ListOfInterestedUsers();
+         setUsers(allUsers);
+      } catch (err) {
+         alert('Ha ocurrido el siguiente error: ' + err.message);
+      }
    }
 
    return (
@@ -31,7 +34,6 @@ export default function ProfileList() {
                         <User
                            userApi={user} />
                      </Grid>
-
                   ))}
                </Grid>
             </Box>

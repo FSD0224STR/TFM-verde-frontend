@@ -18,6 +18,7 @@ export default function User({ userApi }) {
    const navigate = useNavigate()
 
    const {
+      _id,
       name,
       subName,
       email,
@@ -31,7 +32,7 @@ export default function User({ userApi }) {
       age,
       imgProfile
    } = userApi;
-
+   
    return (
       <div>
          <Card
@@ -80,7 +81,7 @@ export default function User({ userApi }) {
                      title="Profile picture"
                      src={imgProfile}
                      sx={{ 
-                        width: '100%', // Adjust the width as needed
+                        width: '100%', 
                         height: '300px', // Set the desired height
                         objectFit: 'cover', // Adjust the object fit as needed
                      }}
@@ -90,7 +91,7 @@ export default function User({ userApi }) {
             <CardContent
                sx={{
                   overflow: 'hidden',
-                  maxHeight: '8rem', // Altura para 3 líneas de texto
+                  maxHeight: '8rem', // Altura para 3 líneas de texto max
                }}
             >
                <RoleComponent role={role} />
@@ -104,7 +105,7 @@ export default function User({ userApi }) {
             >
                <CardActions>
                   <Button
-                     onClick={()=> navigate('/profile')}
+                     onClick={()=> console.log('este es el id del usuario',_id)}
                      size="medium"
                      sx={{
                         position: 'relative',
