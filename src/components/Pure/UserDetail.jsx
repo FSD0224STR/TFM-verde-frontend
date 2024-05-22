@@ -12,16 +12,43 @@ import {
    Rating,
 } from '@mui/material';
 import { main_theme } from '../../../palette-theme-colors';
-import fotoDefault from '../../assets/fotoDefault.jpg';
 import RoleComponent from './RoleComponent';
 import RatingDanceStar from './RatingDanceStar';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ComponentMessage from './ComponentMessage';
 
-export default function UserDetail() {
+export default function ComponentUserDetail({userDetail}) {
+
    const [openMessage, setOpenMessage] = useState(false);
-   const roleDefault = 'Leader';
+   // const userDetailEnelcomponente = JSON.parse(JSON.stringify(userDetail))
+   // const key = Object.keys(userDetailEnelcomponente)
+   // const keyUserDetail = Object.keys(userDetail)
+   // console.log('esto es las keys de userDetail',keyUserDetail)
+   // console.log('esto son las keys de useDetailCOmponente',key)
+   // console.log('stringify de userDetail', userDetailEnelcomponente)
+   // console.log('accediendo a name del stringfy',userDetailEnelcomponente.name)
+   // console.log('esto es userDetail en en el componente', userDetail)
+   // console.log('name de userdetail asd',userDetail.name)
+   // if (userDetail === null || userDetail === undefined) {
+   //    return <div>Loading...</div>;
+   // }
+   // console.log('despues del condicional esto es userDetail',userDetail)
+   const {
+      name,
+      subName,
+      email,
+      description,
+      gender,
+      dateOfBirth,
+      role,
+      city,
+      status,
+      rating,
+      age,
+      imgProfile
+   } = userDetail
+
    return (
       <ThemeProvider theme={main_theme}>
          <Container sx={{mt: '4rem' }}>
@@ -37,7 +64,6 @@ export default function UserDetail() {
                            fontWeight="600"
                            ml='1rem'
                         >
-                           {' '}
                                Nivel según los tipos de baile:
                         </Typography>
                         <CardContent
@@ -74,7 +100,7 @@ export default function UserDetail() {
                            </CardActions>
                            <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                            <CardActions>
-                              <Button size="large" variant='contained' sx={{mt:'2rem',p:'1rem'}}>Invita a Maria a Bailar!</Button>
+                              <Button size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
                            </CardActions>
                         </CardContent>
                      </CardContent>)}
@@ -83,29 +109,29 @@ export default function UserDetail() {
                      <CardMedia
                         sx={{ MaxWidth: '300px', MaxHeight: '300px', margin:'auto'}}
                         component="img"
-                        alt="DefaultImg"
+                        alt="Foto Perfil"
                         height="300px"
-                        image={fotoDefault}
+                        src={imgProfile}
                      />
                      <Typography
                         color="primary.main"
                         variant="h5"
                         component="div"
-                        sx={{ my: '1rem', fontSize: '2rem', fontWeight: 'bold' }}
+                        sx={{ my: '1rem',mr:'0.5rem', fontSize: '2rem', fontWeight: 'bold' }}
                      >
-                               Maria{' '} 
+                        {name}
                         <Box
                            component="span"
-                           sx={{ fontSize: '1.2rem', fontWeight: '400' }}
+                           sx={{ fontSize: '1.2rem', fontWeight: '400',m:'0.8rem' }}
                         >
-                          (F/28),Madrid 
+                          ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
                         </Box>
                         <Box>
                            <Box display='flex' flexDirection='row-reverse' justifyContent='left' my='0.5rem'>
                               <Link> <Typography fontSize='1rem' variant='body2' color='text.secondary' mt='0.2rem' ml='1rem'>Reseña</Typography></Link>
                               <Rating name="read-only" value={4} readOnly />
                            </Box>
-                           <RoleComponent role={roleDefault} />
+                           <RoleComponent role={role} />
                         </Box>
                         
                      </Typography>
@@ -122,9 +148,7 @@ export default function UserDetail() {
                         fontSize="1.2rem"
                         color="text.secondary"
                      >
-                        Soy una chica de 28 años de madrid y me gustaría encontrar una
-                        pareja de baile de bachata con la que practicar y sacar lo mejor
-                        de nosotros en esta disciplina.
+                        {description}
                      </Typography>
                   </CardContent>
                </CardContent>

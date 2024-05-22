@@ -1,23 +1,16 @@
-import React, { useState } from 'react'
-import UserDetail from '../components/pure/UserDetail'
-import usersApi from '../apiServices/usersApi';
+import React, { useContext, useState } from 'react'
+
+import { UserContext } from '../context/userContext';
+import ComponentUserDetail from '../components/pure/UserDetail';
 
 export default function DetailUser() {
 
-   const [userDetail, setUserDetail] = useState();
-
-   const getUserDetail = async () => {
-      try {
-         const detailUser = await usersApi.detailByIdUser();
-         setUserDetail(detailUser);
-      } catch (err) {
-         alert('Ha ocurrido el siguiente error: ' + err.message);
-      }
-   }
-
+   const { userDetail } = useContext(UserContext)
+  
+   console.log('esto es dentro de la pagian de detalle la informacion de UserDetail',userDetail)
    return (
       <div>
-         <UserDetail/>
+         <ComponentUserDetail userDetail={userDetail}/>
       </div>
    )
 }

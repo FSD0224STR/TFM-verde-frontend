@@ -10,12 +10,13 @@ import {
    Chip,
    Stack,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import RoleComponent from './RoleComponent';
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 export default function User({ userApi }) {
-
-   const navigate = useNavigate()
+   const { getUserDetail} = useContext(UserContext)
 
    const {
       _id,
@@ -105,7 +106,7 @@ export default function User({ userApi }) {
             >
                <CardActions>
                   <Button
-                     onClick={()=> console.log('este es el id del usuario',_id)}
+                     onClick={()=> getUserDetail(_id)}
                      size="medium"
                      sx={{
                         position: 'relative',

@@ -8,6 +8,13 @@ const getAllUsers=async ()=>{
    const users=await response.json()
    return users
 }
+
+const detailByIdUser = async (id) => {
+   const response = await fetch(`${Servidorurl}/users/${id}`)
+   const user = await response.json()
+   return user.user //? hay quew revisar lo que se estta devolviendo
+}
+
 const ListOfInterestedUsers = async () => {
    const response = await fetch(`${Servidorurl}/users`)
    const ListUsers = await response.json()
@@ -51,5 +58,6 @@ export default {
    updateUser,
    loginUser,
    login,
-   ListOfInterestedUsers
+   ListOfInterestedUsers,
+   detailByIdUser
 }

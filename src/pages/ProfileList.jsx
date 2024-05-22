@@ -1,27 +1,30 @@
-import userAPI from '../apiServices/usersApi';
-import { useState,useEffect } from 'react'
+// import userAPI from '../apiServices/usersApi';
+import { useContext } from 'react'
 import User from '../components/pure/User';
 import { Grid,Box, Typography,Paper} from '@mui/material';
 import NavBar from '../components/NavBar/NavBar';
+import { UserContext } from '../context/userContext';
 
 export default function ProfileList() {
 
-   const [users, setUsers] = useState([])
+   // const [users, setUsers] = useState([])
 
-   useEffect(() => {
-      getUsers()
+   // useEffect(() => {
+   //    getUsers()
 
-   }, []);
+   // }, []);
 
-   const getUsers = async () => {
-      try {
-         const allUsers = await userAPI.ListOfInterestedUsers();
-         setUsers(allUsers);
-      } catch (err) {
-         alert('Ha ocurrido el siguiente error: ' + err.message);
-      }
-   }
-
+   // const getUsers = async () => {
+   //    try {
+   //       const allUsers = await userAPI.ListOfInterestedUsers();
+   //       setUsers(allUsers);
+   //    } catch (err) {
+   //       alert('Ha ocurrido el siguiente error: ' + err.message);
+   //    }
+   // }
+   
+   const {users} = useContext(UserContext)
+   
    return (
       <>
          <NavBar/>
