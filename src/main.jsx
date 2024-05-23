@@ -11,10 +11,10 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-   <ThemeProvider theme={main_theme}>
-      <BrowserRouter>
-         <CssBaseline />
-         <App />
-      </BrowserRouter>
-   </ThemeProvider>
+        <ThemeProvider theme={main_theme}>
+                <BrowserRouter>
+                        <CssBaseline />
+                        <App />
+                </BrowserRouter>
+        </ThemeProvider>
 );
