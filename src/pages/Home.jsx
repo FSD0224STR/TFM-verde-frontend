@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Search } from '../components/Pure/Search'
 import {getLocationfilteredApi} from '../apiServices/locationApi'
+import NavBar from '../components/NavBar/NavBar'
+import {Button, Grid } from '@mui/material'
+import { LocationsComponent } from '../components/Pure/LocationComponent'
 
 //En está pagina se crea un  componente tendrá una función encargada de traer de la BDD todos los datos de los locales.   
 
@@ -10,24 +13,54 @@ import {getLocationfilteredApi} from '../apiServices/locationApi'
 
 //Renderizamos el listado de valores filtrados de la BDD 
 
-const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
-
-        const data= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
-        console.log('filtrado por ciudad: ',data)
-
-}
-
 export default function Home() {
         
         const [coordinates,setCoordinates]=useState('')
-        const [city,setCity]=useState('Barcelona')
+        const [city,setCity]=useState('')
         const [date,setDate]=useState('')
-        const [typeOfDancing,setTypeOfDancing]=useState('Bachata')
+        const [typeOfDancing,setTypeOfDancing]=useState('')
+
+        const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
+
+                const data= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
+                console.log('Resultado del filtrado',data)
+                setCity('')
+                setDate('')
+                setTypeOfDancing('')
+                return data
+        
+        }
+
+        useEffect(() => {
+                getLocationFiltered();
+        }, [])
 
         return (
                 <>
-                        <h1>Pagina principal inmediatamente depúes de que se logea el usuario</h1>
-                        <Search onC ={getLocationFiltered(coordinates,city,date,typeOfDancing)}></Search> 
+                        <NavBar></NavBar>
+
+                        <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
+                                <Grid item xs={12} sm={3} >
+                                        <Search     value={city}   onChange={e=>setCity(e.currentTarget.value)} placeholder='Filtrar por ciudad' >  </Search>
+                                        
+                                </Grid>
+
+                                <Grid item xs={12} sm={3} >
+                                        <Search value={date} onChange={e=>setDate(e.currentTarget.value)} placeholder='Filtrar por fecha' ></Search> 
+                                </Grid>
+                             
+                                <Grid item xs={12} sm={3} >
+                                        <Search value={typeOfDancing}  onChange={e=>setTypeOfDancing(e.currentTarget.value)} placeholder='Filtrar por estilo' ></Search>
+                                </Grid>
+
+                                <Grid item xs={12} sm={3}>
+                                        <Button sx={{bgcolor: 'background.secondary',
+                                                color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing) }}>Filtrar</Button>
+                                </Grid>
+
+                        </Grid>
+
+                        <LocationsComponent/>
          
                 </>
         )

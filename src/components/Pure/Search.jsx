@@ -1,11 +1,11 @@
 
 import React from 'react';
 
-export const Search=({ children,search,placeholder})=>{
+export const Search=({ children,onChange,placeholder,filterBy})=>{
 
         return(
                 <>
-                        <input  onChange={search} placeholder={placeholder}></input> 
+                        <input  value={filterBy} onChange={onChange}  placeholder={placeholder}  />
                        
                         { children }
                 </>
