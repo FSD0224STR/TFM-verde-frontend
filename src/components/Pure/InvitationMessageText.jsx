@@ -1,10 +1,15 @@
 
 import { Avatar, Box, Typography, Button, Alert } from '@mui/material';
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 export default function InvitationMessageText({
    responseInvitation,
    setResponseInvitation,
 }) {
+
+   const {userDetail } = useContext(UserContext)
+
    const ControlledResponse = () => {
       if (responseInvitation === null) {
          return (
@@ -56,7 +61,7 @@ export default function InvitationMessageText({
                      color="text.secondary"
                      sx={{ fontSize: '1rem', fontWeight: '600', ml: '1rem' }}
                   >
-                        Buenas Maria ¡Espero que te encuentres muy bien! Me encantaría
+                        Buenas {userDetail.name} ¡Espero que te encuentres muy bien! Me encantaría
                         invitarte a este evento de baile que se llevará a cabo este sábado
                         por la noche. Será una noche llena de música, alegría y mucho
                         baile. Una ocasión perfecta para disfrutar y compartir unos buenos

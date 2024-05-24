@@ -45,7 +45,7 @@ export default function NavigationMenu() {
                         fontFamily="Dancing Script"
                         color="inherit"
                      >
-                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>MeetDancing</Link>
+                        <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>MeetDancing</Link>
                      </Typography>
                   </Box>
                </Box>

@@ -1,9 +1,10 @@
 // import userAPI from '../apiServices/usersApi';
 import { useContext } from 'react'
-import User from '../components/pure/User';
+import User from '../components/Pure/User';
 import { Grid,Box, Typography,Paper} from '@mui/material';
 import NavBar from '../components/NavBar/NavBar';
 import { UserContext } from '../context/userContext';
+import NavigationMenu from '../components/Menu/NavigationMenu';
 
 export default function ProfileList() {
 
@@ -27,7 +28,7 @@ export default function ProfileList() {
    
    return (
       <>
-         <NavBar/>
+         <NavigationMenu/>
          <Paper square={false} sx={{maxWidth:'90%', m:'3rem', pb:'2rem'}}>
             <Typography textAlign="center" variant='h2'  my="3rem" color='text.secondary'>Lista de interesados</Typography>
             <Box width='100%' display='flex' flexDirection='column'justifyContent='center' alignItems='center'>

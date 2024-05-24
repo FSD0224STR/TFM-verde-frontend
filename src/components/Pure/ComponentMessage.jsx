@@ -9,23 +9,20 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import AvatarMaria from '../../assets/1.jpg';
 import BoxMessageDestinatario from './BoxMessageDestinatario';
 import BoxMessageRemitente from './BoxMessageRemitente';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import InvitationMessageText from './InvitationMessageText';
 import { Message } from '@mui/icons-material';
+import { UserContext } from '../../context/userContext';
 
 export default function ComponentMessage({ setOpenMessage }) {
+
+   const { userDetail } = useContext(UserContext)
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
    const [message, setMessage] = useState('');
    const [messageSend, setSendMessage] = useState([]);
-
-   const handleMessageChange = (e) => {
-      setMessage(e.target.value);
-      //   console.log('esto es message',message)
-   };
 
    const handleSendMessage = () => {
       if (message.trim() !== '') {
@@ -61,7 +58,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                <Avatar
                   sx={{ width: '40px', height: '40px' }}
                   alt="Maria Sanchez"
-                  src={AvatarMaria}
+                  src={userDetail.imgProfile}
                />
 
                <Typography
@@ -70,8 +67,9 @@ export default function ComponentMessage({ setOpenMessage }) {
                   sx={{ flexGrow: 1 }}
                   ml="1rem"
                   mt="0.4rem"
+                  
                >
-            Maria Sanchez
+                  {userDetail.name}{' '}{userDetail.subName}
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
@@ -82,7 +80,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                >
                   {invitationMessage
                      ? 'Solicitud Enviada'
-                     : 'Invita a maria a este evento'}
+                     : `Invita a ${userDetail.name} a este evento`}
                </Button>
                <IconButton onClick={() => setOpenMessage(false)}>
                   <CancelIcon
@@ -111,10 +109,6 @@ export default function ComponentMessage({ setOpenMessage }) {
                //    console.log( 'esto es el map de messageSend',msg)
                   <BoxMessageRemitente key={index} msg={msg.messageSend} />
                ))}
-               {/* 
-               {messageSend.slice(0).reverse().map((msg, index) => (
-                  <BoxMessageDestinatario key={index} msg={msg.messageSend} />  
-               ))}  */}
                {invitationMessage && (
                   <InvitationMessageText
                      responseInvitation={responseInvitation}
@@ -126,7 +120,7 @@ export default function ComponentMessage({ setOpenMessage }) {
          <Box display="flex" m="1rem">
             <Avatar
                sx={{ width: '40px', height: '40px', mr: '1rem', mt: '0.3rem' }}
-               alt="Joao Victor"
+               alt={userDetail.name}
                src="https://reqres.in/img/faces/8-image.jpg"
             />
             <TextField
@@ -137,7 +131,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                fullWidth
                value={message}
                sx={{ mr: '1rem', width: '100%' }}
-               onChange={handleMessageChange}
+               onChange={(e)=>setMessage(e.target.value)}
             />
             <Button
                sx={{ px: '2rem', py: '1rem' }}

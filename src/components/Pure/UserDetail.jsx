@@ -37,10 +37,8 @@ export default function ComponentUserDetail({userDetail}) {
    const {
       name,
       subName,
-      email,
       description,
       gender,
-      dateOfBirth,
       role,
       city,
       status,
@@ -51,7 +49,7 @@ export default function ComponentUserDetail({userDetail}) {
 
    return (
       <ThemeProvider theme={main_theme}>
-         <Container sx={{mt: '4rem' }}>
+         <Container sx={{my: '4rem' }}>
             <Card sx={{ maxWidth: '1200px',minHeight:'700px' }}>
                <CardContent sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                   {openMessage ?
@@ -119,7 +117,7 @@ export default function ComponentUserDetail({userDetail}) {
                         component="div"
                         sx={{ my: '1rem',mr:'0.5rem', fontSize: '2rem', fontWeight: 'bold' }}
                      >
-                        {name}
+                        {name}{' '}{subName}
                         <Box
                            component="span"
                            sx={{ fontSize: '1.2rem', fontWeight: '400',m:'0.8rem' }}

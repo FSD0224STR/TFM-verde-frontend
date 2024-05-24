@@ -1,7 +1,6 @@
 import React from 'react'
 import '../App.css'
 import {SignIn} from '../components/forms/loginForm/SignIn';
-import { Footer } from '../components/pure/Footer';
 import NavBar from '../components/NavBar/NavBar';
 
 export default function Login() {
@@ -16,11 +15,6 @@ export default function Login() {
                <SignIn/>
 
             </main>
-      
-            <footer>
-               <Footer/>
-
-            </footer>
           
          </div>
       </>
