@@ -27,14 +27,12 @@ const ExpandMore = styled((props) => {
         }),
 }));
 
-export  function LocationsComponent({name,
-        address,events
-}) {
+export function LocationsComponent({ name, address, events }) {
         const [expanded, setExpanded] = React.useState(false);
-        
+
         const [eventValues, setEventValues] = React.useState(
                 events.reduce((acc, event) => {
-                        acc[event._id] = event.typeOfDancing || ''; 
+                        acc[event._id] = event.typeOfDancing || '';
                         return acc;
                 }, {})
         );
@@ -51,7 +49,7 @@ export  function LocationsComponent({name,
         };
 
         return (
-                <Card sx={{ maxWidth: 345, color:'text.secondary'}}>
+                <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
                         <CardHeader
                                 avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -64,9 +62,7 @@ export  function LocationsComponent({name,
                                         </IconButton>
                                 }
                                 title={name}
-                                subheader={
-                                        address
-                                }
+                                subheader={address}
                         />
                         <CardMedia
                                 component="img"
@@ -76,9 +72,9 @@ export  function LocationsComponent({name,
                         />
                         <CardContent>
                                 <Typography variant="body2" color="text.secondary">
-
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut ea rem doloribus repellendus quasi, minus enim culpa dolores quos perferendis voluptas debitis dolore est vero nulla nemo aperiam dicta corporis?
-      
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut ea rem
+          doloribus repellendus quasi, minus enim culpa dolores quos perferendis
+          voluptas debitis dolore est vero nulla nemo aperiam dicta corporis?
                                 </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
@@ -99,8 +95,9 @@ export  function LocationsComponent({name,
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
-                                        
-                                        <Typography paragraph>Tipos de eventos que tiene este local, para probar el filtro</Typography>
+                                        <Typography paragraph>
+            Tipos de eventos que tiene este local, para probar el filtro
+                                        </Typography>
                                         <Typography paragraph>
                                                 {events.map((event) => (
                                                         <TextField
@@ -127,15 +124,16 @@ export  function LocationsComponent({name,
                                                                 {...event}
                                                         />
                                                 ))}
-                                        </Typography>  
+                                        </Typography>
 
                                         <Typography paragraph>Descripción:</Typography>
 
                                         <Typography paragraph>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi obcaecati magni praesentium, quaerat architecto at ipsum. Magni tenetur ipsa commodi fuga non necessitatibus culpa ipsam cupiditate odio? Neque, quae dignissimos.r
-       
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
+            obcaecati magni praesentium, quaerat architecto at ipsum. Magni
+            tenetur ipsa commodi fuga non necessitatibus culpa ipsam cupiditate
+            odio? Neque, quae dignissimos.r
                                         </Typography>
-                                     
                                 </CardContent>
                         </Collapse>
                 </Card>

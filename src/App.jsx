@@ -11,21 +11,21 @@ import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
 
 function App() {
-   return (
-      <>
+        return (
+                <>
 
-         <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/events/:id" element={<EventsList />} />
-            <Route path="/profiles" element={<ProfileList />} />
-            <Route path="/profile/:id" element={<SettingsProfile />} />
-            <Route path="*" element={<NotFound />} />
-         </Routes>
-      </>
-   );
+                        <Routes>
+                                <Route path="/" element={<LandingPage />} />
+                                <Route path="/home" element={<Home />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                                <Route path="/events/:id" element={<EventsList />} />
+                                <Route path="/profiles" element={<ProfileList />} />
+                                <Route path="/profile/:id" element={<SettingsProfile />} />
+                                <Route path="*" element={<NotFound />} />
+                        </Routes>
+                </>
+        );
 }
 
 export default App;
