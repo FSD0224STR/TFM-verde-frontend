@@ -19,15 +19,23 @@ export default function Home() {
         const [city,setCity]=useState('')
         const [date,setDate]=useState('')
         const [typeOfDancing,setTypeOfDancing]=useState('')
+        const [locations,setLocations]=useState([])
+        const [error, setError] = useState('')
 
         const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
 
-                const data= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
-                console.log('Resultado del filtrado',data)
-                setCity('')
-                setDate('')
-                setTypeOfDancing('')
-                return data
+                const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
+                console.log('Resultado del filtrado',locationsFiltered)
+                /*  setCity('') */
+                /*  setDate('') */
+                /*  setTypeOfDancing('') */
+
+                if(locationsFiltered.error) setError(locationsFiltered.error)
+                else(setLocations(locationsFiltered))
+
+                console.log('que es locations',locations)
+
+                return locationsFiltered
         
         }
 
@@ -60,7 +68,10 @@ export default function Home() {
 
                         </Grid>
 
-                        <LocationsComponent/>
+                        <Grid container spacing={3}>
+
+                                {locations.map(local=> <Grid item xs={12} sm={6} key={local._id}> <LocationsComponent key={local._id} {...local}></LocationsComponent> </Grid>)}
+                        </Grid>
          
                 </>
         )
