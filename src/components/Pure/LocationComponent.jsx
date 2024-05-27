@@ -62,7 +62,9 @@ export function LocationsComponent({ name, address, events }) {
                                         </IconButton>
                                 }
                                 title={name}
-                                subheader={address}
+                                subheader={
+                                        address
+                                }
                         />
                         <CardMedia
                                 component="img"
@@ -98,20 +100,6 @@ export function LocationsComponent({ name, address, events }) {
                                         <Typography paragraph>
             Tipos de eventos que tiene este local, para probar el filtro
                                         </Typography>
-                                        <Typography paragraph>
-                                                {events.map((event) => (
-                                                        <TextField
-                                                                sx={{ bgcolor: '#000' }}
-                                                                key={event._id}
-                                                                value={eventValues[event._id]}
-                                                                onChange={(e) => handleChange(event._id, e.target.value)}
-                                                                placeholder="Enter type of dancing"
-                                                                // Otros props pueden ser pasados aquí
-                                                                {...event}
-                                                        />
-                                                ))}
-                                        </Typography>
-
                                         <Typography paragraph>
                                                 {events.map((event) => (
                                                         <TextField

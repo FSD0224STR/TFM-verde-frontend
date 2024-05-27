@@ -6,7 +6,6 @@ const Servidorurl='http://localhost:3000'
 //Puedes crear un objeto con todos los parametros de busqueda.
 
 export const queryParamsDynamic=  (coordinates,city,date,typeOfDancing)=>{
-
         const queryParams = new URLSearchParams()
         
         coordinates? queryParams.append('coordinates',`${coordinates}`):null

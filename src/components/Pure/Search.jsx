@@ -1,13 +1,12 @@
 
 import React from 'react';
 
-export const Search=({ children,onChange,placeholder,filterBy})=>{
+export const Search=({ onChange,placeholder,filterBy})=>{
 
         return(
                 <>
-                        <input  value={filterBy} onChange={onChange}  placeholder={placeholder}  />
-                       
-                        { children }
+                        <input value={filterBy} onChange={onChange}  placeholder={placeholder}  />
+                        
                 </>
                 
         )
