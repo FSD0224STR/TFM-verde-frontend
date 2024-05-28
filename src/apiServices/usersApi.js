@@ -4,7 +4,7 @@ const Servidorurl= 'http://localhost:3000'
 
 const getAllUsers=async ()=>{
         const token = localStorage.getItem('access_token');
-        const response=await fetch(`${Servidorurl}/users`, {headers: { 'autorization:': `Bearer ${token}`}})
+        const response=await fetch(`${Servidorurl}/users`, {headers: { 'authorization:': `Bearer ${token}`}})
         const users=await response.json()
         return users
 }
@@ -36,7 +36,14 @@ const updateUser=async (id,modifiedData)=>{
 
 const login = async (email, password) => {
         const response = await fetch(`${Servidorurl}/users/login`,{method:'POST',body:JSON.stringify({email, password}),headers: { 'Content-Type': 'application/json'}})
-        return await response.json()
+       
+        if (!response.ok)  {
+                const error = await response.json()
+                return {error: error.message};
+        }
+
+        const token = await response.json()
+        return {data: token}
 }
 
 export default { 

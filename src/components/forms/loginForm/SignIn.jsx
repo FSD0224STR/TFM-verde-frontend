@@ -17,7 +17,11 @@ import {  ThemeProvider } from '@mui/material/styles';
 import { Formik, useFormik,} from 'formik';
 import * as Yup from 'yup';
 import userAPI from '../../../apiServices/usersApi';
+import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { LoginContext } from '../../../context/loginContext';
+import { useContext } from 'react';
+import { useState } from 'react';
 
 function Copyright(props) {
         return (
@@ -33,33 +37,45 @@ function Copyright(props) {
 }
 
 export  function SignIn() {
+
+        /*  const { login} =useContext(LoginContext) */
+
+        const navigate=useNavigate()
+        const [error, setError] = useState('');
+        
         let initialValuesForm = {
                 email: '',
                 password: '',
         };
 
         const LoginSchema = Yup.object().shape({
-                email: Yup.string().required('Debes ingrensar un email'),
-                password: Yup.string().required('Debes ingrensar un password'),
+                email: Yup.string().required('Debes ingrensar un email').matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.(com|es)$/, 'Este correo electrónico no es válido'),
+                password: Yup.string().required('Debes ingrensar una contraseña'),
         });
 
-        const handleSubmitMy = async (data) => {
-                //esta es todo lo qeu cambio en el inicio value
+        const handleSubmitMy = async (values) => {
+               
                 // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit
-                const token = await userAPI.login(data.email, data.password)  
-                console.log('login: ',token);
-                localStorage.setItem('access_token', token)
+                const response= await userAPI.login(values.email,values.password)  
+                if (response.error) setError(response.error)
+                else{
+                        const token= response.data
+                        localStorage.setItem('access_token',token)
+                        navigate('/home')
+                }
+               
         };
 
-        const { handleChange, handleSubmit, values, errors } =
+        const { handleChange, handleSubmit, values, errors,touched,handleBlur} =
     useFormik({
-            //destructuring de formik
+            //destructuring del formik
             //primero recibe los valores iniciales
             initialValues: initialValuesForm,
             //SEGUNDA PROPIEDAD Recibe el onSUbmit
             onSubmit: handleSubmitMy,
             //validacion
             validationSchema: LoginSchema,
+          
     });
 
         return (
@@ -90,8 +106,7 @@ export  function SignIn() {
                                                         flexDirection: 'column',
                                                         alignItems: 'center',
                                                 }}
-
-                                                onSubmit={handleSubmit}
+                                             
                                         >
                                                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                                                         <LockOutlinedIcon />
@@ -99,77 +114,87 @@ export  function SignIn() {
                                                 <Typography component="h1" variant="h5"   sx={{ color: 'primary.main' }}>
               Iniciar sesión
                                                 </Typography>
-                                                <Box component="form" noValidate  sx={{ mt: 1 }}>
-                                                        <TextField
-                                                                margin="normal"
-                                                                required
-                                                                fullWidth
-                                                                id="email"
-                                                                label="Correo electrónico"
-                                                                name="email"
-                                                                autoComplete="email"
-                                                                autoFocus
-                                                                variant="outlined"
-                                                                value={values.email}
-                                                                onChange={handleChange}
-                                                                error={!!errors.email}
-                                                                helperText={errors.email}
-                                                                sx={{
-                                                                        '& .MuiInputBase-input': {
-                                                                                color: '#000000',
-                                                                        }}}
+
+                                                <Formik>
+                                                
+                                                        <Box component="form" noValidate  sx={{ mt: 1 }}    onSubmit={handleSubmit}>
+                                                                <TextField
+                                                                        margin="normal"
+                                                                        required
+                                                                        fullWidth
+                                                                        id="email"
+                                                                        label="Correo electrónico"
+                                                                        name="email"
+                                                                        autoComplete="email"
+                                                                        autoFocus
+                                                                        variant="outlined"
+                                                                        value={values.email}
+                                                                        onChange={handleChange}
+                                                                        onBlur={handleBlur}
+                                                                        error={touched.email && !!errors.email}
+                                                                        helperText={touched.email && errors.email}
+                                                                  
+                                                                        sx={{
+                                                                                '& .MuiInputBase-input': {
+                                                                                        color: '#000000',
+                                                                                }}}
                 
-                                                        />
-                                                        <TextField
+                                                                />
+                                                               
+                                                                <TextField
            
-                                                                margin="normal"
-                                                                required
-                                                                fullWidth
-                                                                name="password"
-                                                                label="Contraseña"
-                                                                type="password"
-                                                                id="password"
-                                                                variant="outlined"
-                                                                autoComplete="current-password"
-                                                                value={values.password}
-                                                                onChange={handleChange}
-                                                                error={!!errors.password}
-                                                                helperText={errors.password}
-                                                                sx={{
-                                                                        '& .MuiInputBase-input': {
-                                                                                color: '#000000',
-                                                                        }}}
-                                                        />
-                                                        <FormControlLabel
-                                                                control={<Checkbox value="Recuerdame" />}
-                                                                sx={{ '& .MuiTypography-root': { color: 'primary.main' } }}
-                                                                label="Recuerdame"
-                                                        />
-                                                        <Button
-                                                                component={NavLink}
-                                                                to="/home"
-                                                                type="submit"
-                                                                fullWidth
-                                                                variant="contained"
-                                                                sx={{ mt: 3, mb: 2 }}
-                                                        >
+                                                                        margin="normal"
+                                                                        required
+                                                                        fullWidth
+                                                                        name="password"
+                                                                        label="Contraseña"
+                                                                        type="password"
+                                                                        id="password"
+                                                                        variant="outlined"
+                                                                        autoComplete="current-password"
+                                                                        value={values.password}
+                                                                        onBlur={handleBlur}
+                                                                        onChange={handleChange}
+                                                                        error={touched.password && !!errors.password}                                                                                                                             
+                                                                        helperText={touched.password && errors.password}
+
+                                                                        sx={{
+                                                                                '& .MuiInputBase-input': {
+                                                                                        color: '#000000',
+                                                                                }}}
+                                                                />
+                                                         
+                                                                <FormControlLabel
+                                                                        control={<Checkbox value="Recuerdame" />}
+                                                                        sx={{ '& .MuiTypography-root': { color: 'primary.main' } }}
+                                                                        label="Recuerdame"
+                                                                />
+                                                                <Button
+                                                                       
+                                                                        type="submit"
+                                                                        fullWidth
+                                                                        variant="contained"
+                                                                        sx={{ mt: 3, mb: 2 }}
+                                                                
+                                                                >
                 Iniciar sesión
-                                                        </Button>
-                                                        <Grid container>
-                                                                <Grid item xs>
-                                                                        <Link href="#" variant="body2">
+                                                                </Button>
+                                                                <Grid container>
+                                                                        <Grid item xs>
+                                                                                <Link href="#" variant="body2">
                   ¿Olvidaste tu contraseña?
 
-                                                                        </Link>
+                                                                                </Link>
+                                                                        </Grid>
+                                                                        <Grid item>
+                                                                                <Link href="#" variant="body2">
+                                                                                        {'¿No tienes una cuenta? Regístrate'}
+                                                                                </Link>
+                                                                        </Grid>
                                                                 </Grid>
-                                                                <Grid item>
-                                                                        <Link href="#" variant="body2">
-                                                                                {'¿No tienes una cuenta? Regístrate'}
-                                                                        </Link>
-                                                                </Grid>
-                                                        </Grid>
-                                                        <Copyright sx={{ mt: 5 }} />
-                                                </Box>
+                                                                <Copyright sx={{ mt: 5 }} />
+                                                        </Box>
+                                                </Formik>
                                         </Box>
                                 </Grid>
                         </Grid>

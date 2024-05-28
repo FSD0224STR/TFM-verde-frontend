@@ -9,10 +9,15 @@ import EventsList from './pages/EventsList';
 import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
+import NavBar from './components/NavBar/NavBar';
+import { LoginContext } from './context/loginContext';
 
 function App() {
         return (
                 <>
+                        {/*  <LoginContext> */}
+                
+                        <NavBar></NavBar>
 
                         <Routes>
                                 <Route path="/" element={<LandingPage />} />
@@ -24,6 +29,7 @@ function App() {
                                 <Route path="/profile/:id" element={<SettingsProfile />} />
                                 <Route path="*" element={<NotFound />} />
                         </Routes>
+                        {/*  </LoginContext> */}
                 </>
         );
 }

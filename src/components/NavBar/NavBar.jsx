@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import NavListDrawer from './NavListDrawer';
 import MeetDancingIcon from '../../assets/MeetDancingIcon.png';
 import {
@@ -14,8 +14,11 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink } from 'react-router-dom';
+import { LoginContextProvider } from '../../context/loginContext';
 export default function NavBar() {
         const [open, setOpen] = useState(false);
+
+        /*   const{login}=useContext(LoginContextProvider) */
 
         return (
                 <>

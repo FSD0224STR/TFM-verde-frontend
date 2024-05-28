@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Search } from '../components/Pure/Search'
 import {getLocationfilteredApi} from '../apiServices/locationApi'
-import NavBar from '../components/NavBar/NavBar'
+
 import {Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 
@@ -37,7 +37,6 @@ export default function Home() {
 
         return (
                 <>
-                        <NavBar></NavBar>
 
                         <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
                                 <Grid item xs={12} sm={3} >
