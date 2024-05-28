@@ -39,7 +39,8 @@ const login = async (email, password) => {
        
         if (!response.ok)  {
                 const error = await response.json()
-                return {error: error.message};
+                return {error: error};
+                
         }
 
         const token = await response.json()
