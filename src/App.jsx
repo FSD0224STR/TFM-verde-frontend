@@ -15,7 +15,7 @@ import { LoginContext } from './context/loginContext';
 function App() {
         return (
                 <>
-                        {/*  <LoginContext> */}
+                        {/*  <LoginContextProvider> */}
                 
                         <NavBar></NavBar>
 
@@ -29,7 +29,7 @@ function App() {
                                 <Route path="/profile/:id" element={<SettingsProfile />} />
                                 <Route path="*" element={<NotFound />} />
                         </Routes>
-                        {/*  </LoginContext> */}
+                        {/*  <LoginContextProvider>  */}
                 </>
         );
 }
