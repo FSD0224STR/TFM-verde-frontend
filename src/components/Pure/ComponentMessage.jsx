@@ -131,7 +131,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                fullWidth
                value={message}
                sx={{ mr: '1rem', width: '100%' }}
-               onChange={(e)=>setMessage(e.target.value)}
+               onChange={(e)=>setMessage(e.currentTarget.value)}
             />
             <Button
                sx={{ px: '2rem', py: '1rem' }}

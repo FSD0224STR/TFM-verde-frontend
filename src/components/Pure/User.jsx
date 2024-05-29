@@ -78,7 +78,7 @@ export default function User({ userApi }) {
                   <CardMedia
                      component="img"
                      title="Profile picture"
-                     src={imgProfile}
+                     src={!imgProfile? 'https://via.placeholder.com/250'  : imgProfile}
                      sx={{ 
                         width: '100%', 
                         height: '300px', // Set the desired height
