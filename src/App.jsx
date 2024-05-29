@@ -10,12 +10,13 @@ import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
 import NavBar from './components/NavBar/NavBar';
-import { LoginContext } from './context/loginContext';
+import { LoginContextProvider } from './context/loginContext';
 
 function App() {
         return (
                 <>
-                        {/*  <LoginContextProvider> */}
+                
+                        {/*  <LoginContextProvider>  */}
                 
                         <NavBar></NavBar>
 
@@ -29,9 +30,10 @@ function App() {
                                 <Route path="/profile/:id" element={<SettingsProfile />} />
                                 <Route path="*" element={<NotFound />} />
                         </Routes>
-                        {/*  <LoginContextProvider>  */}
+                        {/*  </LoginContextProvider>  */}
                 </>
-        );
+                
+        )
 }
 
 export default App;

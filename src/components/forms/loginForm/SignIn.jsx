@@ -19,9 +19,11 @@ import * as Yup from 'yup';
 import userAPI from '../../../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import { LoginContext } from '../../../context/loginContext';
+
 import { useContext } from 'react';
 import { useState } from 'react';
+import { Alert } from '@mui/material';
+import { LoginContextP } from '../../../context/loginContextPrueba';
 
 function Copyright(props) {
         return (
@@ -38,7 +40,7 @@ function Copyright(props) {
 
 export  function SignIn() {
 
-        /*  const { login} =useContext(LoginContext) */
+        const {login} =useContext(LoginContextP)
 
         const navigate=useNavigate()
         const [error, setError] = useState('');
@@ -54,15 +56,21 @@ export  function SignIn() {
         });
 
         const handleSubmitMy = async (values) => {
+
+                login(values.email,values.password)
                
-                // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit
-                const response= await userAPI.login(values.email,values.password)  
-                if (response.error) setError(response.error)
-                else{
-                        const token= response.data
-                        localStorage.setItem('access_token',token)
-                        navigate('/home')
-                }
+                /* // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit */
+                /* console.log('que es values',values,values.email,values.password) */
+                /* const response= await userAPI.login(values.email,values.password)   */
+                /* if (response.error) { */
+                /*         setError(response.error)  */
+                /*         console.log(response)} */
+               
+                /* else{ */
+                /*         const token= response.data */
+                /*         localStorage.setItem('access_token',token) */
+                /*         navigate('/home') */
+                /* } */
                
         };
 
@@ -72,7 +80,7 @@ export  function SignIn() {
             //primero recibe los valores iniciales
             initialValues: initialValuesForm,
             //SEGUNDA PROPIEDAD Recibe el onSUbmit
-            onSubmit: handleSubmitMy,
+            onSubmit:handleSubmitMy,
             //validacion
             validationSchema: LoginSchema,
           
@@ -197,7 +205,9 @@ export  function SignIn() {
                                                 </Formik>
                                         </Box>
                                 </Grid>
+                                {error && <Alert variant="outlined" severity="error" onClose={() => setError('')}>{`Ha habido un error: ${error}`}</Alert>}
                         </Grid>
+                     
                 </ThemeProvider>
         );
 }

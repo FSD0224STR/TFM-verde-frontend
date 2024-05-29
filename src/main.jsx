@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { main_theme } from '../palette-theme-colors.js';
@@ -9,12 +9,18 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+       
         <ThemeProvider theme={main_theme}>
                 <BrowserRouter>
-                        <CssBaseline />
-                        <App />
+                        <LoginContextProviderP>
+                                <CssBaseline />
+                                <App />
+                        </LoginContextProviderP> 
+                      
                 </BrowserRouter>
         </ThemeProvider>
+      
 );

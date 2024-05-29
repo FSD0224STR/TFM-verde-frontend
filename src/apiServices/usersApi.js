@@ -1,5 +1,4 @@
-import {Password} from '@mui/icons-material';
-
+ 
 const Servidorurl= 'http://localhost:3000'
 
 const getAllUsers=async ()=>{
@@ -35,13 +34,11 @@ const updateUser=async (id,modifiedData)=>{
 }
 
 const login = async (email, password) => {
+
         const response = await fetch(`${Servidorurl}/users/login`,{method:'POST',body:JSON.stringify({email, password}),headers: { 'Content-Type': 'application/json'}})
+        console.log('quiero ver cual es la respuesta del backend al logearnos',response)
        
-        if (!response.ok)  {
-                const error = await response.json()
-                return {error: error};
-                
-        }
+        if (!response.ok)   return {error: response.status};
 
         const token = await response.json()
         return {data: token}
