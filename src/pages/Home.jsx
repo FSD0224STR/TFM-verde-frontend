@@ -1,9 +1,10 @@
-import NavigationMenu, { useEffect, useState } from '../components/Menu/NavigationMenu';
+import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
 import {getLocationfilteredApi} from '../apiServices/locationApi'
 
 import {Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
+import { useState,useEffect } from 'react';
 
 export default function Home() {
         

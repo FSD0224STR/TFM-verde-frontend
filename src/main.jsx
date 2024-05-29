@@ -9,8 +9,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 import { UserContextProvider } from './context/userContext.jsx';
+import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
@@ -20,10 +20,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                                 <UserContextProvider>
                                         <CssBaseline />
                                         <App />
+                
                                 </UserContextProvider>
-
                         </LoginContextProviderP> 
-                  
+                      
                 </BrowserRouter>
         </ThemeProvider>
       
