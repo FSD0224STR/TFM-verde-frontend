@@ -10,16 +10,20 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
+import { UserContextProvider } from './context/userContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
         <ThemeProvider theme={main_theme}>
                 <BrowserRouter>
                         <LoginContextProviderP>
-                                <CssBaseline />
-                                <App />
+                                <UserContextProvider>
+                                        <CssBaseline />
+                                        <App />
+                                </UserContextProvider>
+
                         </LoginContextProviderP> 
-                      
+                  
                 </BrowserRouter>
         </ThemeProvider>
       

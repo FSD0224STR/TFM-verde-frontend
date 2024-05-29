@@ -8,6 +8,18 @@ const getAllUsers=async ()=>{
         return users
 }
 
+const detailByIdUser = async (id) => {
+        const response = await fetch(`${Servidorurl}/users/${id}`)
+        const user = await response.json()
+        return user.user //? hay quew revisar lo que se estta devolviendo
+}
+
+const ListOfInterestedUsers = async () => {
+        const response = await fetch(`${Servidorurl}/users`)
+        const ListUsers = await response.json()
+        return ListUsers
+}
+
 const addUser = async (newUserData) => {
         const response = await fetch(`${Servidorurl}/users/register`, {
                 method: 'POST', body: JSON.stringify(newUserData), headers: {
@@ -55,5 +67,7 @@ export default {
         deleteUser,
         updateUser,
         loginUser,
-        login
+        login,
+        ListOfInterestedUsers,
+        detailByIdUser
 }

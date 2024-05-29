@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import NavigationMenu, { useEffect, useState } from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
 import {getLocationfilteredApi} from '../apiServices/locationApi'
 
@@ -37,6 +37,7 @@ export default function Home() {
 
         return (
                 <>
+                        <NavigationMenu/>
 
                         <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
                                 <Grid item xs={12} sm={3} >

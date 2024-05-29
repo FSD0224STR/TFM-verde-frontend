@@ -1,17 +1,13 @@
 import React from 'react'
-
-import NavBar from '../components/NavBar/NavBar'
+import NavigationMenu from '../components/Menu/NavigationMenu'
 
 export default function EventsList() {
         return (
-
                 <>
-                        <NavBar/> {/* Aqui aplicaré un contexto */}
-
-                        <h1>Lista de eventos</h1>
-
-                        <h1>hola</h1>
-  
+                        <NavigationMenu/>
+                        <div>
+                                <h1>Lista de eventos</h1>
+                        </div>
                 </>
         )
 }

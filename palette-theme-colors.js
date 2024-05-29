@@ -9,7 +9,8 @@ export const main_theme= createTheme({
                 },
                 secondary: {
                         main: '#2A9D8F',
-                        contrastText: '#ffffff' 
+                        contrastText: '#ffffff',
+                        variante:'#338DB8'
       
                 },
                 background: {
@@ -30,6 +31,10 @@ export const main_theme= createTheme({
                 success: {
                         main: '#187d1a',
                 },
-                divider: 'rgba(9,144,8,0.12)',
+                divider: 'rgba(9,144,8,0.3)',
+                stack: {
+                        primary:'#92cbdf',
+                        secondary:'#6fb260'
+                },
         },
 });
