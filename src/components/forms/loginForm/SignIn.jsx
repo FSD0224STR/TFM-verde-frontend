@@ -14,16 +14,13 @@ import Typography from '@mui/material/Typography';
 import { main_theme } from '../../../../palette-theme-colors';
 import {  ThemeProvider } from '@mui/material/styles'; 
 
-import { Formik, useFormik,} from 'formik';
+import { Formik, useFormik,ErrorMessage} from 'formik';
 import * as Yup from 'yup';
-import userAPI from '../../../apiServices/usersApi';
-import { useNavigate } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
 
 import { useContext } from 'react';
-import { useState } from 'react';
+
 import { Alert } from '@mui/material';
-import { LoginContextP } from '../../../context/loginContextPrueba';
+import { LoginContextP} from '../../../context/loginContextPrueba';
 
 function Copyright(props) {
         return (
@@ -40,11 +37,8 @@ function Copyright(props) {
 
 export  function SignIn() {
 
-        const {login} =useContext(LoginContextP)
-
-        const navigate=useNavigate()
-        const [error, setError] = useState('');
-         
+        const {login,error,setError} =useContext(LoginContextP)
+       
         let initialValuesForm = {
                 email: '',
                 password: '',
@@ -55,32 +49,15 @@ export  function SignIn() {
                 password: Yup.string().required('Debes ingrensar una contraseña'),
         });
 
-        const handleSubmitMy = async (values) => {
-
-                login(values.email,values.password)
-               
-                /* // este handle es mi funcion la que llamo en el form es una funcion propia de formik que accedo al onSubmit */
-                /* console.log('que es values',values,values.email,values.password) */
-                /* const response= await userAPI.login(values.email,values.password)   */
-                /* if (response.error) { */
-                /*         setError(response.error)  */
-                /*         console.log(response)} */
-               
-                /* else{ */
-                /*         const token= response.data */
-                /*         localStorage.setItem('access_token',token) */
-                /*         navigate('/home') */
-                /* } */
-               
-        };
-
         const { handleChange, handleSubmit, values, errors,touched,handleBlur} =
     useFormik({
             //destructuring del formik
             //primero recibe los valores iniciales
             initialValues: initialValuesForm,
             //SEGUNDA PROPIEDAD Recibe el onSUbmit
-            onSubmit:handleSubmitMy,
+            onSubmit:async (values)=>{
+                    login(values.email,values.password)
+            },
             //validacion
             validationSchema: LoginSchema,
           
@@ -88,7 +65,7 @@ export  function SignIn() {
 
         return (
                 <ThemeProvider theme={main_theme}>
-                        <Grid container component="main" sx={{ height: '100vh' }}>
+                        <Grid container component="main" sx={{ height: '100vh'}}>
                                 <CssBaseline />
                                 <Grid
        
@@ -148,6 +125,7 @@ export  function SignIn() {
                                                                                 }}}
                 
                                                                 />
+                                                                <ErrorMessage  name='email' />
                                                                
                                                                 <TextField
            
@@ -171,12 +149,14 @@ export  function SignIn() {
                                                                                         color: '#000000',
                                                                                 }}}
                                                                 />
-                                                         
+                                                      
                                                                 <FormControlLabel
                                                                         control={<Checkbox value="Recuerdame" />}
                                                                         sx={{ '& .MuiTypography-root': { color: 'primary.main' } }}
                                                                         label="Recuerdame"
                                                                 />
+
+                                                                {error && <Alert sx={{ mb: 2,mt:2 }}  variant="outlined" severity="error" onClose={() => setError('')}>{` ${error}`}</Alert>}
                                                                 <Button
                                                                        
                                                                         type="submit"
@@ -204,8 +184,9 @@ export  function SignIn() {
                                                         </Box>
                                                 </Formik>
                                         </Box>
+                                      
                                 </Grid>
-                                {error && <Alert variant="outlined" severity="error" onClose={() => setError('')}>{`Ha habido un error: ${error}`}</Alert>}
+                               
                         </Grid>
                      
                 </ThemeProvider>

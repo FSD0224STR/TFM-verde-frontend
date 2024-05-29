@@ -38,7 +38,12 @@ const login = async (email, password) => {
         const response = await fetch(`${Servidorurl}/users/login`,{method:'POST',body:JSON.stringify({email, password}),headers: { 'Content-Type': 'application/json'}})
         console.log('quiero ver cual es la respuesta del backend al logearnos',response)
        
-        if (!response.ok)   return {error: response.status};
+        if (!response.ok)   {
+
+                if(response.status==403) return {error: 'La contraseña es incorrecta, por favor inserte contraseña correcta.'}
+                if(response.status==404) return {error: 'El usuario no está registrado, por favor registrarse. '}
+           
+        }
 
         const token = await response.json()
         return {data: token}

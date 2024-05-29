@@ -15,8 +15,7 @@ export const LoginContextProvider = ({Children})=>{
 
         const prueba=()=>{
                 console.log('Que es el provider')
-        }
-        
+        }        
         const loginContextValue={
                 prueba
 

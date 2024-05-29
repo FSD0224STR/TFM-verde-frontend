@@ -28,6 +28,7 @@ export const LoginContextProviderP = ({ children }) => {
                         const token=response.data
                         localStorage.setItem('access_token',token)
                         navigate('/home')
+                       
                 }
                 setIsLoggedIn(true)
         }

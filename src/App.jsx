@@ -9,28 +9,34 @@ import EventsList from './pages/EventsList';
 import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
-import NavBar from './components/NavBar/NavBar';
-import { LoginContextProvider } from './context/loginContext';
+import { useContext } from 'react';
+import { LoginContextP } from './context/loginContextPrueba';
 
 function App() {
+
+        const {isLoggedIn} =useContext(LoginContextP)
         return (
+
                 <>
-                
-                        {/*  <LoginContextProvider>  */}
-                
-                        <NavBar></NavBar>
 
                         <Routes>
+
                                 <Route path="/" element={<LandingPage />} />
-                                <Route path="/home" element={<Home />} />
-                                <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
-                                <Route path="/events/:id" element={<EventsList />} />
-                                <Route path="/profiles" element={<ProfileList />} />
-                                <Route path="/profile/:id" element={<SettingsProfile />} />
-                                <Route path="*" element={<NotFound />} />
+                                <Route path="/login" element={<Login />} />
+
+                                {isLoggedIn ? (<>
+                                        <Route path="/home" element={<Home />}/> 
+                                        <Route path="/events/:id" element={<EventsList />} />
+                                        <Route path="/profiles" element={<ProfileList />} />
+                                        <Route path="/profile/:id" element={<SettingsProfile />} />
+                                
+                                </>
+                                
+                                ):<Route path="*" element={<NotFound/>} /> }
+                              
                         </Routes>
-                        {/*  </LoginContextProvider>  */}
+                
                 </>
                 
         )
