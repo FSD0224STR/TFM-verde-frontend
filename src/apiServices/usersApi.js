@@ -48,8 +48,7 @@ const updateUser=async (id,modifiedData)=>{
 const login = async (email, password) => {
 
         const response = await fetch(`${Servidorurl}/users/login`,{method:'POST',body:JSON.stringify({email, password}),headers: { 'Content-Type': 'application/json'}})
-        console.log('quiero ver cual es la respuesta del backend al logearnos',response)
-       
+
         if (!response.ok)   {
 
                 if(response.status==403) return {error: 'La contraseña es incorrecta, por favor inserte contraseña correcta.'}
@@ -57,8 +56,23 @@ const login = async (email, password) => {
            
         }
 
-        const token = await response.json()
-        return {data: token}
+        const info = await response.json()
+        return {data: info.token,userDetails:info.userDetails}
+}
+
+const getMyprofile=async ()=>{
+
+        const token = localStorage.getItem('access_token')
+
+        const response = await fetch(`${Servidorurl}/users/myinfo`, {headers: {'authorization': `Bearer ${token}`}})
+
+        if (!response.ok)  {
+                const error=await response.json()
+                return {error: error}
+        }
+   
+        return {data:  response.json()} //LO que me devuelve el backend es toda la información de usuario. 
+
 }
 
 export default { 
@@ -69,5 +83,6 @@ export default {
         loginUser,
         login,
         ListOfInterestedUsers,
-        detailByIdUser
+        detailByIdUser,
+        getMyprofile
 }

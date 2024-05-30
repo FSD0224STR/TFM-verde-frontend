@@ -15,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TextField } from '@mui/material';
+import { LoginContextP } from '../../context/loginContextPrueba';
 
 const ExpandMore = styled((props) => {
         const { expand, ...other } = props;
@@ -29,6 +30,7 @@ const ExpandMore = styled((props) => {
 
 export function LocationsComponent({ name, address, events }) {
         const [expanded, setExpanded] = React.useState(false);
+        const {navigate}=React.useContext(LoginContextP)
 
         const [eventValues, setEventValues] = React.useState(
                 events.reduce((acc, event) => {
@@ -80,7 +82,7 @@ export function LocationsComponent({ name, address, events }) {
                                 </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites">
+                                <IconButton aria-label="add to favorites" onClick={()=> navigate('/events/1')} >
                                         <FavoriteIcon />
                                 </IconButton>
                                 <IconButton aria-label="share">

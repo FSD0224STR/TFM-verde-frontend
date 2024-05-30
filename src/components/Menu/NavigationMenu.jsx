@@ -78,7 +78,7 @@ export default function NavigationMenu() {
                                         </Box>
                                 </Toolbar>
                         </AppBar>
-                        <Drawer open={open} anchor="left" onClose={() => setOpen(false)}>
+                        <Drawer open={open}    anchor="left" onClose={() => setOpen(false)}>
                                 <MenuDrawerList setOpen={setOpen} />
                         </Drawer>
                 </>
