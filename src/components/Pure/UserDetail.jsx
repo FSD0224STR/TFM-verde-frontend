@@ -44,7 +44,8 @@ export default function ComponentUserDetail({userDetail}) {
       status,
       rating,
       age,
-      imgProfile
+      imgProfile,
+      dancingStyles
    } = userDetail
 
    return (
@@ -72,7 +73,7 @@ export default function ComponentUserDetail({userDetail}) {
                               gap:'1rem'
                            }}
                         >
-                           <RatingDanceStar />
+                           <RatingDanceStar dancingStyles={dancingStyles} />
                         </CardContent>
                         <CardContent sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
                            <Typography
@@ -109,7 +110,7 @@ export default function ComponentUserDetail({userDetail}) {
                         component="img"
                         alt="Foto Perfil"
                         height="300px"
-                        src={imgProfile}
+                        src={!imgProfile? 'https://via.placeholder.com/250'  : imgProfile}
                      />
                      <Typography
                         color="primary.main"
@@ -145,6 +146,7 @@ export default function ComponentUserDetail({userDetail}) {
                         variant="body2"
                         fontSize="1.2rem"
                         color="text.secondary"
+                        sx={{ overflowWrap: 'break-word' }}
                      >
                         {description}
                      </Typography>

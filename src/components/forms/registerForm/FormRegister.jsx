@@ -12,6 +12,7 @@ import {
    RadioGroup,
    Divider,
    ThemeProvider,
+   Slider,
 } from '@mui/material';
 import './formRegister.css';
 import { useFormik } from 'formik';
@@ -19,6 +20,14 @@ import * as Yup from 'yup';
 import usersApi from '../../../apiServices/usersApi';
 import { main_theme } from '../../../../palette-theme-colors';
 export default function FormRegister() {
+   const danceStylesList = [
+      { style: 'Salsa', level: 1 },
+      { style: 'Salsa Cubana', level: 1 },
+      { style: 'Merengue', level: 1 },
+      { style: 'Swing', level: 1 },
+      { style: 'Bachata', level: 1 }
+   ];
+
    const defaultImg = 'http://via.placeholder.com/200';
    let initialValuesForm = {
       name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
@@ -31,6 +40,7 @@ export default function FormRegister() {
       age: '',
       imgProfile: defaultImg,
       description: '',
+      dancingStyles:danceStylesList,
    };
 
    // const registerSchema = Yup.object().shape({
@@ -52,6 +62,12 @@ export default function FormRegister() {
       console.log('esto es response', user);
    };
 
+   const handleSliderChange = (index) => (event, newValue) => {
+      const newDanceStyles = [...values.dancingStyles];
+      newDanceStyles[index].level = newValue;
+      setFieldValue('dancingStyles', newDanceStyles);
+   };
+
    const { handleChange, handleSubmit, setFieldValue, values, errors } =
     useFormik({
        //destructuring de formik
@@ -62,6 +78,11 @@ export default function FormRegister() {
        //validacion
        // validationSchema: registerSchema,
     });
+ 
+   function nameSlider() {
+      return 'Estilos de baile'
+   }
+
    return (
       <ThemeProvider theme={main_theme}>
          <div className="form-container">
@@ -71,8 +92,7 @@ export default function FormRegister() {
             <Box
                component="form"
                onSubmit={handleSubmit}
-               height={1800}
-               width={1000}
+               maxWidth={1000}
                m={20}
                display="flex"
                flexDirection="column"
@@ -101,7 +121,7 @@ export default function FormRegister() {
                   spacing={3}
                   sx={{ width: '100%', margin: 10 }}
                >
-                  <Box>
+                  {/* <Box>
                      <Typography
                         variant="h6"
                         sx={{
@@ -155,7 +175,7 @@ export default function FormRegister() {
                   Seleccionar foto
                         </Button>
                      </Grid>
-                  </Box>
+                  </Box> */}
                   <Grid
                      container
                      alignItems="center"
@@ -423,7 +443,41 @@ export default function FormRegister() {
                            onChange={handleChange}
                         />
                      </Box>
-                     <Divider />
+                     <Typography
+                        variant="h6"
+                        sx={{
+                           color: 'primary.main',
+                           fontWeight: 'bold',
+                           textAlign: 'left',
+                           margin: '10px',
+                        }}
+                     >
+                  4.Tipos de baile según tu nivel <Box component='span' sx={{fontWeight:'400',fontSize:'1rem'}}>(nivel iniciante:1)</Box>
+                     </Typography>
+                     {danceStylesList.map((styleItem,index) => (
+ 
+                        <Box ml='1.2rem' mb='0.5rem' key={styleItem.style}>
+                           <Typography sx={{ color: 'text.secondary', fontSize:'1.2rem',}}>
+                              {styleItem.style}
+                           </Typography>
+                           <Slider
+                              aria-label={styleItem.style}
+                              defaultValue={1}
+                              getAriaValueText={nameSlider}
+                              valueLabelDisplay="auto"
+                              shiftStep={5}
+                              step={1}
+                              marks
+                              min={1}
+                              max={5}
+                              sx={{ maxWidth: '90%' }}
+                              name='danceStyles'
+                              value={values.dancingStyles[index].level}
+                              onChange={handleSliderChange(index)}
+                           />
+                        </Box>
+                     )) }
+                     <Divider sx={{m:'1rem'}} />
                      <Typography
                         color="primary"
                         variant="h6"
@@ -431,7 +485,7 @@ export default function FormRegister() {
                         fontWeight="bold"
                         margin="10px"
                      >
-                4.Casi terminamos. ¿Cómo quieres iniciar sesión?
+                5.Casi terminamos. ¿Cómo quieres iniciar sesión?
                      </Typography>
 
                      <TextField

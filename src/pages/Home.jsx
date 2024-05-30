@@ -1,3 +1,4 @@
+import { Height } from '@mui/icons-material';
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
 import {getLocationfilteredApi} from '../apiServices/locationApi'
@@ -5,7 +6,6 @@ import {getLocationfilteredApi} from '../apiServices/locationApi'
 import {Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useState,useEffect } from 'react';
-
 export default function Home() {
         
         const [coordinates,setCoordinates]=useState('')
