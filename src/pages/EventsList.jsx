@@ -8,22 +8,30 @@ export default function EventsList() {
         const {idLocal,getOneLocation}=useContext(LocationContext) 
         const [locationDatas,setLocationData]=useState('')
 
-        useEffect (()=>{
-
-                const getLocationData =async () => {
-        
-                        const locationData = await getOneLocation(idLocal)
-                        setLocationData(locationData)
+        const getLocationData = async () => {
+                if (idLocal) {
+                        const data = await getOneLocation(idLocal);
+                        setLocationData(data);
+                
                 }
-                getLocationData()
-
-        },[idLocal,getOneLocation])
+        }
         
+        useEffect (()=>{
+   
+                getLocationData()
+        })
+
         return (
                 <>
               
                         <NavigationMenu/>
-                        <LocationsComponent />
+
+                        {locationDatas?(
+
+                                <LocationsComponent {...locationDatas} />):
+                                (<p>se estan cargando los datos, aqui hay que poner un cargando de MUI</p>)
+                        }
+                       
                         <div>
                                 <p>Estas pintando el id del local donde estas{idLocal}</p>
                                 
