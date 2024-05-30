@@ -42,7 +42,7 @@ export default function MenuProfile() {
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
                                         >
-                                                {profileDetails?<Avatar sx={{ width: 40, height: 40 }}>{profileDetails.name[0]+profileDetails.subName[0]
+                                                {profileDetails?<Avatar sx={{ width: 40, height: 40,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]
                                                 }</Avatar>:null}
                                         </IconButton>
                                 </Tooltip>
