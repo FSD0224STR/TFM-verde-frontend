@@ -14,7 +14,7 @@ import {
         Tooltip,
         Drawer
 } from '@mui/material';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import MenuProfile from './MenuProfile';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react';
@@ -22,6 +22,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
 export default function NavigationMenu() {
         const [open, setOpen] = useState(false);
+        const navigate = useNavigate()
         return (
                 <>
                         <AppBar position="static" sx={{ textAlign: 'left', padding: '1rem'}}>
@@ -54,7 +55,7 @@ export default function NavigationMenu() {
                                                 sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'2rem' }}
                                         >
                                                 <Tooltip title="Centros de baile">
-                                                        <IconButton>
+                                                        <IconButton onClick={()=> navigate('/profiles')}>
                                                                 <PlaceIcon sx={{fontSize:35 ,color:'white'}}/>
                                                         </IconButton>
                                                 </Tooltip>

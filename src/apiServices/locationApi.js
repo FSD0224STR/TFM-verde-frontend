@@ -43,3 +43,16 @@ export const getLocationfilteredApi=async(coordinates,city,date,typeOfDancing)=>
         }
 
 }
+
+export const getOneLocationApi=async (id)=>{
+
+        const response=await fetch(`${Servidorurl}/locations/${id}`)
+
+        if (!response.ok)   {
+                /* if(response.status==403) return {error: 'La contraseña es incorrecta, por favor inserte contraseña correcta.'} */
+                /*  if(response.status==404) */ return {error: response.statusText}
+           
+        }
+       
+        return {data: await response.json()}
+}

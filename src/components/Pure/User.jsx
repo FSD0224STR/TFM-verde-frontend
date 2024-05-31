@@ -1,4 +1,3 @@
-
 import {
    Card,
    CardMedia,
@@ -16,7 +15,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../context/userContext';
 
 export default function User({ userApi }) {
-   const { getUserDetail} = useContext(UserContext)
+   const { getUserDetail } = useContext(UserContext);
 
    const {
       _id,
@@ -29,9 +28,9 @@ export default function User({ userApi }) {
       status,
       rating,
       age,
-      imgProfile
+      imgProfile,
    } = userApi;
-   
+
    return (
       <div>
          <Card
@@ -44,9 +43,8 @@ export default function User({ userApi }) {
                position: 'relative',
                '&:hover': {
                   transition: ' all 1s ease-in-out',
-                  transform: 'scale(1.05)'
-               }
-           
+                  transform: 'scale(1.05)',
+               },
             }}
          >
             <Box sx={{ position: 'relative' }}>
@@ -59,7 +57,6 @@ export default function User({ userApi }) {
                      sx={{
                         fontSize: '1.5rem',
                         fontWeight: 'bold',
-                      
                      }}
                   >
                      {name} {subName}
@@ -68,7 +65,6 @@ export default function User({ userApi }) {
                      sx={{
                         fontSize: '1.1rem',
                         fontWeight: 'bold',
-                        
                      }}
                   >
               ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
@@ -78,9 +74,9 @@ export default function User({ userApi }) {
                   <CardMedia
                      component="img"
                      title="Profile picture"
-                     src={!imgProfile? 'https://via.placeholder.com/250'  : imgProfile}
-                     sx={{ 
-                        width: '100%', 
+                     src={!imgProfile ? 'https://via.placeholder.com/250' : imgProfile}
+                     sx={{
+                        width: '100%',
                         height: '300px', // Set the desired height
                         objectFit: 'cover', // Adjust the object fit as needed
                      }}
@@ -104,7 +100,7 @@ export default function User({ userApi }) {
             >
                <CardActions>
                   <Button
-                     onClick={()=> getUserDetail(_id)}
+                     onClick={() => getUserDetail(_id)}
                      size="medium"
                      sx={{
                         position: 'relative',

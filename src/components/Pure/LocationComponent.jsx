@@ -14,8 +14,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { TextField } from '@mui/material';
+
 import { LoginContextP } from '../../context/loginContextPrueba';
+import { LocationContext } from '../../context/locationContext';
 
 const ExpandMore = styled((props) => {
         const { expand, ...other } = props;
@@ -28,23 +29,10 @@ const ExpandMore = styled((props) => {
         }),
 }));
 
-export function LocationsComponent({ name, address, events }) {
+export function LocationsComponent({ name, address,_id}) {
         const [expanded, setExpanded] = React.useState(false);
         const {navigate}=React.useContext(LoginContextP)
-
-        const [eventValues, setEventValues] = React.useState(
-                events.reduce((acc, event) => {
-                        acc[event._id] = event.typeOfDancing || '';
-                        return acc;
-                }, {})
-        );
-
-        const handleChange = (eventId, value) => {
-                setEventValues((prevValues) => ({
-                        ...prevValues,
-                        [eventId]: value,
-                }));
-        };
+        const{setIdLocal}=React.useContext(LocationContext)
 
         const handleExpandClick = () => {
                 setExpanded(!expanded);
@@ -54,8 +42,8 @@ export function LocationsComponent({ name, address, events }) {
                 <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
                         <CardHeader
                                 avatar={
-                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+                                        <Avatar sx={{ bgcolor: 'primary.main',color:'white' }} aria-label="recipe">
+                                                {name.slice(0,2)}
                                         </Avatar>
                                 }
                                 action={
@@ -64,9 +52,7 @@ export function LocationsComponent({ name, address, events }) {
                                         </IconButton>
                                 }
                                 title={name}
-                                subheader={
-                                        address
-                                }
+                                subheader={address}
                         />
                         <CardMedia
                                 component="img"
@@ -82,7 +68,7 @@ export function LocationsComponent({ name, address, events }) {
                                 </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites" onClick={()=> navigate('/events/1')} >
+                                <IconButton aria-label="add to favorites" onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}} >
                                         <FavoriteIcon />
                                 </IconButton>
                                 <IconButton aria-label="share">
@@ -102,19 +88,6 @@ export function LocationsComponent({ name, address, events }) {
                                         <Typography paragraph>
             Tipos de eventos que tiene este local, para probar el filtro
                                         </Typography>
-                                        <Typography paragraph>
-                                                {events.map((event) => (
-                                                        <TextField
-                                                                sx={{ bgcolor: '#000' }}
-                                                                key={event._id}
-                                                                value={eventValues[event._id]}
-                                                                onChange={(e) => handleChange(event._id, e.target.value)}
-                                                                placeholder="Enter type of dancing"
-                                                                // Otros props pueden ser pasados aquí
-                                                                {...event}
-                                                        />
-                                                ))}
-                                        </Typography>
 
                                         <Typography paragraph>Descripción:</Typography>
 
@@ -126,6 +99,9 @@ export function LocationsComponent({ name, address, events }) {
                                         </Typography>
                                 </CardContent>
                         </Collapse>
+                     
                 </Card>
+
         );
+        
 }

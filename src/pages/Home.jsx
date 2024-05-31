@@ -1,41 +1,14 @@
-import { Height } from '@mui/icons-material';
+
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
-import {getLocationfilteredApi} from '../apiServices/locationApi'
-
 import {Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
-import { useState,useEffect } from 'react';
+import { useContext} from 'react';
+import { LocationContext } from '../context/locationContext';
 export default function Home() {
+
+        const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
         
-        const [coordinates,setCoordinates]=useState('')
-        const [city,setCity]=useState('')
-        const [date,setDate]=useState('')
-        const [typeOfDancing,setTypeOfDancing]=useState('')
-        const [locations,setLocations]=useState([])
-        const [error, setError] = useState('')
-
-        console.log('que es tyofdancing',typeOfDancing)
-
-        const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
-
-                const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
-                console.log('Resultado del filtrado',locationsFiltered)
-
-                if(locationsFiltered.error) setError(locationsFiltered.error)
-                else {
-                        setLocations(locationsFiltered);
-                        setCity('');
-                        setDate('');
-                        setTypeOfDancing('')
-                }
-               
-        }
-
-        useEffect(() => {
-                getLocationFiltered();
-        }, [])
-
         return (
                 <>
                         <NavigationMenu/>
@@ -56,7 +29,7 @@ export default function Home() {
 
                                 <Grid item xs={12} sm={3}>
                                         <Button sx={{bgcolor: 'background.secondary',
-                                                color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)/* , setCity(''),setDate(''),setTypeOfDancing('')  */}}>Filtrar</Button>
+                                                color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
                                 </Grid>
 
                         </Grid>
