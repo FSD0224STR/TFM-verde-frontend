@@ -14,24 +14,33 @@ export const LoginContextProviderP = ({ children }) => {
    const navigate = useNavigate();
    const [profileDetails, setProfileDetails] = useState({});
 
-   // const getMyprofile=async ()=>{ 
-   //         const token=localStorage.getItem('access_token') 
-   //         if(token) { 
-   //                 const response=await usersApi.getMyprofile() 
-   //                 if(response.data) { 
-   //                         console.log('Vamos a ver cuales son los datos del usuario logeado con ese token',response.data) 
-   //                         setIsLoggedIn(true) 
-   //                         navigate('/home') 
-   //                 } 
+   /* const checkToken=async ()=>{  */
+   /*    const token=localStorage.getItem('access_token')  */
+   /*    if(token) {  */
+   /*       setIsLoggedIn(true)  */
+   /*       return true */
+   /*    } return false */
+   /* }   */
 
-   //         } 
-   // }  
+   /* const getMyprofile=async ()=>{  */
+   /*    const token=localStorage.getItem('access_token')  */
+   /*     */
+   /*    if(token) {  */
+   /*       const response=await usersApi.getMyprofile()  */
+   /*       if(response.data) {  */
+   /*          console.log('Vamos a ver cuales son los datos del usuario logeado con ese token',response.data)  */
+   /*          setIsLoggedIn(true)  */
+   /*          /* navigate('/home')  */ 
+   /*       }  */
 
-   //Vamos a hacer una llamada a la Api que nos diga a quien pertenece el token que está guardado y nos devuelva la información de ese usuario. 
-   // useEffect( ()=>{ 
-   //         getMyprofile() 
+   /*    }  */
+   /* }   */
 
-   //  },[]) 
+   /* //Vamos a hacer una llamada a la Api que nos diga a quien pertenece el token que está guardado y nos devuelva la información de ese usuario.  */
+   /* useEffect( ()=>{  */
+   /*    getMyprofile()  */
+
+   /* })  */
 
    const login = async (email, password) => {
       const response = await usersApi.login(email, password);

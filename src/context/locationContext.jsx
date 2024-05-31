@@ -13,6 +13,7 @@ export const LocationContextProvider = ({ children }) => {
    const [locations,setLocations]=useState([])
    const [error, setError] = useState('')
    const [idLocal,setIdLocal]=useState('')
+   const [locationDatas,setLocationData]=useState('')
 
    const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
       const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
@@ -40,10 +41,18 @@ export const LocationContextProvider = ({ children }) => {
     
    }
 
+   const getLocationData = async () => {
+      if (idLocal) {
+         const data = await getOneLocation(idLocal);
+         setLocationData(data);
+                
+      }
+   }
+
    useEffect(() => {
       getLocationFiltered();
    }, [])
-
+   
    const locationContextValue = {
       getLocationFiltered,
       coordinates,
@@ -53,7 +62,9 @@ export const LocationContextProvider = ({ children }) => {
       date,
       getOneLocation,
       idLocal,
-      setIdLocal
+      setIdLocal,
+      getLocationData,
+      locationDatas
               
    }
   

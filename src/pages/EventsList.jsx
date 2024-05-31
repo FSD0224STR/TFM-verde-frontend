@@ -3,54 +3,69 @@ import NavigationMenu from '../components/Menu/NavigationMenu'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { LocationContext } from '../context/locationContext'
 import { Box, Grid } from '@mui/material'
-import { wrap } from 'framer-motion'
+import { EventComponent } from '../components/Pure/EventComponent'
 
 export default function EventsList() {
 
-   const {idLocal,getOneLocation}=useContext(LocationContext) 
-   const [locationDatas,setLocationData]=useState('')
+   const {getLocationData,locationDatas}=useContext(LocationContext) 
+   /*  const [locationDatas,setLocationData]=useState('') */
 
-   const getLocationData = async () => {
-      if (idLocal) {
-         const data = await getOneLocation(idLocal);
-         setLocationData(data);
-                
-      }
-   }
+   /* const getLocationData = async () => { */
+   /*    if (idLocal) { */
+   /*       const data = await getOneLocation(idLocal); */
+   /*       setLocationData(data); */
+   /*               */
+   /*    } */
+   /* } */
+
+   /* const getInterestedPeople=async()=>{ */
+
+   /*    const interestedPeople= (await getLocationData()).events.interestedPeople */
+   /*    console.log('Que es interestedPeople',interestedPeople) */
+   /* } */
         
    useEffect (()=>{
    
       getLocationData()
+      
    })
 
    return (
       <>
               
-         <NavigationMenu/>
-         <h1>Lista de eventos</h1>
+         <NavigationMenu />
 
          {locationDatas ? (
             <>
 
                <LocationsComponent {...locationDatas} />
+
+               <h1>Proximos eventos</h1>
+
+               {locationDatas.events.length >0? (
+
+                  <>
+
+                     <Grid container spacing={3} my={5}>
+                        {locationDatas.events.map(event=> 
+   
+                           <Grid item xs={12}  sm={6} key={event._id} > 
+                              <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+   
+                                 <EventComponent  name={event.name} address={event.typeOfDancing}></EventComponent> 
+                              </Box>
+                           </Grid>)}
+                     </Grid>
+
+                  </>
+
+               ):(<h1>Este centro no tiene eventos proximos</h1>)
                
-               <Grid container spacing={3} my={1}>
-
-                  {locationDatas.events.map(event=> 
-                  
-                     <Grid item xs={12}  sm={6} key={event._id} > 
-                        <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  
-                           <LocationsComponent name={event.name} address={event.typeOfDancing}></LocationsComponent> 
-
-                        </Box>
-                     </Grid>)}
-               </Grid>
+               }
            
             </>
         
-         ):
-            (<p>se estan cargando los datos, aqui hay que poner un cargando de MUI</p>)
+         ): (<p>se estan cargando los datos, aqui hay que poner un cargando de MUI</p>)
 
          }
        
