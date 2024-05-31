@@ -19,89 +19,89 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 import { LocationContext } from '../../context/locationContext';
 
 const ExpandMore = styled((props) => {
-        const { expand, ...other } = props;
-        return <IconButton {...other} />;
+   const { expand, ...other } = props;
+   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-                duration: theme.transitions.duration.shortest,
-        }),
+   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+   marginLeft: 'auto',
+   transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+   }),
 }));
 
 export function LocationsComponent({ name, address,_id}) {
-        const [expanded, setExpanded] = React.useState(false);
-        const {navigate}=React.useContext(LoginContextP)
-        const{setIdLocal}=React.useContext(LocationContext)
+   const [expanded, setExpanded] = React.useState(false);
+   const {navigate}=React.useContext(LoginContextP)
+   const{setIdLocal}=React.useContext(LocationContext)
 
-        const handleExpandClick = () => {
-                setExpanded(!expanded);
-        };
+   const handleExpandClick = () => {
+      setExpanded(!expanded);
+   };
 
-        return (
-                <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
-                        <CardHeader
-                                avatar={
-                                        <Avatar sx={{ bgcolor: 'primary.main',color:'white' }} aria-label="recipe">
-                                                {name.slice(0,2)}
-                                        </Avatar>
-                                }
-                                action={
-                                        <IconButton aria-label="settings">
-                                                <MoreVertIcon />
-                                        </IconButton>
-                                }
-                                title={name}
-                                subheader={address}
-                        />
-                        <CardMedia
-                                component="img"
-                                height="194"
-                                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6cXZHOGuTHCJ7zH0W5vS-zeNvrUNCUnXH9w&usqp=CAU"
-                                alt=""
-                        />
-                        <CardContent>
-                                <Typography variant="body2" color="text.secondary">
+   return (
+      <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
+         <CardHeader
+            avatar={
+               <Avatar sx={{ bgcolor: 'primary.main',color:'white' }} aria-label="recipe">
+                  {name.slice(0,2)}
+               </Avatar>
+            }
+            action={
+               <IconButton aria-label="settings">
+                  <MoreVertIcon />
+               </IconButton>
+            }
+            title={name}
+            subheader={address}
+         />
+         <CardMedia
+            component="img"
+            height="194"
+            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6cXZHOGuTHCJ7zH0W5vS-zeNvrUNCUnXH9w&usqp=CAU"
+            alt=""
+         />
+         <CardContent>
+            <Typography variant="body2" color="text.secondary">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut ea rem
           doloribus repellendus quasi, minus enim culpa dolores quos perferendis
           voluptas debitis dolore est vero nulla nemo aperiam dicta corporis?
-                                </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites" onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}} >
-                                        <FavoriteIcon />
-                                </IconButton>
-                                <IconButton aria-label="share">
-                                        <ShareIcon />
-                                </IconButton>
-                                <ExpandMore
-                                        expand={expanded}
-                                        onClick={handleExpandClick}
-                                        aria-expanded={expanded}
-                                        aria-label="show more"
-                                >
-                                        <ExpandMoreIcon />
-                                </ExpandMore>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                        <Typography paragraph>
+            </Typography>
+         </CardContent>
+         <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites" onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}} >
+               <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+               <ShareIcon />
+            </IconButton>
+            <ExpandMore
+               expand={expanded}
+               onClick={handleExpandClick}
+               aria-expanded={expanded}
+               aria-label="show more"
+            >
+               <ExpandMoreIcon />
+            </ExpandMore>
+         </CardActions>
+         <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+               <Typography paragraph>
             Tipos de eventos que tiene este local, para probar el filtro
-                                        </Typography>
+               </Typography>
 
-                                        <Typography paragraph>Descripción:</Typography>
+               <Typography paragraph>Descripción:</Typography>
 
-                                        <Typography paragraph>
+               <Typography paragraph>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
             obcaecati magni praesentium, quaerat architecto at ipsum. Magni
             tenetur ipsa commodi fuga non necessitatibus culpa ipsam cupiditate
             odio? Neque, quae dignissimos.r
-                                        </Typography>
-                                </CardContent>
-                        </Collapse>
+               </Typography>
+            </CardContent>
+         </Collapse>
                      
-                </Card>
+      </Card>
 
-        );
+   );
         
 }

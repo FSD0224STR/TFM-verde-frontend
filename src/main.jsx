@@ -15,23 +15,19 @@ import { LocationContextProvider } from './context/locationContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
-        <ThemeProvider theme={main_theme}>
-                <BrowserRouter>
-                        <LoginContextProviderP>
-                                <LocationContextProvider>
-                                        <UserContextProvider>
-                                                <CssBaseline />
-                                                <App />
+   <ThemeProvider theme={main_theme}>
+      <BrowserRouter>
+         <LoginContextProviderP>
+            <LocationContextProvider>
+               <UserContextProvider>
+                  <CssBaseline />
+                  <App />
                 
-                                        </UserContextProvider>
-                                </LocationContextProvider>
-<<<<<<< HEAD
-=======
-                        </LoginContextProviderP> 
->>>>>>> 6b28f53b07a4fb60eda295797e28fad7b6066b71
+               </UserContextProvider>
+            </LocationContextProvider>
                       
-                        </LoginContextProviderP> 
-                </BrowserRouter>
-        </ThemeProvider>
+         </LoginContextProviderP> 
+      </BrowserRouter>
+   </ThemeProvider>
       
 );

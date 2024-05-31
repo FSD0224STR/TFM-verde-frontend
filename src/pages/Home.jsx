@@ -7,38 +7,38 @@ import { useContext} from 'react';
 import { LocationContext } from '../context/locationContext';
 export default function Home() {
 
-        const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
+   const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
         
-        return (
-                <>
-                        <NavigationMenu/>
+   return (
+      <>
+         <NavigationMenu/>
 
-                        <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
-                                <Grid item xs={12} sm={3} >
-                                        <Search     filterBy={city}   onChange={e=>setCity(e.currentTarget.value)} placeholder='Filtrar por ciudad' >  </Search>
+         <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
+            <Grid item xs={12} sm={3} >
+               <Search     filterBy={city}   onChange={(e)=>{setCity(e.currentTarget.value)}} placeholder='Filtrar por ciudad' >  </Search>
                                         
-                                </Grid>
+            </Grid>
 
-                                <Grid item xs={12} sm={3} >
-                                        <Search filterBy={date} onChange={e=>setDate(e.currentTarget.value)} placeholder='Filtrar por fecha' ></Search> 
-                                </Grid>
+            <Grid item xs={12} sm={3} >
+               <Search filterBy={date} onChange={(e)=>{setDate(e.currentTarget.value)}} placeholder='Filtrar por fecha' ></Search> 
+            </Grid>
                              
-                                <Grid item xs={12} sm={3} >
-                                        <Search filterBy={typeOfDancing}  onChange={e=>setTypeOfDancing(e.currentTarget.value)} placeholder='Filtrar por estilo' ></Search>
-                                </Grid>
+            <Grid item xs={12} sm={3} >
+               <Search filterBy={typeOfDancing}  onChange={(e)=>{setTypeOfDancing(e.currentTarget.value)}} placeholder='Filtrar por estilo' ></Search>
+            </Grid>
 
-                                <Grid item xs={12} sm={3}>
-                                        <Button sx={{bgcolor: 'background.secondary',
-                                                color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
-                                </Grid>
+            <Grid item xs={12} sm={3}>
+               <Button sx={{bgcolor: 'background.secondary',
+                  color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
+            </Grid>
 
-                        </Grid>
+         </Grid>
 
-                        <Grid container spacing={3}>
+         <Grid container spacing={3}>
 
-                                {locations.map(local=> <Grid item xs={12} sm={6} key={local._id}> <LocationsComponent  {...local}></LocationsComponent> </Grid>)}
-                        </Grid>
+            {locations.map(local=> <Grid item xs={12} sm={6} key={local._id}> <LocationsComponent  {...local}></LocationsComponent> </Grid>)}
+         </Grid>
          
-                </>
-        )
+      </>
+   )
 }
