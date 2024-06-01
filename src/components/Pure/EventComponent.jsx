@@ -9,15 +9,19 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { LoginContextP } from '../../context/loginContextPrueba';
-import { LocationContext } from '../../context/locationContext';
-import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Alert } from '@mui/material';
+import { updateInterestedPeopleApi } from '../../apiServices/eventsApi';
+import { useContext } from 'react';
 
 const ExpandMore = styled((props) => {
    const { expand, ...other } = props;
@@ -30,28 +34,40 @@ const ExpandMore = styled((props) => {
    }),
 }));
 
-export function EventComponent({ name, address}) {
-   const [expanded, setExpanded] = React.useState(false);
-   const [info, setInfo] = React.useState({});
-   const {navigate}=React.useContext(LoginContextP)
-   const{idLocal,getOneLocation}=React.useContext(LocationContext)
+export function EventComponent({ name, address,_id}) {
+   const navigate = useNavigate();
+   const [expanded, setExpanded] = useState(false);
+   
+   const [error,setError] = useState();
+   const{profileDetails}=useContext(LoginContextP)
 
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
 
-   const eventInfo=async ()=>{
-
-      const response=await getOneLocation(idLocal)
-     
-      setInfo(response)
+   const  updateInterestedPeople = async () => {
+  
+      const event = await updateInterestedPeopleApi(_id,profileDetails._id)
+  
+      if(event.error) setError(console.log('aqui esta el error',event.error))
+  
+      else {
+  
+         console.log('Cual es el id del usuario registrado',profileDetails._id)
+         console.log('Estas entrando en el else de updateInterestedPeople',event.data)
+         return  event.data
+                         
+      }
+      
    }
 
-   useEffect (()=>{
- 
-      eventInfo()
-      
-   })
+   const handleClick = async () => {
+
+      console.log('Cual es el id del usuario actual:',profileDetails._id)
+      console.log('Cual es el id del evento:',_id,'y el nombre:',name)
+      await updateInterestedPeople();
+      navigate('/profiles');
+   };
 
    return (
       <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
@@ -77,12 +93,13 @@ export function EventComponent({ name, address}) {
          />
          <CardContent>
             <Typography variant="body2" color="text.secondary">
-         Interested people:
+         Interested people: 
+         _idEvento={_id}
       
             </Typography>
          </CardContent>
          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites" onClick={()=> {navigate('profiles');console.log('Que es idLocal',idLocal),console.log('Que es info',info)}} >
+            <IconButton aria-label="add to favorites" onClick={handleClick} >
                <FavoriteIcon />
             </IconButton>
             <IconButton aria-label="share">
@@ -113,6 +130,8 @@ export function EventComponent({ name, address}) {
                </Typography>
             </CardContent>
          </Collapse>
+
+         {error && <Alert sx={{ mb: 2,mt:2 }}  variant="outlined" severity="error" onClose={() => setError('')}>{` ${error}`}</Alert>}
                      
       </Card>
 

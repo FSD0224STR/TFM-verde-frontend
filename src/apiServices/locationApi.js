@@ -1,6 +1,4 @@
 
-import React from 'react';
-
 const Servidorurl='http://localhost:3000'
 
 export const queryParamsDynamic=  (coordinates,city,date,typeOfDancing)=>{

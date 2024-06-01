@@ -3,12 +3,16 @@ import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
 import {Box, Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
-import { useContext} from 'react';
+import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
 export default function Home() {
 
    const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
-
+   
+   useEffect(() => {
+      getLocationFiltered();
+   },[])
+   
    return (
       <>
          <NavigationMenu/>

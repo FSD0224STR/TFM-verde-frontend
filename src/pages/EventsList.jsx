@@ -7,23 +7,8 @@ import { EventComponent } from '../components/Pure/EventComponent'
 
 export default function EventsList() {
 
-   const {getLocationData,locationDatas}=useContext(LocationContext) 
-   /*  const [locationDatas,setLocationData]=useState('') */
-
-   /* const getLocationData = async () => { */
-   /*    if (idLocal) { */
-   /*       const data = await getOneLocation(idLocal); */
-   /*       setLocationData(data); */
-   /*               */
-   /*    } */
-   /* } */
-
-   /* const getInterestedPeople=async()=>{ */
-
-   /*    const interestedPeople= (await getLocationData()).events.interestedPeople */
-   /*    console.log('Que es interestedPeople',interestedPeople) */
-   /* } */
-        
+   const {getLocationData,locationDatas,LocationEventsData}=useContext(LocationContext) 
+   
    useEffect (()=>{
    
       getLocationData()
@@ -42,17 +27,17 @@ export default function EventsList() {
 
                <h1>Proximos eventos</h1>
 
-               {locationDatas.events.length >0? (
+               {LocationEventsData.length >0? (
 
                   <>
 
                      <Grid container spacing={3} my={5}>
-                        {locationDatas.events.map(event=> 
+                        {LocationEventsData.map(event=> 
    
                            <Grid item xs={12}  sm={6} key={event._id} > 
                               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
    
-                                 <EventComponent  name={event.name} address={event.typeOfDancing}></EventComponent> 
+                                 <EventComponent _id={event._id}  name={event.name} address={event.typeOfDancing}  ></EventComponent> 
                               </Box>
                            </Grid>)}
                      </Grid>

@@ -9,14 +9,19 @@ import EventsList from './pages/EventsList';
 import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { LoginContextP } from './context/loginContextPrueba';
 import DetailUser from './pages/DetailUser';
 
 function App() {
 
-   const { isLoggedIn } = useContext(LoginContextP)
+   const { isLoggedIn,checkToken} = useContext(LoginContextP)
    console.log('esto es isloggedIn',isLoggedIn)
+
+   /* useEffect(()=>{  
+      checkToken()
+   }) */
+   
    return (
 
       <>
