@@ -14,14 +14,15 @@ export const LoginContextProviderP = ({ children }) => {
    const navigate = useNavigate();
    const [profileDetails, setProfileDetails] = useState({});
 
-   /* const checkToken=async ()=>{  
-      const token=localStorage.getItem('access_token')  
-      if(token) {  
-         setIsLoggedIn(true)
-         
-         return true 
-      } return false 
-   }   */
+   const checkToken = () => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+         setIsLoggedIn(true);
+
+         return true;
+      }
+      return false;
+   };
 
    /* const getMyprofile=async ()=>{  
       const token=localStorage.getItem('access_token')  
@@ -54,19 +55,17 @@ export const LoginContextProviderP = ({ children }) => {
          console.log('Cuales son los datos del usuario logeado', userdetails);
          navigate('/home');
          setProfileDetails(userdetails);
-         
       }
       setIsLoggedIn(true);
-     
    };
-  
+
    const loginContextValue = {
       isLoggedIn,
       error,
       setError,
-      login,    
+      login,
       profileDetails,
-      
+      checkToken,
    };
 
    return (
