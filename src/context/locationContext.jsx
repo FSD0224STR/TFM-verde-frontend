@@ -25,6 +25,7 @@ export const LocationContextProvider = ({ children }) => {
          setCity('');
          setDate('');
          setTypeOfDancing('')
+        
       }
         
    }

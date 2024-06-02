@@ -6,17 +6,12 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
 import { LoginContextP } from '../../context/loginContextPrueba';
-
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Alert } from '@mui/material';
@@ -72,18 +67,15 @@ export function EventComponent({ name, address,_id}) {
    return (
       <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
          <CardHeader
-            avatar={
-               <Avatar sx={{ bgcolor: 'primary.main',color:'white' }} aria-label="recipe">
-                  {name.slice(0,2)}
-               </Avatar>
-            }
+           
             action={
-               <IconButton aria-label="settings">
-                  <MoreVertIcon />
+               <IconButton>
+                  <ShareIcon />
                </IconButton>
             }
             title={name}
             subheader={address}
+            
          />
          <CardMedia
             component="img"
@@ -91,6 +83,8 @@ export function EventComponent({ name, address,_id}) {
             image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6cXZHOGuTHCJ7zH0W5vS-zeNvrUNCUnXH9w&usqp=CAU"
             alt=""
          />
+
+         {/* <Carousel></Carousel> */}
          <CardContent>
             <Typography variant="body2" color="text.secondary">
          Interested people: 
@@ -102,9 +96,7 @@ export function EventComponent({ name, address,_id}) {
             <IconButton aria-label="add to favorites" onClick={handleClick} >
                <FavoriteIcon />
             </IconButton>
-            <IconButton aria-label="share">
-               <ShareIcon />
-            </IconButton>
+           
             <ExpandMore
                expand={expanded}
                onClick={handleExpandClick}

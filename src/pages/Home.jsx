@@ -15,9 +15,9 @@ export default function Home() {
    
    return (
       <>
-         <NavigationMenu/>
+         <NavigationMenu />
 
-         <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
+         <Grid container  sx={{marginBottom:'50px'}} spacing={3} alignItems='center'>
            
             <Grid item xs={12} sm={3} >
 
@@ -43,16 +43,16 @@ export default function Home() {
             </Grid>
 
             <Grid item xs={12} sm={3}>
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+               <Box display="flex" justifyContent="center" alignItems="center">
                   <Button sx={{bgcolor: 'background.secondary',
-                     color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
+                     color: 'text.secondary',marginTop:2}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
                </Box>
               
             </Grid>
 
          </Grid>
 
-         <Grid container spacing={3}>
+         <Grid container spacing={3}    /* width='90%' bgcolor='white' */   paddingTop={2}>
 
             {locations.map(local=> 
                <Grid item xs={12} sm={6} key={local._id}> 
