@@ -18,25 +18,18 @@ export const queryParamsDynamic=  (coordinates,city,date,typeOfDancing)=>{
 
 export const getLocationfilteredApi=async(coordinates,city,date,typeOfDancing)=>{
 
-   try {
-
-      const queryParamsdone=queryParamsDynamic(coordinates,city,date,typeOfDancing)
+   const queryParamsdone=queryParamsDynamic(coordinates,city,date,typeOfDancing)
            
-      const response =await fetch(`${Servidorurl}/locations/?${queryParamsdone.toString()}`)
+   const response =await fetch(`${Servidorurl}/locations/?${queryParamsdone.toString()}`)
 
-      if(!response.ok){
-         throw new Error('Este es el error al filtrar:',`${response.status}`)
-      }
-      const Locationfiltered= response.json()
-                
-      return Locationfiltered
-        
-   } catch (error) {
+   if(!response.ok){
 
-      console.log('Se ha producido un error con el fetch',error)
-      throw error
-        
+      return {error: `Este es el error al filtrar: ${response.status}`}
+
    }
+   const Locationfiltered= await response.json()
+                
+   return  Locationfiltered
 
 }
 

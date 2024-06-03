@@ -5,9 +5,10 @@ import {Box, Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
+import { DateCalendarValue } from '../components/Pure/Calendar';
 export default function Home() {
 
-   const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
+   const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setTypeOfDancing}=useContext(LocationContext)
    
    useEffect(() => {
       getLocationFiltered();
@@ -25,14 +26,6 @@ export default function Home() {
                   <Search     filterBy={city}   onChange={(e)=>{setCity(e.currentTarget.value)}} placeholder='Filtrar por ciudad' >  </Search>
                </Box>                    
             </Grid>
-
-            <Grid item xs={12} sm={3} >
-
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  <Search filterBy={date} onChange={(e)=>{setDate(e.currentTarget.value)}} placeholder='Filtrar por fecha' ></Search> 
-               
-               </Box>
-            </Grid>
                              
             <Grid item xs={12} sm={3} >
 
@@ -40,6 +33,15 @@ export default function Home() {
                   <Search filterBy={typeOfDancing}  onChange={(e)=>{setTypeOfDancing(e.currentTarget.value)}} placeholder='Filtrar por estilo' ></Search>
                </Box>
               
+            </Grid>
+
+            <Grid item xs={12} sm={3} >
+
+               <Box display="flex" justifyContent="center" alignItems="center" marginTop={2} marginRight={2}>
+   
+                  <DateCalendarValue />
+
+               </Box>
             </Grid>
 
             <Grid item xs={12} sm={3}>
@@ -52,7 +54,7 @@ export default function Home() {
 
          </Grid>
 
-         <Grid container spacing={3}    /* width='90%' bgcolor='white' */   paddingTop={2}>
+         <Grid container spacing={3}     width='90%' bgcolor='white'>
 
             {locations.map(local=> 
                <Grid item xs={12} sm={6} key={local._id}> 
@@ -65,7 +67,7 @@ export default function Home() {
                </Grid>)}
       
          </Grid>
-         
+        
       </>
    )
 }

@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import { getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
 
 export const LocationContext = React.createContext();
@@ -15,6 +16,7 @@ export const LocationContextProvider = ({ children }) => {
    const [idLocal,setIdLocal]=useState('')
    const [locationDatas,setLocationData]=useState('')
    const [LocationEventsData,setLocationEventsData]=useState('')
+   const [dateInput, setDateInput] = useState(dayjs(Date));
 
    const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
       const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
@@ -25,6 +27,7 @@ export const LocationContextProvider = ({ children }) => {
          setCity('');
          setDate('');
          setTypeOfDancing('')
+         setDateInput(dayjs(Date))
         
       }
         
@@ -65,7 +68,12 @@ export const LocationContextProvider = ({ children }) => {
       setIdLocal,
       getLocationData,
       locationDatas,
-      LocationEventsData
+      LocationEventsData,
+      setCity,
+      setDate,
+      setTypeOfDancing,
+      dateInput, 
+      setDateInput
               
    }
   
