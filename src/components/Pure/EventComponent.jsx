@@ -49,7 +49,7 @@ export function EventComponent({ name, address,_id}) {
       else {
   
          console.log('Cual es el id del usuario registrado',profileDetails._id)
-         console.log('Estas entrando en el else de updateInterestedPeople',event.data)
+         console.log('Estas entrando en el else de updateInterestedPeople y la respuesta es la esperada',event.data)
          return  event.data
                          
       }
@@ -58,9 +58,9 @@ export function EventComponent({ name, address,_id}) {
 
    const handleClick = async () => {
 
-      console.log('Cual es el id del usuario actual:',profileDetails._id)
+      console.log('Cuales son los datos del usuario:',profileDetails)
       console.log('Cual es el id del evento:',_id,'y el nombre:',name)
-      await updateInterestedPeople();
+      await updateInterestedPeople(); 
       navigate('/profiles');
    };
 
@@ -84,7 +84,6 @@ export function EventComponent({ name, address,_id}) {
             alt=""
          />
 
-         {/* <Carousel></Carousel> */}
          <CardContent>
             <Typography variant="body2" color="text.secondary">
          Interested people: 
