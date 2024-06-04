@@ -1,56 +1,54 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
 import { LocationContext } from '../../context/locationContext';
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, Chip, Stack } from '@mui/material';
 
-const ExpandMore = styled((props) => {
-   const { expand, ...other } = props;
-   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-   marginLeft: 'auto',
-   transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-   }),
-}));
-
-export function LocationsComponent({ name, address,_id}) {
-   const [expanded, setExpanded] = React.useState(false);
+export function LocationsComponent({ name,address,_id,events}) {
+  
    const navigate = useNavigate();
    const{setIdLocal}=React.useContext(LocationContext)
-
-   const handleExpandClick = () => {
-      setExpanded(!expanded);
-   };
+   const uniqueTypeOfDancing = new Set(events.map(event => event.typeOfDancing))
 
    return (
-      <Card sx={{ maxWidth: 345, color: 'text.secondary' }}>
+      <Card sx={{color: 'primary.main',fontWeight: 'bold',
+         transitionDuration: '2s',
+         maxWidth: 345,
+         minWidth: 300,
+         maxHeight: 600,
+         boxShadow: '8px 6px 9px #9ec5c0',
+         position: 'relative',
+       
+         '&:hover': {
+            transition: ' all 1s ease-in-out',
+            transform: 'scale(1.05)',
+         },
+
+      }}>
          <CardHeader
             avatar={
-               <Avatar sx={{ bgcolor: 'primary.main',color:'white' }} aria-label="recipe">
+               <Avatar sx={{ bgcolor:'primary.main',color:'white' }} >
                   {name.slice(0,2)}
                </Avatar>
             }
             action={
-               <IconButton aria-label="settings">
-                  <MoreVertIcon />
+
+               <IconButton >
+                  <ShareIcon />
                </IconButton>
+
             }
+            titleTypographyProps={{ sx: { fontSize: '1.20rem', fontWeight: 'bold'} }}
+            subheaderTypographyProps={{ sx: {fontSize: '0.9rem',fontStyle:'italic'} }}
             title={name}
             subheader={address}
          />
@@ -60,46 +58,62 @@ export function LocationsComponent({ name, address,_id}) {
             image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6cXZHOGuTHCJ7zH0W5vS-zeNvrUNCUnXH9w&usqp=CAU"
             alt=""
          />
+        
          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut ea rem
-          doloribus repellendus quasi, minus enim culpa dolores quos perferendis
-          voluptas debitis dolore est vero nulla nemo aperiam dicta corporis?
-            </Typography>
+
+            {events.length>0 ?(
+
+               <>
+                  <Stack direction="row"  sx={{ flexWrap: 'wrap' }}> 
+
+                     {[...uniqueTypeOfDancing].map((typeOfDancing,index) => 
+
+                        <Chip key={index}
+   
+                           sx={{m:0.6,  bgcolor:index % 2 === 0 ? 'stack.secondary' : 'stack.primary'} }
+                           label={typeOfDancing}
+   
+                        />
+
+                     )}
+                  </Stack> 
+                  <Typography variant='h7' color="primary.main">
+        Este espacio cuenta con eventos donde practicar cualquiera de estos tipos de baile. Haz click en el botón de abajo para encontrar tu pareja de baile.
+                  </Typography>
+
+               </>
+            ):(
+               <Typography variant='h7' color="primary.main">
+           No hay eventos disponibles
+               </Typography>
+            )}
+
          </CardContent>
-         <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites" onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}} >
-               <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-               <ShareIcon />
-            </IconButton>
-            <ExpandMore
-               expand={expanded}
-               onClick={handleExpandClick}
-               aria-expanded={expanded}
-               aria-label="show more"
+         <CardActions sx={{justifyContent: 'center'}} >
+
+            <Button
+               onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}}
+               size="medium"
+               sx={{
+             
+                  padding: '0.5rem',
+                  mb: '1rem',                 
+                  bgcolor: 'primary.main',
+                  color: 'text.primary',
+                  px: '1rem',
+                  '&:hover': {
+                     '& .MuiTypography-root': {
+                        color: 'text.secondary',
+                     },
+                     backgroundColor: 'background.nav',
+                  },
+               }}
             >
-               <ExpandMoreIcon />
-            </ExpandMore>
+              Ver eventos
+            </Button>
+          
          </CardActions>
-         <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-               <Typography paragraph>
-            Tipos de eventos que tiene este local, para probar el filtro
-               </Typography>
-
-               <Typography paragraph>Descripción:</Typography>
-
-               <Typography paragraph>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-            obcaecati magni praesentium, quaerat architecto at ipsum. Magni
-            tenetur ipsa commodi fuga non necessitatibus culpa ipsam cupiditate
-            odio? Neque, quae dignissimos.r
-               </Typography>
-            </CardContent>
-         </Collapse>
-                     
+         
       </Card>
 
    );
