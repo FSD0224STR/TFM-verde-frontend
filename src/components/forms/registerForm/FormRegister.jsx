@@ -20,16 +20,16 @@ import * as Yup from 'yup';
 import usersApi from '../../../apiServices/usersApi';
 import { main_theme } from '../../../../palette-theme-colors';
 import SelectImg from '../../Pure/SelectImg';
-import defaultImg from '../../../img/profile.png'
+import defaultImg from '../../../img/profile.png';
 export default function FormRegister() {
    const danceStylesList = [
       { style: 'Salsa', level: 1 },
       { style: 'Salsa Cubana', level: 1 },
       { style: 'Merengue', level: 1 },
       { style: 'Swing', level: 1 },
-      { style: 'Bachata', level: 1 }
+      { style: 'Bachata', level: 1 },
    ];
-  
+
    let initialValuesForm = {
       name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
       subName: '',
@@ -41,17 +41,17 @@ export default function FormRegister() {
       age: '',
       imgProfile: defaultImg,
       description: '',
-      dancingStyles:danceStylesList,
+      dancingStyles: danceStylesList,
    };
 
-   // const registerSchema = Yup.object().shape({
-   //   name: Yup.string().required("Debes ingrensar un nombre"),
-   //   email: Yup.string().required("Debes ingrensar un email"),
-   //   password: Yup.string().required("Debes ingrensar un password"),
-   //   gener: Yup.string().required("Debes ingrensar un genero"),
-   //   age: Yup.string().required("Debes ingrensar una edad"),
-   //   city: Yup.string().required("Debes ingrensar un ubicacion"),
-   // });
+   const registerSchema = Yup.object().shape({
+      name: Yup.string().required('Debes ingrensar un nombre'),
+      email: Yup.string().required('Debes ingrensar un email'),
+      password: Yup.string().required('Debes ingrensar un password'),
+      gender: Yup.string().required('Debes ingrensar un genero'),
+      age: Yup.string().required('Debes ingrensar una edad'),
+      city: Yup.string().required('Debes ingrensar un ubicacion'),
+   });
 
    const addNewUser = async (newUserData) => {
       const user = await usersApi.addUser(newUserData);
@@ -65,30 +65,31 @@ export default function FormRegister() {
    };
 
    const handleSelectImg = async (e) => {
-      const file = e.target.files[0]
+      const file = e.target.files[0];
       const data = new FormData();
 
       data.append('file', file);
-      data.append('upload_preset', 'Preset_React')
+      data.append('upload_preset', 'Preset_React');
       try {
-         const response = await fetch('https://api.cloudinary.com/v1_1/dvttkr2ks/image/upload', {
-            method: 'POST',
-            body: data
-         });
+         const response = await fetch(
+            'https://api.cloudinary.com/v1_1/dvttkr2ks/image/upload',
+            {
+               method: 'POST',
+               body: data,
+            }
+         );
          if (!response.ok) {
-            throw new Error(`HTTP error sratus:${response.status}`)
+            throw new Error(`HTTP error status:${response.status}`);
          } else {
-                        
             const responseData = await response.json();
-            console.log('esto es response', responseData)
-            setFieldValue('imgProfile',responseData.secure_url)
+            console.log('esto es response', responseData);
+            setFieldValue('imgProfile', responseData.secure_url);
          }
       } catch (error) {
-         console.log('otro error',error)
+         console.log('otro error', error);
       }
-            
-   }
-        
+   };
+
    const { handleChange, handleSubmit, setFieldValue, values, errors } =
     useFormik({
        //destructuring de formik
@@ -97,23 +98,25 @@ export default function FormRegister() {
        //SEGUNDA PROPIEDAD Recibe el onSUbmit
        onSubmit: addNewUser,
        //validacion
-       // validationSchema: registerSchema,
+       validationSchema: registerSchema,
     });
-       
+
    function nameSlider() {
-      return 'Estilos de baile'
+      return 'Estilos de baile';
    }
 
    return (
       <ThemeProvider theme={main_theme}>
-         <div className="form-container">
-            <h1 className="title-register">
-          ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
-            </h1>
+         <Grid maxWidth='100%' container sx={{flexDirection:'column',justifyContent:'center'}} >
+                                   
+            <Typography variant='h2' textAlign='center' mt='10rem' fontSize='3rem' fontWeight={'bold'}>
+                 ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
+            </Typography>
+        
             <Box
                component="form"
                onSubmit={handleSubmit}
-               maxWidth={1000}
+               maxWidth={'90%'}
                m={20}
                display="flex"
                flexDirection="column"
@@ -142,14 +145,82 @@ export default function FormRegister() {
                   spacing={3}
                   sx={{ width: '100%', margin: 10 }}
                >
-                  <SelectImg imgProfile={values.imgProfile} handleSelectImg={handleSelectImg} />
-                  <Grid
-                     container
-                     alignItems="center"
-                     justifyContent="flex-end"
-                     margin={2}
-                  >
-                     <Grid item xs={12} md={5}>
+                  <SelectImg
+                     imgProfile={values.imgProfile}
+                     handleSelectImg={handleSelectImg}
+                  />
+                  <Grid item xs={12} md={9}>
+                     <Typography
+                        component="p"
+                        sx={{
+                           textAlign: 'left',
+                           padding: '10px',
+                           color: 'primary.main',
+                           fontSize: '20px',
+                           fontWeight: 'bold',
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
+                        }}
+                     >
+                ¿Cual es tu nombre?
+                     </Typography>
+                     <TextField
+                        id="nameRegister"
+                        type="text"
+                        label="Nombre"
+                        variant="outlined"
+                        placeholder="tu nombre"
+                        fullWidth
+                        //   name="name"
+                        value={values.name} //necesito el value pero no el name para setfield
+                        onChange={(e) => {
+                           setFieldValue('name', e.target.value); //PARA RECOGER VALORES DE TARGET
+                        }}
+                        error={!!errors.name}
+                        helperText={errors.name}
+                        sx={{
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
+                        }}
+                     />
+                  </Grid>
+                  <Grid item xs={12} md={9}>
+                     <Typography
+                        component="p"
+                        sx={{
+                           textAlign: 'left',
+                           padding: '10px',
+                           color: 'primary.main',
+                           fontSize: '20px',
+                           fontWeight: 'bold',
+                        }}
+                     >
+                ¿Cual es tu apellido?
+                     </Typography>
+                     <TextField
+                        id="subNameRegister"
+                        type="text"
+                        label="Apellido"
+                        variant="outlined"
+                        placeholder="tu apellido"
+                        fullWidth
+                        name="subName"
+                        sx={{
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
+                        }}
+                        value={values.subName} //necesito el value pero no el name apra setfiel
+                        onChange={handleChange}
+                        error={!!errors.subName}
+                        helperText={errors.subName}
+                     />
+                  </Grid>
+
+                  <Box sx={{display:'flex',alignItems:'center',mt:'3rem',justifyContent:'center'}}>
+                     <Box md={5} xs={12} mx='5rem'>
                         <FormControl>
                            <FormLabel
                               sx={{
@@ -159,7 +230,7 @@ export default function FormRegister() {
                                  fontWeight: 'bold',
                               }}
                            >
-                                                                                                        Sexo
+                    Sexo
                            </FormLabel>
                            <RadioGroup
                               row
@@ -170,30 +241,34 @@ export default function FormRegister() {
                               }}
                            >
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Female"
                                  control={<Radio />}
-                                 label="Female"
+                                 label="Mujer"
                               />
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Male"
                                  control={<Radio />}
-                                 label="Male"
+                                 label="Hombre"
                               />
                            </RadioGroup>
                         </FormControl>
-                     </Grid>
+                     </Box>
 
-                     <Grid item xs={12} md={5}>
+                     <Box xs={12} md={5}  >
                         <FormControl>
                            <FormLabel
                               sx={{
@@ -203,7 +278,7 @@ export default function FormRegister() {
                                  fontWeight: 'bold',
                               }}
                            >
-                                                                                                 Roll
+                    Roll
                            </FormLabel>
                            <RadioGroup
                               row
@@ -214,31 +289,35 @@ export default function FormRegister() {
                               }}
                            >
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Leader"
                                  control={<Radio />}
                                  label="Leader"
                               />
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Follower"
                                  control={<Radio />}
                                  label="Follower"
                               />
                            </RadioGroup>
                         </FormControl>
-                     </Grid>
-                  </Grid>
+                     </Box>
+                  </Box>
+                
                   <Grid item xs={12} md={9} sx={{ fontSize: '40px' }}>
-                     <Divider />
                      <Typography
                         component="p"
                         sx={{
@@ -307,75 +386,6 @@ export default function FormRegister() {
                         helperText={errors.city}
                      />
                   </Grid>
-                  <Grid item xs={12} md={9}>
-                     <Typography
-                        component="p"
-                        sx={{
-                           textAlign: 'left',
-                           padding: '10px',
-                           color: 'primary.main',
-                           fontSize: '20px',
-                           fontWeight: 'bold',
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                     >
-                ¿Cual es tu nombre?
-                     </Typography>
-                     <TextField
-                        id="nameRegister"
-                        type="text"
-                        label="Nombre"
-                        variant="outlined"
-                        placeholder="tu nombre"
-                        fullWidth
-                        //   name="name"
-                        value={values.name} //necesito el value pero no el name para setfield
-                        onChange={(e) => {
-                           setFieldValue('name', e.target.value); //PARA RECOGER VALORES DE TARGET
-                        }}
-                        error={!!errors.name}
-                        helperText={errors.name}
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                     />
-                  </Grid>
-                  <Grid item xs={12} md={9}>
-                     <Typography
-                        component="p"
-                        sx={{
-                           textAlign: 'left',
-                           padding: '10px',
-                           color: 'primary.main',
-                           fontSize: '20px',
-                           fontWeight: 'bold',
-                        }}
-                     >
-                ¿Cual es tu apellido?
-                     </Typography>
-                     <TextField
-                        id="subNameRegister"
-                        type="text"
-                        label="Apellidos"
-                        variant="outlined"
-                        placeholder="tu apellido"
-                        fullWidth
-                        name="subName"
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                        value={values.subName} //necesito el value pero no el name apra setfiel
-                        onChange={handleChange}
-                        error={!!errors.subName}
-                        helperText={errors.subName}
-                     />
-                  </Grid>
 
                   <Grid item xs={12} md={9}>
                      <Divider />
@@ -419,12 +429,19 @@ export default function FormRegister() {
                            margin: '10px',
                         }}
                      >
-                  4.Tipos de baile según tu nivel <Box component='span' sx={{fontWeight:'400',fontSize:'1rem'}}>(nivel iniciante:1)</Box>
+                4.Tipos de baile según tu nivel{' '}
+                        <Box
+                           component="span"
+                           sx={{ fontWeight: '400', fontSize: '1rem' }}
+                        >
+                  (nivel iniciante:1)
+                        </Box>
                      </Typography>
-                     {danceStylesList.map((styleItem,index) => (
- 
-                        <Box ml='1.2rem' mb='0.5rem' key={styleItem.style}>
-                           <Typography sx={{ color: 'text.secondary', fontSize:'1.2rem',}}>
+                     {danceStylesList.map((styleItem, index) => (
+                        <Box ml="1.2rem" mb="0.5rem" key={styleItem.style}>
+                           <Typography
+                              sx={{ color: 'text.secondary', fontSize: '1.2rem' }}
+                           >
                               {styleItem.style}
                            </Typography>
                            <Slider
@@ -438,13 +455,13 @@ export default function FormRegister() {
                               min={1}
                               max={5}
                               sx={{ maxWidth: '90%' }}
-                              name='danceStyles'
+                              name="danceStyles"
                               value={values.dancingStyles[index].level}
                               onChange={handleSliderChange(index)}
                            />
                         </Box>
-                     )) }
-                     <Divider sx={{m:'1rem'}} />
+                     ))}
+                     <Divider sx={{ m: '1rem' }} />
                      <Typography
                         color="primary"
                         variant="h6"
@@ -492,7 +509,7 @@ export default function FormRegister() {
                         error={!!errors.password}
                         helperText={errors.password}
                      />
-                     <Grid item display="flex" justifyContent='center'>
+                     <Grid item display="flex" justifyContent="center">
                         <Button
                            type="submit"
                            variant="contained"
@@ -505,7 +522,7 @@ export default function FormRegister() {
                   </Grid>
                </Grid>
             </Box>
-         </div>
+         </Grid>
       </ThemeProvider>
    );
 }

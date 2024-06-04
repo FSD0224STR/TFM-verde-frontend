@@ -6,6 +6,7 @@ import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
 import { DateCalendarValue } from '../components/Pure/Calendar';
+import { LoginContextP } from '../context/loginContextPrueba';
 export default function Home() {
 
    const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setTypeOfDancing}=useContext(LocationContext)
