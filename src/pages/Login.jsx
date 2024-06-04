@@ -5,20 +5,20 @@ import NavBar from '../components/NavBar/NavBar';
 
 export default function Login({children}) {
    
-        return (
+   return (
 
-                <>
-                        <NavBar></NavBar>
+      <>
+         <NavBar></NavBar>
 
-                        <div>
+         <div>
 
-                                <h1>Bienvenido nuevamente a MeetDancing</h1>
+            <h1>Bienvenido nuevamente a MeetDancing</h1>
                                 
-                                <SignIn/>
-                        </div>
-                        {children}
+            <SignIn/>
+         </div>
+         {children}
                         
-                </>
+      </>
     
-        )
+   )
 }

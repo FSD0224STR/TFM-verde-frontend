@@ -9,27 +9,42 @@ const getAllUsers=async ()=>{
 }
 
 const detailByIdUser = async (id) => {
+
+   // console.log('entrado en la llamda de la api con su id',id)
    const response = await fetch(`${Servidorurl}/users/${id}`)
    const user = await response.json()
+   // console.log('esta es la respues de la api',user)
    return user.user //? hay quew revisar lo que se estta devolviendo
 }
 
 const ListOfInterestedUsers = async () => {
-   const response = await fetch(`${Servidorurl}/users`)
+   // console.log('entrando en la llamdado del listado')
+   const token = localStorage.getItem('access_token')
+   const response = await fetch(`${Servidorurl}/users`, { method: 'GET', headers: { 'authorization': `Bearer ${token}` } })
+   if (!response.ok) {
+      const error = await response.json()
+      return error
+   }
    const ListUsers = await response.json()
+   // console.log('recibiendo el listado',ListUsers)
    return ListUsers
+
 }
 
 const addUser = async (newUserData) => {
    const response = await fetch(`${Servidorurl}/users/register`, {
       method: 'POST', body: JSON.stringify(newUserData), headers: {
-         'Content-Type': 'application/json',}})
-   const users=await response.json()
+         'Content-Type': 'application/json',
+      }
+   })
+   const users = await response.json()
    return users
 }
-const loginUser=async (data)=>{
-   const response=await fetch(`${Servidorurl}/login`,{method:'POST',body:JSON.stringify(data),headers: { 'Content-Type': 'application/json',}})
-   const user=await response.json()
+
+const loginUser = async (data) => {
+
+   const response = await fetch(`${Servidorurl}/login`, { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json', } })
+   const user = await response.json()
    return user
 }
 
@@ -60,18 +75,26 @@ const login = async (email, password) => {
    return {data: info.token,userDetails:info.userDetails}
 }
 
-const getMyprofile=async ()=>{
-
+const getMyprofile = async () => {
+   
    const token = localStorage.getItem('access_token')
 
-   const response = await fetch(`${Servidorurl}/users/myinfo`, {headers: {'authorization': `Bearer ${token}`}})
-
-   if (!response.ok)  {
-      const error=await response.json()
-      return {error: error}
+   if (!token) {
+      return { error: 'No token found' };
    }
-   
-   return {data:  response.json()} //LO que me devuelve el backend es toda la información de usuario. 
+   try {
+      const response = await fetch(`${Servidorurl}/users/myinfo`, { method: 'GET', headers: {'authorization': `Bearer ${token}` }})
+      if (!response.ok) {
+         const error=await response.json()
+         return {error: error}
+      }
+      const data = await response.json()
+      console.log('esto es la la respuesta del back de getmYprofile',data)
+      return data //LO que me devuelve el backend es toda la información de usuario. 
+
+   } catch (error) {
+      return{ error:'Problema de conexion'} 
+   }
 
 }
 

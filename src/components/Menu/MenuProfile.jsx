@@ -1,11 +1,9 @@
-import React, { useContext } from 'react'
+import  { useContext, useState } from 'react'
 import {
    MenuItem,
    Avatar,
    Box,
    IconButton,
-   Typography,
-   Divider,
    Tooltip,
    Menu
 } from '@mui/material';
@@ -18,8 +16,8 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function MenuProfile() {
 
-   const [anchorEl, setAnchorEl] = React.useState(null);
-   const{profileDetails}=useContext(LoginContextP)
+   const [anchorEl, setAnchorEl] = useState(null);
+   const{profileDetails,logout}=useContext(LoginContextP)
 
    const open = Boolean(anchorEl);
    const handleClick = (event) => {
@@ -78,13 +76,13 @@ export default function MenuProfile() {
                </ListItemIcon>
         Servicio al cliente
             </MenuItem>
-            <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
+            <MenuItem onClick={logout} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                color:'primary.main',fontWeight:'600'
             } }}>
-               <ListItemIcon>
+               <ListItemIcon >
                   <Logout color='primary' fontSize="medium" />
                </ListItemIcon>
-          Logout
+         Cerrar sesión
             </MenuItem>
          </Menu>
         

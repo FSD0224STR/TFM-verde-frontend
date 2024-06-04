@@ -9,45 +9,25 @@ import EventsList from './pages/EventsList';
 import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
-import { useContext, useEffect } from 'react';
-import { LoginContextP } from './context/loginContextPrueba';
 import DetailUser from './pages/DetailUser';
 
 function App() {
-
-   const { isLoggedIn,checkToken} = useContext(LoginContextP)
-   console.log('esto es isloggedIn',isLoggedIn)
-
-   /* useEffect(()=>{  
-      checkToken()
-   }) */
-   
    return (
-
       <>
-
          <Routes>
-
             <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/events/:id" element={<EventsList />} />
+            <Route path="/profiles" element={<ProfileList />} />
+            <Route path="/profile" element={<DetailUser />} />
+            <Route path="/profile/:id" element={<SettingsProfile />} />
 
-            {isLoggedIn ? (<>
-               <Route path="/home" element={<Home />}/> 
-               <Route path="/events/:id" element={<EventsList />} />
-               <Route path="/profiles" element={<ProfileList />} />
-               <Route path="/profile" element={<DetailUser />} />
-               <Route path="/profile/:id" element={<SettingsProfile />} />
-                                
-            </>
-                                
-            ):<Route path="*" element={<NotFound/>} /> }
-                              
+            <Route path="*" element={<NotFound />} />
          </Routes>
-                
       </>
-                
-   )
+   );
 }
 
 export default App;

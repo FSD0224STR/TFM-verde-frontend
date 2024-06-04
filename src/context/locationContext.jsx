@@ -18,7 +18,7 @@ export const LocationContextProvider = ({ children }) => {
 
    const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
       const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
-      console.log('Resultado del filtrado',locationsFiltered)
+      // console.log('Resultado del filtrado',locationsFiltered)
       if(locationsFiltered.error) setError(locationsFiltered.error)
       else {
          setLocations(locationsFiltered);

@@ -31,19 +31,19 @@ export const UserContextProvider = ({ children }) => {
    const getUserDetail = async (id) => {
       try {
          const detailUser = await usersApi.detailByIdUser(id);
+         console.log('esto es detailUser',detailUser)
          setUserDetail(detailUser);
          navigate('/profile')
       } catch (err) {
          alert('Ha ocurrido el siguiente error: ' + err.message);
       }
    }
-   //    useEffect(() => {
-   //       if (userDetail) {
-          
-   //          console.log('El estado userDetail ha sido actualizado:', userDetail);  
-   //       }
+   // useEffect(() => {
+      
+   //    getUserDetail()   
+   //    console.log('El estado userDetail ha sido actualizado:', userDetail);  
         
-   //    }, [userDetail,navigate]);
+   // }, []);
     
    const userContextValue = {
       users,
