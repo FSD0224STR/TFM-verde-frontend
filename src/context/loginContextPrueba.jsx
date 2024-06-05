@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usersApi from '../apiServices/usersApi';
-import Home from '../pages/Home';
 
 //Se crea el contexto
 export const LoginContextP = React.createContext();
@@ -36,13 +35,13 @@ export const LoginContextProviderP = ({ children }) => {
             navigate('/')
          }         
       } catch (error) {
-         console.log('esto es el error de la petecion de chekToken',error)
+         console.log('esto es el error de la petecion de checkToken',error)
       }
    };
    //!revisar como esta actuando el useEfFect
    useEffect(() => {
       checkToken()
-   },[]);
+   },[isLoggedIn]);
 
    const login = async (email, password) => {
       const response = await usersApi.login(email, password);
@@ -53,7 +52,7 @@ export const LoginContextProviderP = ({ children }) => {
          const userdetails = response.userDetails;
          localStorage.setItem('access_token', token);
          console.log('Cuales son los datos del usuario logeado', userdetails);
-         navigate('/home');
+         navigate('/home')
          setProfileDetails(userdetails);
       }
       setIsLoggedIn(true);

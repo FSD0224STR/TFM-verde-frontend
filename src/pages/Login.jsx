@@ -2,6 +2,7 @@ import React from 'react'
 import '../App.css'
 import {SignIn} from '../components/forms/loginForm/SignIn';
 import NavBar from '../components/NavBar/NavBar';
+import { Box,Typography } from '@mui/material';
 
 export default function Login({children}) {
    
@@ -10,12 +11,12 @@ export default function Login({children}) {
       <>
          <NavBar></NavBar>
 
-         <div>
+         <Box>
 
-            <h1>Bienvenido nuevamente a MeetDancing</h1>
+            <Typography variant='h2'>Bienvenido nuevamente a MeetDancing</Typography>
                                 
             <SignIn/>
-         </div>
+         </Box>
          {children}
                         
       </>

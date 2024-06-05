@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import {
    Box,
    Button,
@@ -13,6 +13,10 @@ import {
    Divider,
    ThemeProvider,
    Slider,
+   InputLabel,
+   InputAdornment,
+   IconButton,
+   OutlinedInput
 } from '@mui/material';
 import './formRegister.css';
 import { useFormik } from 'formik';
@@ -21,6 +25,8 @@ import usersApi from '../../../apiServices/usersApi';
 import { main_theme } from '../../../../palette-theme-colors';
 import SelectImg from '../../Pure/SelectImg';
 import defaultImg from '../../../img/profile.png';
+import { Password, Visibility, VisibilityOff } from '@mui/icons-material';
+import { useState } from 'react';
 export default function FormRegister() {
    const danceStylesList = [
       { style: 'Salsa', level: 1 },
@@ -29,13 +35,27 @@ export default function FormRegister() {
       { style: 'Swing', level: 1 },
       { style: 'Bachata', level: 1 },
    ];
+        
+   const [showPassword, setShowPassword] = useState(false);
+   const [showPasswordC, setShowPasswordC] = useState(false);
+        
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+   const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
+      
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
+   const handleMouseDownPasswordC = (event) => {
+      event.preventDefault();
+   };
 
    let initialValuesForm = {
       name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
       subName: '',
       email: '',
       role: 'Leader',
-      password: '',
+      newPassword: '',
+      passwordC:'',
       city: '',
       gender: 'Female',
       age: '',
@@ -46,16 +66,26 @@ export default function FormRegister() {
 
    const registerSchema = Yup.object().shape({
       name: Yup.string().required('Debes ingrensar un nombre'),
-      email: Yup.string().required('Debes ingrensar un email'),
-      password: Yup.string().required('Debes ingrensar un password'),
+      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
+      newPassword: Yup.string().required('Debes ingrensar un contraseña').min(8, 'la contraseña tiene que tener minimo 8 carateres'),
+      passwordC: Yup.string().required('Debes Confirmar tu contraseña').oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden'),
       gender: Yup.string().required('Debes ingrensar un genero'),
-      age: Yup.string().required('Debes ingrensar una edad'),
+      age: Yup.number('tienes que ingresar un numero').min(18,'tienes que se mayor de 18 años').required('Debes ingrensar una edad'),
       city: Yup.string().required('Debes ingrensar un ubicacion'),
    });
 
    const addNewUser = async (newUserData) => {
-      const user = await usersApi.addUser(newUserData);
-      console.log('esto es response', user);
+      if (newUserData.imgProfile === defaultImg) {
+         const dataUpdate = { ...newUserData, imgProfile: ' ', password: newUserData.newPassword }
+         const user = await usersApi.addUser(dataUpdate);
+         if(user.error1) setFieldError('email',user.error1)
+      } else {
+         const dataUpdate = { ...newUserData, password: newUserData.newPassword } 
+         const user = await usersApi.addUser(dataUpdate);  
+         if(user.error1) setFieldError('email',user.error1)
+ 
+         console.log('esto es user',user.error1)     
+      }    
    };
 
    const handleSliderChange = (index) => (event, newValue) => {
@@ -90,7 +120,7 @@ export default function FormRegister() {
       }
    };
 
-   const { handleChange, handleSubmit, setFieldValue, values, errors } =
+   const { handleChange, handleSubmit, setFieldValue, values, errors,setFieldError} =
     useFormik({
        //destructuring de formik
        //primero recibe los valores iniciales
@@ -107,7 +137,7 @@ export default function FormRegister() {
 
    return (
       <ThemeProvider theme={main_theme}>
-         <Grid maxWidth='100%' container sx={{flexDirection:'column',justifyContent:'center'}} >
+         <Grid maxWidth='100%' container sx={{flexDirection:'column',justifyContent:'center',alignContent:'center',alignItems:'center'}} >
                                    
             <Typography variant='h2' textAlign='center' mt='10rem' fontSize='3rem' fontWeight={'bold'}>
                  ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
@@ -116,7 +146,7 @@ export default function FormRegister() {
             <Box
                component="form"
                onSubmit={handleSubmit}
-               maxWidth={'90%'}
+               maxWidth={'70%'}
                m={20}
                display="flex"
                flexDirection="column"
@@ -145,10 +175,12 @@ export default function FormRegister() {
                   spacing={3}
                   sx={{ width: '100%', margin: 10 }}
                >
+                                                   
                   <SelectImg
                      imgProfile={values.imgProfile}
                      handleSelectImg={handleSelectImg}
                   />
+               
                   <Grid item xs={12} md={9}>
                      <Typography
                         component="p"
@@ -163,7 +195,7 @@ export default function FormRegister() {
                            },
                         }}
                      >
-                ¿Cual es tu nombre?
+                         ¿Cual es tu nombre?
                      </Typography>
                      <TextField
                         id="nameRegister"
@@ -218,7 +250,6 @@ export default function FormRegister() {
                         helperText={errors.subName}
                      />
                   </Grid>
-
                   <Box sx={{display:'flex',alignItems:'center',mt:'3rem',justifyContent:'center'}}>
                      <Box md={5} xs={12} mx='5rem'>
                         <FormControl>
@@ -492,23 +523,58 @@ export default function FormRegister() {
                   </Grid>
 
                   <Grid item xs={12} md={9}>
-                     <TextField
-                        id="passRegister"
-                        type="password"
-                        label="Contraseña"
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        error={!!errors.password}
-                        helperText={errors.password}
-                     />
+            
+                     <FormControl  sx={{my:'1rem',mb:'2rem'}} fullWidth variant="outlined" >
+                        <InputLabel htmlFor="newPassword">Contraseña</InputLabel>
+                        <OutlinedInput
+                           sx={{color:'text.secondary'}}    
+                           id="newPassword"
+                           type={showPassword ? 'text' : 'Password'}
+                           endAdornment={
+                              <InputAdornment position="end">
+                                 <IconButton
+                                    aria-label="toggle newPassword visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                 >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                 </IconButton>
+                              </InputAdornment>
+                           }
+                           name="newPassword"
+                           onChange={handleChange}
+                           error={!!errors.newPassword}
+                           value={values.newPassword}
+                           label="Contraseña"
+                                                                   
+                        />
+                        {errors.newPassword ? <Typography variant='body2' sx={{color:'error.main'}}>{ errors.newPassword}</Typography> : null}
+                     </FormControl>
+                     <FormControl  fullWidth variant="outlined" >
+                        <InputLabel htmlFor="passwordC">Confirma contraseña</InputLabel>
+                        <OutlinedInput
+                           sx={{color:'text.secondary'}}
+                           id="passwordC"
+                           type={showPasswordC ? 'text' : 'Password'}
+                           endAdornment={
+                              <InputAdornment position="end">
+                                 <IconButton
+                                    aria-label="toggle Password visibility"
+                                    onClick={handleClickShowPasswordC}
+                                    onMouseDown={handleMouseDownPasswordC}
+                                 >
+                                    {showPasswordC ? <VisibilityOff /> : <Visibility />}
+                                 </IconButton>
+                              </InputAdornment>
+                           }
+                           name="passwordC"
+                           onChange={handleChange}
+                           error={!!errors.passwordC}
+                           value={values.passwordC}
+                           label="Confirma contraseña"
+                        />
+                        {errors.passwordC ? <Typography variant='body2' sx={{color:'error.main'}}>{ errors.passwordC}</Typography> : null}
+                     </FormControl>
                      <Grid item display="flex" justifyContent="center">
                         <Button
                            type="submit"

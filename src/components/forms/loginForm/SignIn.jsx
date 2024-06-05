@@ -65,8 +65,8 @@ export  function SignIn() {
 
    return (
       <ThemeProvider theme={main_theme}>
-         <Grid container component="main" sx={{ height: '100vh'}}>
-            <CssBaseline />
+         <Grid container component="main" sx={{ height: '100vh',}}>
+      
             <Grid
        
                item

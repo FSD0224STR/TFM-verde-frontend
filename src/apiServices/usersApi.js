@@ -37,6 +37,11 @@ const addUser = async (newUserData) => {
          'Content-Type': 'application/json',
       }
    })
+   if (!response.ok)   {
+
+      if(response.status==403) return {error1: 'Este email ya existe,si has olvidado tu contraseña pues recuperarla'}
+           
+   }
    const users = await response.json()
    return users
 }

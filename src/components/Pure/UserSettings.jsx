@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import ComponentMessage from './ComponentMessage';
 
-export default function ComponentUserDetail({userDetail}) {
+export default function UserSettings({userDetail}) {
 
    const [openMessage, setOpenMessage] = useState(false);
    const {
