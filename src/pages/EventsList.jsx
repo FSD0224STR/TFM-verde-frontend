@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { LocationContext } from '../context/locationContext'
-import { Box, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
+import { LoginContextP } from '../context/loginContextPrueba'
 
 export default function EventsList() {
 
@@ -13,7 +14,7 @@ export default function EventsList() {
    
       getLocationData()
       
-   })
+   },[])
 
    return (
       <>
@@ -23,7 +24,7 @@ export default function EventsList() {
          {locationDatas ? (
             <>
 
-               <LocationsComponent {...locationDatas} />
+               {/*           <LocationsComponent {...locationDatas} /> */}
 
                <h1>Proximos eventos</h1>
 
@@ -31,14 +32,17 @@ export default function EventsList() {
 
                   <>
 
-                     <Grid container spacing={3} my={5}>
+                     <Grid container spacing={2} my={2} width='95%' p={2} bgcolor='white' sx={{justifyContent:'center'}}>
+
                         {LocationEventsData.map(event=> 
    
-                           <Grid item xs={12}  sm={6} key={event._id} > 
-                              <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+                           <Grid item xs={12}  sm={6}  md={4} key={event._id}> 
    
-                                 <EventComponent _id={event._id}  name={event.name} address={event.typeOfDancing}  ></EventComponent> 
-                              </Box>
+                              <EventComponent
+                                 event={event}
+                              >
+                              </EventComponent> 
+                             
                            </Grid>)}
                      </Grid>
 

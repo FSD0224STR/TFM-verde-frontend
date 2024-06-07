@@ -23,12 +23,8 @@ export const LoginContextProviderP = ({ children }) => {
       try {
          const response = await usersApi.getMyprofile();
          if (token && !response.error) {
-            console.log(
-               'Vamos a ver cuales son los datos del usuario logeado con ese token',
-               response
-            );
+            
             setProfileDetails(response)
-            console.log('esto es la responde dentro de profileDetails', response)
             setIsLoggedIn(true);
             navigate('/home')
          } else {
@@ -41,7 +37,8 @@ export const LoginContextProviderP = ({ children }) => {
    //!revisar como esta actuando el useEfFect
    useEffect(() => {
       checkToken()
-   },[isLoggedIn]);
+
+   },[]);
 
    const login = async (email, password) => {
       const response = await usersApi.login(email, password);

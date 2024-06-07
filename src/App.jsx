@@ -21,9 +21,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/events/:id" element={<EventsList />} />
             <Route path="/profiles" element={<ProfileList />} />
-            <Route path="/profile" element={<SettingsProfile />} /> 
+            <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:id" element={<DetailUser />} />
-
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>

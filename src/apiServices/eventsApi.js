@@ -25,3 +25,12 @@ export const updateInterestedPeopleApi=async (eventId,userId)=>{
      
    return {data: await response.json()} //Me devuelve el evento actualizado con la persona añadida
 }
+
+export const updateEventApi=async (eventId,modifiedData)=>{
+
+   const response=await fetch(`${Servidorurl}/events/${eventId}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json'}})
+
+   if (!response.ok)   return {error: response.status}
+         
+   return {data: await response.json()} 
+}

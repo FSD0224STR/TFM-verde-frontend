@@ -8,6 +8,7 @@ export const UserContext = React.createContext();
 export const UserContextProvider = ({ children }) => {
    const [users, setUsers] = useState([])
    const [userDetail, setUserDetail] = useState(null);
+   const [error, setError] = useState('')
     
    const navigate = useNavigate()
 
@@ -39,10 +40,18 @@ export const UserContextProvider = ({ children }) => {
       }
    }
     
+   const getOneUser= async (userId)=>{ //Con esta función se pintan solo aquellos usuarios interesados en un determinado evento
+      const user= await usersApi.getOneUserApi (userId)
+      if(user.error) setError(user.error)
+      return user
+    
+   }
+
    const userContextValue = {
       users,
       userDetail,
       getUserDetail,
+      getOneUser
    }
   
    return (

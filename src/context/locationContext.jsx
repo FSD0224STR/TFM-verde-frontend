@@ -46,6 +46,7 @@ export const LocationContextProvider = ({ children }) => {
     
    }
    
+   //Se obtienen todos los eventos del local con ese idLocal.
    const getLocationData = async () => {
 
       if (idLocal) {

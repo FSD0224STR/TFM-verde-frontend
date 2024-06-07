@@ -11,13 +11,15 @@ import {
 } from '@mui/material';
 // import { useNavigate } from 'react-router-dom';
 import RoleComponent from './RoleComponent';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
+import { useEffect } from 'react';
 
 export default function User({ userApi }) {
-   const { getUserDetail } = useContext(UserContext);
-
-   const {
+   const { getUserDetail,getOneUser} = useContext(UserContext);
+   const[userInfo,setUserInfo]=useState({})
+    
+   const { 
       _id,
       name,
       subName,
@@ -29,8 +31,19 @@ export default function User({ userApi }) {
       rating,
       age,
       imgProfile,
-   } = userApi;
+   } = userInfo
 
+   const getUser=async ()=>{
+      const user=await getOneUser(userApi.userId)
+      setUserInfo(user)
+      console.log('Que es useIfo',user)
+  
+   }
+   useEffect( ()=>{
+
+      getUser()
+
+   },[])
    return (
       <div>
          <Card

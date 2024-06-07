@@ -1,7 +1,7 @@
  
 const Servidorurl= 'http://localhost:3000'
 
-const getAllUsers=async ()=>{
+const getAllUsers=async ()=>{ //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
    const token = localStorage.getItem('access_token');
    const response=await fetch(`${Servidorurl}/users`, {headers: { 'authorization:': `Bearer ${token}`}})
    const users=await response.json()
@@ -14,7 +14,7 @@ const detailByIdUser = async (id) => {
    const response = await fetch(`${Servidorurl}/users/${id}`)
    const user = await response.json()
    // console.log('esta es la respues de la api',user)
-   return user.user //? hay quew revisar lo que se estta devolviendo
+   return user    /* .user */ //? hay quew revisar lo que se estta devolviendo //Yirka:he modificado aqui
 }
 
 const ListOfInterestedUsers = async () => {
@@ -53,16 +53,20 @@ const loginUser = async (data) => {
    return user
 }
 
-const deleteUser=async (id)=>{
+export const deleteUser=async (id)=>{
    const response=await fetch(`${Servidorurl}/user/${id}`, {method:'DELETE'} ) 
    const deleteUser=await response.json() 
    return deleteUser
 }
 
-const updateUser=async (id,modifiedData)=>{
-   const response=await fetch(`${Servidorurl}/user/${id}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json'}})
+export const updateUser=async (id,modifiedData)=>{
+   const token = localStorage.getItem('access_token')
+   const response=await fetch(`${Servidorurl}/users/${id}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json','authorization': `Bearer ${token}`}})
+  
+   if (!response.ok)   return { error: await response.json() }
+  
    const user=await response.json()
-   return user
+   return {data:user}
 }
 
 const login = async (email, password) => {
@@ -103,14 +107,23 @@ const getMyprofile = async () => {
 
 }
 
+const getOneUserApi=async(userId)=>{
+   
+   const response=await fetch(`${Servidorurl}/users/${userId}`)
+  
+   if (!response.ok)   return { error: await response.json() }
+  
+   const user=await response.json()
+   return user
+}
 export default { 
    getAllUsers,
    addUser,
    deleteUser,
-   updateUser,
    loginUser,
    login,
    ListOfInterestedUsers,
    detailByIdUser,
-   getMyprofile
+   getMyprofile,
+   getOneUserApi
 }

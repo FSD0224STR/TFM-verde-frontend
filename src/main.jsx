@@ -12,6 +12,7 @@ import '@fontsource/roboto/700.css';
 import { UserContextProvider } from './context/userContext.jsx';
 import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 import { LocationContextProvider } from './context/locationContext.jsx';
+import { EventContextProvider } from './context/eventContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
@@ -19,11 +20,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
          <LoginContextProviderP>
             <LocationContextProvider>
-               <UserContextProvider>
-                  <CssBaseline />
-                  <App />
+               <EventContextProvider>
+                  <UserContextProvider>
+                  
+                     <CssBaseline />
+                  
+                     <App />
                 
-               </UserContextProvider>
+                  </UserContextProvider>
+               </EventContextProvider>
             </LocationContextProvider>
                       
          </LoginContextProviderP> 

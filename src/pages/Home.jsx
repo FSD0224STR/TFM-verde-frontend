@@ -5,75 +5,68 @@ import {Box, Button, Grid } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
-import { LoginContextP } from '../context/loginContextPrueba';
-import { useNavigate } from 'react-router-dom';
+import { DateCalendarValue } from '../components/Pure/Calendar';
+
 export default function Home() {
-   const navigate = useNavigate()
-   const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setDate,setTypeOfDancing}=useContext(LocationContext)
-   
-   const { isLoggedIn } = useContext(LoginContextP)
-   console.log('esto es ele stado de isLogeedIn', isLoggedIn)
+
+   const{getLocationFiltered,coordinates,city,date,typeOfDancing,locations,setCity,setTypeOfDancing}=useContext(LocationContext)
 
    useEffect(() => {
       getLocationFiltered();
+  
    },[])
    
    return (
       <>
-         {isLoggedIn ?
-            <>
-               <NavigationMenu/>
+            
+         <NavigationMenu/>
 
-               <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
+         <Grid container  sx={{marginBottom:'50px'}} spacing={2} alignItems='center'>
   
-                  <Grid item xs={12} sm={3} >
+            <Grid item xs={12} sm={3} >
 
-                     <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                        <Search     filterBy={city}   onChange={(e)=>{setCity(e.currentTarget.value)}} placeholder='Filtrar por ciudad' >  </Search>
-                     </Box>                    
-                  </Grid>
+               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+                  <Search     filterBy={city}   onChange={(e)=>{setCity(e.currentTarget.value)}} placeholder='Filtrar por ciudad' >  </Search>
+               </Box>                    
+            </Grid>
 
-                  <Grid item xs={12} sm={3} >
+            <Grid item xs={12} sm={3} >
 
-                     <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                        <Search filterBy={date} onChange={(e)=>{setDate(e.currentTarget.value)}} placeholder='Filtrar por fecha' ></Search> 
+               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+                  <DateCalendarValue/>
       
-                     </Box>
-                  </Grid>
+               </Box>
+            </Grid>
                     
-                  <Grid item xs={12} sm={3} >
+            <Grid item xs={12} sm={3} >
 
-                     <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                        <Search filterBy={typeOfDancing}  onChange={(e)=>{setTypeOfDancing(e.currentTarget.value)}} placeholder='Filtrar por estilo' ></Search>
-                     </Box>
+               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+                  <Search filterBy={typeOfDancing}  onChange={(e)=>{setTypeOfDancing(e.currentTarget.value)}} placeholder='Filtrar por estilo' ></Search>
+               </Box>
      
-                  </Grid>
+            </Grid>
 
-                  <Grid item xs={12} sm={3}>
-                     <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                        <Button sx={{bgcolor: 'background.secondary',
-                           color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
-                     </Box>
+            <Grid item xs={12} sm={3}>
+               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+                  <Button sx={{bgcolor: 'background.secondary',
+                     color: 'text.secondary',}}  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
+               </Box>
      
-                  </Grid>
+            </Grid>
 
-               </Grid>
+         </Grid>
 
-               <Grid container spacing={3}>
+         <Grid container spacing={1} my={3} width='95%' p={1} bgcolor='white' sx={{justifyContent:'center'}}>
 
-                  {locations.map(local=> 
-                     <Grid item xs={12} sm={6} key={local._id}> 
-
-                        <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
+            {locations.map(local=> 
+               <Grid item xs={12} sm={6} key={local._id}> 
+               
+                  <LocationsComponent  {...local}></LocationsComponent> 
+               
+               </Grid>)}
       
-                           <LocationsComponent  {...local}></LocationsComponent> 
-                        </Box>
-      
-                     </Grid>)}
-
-               </Grid>   
-            </> :(<p>session expirada</p>) }
-         
+         </Grid>
+        
       </>
    )
 }

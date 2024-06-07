@@ -11,7 +11,8 @@ import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
 import { LocationContext } from '../../context/locationContext';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Chip, Stack } from '@mui/material';
+import { Chip, Stack } from '@mui/material';
+import { RepeatButton } from './CommonButton';
 
 export function LocationsComponent({ name,address,_id,events}) {
   
@@ -22,7 +23,7 @@ export function LocationsComponent({ name,address,_id,events}) {
    return (
       <Card sx={{color: 'primary.main',fontWeight: 'bold',
          transitionDuration: '2s',
-         maxWidth: 345,
+         maxWidth: 450,
          minWidth: 300,
          maxHeight: 600,
          boxShadow: '8px 6px 9px #9ec5c0',
@@ -91,26 +92,7 @@ export function LocationsComponent({ name,address,_id,events}) {
          </CardContent>
          <CardActions sx={{justifyContent: 'center'}} >
 
-            <Button
-               onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id);console.log('Estas en centro con id',`${_id}`)}}
-               size="medium"
-               sx={{
-             
-                  padding: '0.5rem',
-                  mb: '1rem',                 
-                  bgcolor: 'primary.main',
-                  color: 'text.primary',
-                  px: '1rem',
-                  '&:hover': {
-                     '& .MuiTypography-root': {
-                        color: 'text.secondary',
-                     },
-                     backgroundColor: 'background.nav',
-                  },
-               }}
-            >
-              Ver eventos
-            </Button>
+            <RepeatButton onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id)}} name='Ver eventos'></RepeatButton>
           
          </CardActions>
          

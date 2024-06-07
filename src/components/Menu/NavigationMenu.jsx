@@ -2,6 +2,7 @@
 import MailIcon from '@mui/icons-material/Mail';
 import MeetDancingIcon from '../../assets/MeetDancingIcon.png';
 import PlaceIcon from '@mui/icons-material/Place';
+import events from '../../img/events.png'
 import {
    AppBar,
    Avatar,
@@ -12,7 +13,8 @@ import {
    Toolbar,
    Typography,
    Tooltip,
-   Drawer
+   Drawer,
+   Icon
 } from '@mui/material';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import MenuProfile from './MenuProfile';
@@ -56,14 +58,21 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                   sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'2rem' }}
                >
                   <Tooltip title="Centros de baile">
-                     <IconButton onClick={()=> navigate('/profiles')}>
-                        <PlaceIcon sx={{fontSize:35 ,color:'white'}}/>
+                     <IconButton onClick={()=> navigate('/home')}>
+                        <PlaceIcon sx={{fontSize:35,ml:'0.5rem',color:'white'}}/>
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="mensajes">
                      <IconButton>
                         <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
                            <MailIcon sx={{fontSize:35,ml:'0.5rem'}}/>
+                        </Badge>
+                     </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Eventos de interés">
+                     <IconButton onClick={()=> navigate('/events')} >
+                        <Badge  badgeContent={5} max={99} color='error' >
+                           <Icon component="img" src={events} sx={{ fontSize: 35,ml:'0.5rem'}}></Icon>
                         </Badge>
                      </IconButton>
                   </Tooltip>
