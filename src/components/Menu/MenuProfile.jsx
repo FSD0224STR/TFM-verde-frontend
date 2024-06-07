@@ -13,12 +13,15 @@ import Logout from '@mui/icons-material/Logout';
 import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined';
 import Person2Icon from '@mui/icons-material/Person2';
 import { LoginContextP } from '../../context/loginContextPrueba';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-export default function MenuProfile() {
+export default function MenuProfile({handleNavProfile,handleSwitchNav}) {
+
+   const navigate = useNavigate()
 
    const [anchorEl, setAnchorEl] = useState(null);
    const{profileDetails,logout}=useContext(LoginContextP)
-
+   console.log('esto es profile detail dentro de Menu',profileDetails.imgProfilew)
    const open = Boolean(anchorEl);
    const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -40,8 +43,10 @@ export default function MenuProfile() {
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                >
-                  {profileDetails?<Avatar sx={{ width: 40, height: 40,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]
-                  }</Avatar>:null}
+                  {profileDetails.imgProfile !== undefined ?
+                     <Avatar src={profileDetails.imgProfile} sx={{ width: 40, height: 40, bgcolor: ' background.avatar' }} /> :
+                     <Avatar sx={{ width: 40, height: 40,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]}</Avatar>}
+                  
                </IconButton>
             </Tooltip>
          </Box>
@@ -54,13 +59,13 @@ export default function MenuProfile() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
          >
-            <MenuItem onClick={handleClose} sx={{
+            <MenuItem onClick={()=>navigate('/profile')} sx={{
                color: 'secondary.variante', fontSize: '1.3rem', ':hover': {
                   color:'primary.main',fontWeight:'600'
                }}}>
                <Person2Icon color='primary' sx={{mr:'0.8rem'}}/> Perfil
             </MenuItem>
-            <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
+            <MenuItem onClick={handleNavProfile} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
                color:'primary.main',fontWeight:'600'
             }}}>
                <ListItemIcon>

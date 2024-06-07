@@ -23,11 +23,11 @@ const ListOfInterestedUsers = async () => {
    const response = await fetch(`${Servidorurl}/users`, { method: 'GET', headers: { 'authorization': `Bearer ${token}` } })
    if (!response.ok) {
       const error = await response.json()
-      return error
+      return { error }
    }
    const ListUsers = await response.json()
    // console.log('recibiendo el listado',ListUsers)
-   return ListUsers
+   return  ListUsers
 
 }
 
@@ -39,7 +39,7 @@ const addUser = async (newUserData) => {
    })
    if (!response.ok)   {
 
-      if(response.status==403) return {error1: 'Este email ya existe,si has olvidado tu contraseña pues recuperarla'}
+      if(response.status==403) return {error1: 'Este email ya existe,si has olvidado tu contraseña puedes recuperarla'}
            
    }
    const users = await response.json()

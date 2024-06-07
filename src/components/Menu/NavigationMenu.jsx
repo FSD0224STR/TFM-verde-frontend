@@ -20,7 +20,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
-export default function NavigationMenu() {
+
+export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
    const [open, setOpen] = useState(false);
    const navigate = useNavigate()
    return (
@@ -75,12 +76,12 @@ export default function NavigationMenu() {
                         </Badge>
                      </IconButton>
                   </Tooltip>
-                  <MenuProfile/>
+                  <MenuProfile handleNavProfile={handleNavProfile} handleSwitchNav={ handleSwitchNav} />
                </Box>
             </Toolbar>
          </AppBar>
          <Drawer open={open}    anchor="left" onClose={() => setOpen(false)}>
-            <MenuDrawerList setOpen={setOpen} />
+            <MenuDrawerList setOpen={setOpen}  />
          </Drawer>
       </>
    );

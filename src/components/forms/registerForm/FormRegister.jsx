@@ -26,7 +26,9 @@ import { main_theme } from '../../../../palette-theme-colors';
 import SelectImg from '../../Pure/SelectImg';
 import defaultImg from '../../../img/profile.png';
 import { Password, Visibility, VisibilityOff } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
+import upload from '../../../apiServices/upload'
 export default function FormRegister() {
    const danceStylesList = [
       { style: 'Salsa', level: 1 },
@@ -35,10 +37,12 @@ export default function FormRegister() {
       { style: 'Swing', level: 1 },
       { style: 'Bachata', level: 1 },
    ];
-        
+
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
-        
+   
+   const [loading, setLoading] = useState(false);
+
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
       
@@ -76,15 +80,35 @@ export default function FormRegister() {
 
    const addNewUser = async (newUserData) => {
       if (newUserData.imgProfile === defaultImg) {
+         setLoading(true)
          const dataUpdate = { ...newUserData, imgProfile: ' ', password: newUserData.newPassword }
          const user = await usersApi.addUser(dataUpdate);
-         if(user.error1) setFieldError('email',user.error1)
+         if (user) {
+            setTimeout(() => {
+               
+               setLoading(false)
+            }, 2000);
+            
+         }
+         if (user.error1) {
+            setLoading(false)
+            setFieldError('email',user.error1) 
+         } 
       } else {
          const dataUpdate = { ...newUserData, password: newUserData.newPassword } 
+         setLoading(true)
          const user = await usersApi.addUser(dataUpdate);  
-         if(user.error1) setFieldError('email',user.error1)
- 
-         console.log('esto es user',user.error1)     
+         if (user) {
+            setTimeout(() => {
+               
+               setLoading(false)
+            }, 2000);
+            
+         }
+         if (user.error1) {
+            setLoading(false)
+            setFieldError('email',user.error1) 
+         }   
       }    
    };
 
@@ -97,27 +121,18 @@ export default function FormRegister() {
    const handleSelectImg = async (e) => {
       const file = e.target.files[0];
       const data = new FormData();
-
       data.append('file', file);
-      data.append('upload_preset', 'Preset_React');
-      try {
-         const response = await fetch(
-            'https://api.cloudinary.com/v1_1/dvttkr2ks/image/upload',
-            {
-               method: 'POST',
-               body: data,
-            }
-         );
-         if (!response.ok) {
-            throw new Error(`HTTP error status:${response.status}`);
-         } else {
-            const responseData = await response.json();
-            console.log('esto es response', responseData);
-            setFieldValue('imgProfile', responseData.secure_url);
-         }
-      } catch (error) {
-         console.log('otro error', error);
+
+      setLoading(true)
+      const imgUser = await upload.uploadImgProfile(data);
+         
+      if (imgUser.error) {
+         console.log('este es el error',imgUser.error)
+      } else {
+         setLoading(false)
+         setFieldValue('imgProfile', imgUser.url);
       }
+
    };
 
    const { handleChange, handleSubmit, setFieldValue, values, errors,setFieldError} =
@@ -179,6 +194,7 @@ export default function FormRegister() {
                   <SelectImg
                      imgProfile={values.imgProfile}
                      handleSelectImg={handleSelectImg}
+                     loading={loading}
                   />
                
                   <Grid item xs={12} md={9}>
@@ -261,7 +277,7 @@ export default function FormRegister() {
                                  fontWeight: 'bold',
                               }}
                            >
-                    Sexo
+                           Sexo
                            </FormLabel>
                            <RadioGroup
                               row
@@ -575,15 +591,17 @@ export default function FormRegister() {
                         />
                         {errors.passwordC ? <Typography variant='body2' sx={{color:'error.main'}}>{ errors.passwordC}</Typography> : null}
                      </FormControl>
+                        
                      <Grid item display="flex" justifyContent="center">
-                        <Button
+
+                        {loading ? <CircularProgress size={80} sx={{m:'2rem'}} /> : <Button
                            type="submit"
                            variant="contained"
                            sx={{ mt: '40px', fontSize: '24px' }}
                            size="large"
                         >
                   Enviar
-                        </Button>
+                        </Button>}
                      </Grid>
                   </Grid>
                </Grid>

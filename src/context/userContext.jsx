@@ -18,14 +18,14 @@ export const UserContextProvider = ({ children }) => {
    
    //Listado de usuarios
    const getUsers = async () => {
-      try {
-         const allUsers = await usersApi.ListOfInterestedUsers();
-         setUsers(allUsers);
-      } catch (err) {
-         alert('Ha ocurrido el siguiente error: ' + err.message);
+
+      const allUsers = await usersApi.ListOfInterestedUsers();
+      if (allUsers.error) {
+         console.log('Ha ocurrido el siguiente error: ' , allUsers.error);
       }
+      setUsers(allUsers);
+      console.log('a ver que users', users)
    }
-    
    //Informacion del usuario de interes
 
    const getUserDetail = async (id) => {
@@ -38,12 +38,6 @@ export const UserContextProvider = ({ children }) => {
          alert('Ha ocurrido el siguiente error: ' + err.message);
       }
    }
-   // useEffect(() => {
-      
-   //    getUserDetail()   
-   //    console.log('El estado userDetail ha sido actualizado:', userDetail);  
-        
-   // }, []);
     
    const userContextValue = {
       users,

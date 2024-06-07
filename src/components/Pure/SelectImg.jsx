@@ -1,9 +1,10 @@
 import React from 'react';
 import { Typography, Grid, Button, Avatar } from '@mui/material';
-export default function SelectImg({ imgProfile, handleSelectImg }) {
+import CircularProgress from '@mui/material/CircularProgress';
+export default function SelectImg({ imgProfile, handleSelectImg, loading }) {
    return (
-      
-      <Grid container
+      <Grid
+         container
          sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -21,17 +22,21 @@ export default function SelectImg({ imgProfile, handleSelectImg }) {
                fontSize: '20px',
             }}
          >
-          1.Seleccione una foto para tu perfil
+        1.Seleccione una foto para tu perfil
          </Typography>
-
-         <Avatar
-            alt="Remy Sharp"
-            src={imgProfile}
-            sx={{ width: 300, height: 300 ,mb:'2rem'}}
-         />
+         {loading ? (
+            <CircularProgress  size={100} sx={{color:'secondary.main',m:'5rem'}}/>
+         ) : (
+            <Avatar
+               alt="Remy Sharp"
+               src={imgProfile}
+               sx={{ width: 300, height: 300, mb: '2rem' }}
+            />
+         )}
 
          <Grid item xs={12}>
-            <Button variant="contained" sx={{ position: 'relative', mb: '5rem' }}>
+            
+            <Button variant="contained" disabled={loading? true : false}  sx={{ position: 'relative', mb: '5rem',':disabled':{opacity:'0'} }}>
                <input
                   style={{
                      position: 'absolute',
@@ -47,10 +52,9 @@ export default function SelectImg({ imgProfile, handleSelectImg }) {
                   accept="image/*"
                   onChange={handleSelectImg}
                />
-            Seleccionar foto
+          Seleccionar foto
             </Button>
          </Grid>
       </Grid>
-      
    );
 }
