@@ -13,7 +13,8 @@ const uploadImgProfile = async (data) => {
        
    } else {
       const responseData = await response.json();
-      return responseData
+      console.log('Que es responsedata',responseData)
+      return responseData.data
    }
 }
 
