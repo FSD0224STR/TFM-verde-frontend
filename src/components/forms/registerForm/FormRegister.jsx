@@ -603,7 +603,7 @@ export default function FormRegister() {
                            sx={{ mt: '40px', fontSize: '24px' }}
                            size="large"
                         >
-                     Enviar
+                  Enviar
                         </Button>}
                      </Grid>
                   </Grid>

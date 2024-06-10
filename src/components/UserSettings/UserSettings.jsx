@@ -32,11 +32,41 @@ import dataAge from '../../utils/dataAge';
 import EditIcon from '@mui/icons-material/Edit';
 import ConfigurationComponent from './ConfigurationComponent';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AlertDialog from '../Pure/AlertDialog';
+import upload from '../../apiServices/upload';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function UserSettings({ navProfile }) {
+   const [openDialog, setOpenDialog] = useState(false);
+   const [alertStatus, setAlertStatus] = useState(null)
+   const [loading, setLoading] = useState(false);
+
+   const handleClickOpen = () => {
+      setOpenDialog(true);
+   };
+  
+   const handleClose = () => {
+      setOpenDialog(false);
+   };
+
+   const handleResetStatus = () => {
+      setAlertStatus(null)
+      setOpenDialog(false);
+      
+   }
+
+   //? interceptando el envio de formulario en onsubmit del form para gestior la respuesta del alert
+   const handleSubmitFormik = () => {
+      setOpenDialog(true);
+   };
+
+   const handleConfirmSubmit = () => {
+      handleSubmit();
+   };
+
    const navigate = useNavigate()
  
-   const { profileDetails } = useContext(LoginContextP);
+   const { profileDetails,setProfileDetails } = useContext(LoginContextP);
    const {
       name,
       subName,
@@ -50,6 +80,7 @@ export default function UserSettings({ navProfile }) {
       imgProfile,
       dancingStyles,
       email,
+      _id,
    } = profileDetails;
 
    const optionsRoll = [
@@ -68,7 +99,11 @@ export default function UserSettings({ navProfile }) {
       imgProfile: imgProfile,
       description: description,
       dancingStyles: dancingStyles,
+      current_pass:'12345678',
+      newPassword: '',
+      ConfirmPassword:'',
       email: email,
+      id:_id
    };
 
    const registerSchema = Yup.object().shape({
@@ -80,22 +115,36 @@ export default function UserSettings({ navProfile }) {
       city: Yup.string().required('Debes ingrensar un ubicacion'),
    });
 
-   const addNewUser = async (newUserData) => {
-      if (newUserData.imgProfile === 'Hay que mirar esta condicion') {
-         const dataUpdate = {
-            ...newUserData,
-            imgProfile: ' ',
-            password: newUserData.newPassword,
-         };
-         const user = await usersApi.addUser(dataUpdate);
-         if (user.error1) setFieldError('email', user.error1);
+   const updateUserSettings = async (dataUpdateUser) => {
+      const id = dataUpdateUser.id
+      const user = await usersApi.updateUser(id,dataUpdateUser );
+      if (user.error) {
+         setAlertStatus(false)
       } else {
-         const dataUpdate = { ...newUserData, password: newUserData.newPassword };
-         const user = await usersApi.addUser(dataUpdate);
-         if (user.error1) setFieldError('email', user.error1);
-
-         console.log('esto es user', user.error1);
+         setAlertStatus(true)
+         setProfileDetails(user.data)
       }
+      
+   };
+   
+   const handleSelectImg = async (e) => {
+      const file = e.target.files[0];
+      const data = new FormData();
+      data.append('file', file);
+      const id = values.id // obtener el id del usuasrio del los values de formik
+      setLoading(true)
+      const imgUser = await upload.changeImgProfile(data,id);
+
+      console.log('Que es imgUser',imgUser)
+         
+      if (imgUser.error) {
+         setLoading(false)
+         console.log('este es el error',imgUser.error)
+      } else {
+         setLoading(false)
+         setProfileDetails({...profileDetails,imgProfile:imgUser}); 
+      }
+
    };
 
    const handleSliderChange = (index) => (event, newValue) => {
@@ -113,7 +162,7 @@ export default function UserSettings({ navProfile }) {
       setFieldError,
    } = useFormik({
       initialValues: initialValuesForm,
-      onSubmit: addNewUser,
+      onSubmit: updateUserSettings,
       validationSchema: registerSchema,
    });
 
@@ -142,9 +191,9 @@ export default function UserSettings({ navProfile }) {
                   </Tooltip>
                </Box>
                <CardContent sx={{ position:'relative', display: 'flex', flexDirection: 'row-reverse' }}>
-                  {navProfile ? <ConfigurationComponent values={values} setFieldValue={setFieldValue} errors={errors} email={email} handleChange={handleChange} /> : 
+                  {navProfile ? <ConfigurationComponent values={values} setFieldValue={setFieldValue} errors={errors} handleChange={handleChange} /> : 
           
-                     <Box sx={{ ml: '1rem' }}>
+                     <Box component='form' onSubmit={handleSubmitFormik} sx={{ ml: '1rem' }}>
                         <Box sx={{ padding: '1rem', lineHeight: '1', mb: '1rem' }}>
                            <Typography
                               component="p"
@@ -425,8 +474,9 @@ export default function UserSettings({ navProfile }) {
 
                         <Box sx={{ display: 'flex',justifyContent:'center' }}>
 
-                           <Button sx={{':hover':{bgcolor:'secondary.variante'}}} variant='contained'>Guardar Cambios</Button>
+                           <Button sx={{':hover':{bgcolor:'secondary.variante'}}}  onClick={handleClickOpen}  variant='contained'>Guardar Cambios</Button>
                         </Box>
+                        <AlertDialog openDialog={openDialog} handleClose={handleClose} handleResetStatus={handleResetStatus} handleConfirmSubmit={handleConfirmSubmit} alertStatus={alertStatus} />
                      </Box>
                   
                   }
@@ -435,78 +485,87 @@ export default function UserSettings({ navProfile }) {
                   <CardContent
                      sx={{bgcolor:'#d1ebdc', maxWidth: '400px',height: '100%', display: { xs: 'none', sm: 'block' } }}
                   >
-                     <Box sx={{position:'relative'}}>
+                     <Box sx={{ position: 'relative' }}>
+                        
+                        {loading ?
+                        
+                           <Box sx={{display:'flex',justifyContent:'center',alignContent:'center',m:'6rem'}}> <CircularProgress size={80} />  </Box> :
+                          
+                           <>  <CardMedia
+                              sx={{ MaxWidth: '300px', MaxHeight: '300px', margin: 'auto' ,position:'relative'}}
+                              component="img"
+                              alt="Foto Perfil"
+                              height="300px"
+                              src={!imgProfile ? profileDefault : imgProfile}
+                           /> 
 
-                        <CardMedia
-                           sx={{ MaxWidth: '300px', MaxHeight: '300px', margin: 'auto' ,position:'relative'}}
-                           component="img"
-                           alt="Foto Perfil"
-                           height="300px"
-                           src={!imgProfile ? profileDefault : imgProfile}
-                        />
-                        <Box sx={{position:'absolute',top: 265, left: 0,}}>
-                           <Button variant="outlined" endIcon={<EditIcon/>}  sx={{border:'none', color:'text.primary', position: 'relative',  mb: '5rem',':disabled':{opacity:'0'} }}>
-                              <input
-                                 style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    opacity: 0,
-                                    cursor: 'pointer',
-                                 }}
-                                 name="imgProfile"
-                                 type="file"
-                                 accept="image/*"
-                 
-                              />
+                           <Box sx={{position:'absolute',top: 265, left: 0,}}>
+                              <Button variant="outlined" endIcon={<EditIcon/>}  sx={{border:'none', color:'text.primary', position: 'relative',  mb: '5rem'}}>
+                                 <input
+                                    style={{
+                                       position: 'absolute',
+                                       top: 0,
+                                       left: 0,
+                                       width: '100%',
+                                       height: '100%',
+                                       opacity: 0,
+                                       cursor: 'pointer',
+                                    }}
+                                    name="imgProfile"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleSelectImg}
+                                 />
                              Modificar foto
-                           </Button>
-                        </Box>
-                     </Box>
-                     <Typography
-                        color="primary.main"
-                        variant="h5"
-                        component="div"
-                        sx={{
-                           my: '1rem',
-                           mr: '0.5rem',
-                           fontSize: '2rem',
-                           fontWeight: 'bold',
-                        }}
-                     >
-                        {name} {subName}
-                        <Box
-                           component="span"
-                           sx={{ fontSize: '1.2rem', fontWeight: '400', m: '0.8rem' }}
-                        >
-                  ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
-                        </Box>
-                        <Box>
-                           <Box
-                              display="flex"
-                              flexDirection="row-reverse"
-                              justifyContent="left"
-                              my="0.5rem"
-                           >
-                              <Link>
-                                 {' '}
-                                 <Typography
-                                    fontSize="1rem"
-                                    variant="body2"
-                                    color="text.secondary"
-                                    mt="0.2rem"
-                                    ml="1rem"
-                                 >
-                        Reseña
-                                 </Typography>
-                              </Link>
-                              <Rating name="read-only" value={4} readOnly />
+                              </Button>
                            </Box>
-                           <RoleComponent role={role} />
+                           </>}
+                     </Box>
+                     <Box>
+                        
+                        <Typography
+                           color="primary.main"
+                           variant="h5"
+                           component="div"
+                           sx={{
+                              mt:'1rem',
+                              fontSize: '2rem',
+                              fontWeight: 'bold',
+                           }}
+                        >
+                           {name} {subName}
+                        </Typography>
+                     </Box>
+                     <Box
+                        component="span"
+                        sx={{ fontSize: '1.5rem', fontWeight: 'bold',color:'secondary.variante' }}
+                     >
+                        ({gender === 'Male' ? 'M' : 'F'}/{age}){' '}{city}
+                     </Box>
+                     <Box>
+                        <Box
+                           display="flex"
+                           flexDirection="row-reverse"
+                           justifyContent="left"
+                           my="0.5rem"
+                        >
+                           <Link>
+                              {' '}
+                              <Typography
+                                 fontSize="1rem"
+                                 variant="body2"
+                                 color="text.secondary"
+                                 mt="0.2rem"
+                                 ml="1rem"
+                              >
+                        Reseña
+                              </Typography>
+                           </Link>
+                           <Rating name="read-only" value={4} readOnly />
                         </Box>
-                     </Typography>
+                        <RoleComponent role={role} />
+                     </Box>
+                     
                      <Typography
                         variant="h5"
                         fontSize="1.3rem"

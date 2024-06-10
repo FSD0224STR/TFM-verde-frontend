@@ -18,6 +18,24 @@ const uploadImgProfile = async (data) => {
    }
 }
 
+const changeImgProfile = async (data, id) => {
+   const response = await fetch(`${Servidorurl}/uploads/photoUser/change/${id}`,
+      {
+         method: 'POST',
+         body: data,
+      });
+   if (!response.ok) {
+      const error = await response.json()
+      return {error}
+          
+   } else {
+      const responseData = await response.json();
+      console.log('Que es responsedata',responseData)
+      return responseData.data
+   }
+}
+
 export default {
-   uploadImgProfile
+   uploadImgProfile,
+   changeImgProfile
 }

@@ -59,7 +59,10 @@ export const deleteUser=async (id)=>{
    return deleteUser
 }
 
-export const updateUser=async (id,modifiedData)=>{
+export const updateUser = async (id, modifiedData) => {
+   
+   console.log('esto es id en la api',id)
+   console.log('esto es modifiedData la api',modifiedData)
    const token = localStorage.getItem('access_token')
    const response=await fetch(`${Servidorurl}/users/${id}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json','authorization': `Bearer ${token}`}})
   
@@ -125,5 +128,6 @@ export default {
    ListOfInterestedUsers,
    detailByIdUser,
    getMyprofile,
-   getOneUserApi
+   getOneUserApi,
+   updateUser
 }

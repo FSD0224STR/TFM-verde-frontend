@@ -66,6 +66,7 @@ export const LoginContextProviderP = ({ children }) => {
       setError,
       login,
       profileDetails,
+      setProfileDetails,
       logout
    };
 

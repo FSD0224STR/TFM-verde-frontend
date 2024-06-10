@@ -50,6 +50,7 @@ export const UserContextProvider = ({ children }) => {
    const userContextValue = {
       users,
       userDetail,
+      setUserDetail,
       getUserDetail,
       getOneUser
    }

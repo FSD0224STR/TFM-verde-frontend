@@ -124,21 +124,21 @@ export default function ComponentUserDetail({ userDetail }) {
                         sx={{ my: '1rem',mr:'0.5rem', fontSize: '2rem', fontWeight: 'bold' }}
                      >
                         {name}{' '}{subName}
-                        <Box
-                           component="span"
-                           sx={{ fontSize: '1.2rem', fontWeight: '400',m:'0.8rem' }}
-                        >
-                          ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
-                        </Box>
-                        <Box>
-                           <Box display='flex' flexDirection='row-reverse' justifyContent='left' my='0.5rem'>
-                              <Link> <Typography fontSize='1rem' variant='body2' color='text.secondary' mt='0.2rem' ml='1rem'>Reseña</Typography></Link>
-                              <Rating name="read-only" value={4} readOnly />
-                           </Box>
-                           <RoleComponent role={role} />
-                        </Box>
-                        
                      </Typography>
+                     <Box
+                        component="span"
+                        sx={{ fontSize: '1.2rem', fontWeight: 'bold',color:'secondary.variante' }}
+                     >
+                          ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
+                     </Box>
+                     <Box>
+                        <Box display='flex' flexDirection='row-reverse' justifyContent='left' my='0.5rem'>
+                           <Link> <Typography fontSize='1rem' variant='body2' color='text.secondary' mt='0.2rem' ml='1rem'>Reseña</Typography></Link>
+                           <Rating name="read-only" value={4} readOnly />
+                        </Box>
+                        <RoleComponent role={role} />
+                     </Box>
+                  
                      <Typography
                         variant="h5"
                         fontSize="1.3rem"
