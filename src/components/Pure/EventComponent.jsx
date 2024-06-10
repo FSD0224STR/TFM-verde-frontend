@@ -144,8 +144,6 @@ export function EventComponent({event}) {
   
    return (
       <Paper  elevation={22}  sx={{ width: 340, color: 'text.secondary'/* ,backgroundColor:'grey'  */}}>
-
-         {}
         
          <CardMedia
             component="img"
@@ -193,7 +191,7 @@ export function EventComponent({event}) {
             
                (<>
                   <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}} /* onClick={()=>console.log('que es interestedpeople del evento',interestedPeople)}  */      onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}  onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
   Ya no me interesa este evento
                   </Button>
            

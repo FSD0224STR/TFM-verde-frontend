@@ -24,7 +24,7 @@ export default function EventsList() {
          {locationDatas ? (
             <>
 
-               {/*           <LocationsComponent {...locationDatas} /> */}
+               <LocationsComponent {...locationDatas} /> 
 
                <h1>Proximos eventos</h1>
 

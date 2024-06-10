@@ -25,11 +25,21 @@ export function DateCalendarValue() {
             onChange={(newValue) => {setDateInput(newValue),setDate(newValue)}}
             shouldDisableDate={isDateDisabled}
             slotProps={{ 
-             
+               day: {
+                  sx: {
+                     color: 'primary.main', // Color de texto de los días seleccionables
+                  },
+               },
+
+               toolbar:{
+                  sx:{color:'blue'
+
+                  }},
+
                textField: { 
                   format:'DD/MM/YYYY',
                   variant: 'filled',
-                  inputProps:{style:{backgroundColor: 'white', color: 'black',fontSize:'medium',textAlign:'center'}}},
+                  inputProps:{style:{backgroundColor: 'white', color: 'black',fontSize:'small',textAlign:'center'}}},
                openPickerButton: {style:{backgroundColor:'#163938',color:'white'}},
                /* day:{style:{backgroundColor:'#163948',color:'white'}},
                

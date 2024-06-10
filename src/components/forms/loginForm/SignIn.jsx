@@ -19,8 +19,11 @@ import * as Yup from 'yup';
 
 import { useContext } from 'react';
 
-import { Alert } from '@mui/material';
+import { Alert, IconButton, InputAdornment } from '@mui/material';
 import { LoginContextP} from '../../../context/loginContextPrueba';
+import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
 
 function Copyright(props) {
    return (
@@ -38,6 +41,12 @@ function Copyright(props) {
 export  function SignIn() {
 
    const {login,error,setError} =useContext(LoginContextP)
+   const [showPassword, setShowPassword] = useState(false);
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+      
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
        
    let initialValuesForm = {
       email: '',
@@ -134,7 +143,7 @@ export  function SignIn() {
                            fullWidth
                            name="password"
                            label="Contraseña"
-                           type="password"
+                           type={showPassword ? 'text' : 'password'}
                            id="password"
                            variant="outlined"
                            autoComplete="current-password"
@@ -148,6 +157,21 @@ export  function SignIn() {
                               '& .MuiInputBase-input': {
                                  color: '#000000',
                               }}}
+
+                           InputProps={{
+                              endAdornment: (
+                                 <InputAdornment position="end">
+                                    <IconButton
+                                       aria-label="toggle password visibility"
+                                       onClick={handleClickShowPassword}
+                                       onMouseDown={handleMouseDownPassword}
+                                    >
+                                       {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                 </InputAdornment>
+                              ),
+                           }}
+                              
                         />
                                                       
                         <FormControlLabel
@@ -169,13 +193,17 @@ export  function SignIn() {
                         </Button>
                         <Grid container>
                            <Grid item xs>
-                              <Link href="#" variant="body2">
+                              <Link 
+                                 href="#" variant="body2">
                   ¿Olvidaste tu contraseña?
 
                               </Link>
                            </Grid>
                            <Grid item>
-                              <Link href="#" variant="body2">
+                              <Link 
+                                 component={NavLink}
+                                 to="/register"
+                                 variant="body2">
                                  {'¿No tienes una cuenta? Regístrate'}
                               </Link>
                            </Grid>

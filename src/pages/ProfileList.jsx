@@ -1,28 +1,35 @@
 // import userAPI from '../apiServices/usersApi';
 import { useContext } from 'react';
 import User from '../components/Pure/User';
-import { Grid, Box, Typography, Paper } from '@mui/material';
-import NavBar from '../components/NavBar/NavBar';
-import { UserContext } from '../context/userContext';
+import { Grid, Box, Typography, Paper, Button } from '@mui/material';
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { EventContext } from '../context/eventContext';
-import { useState } from 'react';
 import { LoginContextP } from '../context/loginContextPrueba';
+import { Search } from '../components/Pure/Search';
 
 export default function ProfileList() {
+
    const { listOfInterested } = useContext(EventContext);
    const { profileDetails } = useContext(LoginContextP);
    const Interested_without_me = listOfInterested.filter(
       (person) => person.userId != profileDetails._id
    );
-   console.log(
-      'Que es lista de interesados quitando mi usuario',
-      Interested_without_me
-   );
 
+   const optionsRole=['Leader','Follower','Switch']
    return (
       <>
+
          <NavigationMenu />
+  
+         <Grid  xs={12} sm={8} justifyContent="center" p={2}>
+
+            <Box display="flex" justifyContent="center" alignItems="center" flexWrap='wrap' >
+               <Search    /* value={role} */   label='Filtrar por Role'  options={optionsRole} /* onChange={(event, newValue) => {setCity(newValue)}} */  > </Search>
+              
+               <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',marginLeft:'10px'}} /*   onClick={() => {}} */>Filtrar</Button>
+            </Box>                    
+         </Grid>
+      
          <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
             <Typography
                textAlign="center"
