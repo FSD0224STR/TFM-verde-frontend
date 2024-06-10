@@ -53,7 +53,6 @@ export default function User({ userApi }) {
                minWidth: 300,
                maxHeight: 600,
                boxShadow: '5',
-               position: 'relative',
                '&:hover': {
                   transition: ' all 1s ease-in-out',
                   transform: 'scale(1.05)',
@@ -90,8 +89,8 @@ export default function User({ userApi }) {
                      src={!imgProfile ? 'https://via.placeholder.com/250' : imgProfile}
                      sx={{
                         width: '100%',
-                        height: '300px', // Set the desired height
-                        objectFit: 'cover', // Adjust the object fit as needed
+                        height: '300px', 
+                        objectFit: 'cover',
                      }}
                   />
                </Box>

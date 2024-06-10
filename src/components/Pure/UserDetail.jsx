@@ -10,15 +10,19 @@ import {
    Container,
    Divider,
    Rating,
+   IconButton,
+   Tooltip
 } from '@mui/material';
 import { main_theme } from '../../../palette-theme-colors';
 import RoleComponent from './RoleComponent';
 import RatingDanceStar from './RatingDanceStar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import ComponentMessage from './ComponentMessage';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-export default function ComponentUserDetail({userDetail}) {
+export default function ComponentUserDetail({ userDetail }) {
+   const navigate = useNavigate()
 
    const [openMessage, setOpenMessage] = useState(false);
    const {
@@ -38,58 +42,72 @@ export default function ComponentUserDetail({userDetail}) {
    return (
       <ThemeProvider theme={main_theme}>
          <Container sx={{my: '4rem' }}>
-            <Card sx={{ maxWidth: '1200px',minHeight:'700px' }}>
+            <Card sx={{ maxWidth: '1200px', minHeight: '700px' }}>
+             
                <CardContent sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+          
                   {openMessage ?
                      <ComponentMessage setOpenMessage={setOpenMessage} /> :
-                     (<CardContent sx={{ display: 'flex', flexDirection: 'column', }}>
-                        <Typography
-                           color="primary.main"
-                           mb="1rem"
-                           fontSize="1.5rem"
-                           fontWeight="600"
-                           ml='1rem'
-                        >
-                               Nivel según los tipos de baile:
-                        </Typography>
-                        <CardContent
-                           sx={{
-                              maxHeight: '200px',
-                              display: 'grid',
-                              gridTemplateColumns: 'repeat(2, 1fr)',
-                              gap:'1rem'
-                           }}
-                        >
-                           <RatingDanceStar dancingStyles={dancingStyles} />
-                        </CardContent>
-                        <CardContent sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                     <>
+                        <Box sx={{ position: 'absolute' }}>
+                           <Tooltip title="Volver a perfiles interesados">
+                              <IconButton onClick={() => navigate(-1)}>
+                                 <CancelIcon
+                                    color="primary"
+                                    sx={{ mr: '0.5rem', fontSize: '2rem' }}
+                                 />
+                              </IconButton>
+                           </Tooltip>
+                        </Box>
+                        <CardContent sx={{ display: 'flex', flexDirection: 'column', }}>
                            <Typography
-                              variant="h3"
                               color="primary.main"
+                              mb="1rem"
+                              fontSize="1.5rem"
                               fontWeight="600"
-                              mt="1rem"
-                              textAlign='center'
+                              ml='1rem'
                            >
+                               Nivel según los tipos de baile:
+                           </Typography>
+                           <CardContent
+                              sx={{
+                                 maxHeight: '200px',
+                                 display: 'grid',
+                                 gridTemplateColumns: 'repeat(2, 1fr)',
+                                 gap:'1rem'
+                              }}
+                           >
+                              <RatingDanceStar dancingStyles={dancingStyles} />
+                           </CardContent>
+                           <CardContent sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                              <Typography
+                                 variant="h3"
+                                 color="primary.main"
+                                 fontWeight="600"
+                                 mt="1rem"
+                                 textAlign='center'
+                              >
                         ¿Empezarás la conversación ?
-                           </Typography>
-                           <Typography
-                              variant="body1"
-                              color="primary.main"
-                              fontWeight="400"
-                              mt="1rem"
-                           >
+                              </Typography>
+                              <Typography
+                                 variant="body1"
+                                 color="primary.main"
+                                 fontWeight="400"
+                                 mt="1rem"
+                              >
                             Alguien debe dar el primer paso, ¿correcto?
-                           </Typography>
+                              </Typography>
 
-                           <CardActions sx={{}}>
-                              <Button onClick={()=>setOpenMessage(true)} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
-                           </CardActions>
-                           <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
-                           <CardActions>
-                              <Button size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
-                           </CardActions>
+                              <CardActions sx={{}}>
+                                 <Button onClick={()=>setOpenMessage(true)} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
+                              </CardActions>
+                              <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
+                              <CardActions>
+                                 <Button size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
+                              </CardActions>
+                           </CardContent>
                         </CardContent>
-                     </CardContent>)}
+                     </>}
                  
                   <CardContent  sx={{maxWidth:'400px', display:{xs:'none',sm:'block'}}} >
                      <CardMedia

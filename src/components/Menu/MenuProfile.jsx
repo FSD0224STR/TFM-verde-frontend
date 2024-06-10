@@ -21,7 +21,6 @@ export default function MenuProfile({handleNavProfile,handleSwitchNav}) {
 
    const [anchorEl, setAnchorEl] = useState(null);
    const{profileDetails,logout}=useContext(LoginContextP)
-   console.log('esto es profile detail dentro de Menu',profileDetails.imgProfilew)
    const open = Boolean(anchorEl);
    const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -43,7 +42,7 @@ export default function MenuProfile({handleNavProfile,handleSwitchNav}) {
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                >
-                  {profileDetails.imgProfile !== undefined ?
+                  {profileDetails.imgProfile !== undefined || null ?
                      <Avatar src={profileDetails.imgProfile} sx={{ width: 40, height: 40, bgcolor: ' background.avatar' }} /> :
                      <Avatar sx={{ width: 40, height: 40,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]}</Avatar>}
                   

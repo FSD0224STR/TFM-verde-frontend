@@ -16,9 +16,11 @@ import {
    InputLabel,
    Select,
    MenuItem,
+   IconButton,
+   Tooltip
 } from '@mui/material';
 import RoleComponent from '../Pure/RoleComponent';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import * as Yup from 'yup';
@@ -29,8 +31,10 @@ import profileDefault from '../../img/profile.png';
 import dataAge from '../../utils/dataAge';
 import EditIcon from '@mui/icons-material/Edit';
 import ConfigurationComponent from './ConfigurationComponent';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-export default function UserSettings({navProfile}) {
+export default function UserSettings({ navProfile }) {
+   const navigate = useNavigate()
  
    const { profileDetails } = useContext(LoginContextP);
    const {
@@ -123,12 +127,23 @@ export default function UserSettings({navProfile}) {
                   maxWidth: '100%',
                   display: 'flex',
                   p:'1rem',
-                  overflow:'scroll'
+                  position:'relative'
                }}
             >
             
-               <CardContent sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                  {navProfile ? <ConfigurationComponent values={values} setFieldValue={setFieldValue} errors={errors} email={email} /> : 
+               <Box sx={{ position: 'absolute',right:0,top:5 }} >
+                  <Tooltip title="Volver">
+                     <IconButton onClick={() => navigate(-1)}>
+                        <CancelIcon
+                           color="primary"
+                           sx={{ mr: '0.5rem', fontSize: '2rem' }}
+                        />
+                     </IconButton>
+                  </Tooltip>
+               </Box>
+               <CardContent sx={{ position:'relative', display: 'flex', flexDirection: 'row-reverse' }}>
+                  {navProfile ? <ConfigurationComponent values={values} setFieldValue={setFieldValue} errors={errors} email={email} handleChange={handleChange} /> : 
+          
                      <Box sx={{ ml: '1rem' }}>
                         <Box sx={{ padding: '1rem', lineHeight: '1', mb: '1rem' }}>
                            <Typography
@@ -413,7 +428,7 @@ export default function UserSettings({navProfile}) {
                            <Button sx={{':hover':{bgcolor:'secondary.variante'}}} variant='contained'>Guardar Cambios</Button>
                         </Box>
                      </Box>
-                     
+                  
                   }
 
                   {/* //!de aqui para abajo es la parte izquierda del componente */}

@@ -1,6 +1,6 @@
 
 import { createContext } from 'react';
-import{ React,  useState } from 'react';
+import{ useState } from 'react';
 
 export const EventContext = createContext();
 
