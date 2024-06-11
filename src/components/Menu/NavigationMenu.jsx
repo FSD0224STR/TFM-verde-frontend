@@ -55,7 +55,7 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                </Box>
 
                <Box
-                  sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'2rem' }}
+                  sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'6rem' }}
                >
                   <Tooltip title="Centros de baile">
                      <IconButton onClick={()=> navigate('/home')}>

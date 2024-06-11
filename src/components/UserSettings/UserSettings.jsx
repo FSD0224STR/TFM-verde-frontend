@@ -86,7 +86,7 @@ export default function UserSettings({ navProfile }) {
    const optionsRoll = [
       { label: 'Follower' },
       { label: 'Leader' },
-      { label: 'Mix' },
+      { label: 'Switch' },
    ];
 
    let initialValuesForm = {
