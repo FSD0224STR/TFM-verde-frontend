@@ -21,7 +21,7 @@ export default function ProfileList() {
 
          <NavigationMenu />
   
-         <Grid  xs={12} sm={8} justifyContent="center" p={2}>
+         <Grid item xs={12} sm={8} justifyContent="center" p={2}>
 
             <Box display="flex" justifyContent="center" alignItems="center" flexWrap='wrap' >
                <Search    /* value={role} */   label='Filtrar por Role'  options={optionsRole} /* onChange={(event, newValue) => {setCity(newValue)}} */  > </Search>

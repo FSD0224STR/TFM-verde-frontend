@@ -1,6 +1,9 @@
 import { Avatar, Box, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function BoxMessageRemitente({ msg }) {
+   const {profileDetails} = useContext(LoginContextP)
    return (
       <>
          <Box display="flex" justifyContent="flex-end">
@@ -15,7 +18,7 @@ export default function BoxMessageRemitente({ msg }) {
                <Avatar
                   sx={{ width: '40px', height: '40px', mr: '0.3rem', mt: '0.3rem' }}
                   alt="Joao Victor"
-                  src="https://reqres.in/img/faces/8-image.jpg"
+                  src={profileDetails.imgProfile}
                />
                <Typography
                   color="text.secondary"

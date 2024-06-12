@@ -78,10 +78,11 @@ export function EventComponent({event}) {
       return eventId_exist
    }
 
-   useEffect(()=>{
+   useEffect(() => {
+      console.log('entrnado en use efeect de interested')
       check_interested_event()
       setListOfInterested(interestedPeople)    
-   },[])
+   },[interestedPeople])
 
    //Esta función incluye el evento en el usuario en el array de interestingEvent
    const update_User_Id_Event= async ()=>{

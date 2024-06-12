@@ -36,7 +36,7 @@ export default function User({ userApi }) {
    const getUser=async ()=>{
       const user=await getOneUser(userApi.userId)
       setUserInfo(user)
-      console.log('Que es useIfo',user)
+      // console.log('Que es useIfo',user)
   
    }
    useEffect( ()=>{

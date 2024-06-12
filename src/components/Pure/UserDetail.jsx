@@ -17,14 +17,17 @@ import { main_theme } from '../../../palette-theme-colors';
 import RoleComponent from './RoleComponent';
 import RatingDanceStar from './RatingDanceStar';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ComponentMessage from './ComponentMessage';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { MessagesContext } from '../../context/messagesContext';
 
 export default function ComponentUserDetail({ userDetail }) {
+
+   const {openMessage,openConversation,setOpenMessage} = useContext(MessagesContext)
+
    const navigate = useNavigate()
 
-   const [openMessage, setOpenMessage] = useState(false);
    const {
       name,
       subName,
@@ -86,6 +89,7 @@ export default function ComponentUserDetail({ userDetail }) {
                                  fontWeight="600"
                                  mt="1rem"
                                  textAlign='center'
+                                 fontSize='2.7rem'
                               >
                         ¿Empezarás la conversación ?
                               </Typography>
@@ -99,7 +103,7 @@ export default function ComponentUserDetail({ userDetail }) {
                               </Typography>
 
                               <CardActions sx={{}}>
-                                 <Button onClick={()=>setOpenMessage(true)} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
+                                 <Button onClick={openConversation} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
                               </CardActions>
                               <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                               <CardActions>
@@ -109,7 +113,7 @@ export default function ComponentUserDetail({ userDetail }) {
                         </CardContent>
                      </>}
                  
-                  <CardContent  sx={{maxWidth:'400px', display:{xs:'none',sm:'block'}}} >
+                  <CardContent  sx={{maxWidth:'400px', display:{xs:'none',sm:'block'},mr:'3.5rem'}} >
                      <CardMedia
                         sx={{ MaxWidth: '300px', MaxHeight: '300px', margin:'auto'}}
                         component="img"

@@ -13,25 +13,18 @@ import BoxMessageDestinatario from './BoxMessageDestinatario';
 import BoxMessageRemitente from './BoxMessageRemitente';
 import { useContext, useState } from 'react';
 import InvitationMessageText from './InvitationMessageText';
-import { Message } from '@mui/icons-material';
 import { UserContext } from '../../context/userContext';
+import { MessagesContext } from '../../context/messagesContext';
+import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ComponentMessage({ setOpenMessage }) {
-
+   const {message,setMessage,messageSend,handleSendMessage,deleteMyConversation} = useContext(MessagesContext)
    const { userDetail } = useContext(UserContext)
+   const {profileDetails} = useContext(LoginContextP)
+
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
-   const [message, setMessage] = useState('');
-   const [messageSend, setSendMessage] = useState([]);
 
-   const handleSendMessage = () => {
-      if (message.trim() !== '') {
-         const newMessage = { messageSend: message, isSender: true };
-         setSendMessage([ newMessage,...messageSend]);
-         setMessage(' ');
-      //  console.log('enviando', messageSend)
-      }
-   };
    const ControlInvitacion = () => {
       if (invitationMessage) {
          return alert('ya has enviado un invitacion');
@@ -88,8 +81,8 @@ export default function ComponentMessage({ setOpenMessage }) {
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
                   />
                </IconButton>
-               <IconButton>
-                  <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
+               <IconButton onClick={deleteMyConversation}>
+                  <DeleteIcon  color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
          </Box>
@@ -97,7 +90,7 @@ export default function ComponentMessage({ setOpenMessage }) {
          <Box display="flex"  flexDirection="column-reverse"  flexGrow={1}>
             <Box
                display="flex"
-               flexDirection="column-reverse"
+               flexDirection="column"
               
                sx={{
                   maxHeight: '500px', // Ajusta esta altura según tus necesidades
@@ -105,9 +98,10 @@ export default function ComponentMessage({ setOpenMessage }) {
                   overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
                }}
             >
-               {messageSend.map((msg, index) => (
-               //    console.log( 'esto es el map de messageSend',msg)
-                  <BoxMessageRemitente key={index} msg={msg.messageSend} />
+               {messageSend?.map((msg, index) => (
+                  // console.log( 'esto es el map de messageSend',msg)
+                  <BoxMessageRemitente key={index} msg={msg.message} />
+                   
                ))}
                {invitationMessage && (
                   <InvitationMessageText
@@ -121,7 +115,7 @@ export default function ComponentMessage({ setOpenMessage }) {
             <Avatar
                sx={{ width: '40px', height: '40px', mr: '1rem', mt: '0.3rem' }}
                alt={userDetail.name}
-               src="https://reqres.in/img/faces/8-image.jpg"
+               src={profileDetails.imgProfile}
             />
             <TextField
                id="outlined-textarea"

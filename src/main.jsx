@@ -13,6 +13,7 @@ import { UserContextProvider } from './context/userContext.jsx';
 import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 import { LocationContextProvider } from './context/locationContext.jsx';
 import { EventContextProvider } from './context/eventContext.jsx';
+import MessagesContextProvider from './context/messagesContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
@@ -22,15 +23,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <LocationContextProvider>
                <EventContextProvider>
                   <UserContextProvider>
+                     <MessagesContextProvider>
                   
-                     <CssBaseline />
+                        <CssBaseline />
                   
-                     <App />
+                        <App />
                 
+                     </MessagesContextProvider>         
                   </UserContextProvider>
                </EventContextProvider>
             </LocationContextProvider>
-                      
          </LoginContextProviderP> 
       </BrowserRouter>
    </ThemeProvider>
