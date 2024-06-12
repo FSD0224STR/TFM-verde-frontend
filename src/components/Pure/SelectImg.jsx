@@ -2,8 +2,6 @@ import React from 'react';
 import { Typography, Grid, Button, Avatar } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 export default function SelectImg({ imgProfile, handleSelectImg, loading }) {
-
-   console.log('Que es imaprofile',imgProfile)
    
    return (
       <Grid

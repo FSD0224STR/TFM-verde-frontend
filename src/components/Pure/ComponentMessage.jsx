@@ -21,15 +21,23 @@ export default function ComponentMessage({ setOpenMessage }) {
    const {
       message,
       setMessage,
+      setSendMessage,
       messageSend,
       handleSendMessage,
       deleteMyConversation,
+      
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
 
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
+
+   const resetBoxMessage = () => {
+      setSendMessage([])
+      setOpenMessage(false)
+   
+   }
 
    const messagesEndRef = useRef(null);
 
@@ -93,7 +101,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                      ? 'Solicitud Enviada'
                      : `Invita a ${userDetail.name} a este evento`}
                </Button>
-               <IconButton onClick={() => setOpenMessage(false)}>
+               <IconButton onClick={resetBoxMessage}>
                   <CancelIcon
                      color="primary"
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}

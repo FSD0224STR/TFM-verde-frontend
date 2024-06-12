@@ -125,8 +125,6 @@ export default function FormRegister() {
 
       setLoading(true)
       const imgUser = await upload.uploadImgProfile(data);
-
-      console.log('Que es imgUser',imgUser)
          
       if (imgUser.error) {
          console.log('este es el error',imgUser.error)
