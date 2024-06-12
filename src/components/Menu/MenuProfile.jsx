@@ -43,8 +43,8 @@ export default function MenuProfile({handleNavProfile,handleSwitchNav}) {
                   aria-expanded={open ? 'true' : undefined}
                >
                   {profileDetails.imgProfile !== undefined || null ?
-                     <Avatar src={profileDetails.imgProfile} sx={{ width: 40, height: 40, bgcolor: ' background.avatar' }} /> :
-                     <Avatar sx={{ width: 40, height: 40,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]}</Avatar>}
+                     <Avatar src={profileDetails.imgProfile} sx={{ width: 60, height: 60, bgcolor: ' background.avatar' }} /> :
+                     <Avatar sx={{ width: 60, height: 60,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]}</Avatar>}
                   
                </IconButton>
             </Tooltip>

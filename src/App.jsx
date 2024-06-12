@@ -10,6 +10,7 @@ import ProfileList from './pages/ProfileList';
 import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
 import DetailUser from './pages/DetailUser';
+import MessagesPage from './pages/MessagesPage';
 
 function App() {
    return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:id" element={<DetailUser />} />
+            <Route path="/messages" element={<MessagesPage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>

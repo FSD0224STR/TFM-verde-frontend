@@ -4,10 +4,10 @@ export default function NavSettings({handleSwitchNav,handleNavProfile}) {
    return (
       <Box sx={{mb:'2rem'}}>
 
-         <AppBar sx={{position:'absolute',top:97}}>
+         <AppBar sx={{position:'absolute',top:149}}>
             <Toolbar sx={{justifyContent:'center',gap:'2rem'}}>
-               <Button onClick={handleSwitchNav}  color="inherit">Perfil</Button>
-               <Button onClick={handleNavProfile}  color="inherit">Configuaración</Button>
+               <Button onClick={handleSwitchNav}  color="inherit" sx={{fontSize:'1.5rem'}} >Perfil</Button>
+               <Button onClick={handleNavProfile}  color="inherit" sx={{fontSize:'1.5rem'}}>Configuaración</Button>
             </Toolbar>
          </AppBar>
       </Box>

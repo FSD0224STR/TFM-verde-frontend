@@ -474,7 +474,7 @@ export default function UserSettings({ navProfile }) {
 
                         <Box sx={{ display: 'flex',justifyContent:'center' }}>
 
-                           <Button sx={{':hover':{bgcolor:'secondary.variante'}}}  onClick={handleClickOpen}  variant='contained'>Guardar Cambios</Button>
+                           <Button sx={{':hover':{bgcolor:'secondary.variante'},fontSize:'1.5rem'}}  onClick={handleClickOpen}  variant='contained'>Guardar Cambios</Button>
                         </Box>
                         <AlertDialog openDialog={openDialog} handleClose={handleClose} handleResetStatus={handleResetStatus} handleConfirmSubmit={handleConfirmSubmit} alertStatus={alertStatus} />
                      </Box>

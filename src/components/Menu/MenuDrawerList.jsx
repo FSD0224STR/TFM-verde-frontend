@@ -28,7 +28,7 @@ import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlin
 import { LoginContextP } from '../../context/loginContextPrueba';
 export default function MenuDrawerList({ setOpen }) {
 
-   const { logout } = useContext(LoginContextP)
+   const { logout,profileDetails } = useContext(LoginContextP)
    return (
       <ThemeProvider theme={main_theme}>
          <Box
@@ -61,7 +61,7 @@ export default function MenuDrawerList({ setOpen }) {
                         
                      }}
                   >
-                     <Avatar alt="Travis Howard" sx={{ width: 70, height: 70 }} src={imagenDefault} />
+                     <Avatar alt="Profile User" sx={{ width: 70, height: 70 }} src={profileDetails.imgProfile} />
                      <Link style={{ textDecoration: 'none', color: 'inherit' }} to={'/#myprofile'} > <Typography ml='0.5rem' fontSize='1.2rem' fontWeight={600}>Maria Sanchez</Typography></Link>
                   </ListItem>
 
@@ -84,7 +84,7 @@ export default function MenuDrawerList({ setOpen }) {
                            },
                         }}
                      >
-                        <ListItemButton component={NavLink} to="/">
+                        <ListItemButton component={NavLink} to="/home">
                            <ListItemIcon>
                               <PlaceIcon sx={{fontSize:25 ,color:'primary.main'}}/>
                            </ListItemIcon>
@@ -109,7 +109,7 @@ export default function MenuDrawerList({ setOpen }) {
                            },
                         }}
                      >
-                        <ListItemButton component={NavLink} to="/#chat">
+                        <ListItemButton component={NavLink} to="/messages">
                            <ListItemIcon>
                               <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
                                  <MailIcon sx={{fontSize:25,ml:'0.5rem',color:'primary.main'}}/>
@@ -165,7 +165,7 @@ export default function MenuDrawerList({ setOpen }) {
                            },
                         }}
                      >
-                        <ListItemButton component={NavLink} to="/#myprofile">
+                        <ListItemButton component={NavLink} to="/profile">
                            <ListItemIcon>
                               <Person2Icon/>
                            </ListItemIcon>
@@ -189,7 +189,7 @@ export default function MenuDrawerList({ setOpen }) {
                            },
                         }}
                      >
-                        <ListItemButton component={NavLink} to="/#settings">
+                        <ListItemButton component={NavLink} to="/profile">
                            <ListItemIcon>
                               <Settings fontSize="medium" />
                            </ListItemIcon>

@@ -28,7 +28,7 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
    const navigate = useNavigate()
    return (
       <>
-         <AppBar position="static" sx={{ textAlign: 'left', padding: '1rem'}}>
+         <AppBar position="static" sx={{ textAlign: 'left', padding: '2rem'}}>
             <Toolbar sx={{ justifyContent: { xs:'flex-start',sm:'space-between'},alignItems:'center' }}>
                <Box display='flex'>
 
@@ -49,30 +49,30 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                         fontFamily="Dancing Script"
                         color="inherit"
                      >
-                        <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }}>MeetDancing</Link>
+                        <Link to="/home" style={{ textDecoration: 'none', color: 'inherit',fontSize:'3rem' }}>MeetDancing</Link>
                      </Typography>
                   </Box>
                </Box>
 
                <Box
-                  sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'6rem' }}
+                  sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center',mr:'11rem',gap:'1.5rem' }}
                >
                   <Tooltip title="Centros de baile">
                      <IconButton onClick={()=> navigate('/home')}>
-                        <PlaceIcon sx={{fontSize:35,ml:'0.5rem',color:'white'}}/>
+                        <PlaceIcon sx={{fontSize:45,ml:'0.5rem',color:'white'}}/>
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="mensajes">
-                     <IconButton>
+                     <IconButton onClick={()=>navigate('/messages')}>
                         <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
-                           <MailIcon sx={{fontSize:35,ml:'0.5rem'}}/>
+                           <MailIcon sx={{fontSize:45,ml:'0.5rem'}}/>
                         </Badge>
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="Eventos de interés">
                      <IconButton onClick={()=> navigate('/events')} >
                         <Badge  badgeContent={5} max={99} color='error' >
-                           <Icon component="img" src={events} sx={{ fontSize: 35,ml:'0.5rem'}}></Icon>
+                           <Icon component="img" src={events} sx={{ fontSize: 45,ml:'0.5rem'}}></Icon>
                         </Badge>
                      </IconButton>
                   </Tooltip>
@@ -81,7 +81,7 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                   <Tooltip title="Notificaciones">
                      <IconButton>
                         <Badge  badgeContent={5} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
-                           <NotificationsIcon sx={{ fontSize: 35, color: 'white' }} />
+                           <NotificationsIcon sx={{ fontSize: 45, color: 'white' }} />
                         </Badge>
                      </IconButton>
                   </Tooltip>
