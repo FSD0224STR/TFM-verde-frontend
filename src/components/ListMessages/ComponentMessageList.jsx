@@ -9,15 +9,15 @@ import {
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import BoxMessageDestinatario from './BoxMessageDestinatario';
-import BoxMessageRemitente from './BoxMessageRemitente';
+import BoxMessageDestinatario from '../Pure/BoxMessageDestinatario';
+import BoxMessageRemitente from '../Pure/BoxMessageRemitente';
 import { useContext, useEffect, useRef, useState } from 'react';
-import InvitationMessageText from './InvitationMessageText';
+import InvitationMessageText from '../Pure/InvitationMessageText';
 import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 
-export default function ComponentMessageList({ setOpenMessage }) {
+export default function ComponentMessageList({ setOpenChat }) {
    const {
       message,
       setMessage,
@@ -33,11 +33,11 @@ export default function ComponentMessageList({ setOpenMessage }) {
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
 
-   const resetBoxMessage = () => {
-      setSendMessage([])
-      setOpenMessage(false)
+   // const resetBoxMessage = () => {
+   //    setSendMessage([])
+   //    setOpenMessage(false)
    
-   }
+   // }
 
    const messagesEndRef = useRef(null);
 
@@ -57,6 +57,8 @@ export default function ComponentMessageList({ setOpenMessage }) {
       }
    };
 
+   //!Logica para el listado de mensajes abajo
+
    return (
       <Box
          onChange={scrollToBottom}
@@ -64,11 +66,10 @@ export default function ComponentMessageList({ setOpenMessage }) {
          bgcolor="#E2E6E4"
          borderRadius={2}
          sx={{
-            width: '900px',
-            minHeight: '750px',
+            width: '100%',
+            minHeight: '83vh',
             display: 'flex',
-            mt: '1rem',
-            mr: '1rem',
+           
             flexDirection: 'column',
             p: '1rem',
          }}
@@ -88,7 +89,7 @@ export default function ComponentMessageList({ setOpenMessage }) {
                   ml="1rem"
                   mt="0.4rem"
                >
-                  {userDetail.name} {userDetail.subName}
+                  {'userDetail.name'} {'userDetail.subName'}
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
@@ -99,9 +100,9 @@ export default function ComponentMessageList({ setOpenMessage }) {
                >
                   {invitationMessage
                      ? 'Solicitud Enviada'
-                     : `Invita a ${userDetail.name} a este evento`}
+                     : `Invita a ${'userDetail.name'} a este evento`}
                </Button>
-               <IconButton onClick={resetBoxMessage}>
+               <IconButton onClick={()=>{setOpenChat(false)}}>
                   <CancelIcon
                      color="primary"
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
@@ -141,8 +142,8 @@ export default function ComponentMessageList({ setOpenMessage }) {
          </Box>
          <Box display="flex" m="1rem">
             <Avatar
-               sx={{ width: '40px', height: '40px', mr: '1rem', mt: '0.3rem' }}
-               alt={userDetail.name}
+               sx={{ width: '60px', height: '60px', mr: '1rem', mt: '0.3rem' }}
+               alt={profileDetails.name}
                src={profileDetails.imgProfile}
             />
             <TextField
