@@ -11,19 +11,35 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import BoxMessageDestinatario from './BoxMessageDestinatario';
 import BoxMessageRemitente from './BoxMessageRemitente';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import InvitationMessageText from './InvitationMessageText';
 import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ComponentMessage({ setOpenMessage }) {
-   const {message,setMessage,messageSend,handleSendMessage,deleteMyConversation} = useContext(MessagesContext)
-   const { userDetail } = useContext(UserContext)
-   const {profileDetails} = useContext(LoginContextP)
+   const {
+      message,
+      setMessage,
+      messageSend,
+      handleSendMessage,
+      deleteMyConversation,
+   } = useContext(MessagesContext);
+   const { userDetail } = useContext(UserContext);
+   const { profileDetails } = useContext(LoginContextP);
 
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
+
+   const messagesEndRef = useRef(null);
+
+   const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ block: 'end' });
+   };
+
+   useEffect(() => {
+      scrollToBottom();
+   }, [messageSend]);
 
    const ControlInvitacion = () => {
       if (invitationMessage) {
@@ -35,22 +51,25 @@ export default function ComponentMessage({ setOpenMessage }) {
 
    return (
       <Box
+         onChange={scrollToBottom}
          component="section"
-         bgcolor="#b3e6e2"
+         bgcolor="#E2E6E4"
          borderRadius={2}
          sx={{
-            width: '736px',
-            minHeight: '640px',
+            width: '900px',
+            minHeight: '750px',
             display: 'flex',
             mt: '1rem',
+            mr: '1rem',
             flexDirection: 'column',
+            p: '1rem',
          }}
       >
          <Box width="100%" display="flex" p={1}>
             <Box display="flex" flexGrow={1}>
                <Avatar
                   sx={{ width: '40px', height: '40px' }}
-                  alt="Maria Sanchez"
+                  alt="Profile"
                   src={userDetail.imgProfile}
                />
 
@@ -60,9 +79,8 @@ export default function ComponentMessage({ setOpenMessage }) {
                   sx={{ flexGrow: 1 }}
                   ml="1rem"
                   mt="0.4rem"
-                  
                >
-                  {userDetail.name}{' '}{userDetail.subName}
+                  {userDetail.name} {userDetail.subName}
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
@@ -82,33 +100,35 @@ export default function ComponentMessage({ setOpenMessage }) {
                   />
                </IconButton>
                <IconButton onClick={deleteMyConversation}>
-                  <DeleteIcon  color="primary" sx={{ fontSize: '2rem' }} />
+                  <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
          </Box>
 
-         <Box display="flex"  flexDirection="column-reverse"  flexGrow={1}>
+         <Box display="flex" flexDirection="column-reverse" flexGrow={1}>
             <Box
                display="flex"
                flexDirection="column"
-              
                sx={{
                   maxHeight: '500px', // Ajusta esta altura según tus necesidades
                   overflowY: 'auto',
                   overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
                }}
             >
-               {messageSend?.map((msg, index) => (
-                  // console.log( 'esto es el map de messageSend',msg)
-                  <BoxMessageRemitente key={index} msg={msg.message} />
-                   
-               ))}
+               {messageSend.map((msg, index) =>
+                  msg.sender === profileDetails._id ? (
+                     <BoxMessageRemitente key={index} msg={msg.message} />
+                  ) : (
+                     <BoxMessageDestinatario key={index} msg={msg.message} />
+                  )
+               )}
                {invitationMessage && (
                   <InvitationMessageText
                      responseInvitation={responseInvitation}
                      setResponseInvitation={setResponseInvitation}
                   />
                )}
+               <div ref={messagesEndRef} />
             </Box>
          </Box>
          <Box display="flex" m="1rem">
@@ -124,8 +144,18 @@ export default function ComponentMessage({ setOpenMessage }) {
                multiline
                fullWidth
                value={message}
-               sx={{ mr: '1rem', width: '100%' }}
-               onChange={(e)=>setMessage(e.currentTarget.value)}
+               sx={{
+                  mr: '1rem',
+                  width: '100%',
+                  '& .MuiInputBase-input': {
+                     color: 'primary.main',
+                     fontSize: '1.3rem',
+                     overflow: 'auto',
+                     whiteSpace: 'nowrap',
+                  },
+             
+               }}
+               onChange={(e) => setMessage(e.currentTarget.value)}
             />
             <Button
                sx={{ px: '2rem', py: '1rem' }}

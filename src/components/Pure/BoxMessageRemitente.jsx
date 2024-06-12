@@ -11,7 +11,7 @@ export default function BoxMessageRemitente({ msg }) {
                display="flex"
                m="1rem"
                p="1rem"
-               bgcolor="white"
+               bgcolor='#7BE6A8'
                maxWidth="90%"
                borderRadius={2}
             >
@@ -21,8 +21,8 @@ export default function BoxMessageRemitente({ msg }) {
                   src={profileDetails.imgProfile}
                />
                <Typography
-                  color="text.secondary"
-                  sx={{ fontSize: '1rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal'}}
+                  color="text.main"
+                  sx={{ fontSize: '1.3rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal',mt:'0.4rem'}}
                >
                   {msg}
                </Typography>

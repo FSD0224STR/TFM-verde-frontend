@@ -13,48 +13,48 @@ export default function MessagesContextProvider({ children }) {
    const { profileDetails} = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
     
-   //    const scrollToBottom = () => {
-   //       console.log('ejecutando el scrol')
-   //       scroll.scrollToBottom();
-   //    };
+   const scrollToBottom = () => {
+      console.log('ejecutando el scrol')
+      scroll.scrollToBottom();
+   };
     
-   //    console.log('esto es userDetail en MessagesContex',userDetail)
-   //    console.log('esto es profileDetails en MessagesContex',profileDetails)
-    
-   const openConversation = async() => {
+   const openConversation = async () => {
+      console.log('open conversation')
       const dataMessages = { sender: profileDetails._id, receiver: userDetail._id }
       console.log('esto es idUser',dataMessages)
       const conversation = await messagesApi.getMyConversation(dataMessages)
-      const myConversation = conversation.mensajes
-      setSendMessage(myConversation)
-      setOpenMessage(true)
-      console.log('esto es conversation en messsagesContext',conversation)
+      if (conversation === false) {
+         return setOpenMessage(true)
+      } else {
+         const myConversation = conversation.mensajes
+         setOpenMessage(true)
+         setSendMessage(myConversation)
+         console.log('esto es conversation en messsagesContext',conversation)
+      }
        
    }
     
    const handleSendMessage = async() => {
       if (message.trim() !== '') {
          const newMessage = { sender: profileDetails._id, receiver: userDetail._id, message }
-         console.log('esto es el mensaje que estoy enviando',newMessage.message)
          const addNewMessage = await messagesApi.sendNewMessage(newMessage)
-         console.log('esto es el mensaje que em ha devuelto la api',addNewMessage)
-         setSendMessage([...messageSend, { message: addNewMessage }]);
+         setSendMessage([...messageSend, { message: addNewMessage,sender:profileDetails._id }]);
          setMessage(' ');
-         //  myConversation()
           
       }
    };
     
-   //    const myConversation = async () => {
-   //       const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
-   //       const getMessages = await messagesApi.getMyConversation(idUsers)
-   //       console.log('esto es mi conversacion', getMessages.mensajes)
+   // const myConversation = async () => {
+   //    const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
+   //    const getMessages = await messagesApi.getMyConversation(idUsers)
+   //    setSendMessage(getMessages.mensajes)
 
-   //    }
+   // }
     
    const deleteMyConversation = async () => {
       const idUser = profileDetails._id
       const deleteMsg = await messagesApi.deleletConversation(idUser)
+      setSendMessage([])
       console.log('estoy elimiandno',deleteMsg)
 
    }
@@ -67,7 +67,8 @@ export default function MessagesContextProvider({ children }) {
       openConversation,
       messageSend,
       handleSendMessage,
-      deleteMyConversation
+      deleteMyConversation,
+      scrollToBottom
    };
 
    return (

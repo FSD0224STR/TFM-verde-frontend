@@ -28,7 +28,7 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
    const navigate = useNavigate()
    return (
       <>
-         <AppBar position="static" sx={{ textAlign: 'left', padding: '1rem'}}>
+         <AppBar position="" sx={{ textAlign: 'left', padding: '1rem'}}>
             <Toolbar sx={{ justifyContent: { xs:'flex-start',sm:'space-between'},alignItems:'center' }}>
                <Box display='flex'>
 

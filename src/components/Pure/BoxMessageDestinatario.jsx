@@ -1,12 +1,13 @@
-import React from 'react'
+import  { useContext } from 'react'
 import {
    Avatar,
    Box,
    Typography,
 } from '@mui/material';
-import AvatarMaria from '../../assets/1.jpg';
+import { UserContext } from '../../context/userContext';
 
 export default function BoxMessageDestinatario({msg}) {
+   const { userDetail } = useContext(UserContext)
    return (
       <>
          <Box display='flex'>
@@ -14,11 +15,11 @@ export default function BoxMessageDestinatario({msg}) {
                <Avatar
                   sx={{ width: '40px', height: '40px' }}
                   alt="Maria Sanchez"
-                  src={AvatarMaria}
+                  src={userDetail.imgProfile}
                />
                <Typography
                   color="text.secondary"
-                  sx={{ fontSize: '1rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal'}}
+                  sx={{ fontSize: '1.3rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal',mt:'0.4rem'}}
                >
                   {msg}
         

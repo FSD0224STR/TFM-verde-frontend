@@ -1,28 +1,6 @@
 
 const Servidorurl = 'http://localhost:3000'
 
-// const getConversation = async (idUsers) => {
-
-//    const response = await fetch(`${Servidorurl}/conversation`, {
-//       method: 'POST',
-//       body: JSON.stringify(idUsers),
-//       headers: {
-//          'Content-Type': 'application/json',
-//       },
-//    });
-//    if (!response.ok) {
-        
-//       const error = await response.json()
-//       console.log('esto es error',error)
-//       return  error;
-//    }
-    
-//    const conversation = await response.json();
-//    console.log('esto es conversation creada en Appi',conversation)
-//    return  conversation ;
-   
-// }
-
 const sendNewMessage = async (newMessage) => {
     
    const response = await fetch(`${Servidorurl}/conversation`, {
@@ -46,16 +24,20 @@ const sendNewMessage = async (newMessage) => {
 }
 
 const getMyConversation = async (idUsers) => {
-   console.log('esto esl id del que esta enviando',idUsers.sender)
-   console.log('esto esl id de quien esta recibiendo',idUsers.receiver)
    const response = await fetch(`${Servidorurl}/conversation/${idUsers.sender}/${idUsers.receiver}`, {
       method:'GET'  
    })
+   
+   console.log('primera llamada',response)
    if (!response.ok) {
         
       const error = await response.json()
       console.log('esto es error',error)
       return  error;
+   }
+
+   if (response.status === 204) {
+      return false
    }
 
    const myconversation = await response.json();
@@ -80,7 +62,6 @@ const deleletConversation = async (id) => {
 }
 
 export default {
-//    getConversation,
    sendNewMessage,
    getMyConversation,
    deleletConversation
