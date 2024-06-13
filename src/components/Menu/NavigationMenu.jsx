@@ -71,9 +71,9 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                   </Tooltip>
                   <Tooltip title="Eventos de interés">
                      <IconButton onClick={()=> navigate('/events')} >
-                        <Badge  badgeContent={5} max={99} color='error' >
-                           <Icon component="img" src={events} sx={{ fontSize: 45,ml:'0.5rem'}}></Icon>
-                        </Badge>
+                   
+                        <Icon component="img" src={events} sx={{ fontSize: 35,ml:'0.5rem'}}></Icon>
+                       
                      </IconButton>
                   </Tooltip>
                </Box>

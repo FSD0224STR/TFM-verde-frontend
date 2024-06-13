@@ -1,35 +1,56 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
-import { LocationsComponent } from '../components/Pure/LocationComponent'
-import { LocationContext } from '../context/locationContext'
 import { Box, CircularProgress, Grid,Paper, Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
-import { LocationComponentBig } from '../components/Pure/LocationComponentBig'
+import { UserContext } from '../context/userContext'
+import { LoginContextP } from '../context/loginContextPrueba'
+import { EventContext } from '../context/eventContext'
+import { Navigate } from 'react-router-dom'
 
 export default function EventsList() {
 
-   const {getLocationData,locationDatas,LocationEventsData}=useContext(LocationContext) 
-   
+   const {listEventsInterested,getListEventsUser}=useContext(UserContext) 
+   const{profileDetails}=useContext(LoginContextP)
+   const{getOneEvent}=useContext(EventContext)
+   const[eventsInfoList,setEventsInfoList]=useState([])
+
    useEffect (()=>{
    
-      getLocationData()
-      
+      getListEventsUser(profileDetails)
+     
    },[])
+
+   useEffect(() => {
+      const fetchAllEvent = async () => {
+         const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
+         setEventsInfoList(events);
+      };
+
+      fetchAllEvent();
+  
+   }, [listEventsInterested]);
+   
+   console.log('Que es listEventsInterested',listEventsInterested)
 
    return (
       <>
               
          <NavigationMenu />
            
-         {locationDatas ? (
+         {listEventsInterested ? (
             <>
-
-               <LocationComponentBig location={locationDatas}/>
-
-               <h2>Proximos eventos</h2>
+             
                <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}>
+                  <Typography
+                     textAlign="center"
+                     variant="h2"
+                     my="3rem"
+                     color="text.secondary"
+                  >
+          Eventos de interés
+                  </Typography>
 
-                  {LocationEventsData.length ? (
+                  {listEventsInterested.length ? (
                   
                      <Box
                         width="100%"
@@ -48,7 +69,7 @@ export default function EventsList() {
                            sx={{ m: '4rem' }}
                         >
 
-                           {LocationEventsData.map((event,index)=> (
+                           {eventsInfoList.map((event,index)=> (
                               <Grid
                                  item
                                  key={index}
@@ -58,10 +79,9 @@ export default function EventsList() {
                                  sm={6}
                                  md={4}
                                  lg={3}
-                                 
                               >
 
-                                 <EventComponent   event={event} />
+                                 <EventComponent   event={event} />  
                              
                               </Grid> 
                            ))}
@@ -77,7 +97,7 @@ export default function EventsList() {
                         my="3rem"
                         color="text.secondary"
                      >
-            Actualmente no hay eventos disponibles
+            Actualmente no te has interesado en ningun evento.
                      </Typography>
                   )}
                </Paper>

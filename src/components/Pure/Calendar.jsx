@@ -27,7 +27,7 @@ export function DateCalendarValue() {
             slotProps={{ 
                day: {
                   sx: {
-                     color: 'primary.main', // Color de texto de los días seleccionables
+                     color: 'primary.main'
                   },
                },
 

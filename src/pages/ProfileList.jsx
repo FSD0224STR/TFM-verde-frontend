@@ -1,5 +1,5 @@
 // import userAPI from '../apiServices/usersApi';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import User from '../components/Pure/User';
 import { Grid, Box, Typography, Paper, Button } from '@mui/material';
 import NavigationMenu from '../components/Menu/NavigationMenu';
@@ -14,23 +14,54 @@ export default function ProfileList() {
    const Interested_without_me = listOfInterested.filter(
       (person) => person.userId != profileDetails._id
    );
+   
+   useEffect (()=>{
+   
+      listOfInterested 
+      profileDetails
+      
+   },[])
 
    const optionsRole=['Leader','Follower','Switch']
    return (
       <>
 
          <NavigationMenu />
-  
-         <Grid item xs={12} sm={8} justifyContent="center" p={2}>
 
-            <Box display="flex" justifyContent="center" alignItems="center" flexWrap='wrap' >
-               <Search    /* value={role} */   label='Filtrar por Role'  options={optionsRole} /* onChange={(event, newValue) => {setCity(newValue)}} */  > </Search>
-              
-               <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',marginLeft:'10px'}} /*   onClick={() => {}} */>Filtrar</Button>
-            </Box>                    
+         <Grid
+            container
+            justifyContent="center"
+            sx={{ m: '1.5rem' }}
+       
+         >
+           
+            <Grid 
+               item  
+               display="flex"
+               justifyContent="center"
+               xs={12}
+               sm={1}
+               lg={1}
+               
+            >
+               <Search    /* value={role} */   label='Filtrar por Role'  options={optionsRole} /* onChange={(event, newValue) => {setCity(newValue)}} */  > </Search>          
+            </Grid>
+            
+            <Grid 
+               item  
+               display="flex"
+               justifyContent="center"
+               xs={12}
+               sm={1}
+               lg={1}
+               
+            >
+               <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',marginLeft:'10px'}} /*   onClick={() => {}} */>Filtrar</Button>         
+            </Grid>
+
          </Grid>
       
-         <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
+         <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}>
             <Typography
                textAlign="center"
                variant="h2"

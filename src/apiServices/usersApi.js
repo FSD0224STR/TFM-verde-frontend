@@ -136,15 +136,16 @@ const getMyprofile = async () => {
    }
 };
 
-const getOneUserApi = async (userId) => {
-   const response = await fetch(`${Servidorurl}/users/${userId}`);
-
-   if (!response.ok) return { error: await response.json() };
-
-   const user = await response.json();
-   return user;
-};
-export default {
+const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
+   
+   const response=await fetch(`${Servidorurl}/users/${userId}`)
+  
+   if (!response.ok)   return { error: await response.json() }
+  
+   const user=await response.json()
+   return user
+}
+export default { 
    getAllUsers,
    addUser,
    deleteUser,

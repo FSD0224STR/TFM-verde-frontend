@@ -13,7 +13,7 @@ export const Search=({ label,value,options,onChange})=>{
             value={value}
             onChange={onChange}
             options={options} 
-            sx={{ minWidth: 170,bgcolor:'white','& .MuiInputBase-input': {color: 'primary.main'}}}
+            sx={{ minWidth: 160,bgcolor:'white','& .MuiInputBase-input': {color: 'primary.main'}}}
            
             renderInput={(params) => <TextField    {...params} label={label} />}
             renderOption={(props, option) => (

@@ -24,7 +24,6 @@ import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
 import {updateUser} from '../../apiServices/usersApi'
 import { useEffect } from 'react';
-import { LocationContext } from '../../context/locationContext';
 import { EventContext } from '../../context/eventContext';
 
 const ExpandMore = styled((props) => {
@@ -51,7 +50,7 @@ export function EventComponent({event}) {
       danceCouples,
       description,
       interestedPeople,
-      photoURL
+      photoURL,      
 
    }=event
    
@@ -144,11 +143,11 @@ export function EventComponent({event}) {
    };
   
    return (
-      <Paper  elevation={22}  sx={{ width: 340, color: 'text.secondary'/* ,backgroundColor:'grey'  */}}>
+      <Paper  elevation={22}  sx={{ minWidth: 400, minHeight:600, color: 'text.secondary'}}>
         
          <CardMedia
             component="img"
-            height="175"
+            height="200"
             image= {photoURL[0]} 
             alt=""
          />

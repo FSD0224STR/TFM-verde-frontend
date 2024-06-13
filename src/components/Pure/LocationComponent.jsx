@@ -24,8 +24,8 @@ export function LocationsComponent({ name,address,_id,events}) {
       <Card sx={{color: 'primary.main',fontWeight: 'bold',
          transitionDuration: '2s',
          maxWidth: 450,
-         minWidth: 300,
-         maxHeight: 600,
+         minWidth: 450,
+         minHeight: 580,
          boxShadow: '8px 6px 9px #9ec5c0',
          position: 'relative',
        
@@ -90,7 +90,8 @@ export function LocationsComponent({ name,address,_id,events}) {
             )}
 
          </CardContent>
-         <CardActions sx={{justifyContent: 'center'}} >
+
+         <CardActions sx={{justifyContent: 'center',position:'absolute',left: '50%',transform:'translateX(-50%)',  bottom: 10}} >
 
             <RepeatButton onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id)}} name='Ver eventos'></RepeatButton>
           

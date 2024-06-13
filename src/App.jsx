@@ -11,6 +11,7 @@ import SettingsProfile from './pages/SettingsProfile';
 import NotFound from './pages/NotFound';
 import DetailUser from './pages/DetailUser';
 import MessagesPage from './pages/MessagesPage';
+import EventsInterested from './pages/EventsInterested'
 
 function App() {
    return (
@@ -20,10 +21,12 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/events" element={<EventsInterested />} />
             <Route path="/events/:id" element={<EventsList />} />
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:id" element={<DetailUser />} />
+            
             <Route path="/messages" element={<MessagesPage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>

@@ -1,7 +1,7 @@
 
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
-import {Box, Button, Grid, Typography } from '@mui/material'
+import {Box, Button, Grid, Paper, Typography } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
@@ -24,50 +24,113 @@ export default function Home() {
             
          <NavigationMenu/>
 
-         <Grid container m={2} spacing={2} alignItems='center'>
-  
-            <Grid item xs={12} sm={3} >
+         <Grid
+            container
+            maxWidth="100%"
+            justifyContent="center"
+            spacing={4}
+            sx={{ m: '1rem' }}
+         >
 
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
-               </Box>                    
+            <Grid 
+               item  
+               display="flex"
+               justifyContent="center"
+               xs={12}
+               sm={4}
+               lg={3}
+               
+            >
+            
+               <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
+                                
             </Grid>
 
-            <Grid item xs={12} sm={3} >
-
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  <DateCalendarValue/>
-      
-               </Box>
+            <Grid
+               item   
+               display="flex"
+               justifyContent="center"
+               xs={12}
+               sm={4}
+               lg={3}
+               
+            >
+             
+               <DateCalendarValue/>
+          
             </Grid>
-                    
-            <Grid item xs={12} sm={3} >
-
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
-               </Box>
      
+            <Grid 
+               item   
+               display="flex" 
+               justifyContent="center"
+               xs={12}
+               sm={4}
+               lg={3}
+               
+            >
+            
+               <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
+
             </Grid>
 
-            <Grid item xs={12} sm={3}>
-               <Box display="flex" justifyContent="center" alignItems="center" marginLeft={2} marginRight={2}>
-                  <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',}} 
-                  
-                     onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
-               </Box>
-     
+            <Grid
+               item  
+               display="flex"
+               justifyContent="center"
+               xs={12}
+               sm={12}
+               lg={3}
+              
+            >
+              
+               <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',}} 
+   
+                  onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
+
             </Grid>
 
          </Grid>
 
-         <Grid container spacing={1} my={3} width='95%' p={1} bgcolor='white' sx={{justifyContent:'center'}}>
+         <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
 
-            {locations.length?(locations.map(local=> 
-               <Grid item xs={12} sm={6} key={local._id}> 
+            {locations.length?(
                
-                  <LocationsComponent  {...local}></LocationsComponent> 
-               
-               </Grid>)):(<Typography
+               <Box
+                  width="100%"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+               >
+                  <Grid
+                     container
+                     maxWidth="100%"
+                     justifyContent="center"
+                     gap={4}
+                     spacing={4}
+                     sx={{ m: '4rem' }}
+                  >
+                     {locations.map((local,index)=> (
+                        <Grid
+
+                           item
+                           key={index}
+                           display="flex"
+                           justifyContent="center"
+                           xs={12}
+                           sm={6}
+                           md={4}
+                           lg={3}
+                        >
+                           <LocationsComponent  {...local}/>
+
+                        </Grid>
+                     ))}
+                  </Grid>
+               </Box>
+
+            ):(<Typography
                textAlign="center"
                variant="h2"
                my="3rem"
@@ -75,8 +138,8 @@ export default function Home() {
             >
           No se han encontrado resultados
             </Typography>)}
-      
-         </Grid>
+           
+         </Paper>
         
       </>
    )
