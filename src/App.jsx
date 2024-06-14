@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 
 import './App.css';
 import Home from './pages/Home';
@@ -16,7 +16,7 @@ import EventsInterested from './pages/EventsInterested'
 function App() {
    return (
       <>
-         <Routes>
+         <Routes >
             <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -26,7 +26,6 @@ function App() {
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:id" element={<DetailUser />} />
-            
             <Route path="/messages" element={<MessagesPage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>

@@ -23,9 +23,9 @@ export const LoginContextProviderP = ({ children }) => {
       try {
          const response = await usersApi.getMyprofile();
          if (token && !response.error) {
-            
-            setProfileDetails(response)
             setIsLoggedIn(true);
+            setProfileDetails(response)
+            console.log('esto es login abajo',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
             navigate('/home')
          } else {
             navigate('/')
@@ -37,7 +37,7 @@ export const LoginContextProviderP = ({ children }) => {
    //!revisar como esta actuando el useEfFect
    useEffect(() => {
       checkToken()
-
+      
    },[]);
 
    const login = async (email, password) => {
@@ -51,6 +51,7 @@ export const LoginContextProviderP = ({ children }) => {
          console.log('Cuales son los datos del usuario logeado', userdetails);
          navigate('/home')
          setProfileDetails(userdetails);
+         console.log('esto es login abajo',profileDetails)
       }
       setIsLoggedIn(true);
    };
@@ -67,7 +68,8 @@ export const LoginContextProviderP = ({ children }) => {
       login,
       profileDetails,
       setProfileDetails,
-      logout
+      logout,
+      checkToken
    };
 
    return (
