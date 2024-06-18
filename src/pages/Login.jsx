@@ -11,10 +11,7 @@ export default function Login({children}) {
       <>
          <NavBar></NavBar>
 
-         <Box>
-
-            <Typography variant='h2'>Bienvenido nuevamente a MeetDancing</Typography>
-                                
+         <Box> 
             <SignIn/>
          </Box>
          {children}

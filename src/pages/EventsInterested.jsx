@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState} from 'react'
+import  { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
 import { Box, CircularProgress, Grid,Paper, Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
@@ -30,16 +30,15 @@ export default function EventsList() {
   
    }, [listEventsInterested]);
    
-   console.log('Que es listEventsInterested',listEventsInterested)
+   console.log('Que es listEventsInterested', listEventsInterested)
+   console.log('esto es profileDetail',profileDetails)
 
    return (
       <>
-              
-         <NavigationMenu />
            
-         {listEventsInterested ? (
+         {profileDetails ? (
             <>
-             
+               <NavigationMenu />
                <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}>
                   <Typography
                      textAlign="center"
@@ -47,7 +46,7 @@ export default function EventsList() {
                      my="3rem"
                      color="text.secondary"
                   >
-          Eventos de interés
+                 Eventos de interés
                   </Typography>
 
                   {listEventsInterested.length ? (
@@ -97,13 +96,11 @@ export default function EventsList() {
                         my="3rem"
                         color="text.secondary"
                      >
-            Actualmente no te has interesado en ningun evento.
+                   Actualmente no te has interesado en ningun evento.
                      </Typography>
                   )}
                </Paper>
-           
             </>
-        
          ): ( 
             <Box sx={{ display: 'flex',height:'100vh',justifyContent:'center',
                alignItems:'center'}}>

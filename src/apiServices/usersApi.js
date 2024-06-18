@@ -18,22 +18,6 @@ const detailByIdUser = async (id) => {
    return user; /* .user */ //? hay quew revisar lo que se estta devolviendo //Yirka:he modificado aqui
 };
 
-// const ListOfInterestedUsers = async () => {
-//    // console.log('entrando en la llamdado del listado')
-//    const token = localStorage.getItem('access_token');
-//    const response = await fetch(`${Servidorurl}/users`, {
-//       method: 'GET',
-//       headers: { authorization: `Bearer ${token}` },
-//    });
-//    if (!response.ok) {
-//       const error = await response.json();
-//       return { error };
-//    }
-//    const ListUsers = await response.json();
-//    // console.log('recibiendo el listado',ListUsers)
-//    return ListUsers;
-// };
-
 const addUser = async (newUserData) => {
    const response = await fetch(`${Servidorurl}/users/register`, {
       method: 'POST',

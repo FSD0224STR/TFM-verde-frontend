@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import usersApi from '../apiServices/usersApi';
+import { Refresh } from '@mui/icons-material';
 
 //Se crea el contexto
 export const LoginContextP = React.createContext();
@@ -14,6 +15,15 @@ export const LoginContextProviderP = ({ children }) => {
    const [profileDetails, setProfileDetails] = useState();
    
    const navigate = useNavigate()
+   const urlLocation = useLocation()
+   console.log('esto es urlLocation',urlLocation.pathname)
+   //!revisar como esta actuando el useEfFect
+   useEffect(() => {
+      console.log('componente siendo montado llamandoa checkToken')
+      checkToken()
+   
+   },[]);
+
    const checkToken = async () => {
       const token = localStorage.getItem('access_token');
       if (!token) {
@@ -22,11 +32,24 @@ export const LoginContextProviderP = ({ children }) => {
       }
       try {
          const response = await usersApi.getMyprofile();
+         
+         const auth = localStorage.getItem('auth')
+         console.log('que es auth',auth)
          if (token && !response.error) {
             setIsLoggedIn(true);
             setProfileDetails(response)
-            console.log('esto es login abajo',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
-            navigate('/home')
+            // console.log('esto es CheckLogin response',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
+            if (auth === 'true') {
+               if (urlLocation.pathname === '/') {
+                  setProfileDetails(response)
+                  navigate('/home')
+               }
+               setProfileDetails(response)
+               return
+            } else {
+               localStorage.setItem('auth', true)
+               navigate('/home')
+            }
          } else {
             navigate('/')
          }         
@@ -34,11 +57,6 @@ export const LoginContextProviderP = ({ children }) => {
          console.log('esto es el error de la petecion de checkToken',error)
       }
    };
-   //!revisar como esta actuando el useEfFect
-   useEffect(() => {
-      checkToken()
-      
-   },[]);
 
    const login = async (email, password) => {
       const response = await usersApi.login(email, password);
@@ -59,6 +77,7 @@ export const LoginContextProviderP = ({ children }) => {
    const logout = () => {
       console.log('cerrando session')
       localStorage.removeItem('access_token')
+      localStorage.setItem('auth',false)
       navigate('/')
    }
    const loginContextValue = {
@@ -69,7 +88,6 @@ export const LoginContextProviderP = ({ children }) => {
       profileDetails,
       setProfileDetails,
       logout,
-      checkToken
    };
 
    return (

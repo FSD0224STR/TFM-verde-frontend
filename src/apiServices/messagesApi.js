@@ -30,7 +30,7 @@ const getMyConversation = async (idUsers) => {
    
    console.log('primera llamada',response)
    if (!response.ok) {
-        
+      console.log('entrando en error') 
       const error = await response.json()
       console.log('esto es error',error)
       return  error;

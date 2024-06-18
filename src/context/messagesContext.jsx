@@ -12,6 +12,7 @@ export default function MessagesContextProvider({ children }) {
    const [openMessage, setOpenMessage] = useState(false);
    const [message, setMessage] = useState('');
    const [messageSend, setSendMessage] = useState([]);
+   const [infoConversation, setInfoConversation] = useState();
    const { profileDetails} = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
 
@@ -26,9 +27,7 @@ export default function MessagesContextProvider({ children }) {
    };
     
    const openConversation = async () => {
-      console.log('open conversation')
       const dataMessages = { sender: profileDetails._id, receiver: userDetail._id }
-      console.log('esto es idUser',dataMessages)
       const conversation = await messagesApi.getMyConversation(dataMessages)
       if (conversation === false) {
          return setOpenMessage(true)
@@ -36,11 +35,11 @@ export default function MessagesContextProvider({ children }) {
          const myConversation = conversation.mensajes
          setOpenMessage(true)
          setSendMessage(myConversation)
-         console.log('esto es conversation en messsagesContext',conversation)
+         setInfoConversation(conversation.conversaciones)
+
       }
-       
-   }
     
+   }
    const handleSendMessage = async() => {
       if (message.trim() !== '') {
          const newMessage = { sender: profileDetails._id, receiver: userDetail._id, message }
@@ -59,8 +58,9 @@ export default function MessagesContextProvider({ children }) {
    // }
     
    const deleteMyConversation = async () => {
-      const idUser = profileDetails._id
-      const deleteMsg = await messagesApi.deleletConversation(idUser)
+      const idConversation = infoConversation._id
+      console.log('esto es infoConvertaion',infoConversation)
+      const deleteMsg = await messagesApi.deleletConversation(idConversation)
       setSendMessage([])
       console.log('estoy elimiandno',deleteMsg)
 

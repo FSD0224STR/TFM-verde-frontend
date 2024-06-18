@@ -74,8 +74,11 @@ export  function SignIn() {
 
    return (
       <ThemeProvider theme={main_theme}>
-         <Grid container component="main" sx={{ height: '100vh',}}>
-      
+         <Box>
+            <Typography variant='h2' sx={{mt:'5rem',fontWeight:'bold',fontFamily:'Dancing Script',textAlign:'center',fontSize:'5rem'}}>Bienvenido nuevamente a MeetDancing</Typography>
+         </Box>
+         <Grid container component="main" sx={{ height: '100vh', mt: '5rem' }}>
+           
             <Grid
        
                item
