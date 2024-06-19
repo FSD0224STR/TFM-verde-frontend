@@ -93,7 +93,7 @@ export default function Home() {
 
             <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
 
-               {locations.length?(
+               {locations.length > 0?(
                
                   <Box
                      width="100%"

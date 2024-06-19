@@ -99,7 +99,10 @@ export default function ConfigurationComponent({
                >
            Modificar Contraseña
                   <Tooltip title="Editar">
-                     <IconButton onClick={()=>{setEditPass(!editPass)}} >
+                     <IconButton onClick={() => {
+                        setEditPass(!editPass)
+                        setFieldValue('current_pass','')
+                     }} >
                         <EditIcon
                            color="primary"
                            sx={{ fontSize: '1.5rem',ml:'0.5rem',pb:'0.2rem' }}

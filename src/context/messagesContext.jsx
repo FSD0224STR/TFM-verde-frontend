@@ -10,12 +10,16 @@ export const MessagesContext = createContext();
 
 export default function MessagesContextProvider({ children }) {
    const [openMessage, setOpenMessage] = useState(false);
+   const [openChat, setOpenChat] = useState(false);
+   const [loadingChat,setLoadingChat] = useState(false)
+   const [error,setError] = useState('')
    const [message, setMessage] = useState('');
    const [messageSend, setSendMessage] = useState([]);
+   const [allConversation,setallConversation] = useState([])
    const [infoConversation, setInfoConversation] = useState();
    const { profileDetails} = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
-
+   const [alertStatusDelete, setAlertStatusDelete] = useState(null)
    const navigate = useNavigate()
    useEffect(() => {
       setOpenMessage(false) //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
@@ -25,21 +29,41 @@ export default function MessagesContextProvider({ children }) {
       console.log('ejecutando el scrol')
       scroll.scrollToBottom();
    };
-    
-   const openConversation = async () => {
-      const dataMessages = { sender: profileDetails._id, receiver: userDetail._id }
-      const conversation = await messagesApi.getMyConversation(dataMessages)
+   
+   const openConversation = async (idUsers) => {
+      setLoadingChat(true)
+      const conversation = await messagesApi.getMyConversation(idUsers)
+      // console.log('esto es conversation',conversation)
+      console.log('esto es loadngi en context',loadingChat)
       if (conversation === false) {
-         return setOpenMessage(true)
-      } else {
-         const myConversation = conversation.mensajes
+         setLoadingChat(false)
          setOpenMessage(true)
+         return
+      } else if (conversation.error) {
+         setLoadingChat(false)
+         setError(conversation.error)
+      } else {
+         setOpenMessage(true)
+         const myConversation = conversation.idMensage
+         // console.log('esto es my Conversation',myConversation)
          setSendMessage(myConversation)
-         setInfoConversation(conversation.conversaciones)
+         setInfoConversation(conversation)
+         setLoadingChat(false)
 
       }
-    
+
    }
+
+   const getListMessages = async () => {
+      const idUser = sessionStorage.getItem('idUser')
+      const allChats = await messagesApi.getAllMyconversation(idUser)
+      // console.log('todas las conversaciones en contexto', allChats)
+      if (allChats.error) return setError(allChats.error)
+      setallConversation(allChats)
+      navigate('/messages')
+   }
+
+   console.log('esto es allconversation en context',allConversation)
    const handleSendMessage = async() => {
       if (message.trim() !== '') {
          const newMessage = { sender: profileDetails._id, receiver: userDetail._id, message }
@@ -61,8 +85,14 @@ export default function MessagesContextProvider({ children }) {
       const idConversation = infoConversation._id
       console.log('esto es infoConvertaion',infoConversation)
       const deleteMsg = await messagesApi.deleletConversation(idConversation)
+      if (deleteMsg.error) {
+         setError(deleteMsg.error)
+         setAlertStatusDelete(false)
+      }
+      console.log('eliminando')
+      setAlertStatusDelete(true)
       setSendMessage([])
-      console.log('estoy elimiandno',deleteMsg)
+      getListMessages()
 
    }
 
@@ -76,7 +106,14 @@ export default function MessagesContextProvider({ children }) {
       handleSendMessage,
       deleteMyConversation,
       scrollToBottom,
-      setSendMessage
+      setSendMessage,
+      getListMessages,
+      allConversation,
+      openChat,
+      setOpenChat,
+      loadingChat,
+      alertStatusDelete,
+      setAlertStatusDelete
    };
 
    return (

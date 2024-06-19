@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import usersApi from '../apiServices/usersApi';
-import { Refresh } from '@mui/icons-material';
 
 //Se crea el contexto
 export const LoginContextP = React.createContext();
@@ -21,7 +20,6 @@ export const LoginContextProviderP = ({ children }) => {
    useEffect(() => {
       console.log('componente siendo montado llamandoa checkToken')
       checkToken()
-   
    },[]);
 
    const checkToken = async () => {
@@ -34,12 +32,13 @@ export const LoginContextProviderP = ({ children }) => {
          const response = await usersApi.getMyprofile();
          
          const auth = localStorage.getItem('auth')
-         console.log('que es auth',auth)
          if (token && !response.error) {
+            sessionStorage.setItem('idUser',response._id)
             setIsLoggedIn(true);
             setProfileDetails(response)
             // console.log('esto es CheckLogin response',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
             if (auth === 'true') {
+               sessionStorage.setItem('idUser',response._id)
                if (urlLocation.pathname === '/') {
                   setProfileDetails(response)
                   navigate('/home')
@@ -47,6 +46,7 @@ export const LoginContextProviderP = ({ children }) => {
                setProfileDetails(response)
                return
             } else {
+               sessionStorage.setItem('idUser',response._id)
                localStorage.setItem('auth', true)
                navigate('/home')
             }

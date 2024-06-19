@@ -13,31 +13,27 @@ import BoxMessageDestinatario from '../Pure/BoxMessageDestinatario';
 import BoxMessageRemitente from '../Pure/BoxMessageRemitente';
 import { useContext, useEffect, useRef, useState } from 'react';
 import InvitationMessageText from '../Pure/InvitationMessageText';
-import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
+import { UserContext } from '../../context/userContext';
+import AlertDelete from './AlertDelete';
 
-export default function ComponentMessageList({ setOpenChat }) {
+export default function ComponentMessageList() {
    const {
       message,
       setMessage,
-      setSendMessage,
       messageSend,
       handleSendMessage,
       deleteMyConversation,
-      
+      setSendMessage,
+      setOpenMessage,
+      alertStatusDelete,
+      setAlertStatusDelete
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
-
-   // const resetBoxMessage = () => {
-   //    setSendMessage([])
-   //    setOpenMessage(false)
-   
-   // }
 
    const messagesEndRef = useRef(null);
 
@@ -57,7 +53,23 @@ export default function ComponentMessageList({ setOpenChat }) {
       }
    };
 
-   //!Logica para el listado de mensajes abajo
+   //TODO gestinar el alerta
+   
+   const [openAlert, setOpenAlert] = useState(false);
+    
+   const handleClickOpen = () => {
+      setOpenAlert(true);
+   };
+    
+   const handleClose = () => {
+      setOpenAlert(false);
+   };
+  
+   const handleResetStatus = () => {
+      setAlertStatusDelete(null)
+      setOpenAlert(false);
+        
+   }
 
    return (
       <Box
@@ -79,7 +91,7 @@ export default function ComponentMessageList({ setOpenChat }) {
                <Avatar
                   sx={{ width: '40px', height: '40px' }}
                   alt="Profile"
-                  src=''
+                  src={userDetail.imgProfile}
                />
 
                <Typography
@@ -89,7 +101,7 @@ export default function ComponentMessageList({ setOpenChat }) {
                   ml="1rem"
                   mt="0.4rem"
                >
-                  {'userDetail.name'} {'userDetail.subName'}
+                  {userDetail.name}
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
@@ -100,15 +112,18 @@ export default function ComponentMessageList({ setOpenChat }) {
                >
                   {invitationMessage
                      ? 'Solicitud Enviada'
-                     : `Invita a ${'userDetail.name'} a este evento`}
+                     : `Invita a ${userDetail.name} a este evento`}
                </Button>
-               <IconButton onClick={()=>{setOpenChat(false)}}>
+               <IconButton onClick={() => {
+                  setSendMessage([])
+                  setOpenMessage(false)
+               }}>
                   <CancelIcon
                      color="primary"
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
                   />
                </IconButton>
-               <IconButton onClick={deleteMyConversation}>
+               <IconButton onClick={handleClickOpen}>
                   <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
@@ -119,7 +134,7 @@ export default function ComponentMessageList({ setOpenChat }) {
                display="flex"
                flexDirection="column"
                sx={{
-                  maxHeight: '500px', // Ajusta esta altura según tus necesidades
+                  maxHeight: '650px', // Ajusta esta altura según tus necesidades
                   overflowY: 'auto',
                   overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
                }}
@@ -174,6 +189,7 @@ export default function ComponentMessageList({ setOpenChat }) {
             >
           Send
             </Button>
+            <AlertDelete alertStatusDelete={alertStatusDelete} openAlert={openAlert} handleClose={handleClose} handleResetStatus={handleResetStatus} deleteMyConversation={deleteMyConversation} />
          </Box>
       </Box>
    );

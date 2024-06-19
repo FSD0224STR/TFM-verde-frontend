@@ -28,12 +28,12 @@ const getMyConversation = async (idUsers) => {
       method:'GET'  
    })
    
-   console.log('primera llamada',response)
+   // console.log('primera llamada',response)
    if (!response.ok) {
       console.log('entrando en error') 
       const error = await response.json()
       console.log('esto es error',error)
-      return  error;
+      return { error};
    }
 
    if (response.status === 204) {
@@ -41,9 +41,20 @@ const getMyConversation = async (idUsers) => {
    }
 
    const myconversation = await response.json();
-   console.log('esto es myconversation creada en Appi',myconversation)
-   return myconversation;
+   // console.log('esto es myconversation creada en Appi',myconversation.conversaciones)
+   return myconversation.conversaciones;
     
+}
+
+const getAllMyconversation = async (myId) => {
+   console.log('esto es my Id',myId)
+   const response = await fetch(`${Servidorurl}/conversation/${myId}`)
+   if (!response.ok) {
+      const error = await response.json()
+      return { error }
+   }
+   const myAllConversation = await response.json()
+   return myAllConversation
 }
 
 const deleletConversation = async (id) => {
@@ -52,7 +63,7 @@ const deleletConversation = async (id) => {
         
       const error = await response.json()
       console.log('esto es error',error)
-      return  error ;
+      return { error } ;
    }
   
    const responseDelete = await response.json();
@@ -64,6 +75,7 @@ const deleletConversation = async (id) => {
 export default {
    sendNewMessage,
    getMyConversation,
-   deleletConversation
+   deleletConversation,
+   getAllMyconversation
    
 }

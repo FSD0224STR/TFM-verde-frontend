@@ -22,11 +22,12 @@ import ComponentMessage from './ComponentMessage';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { MessagesContext } from '../../context/messagesContext';
 import profileDefault from '../../img/profile.png'
+import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ComponentUserDetail({ userDetail }) {
 
    const {openMessage,openConversation,setOpenMessage} = useContext(MessagesContext)
-
+   const { profileDetails } = useContext(LoginContextP)
    const navigate = useNavigate()
 
    const {
@@ -40,9 +41,11 @@ export default function ComponentUserDetail({ userDetail }) {
       rating,
       age,
       imgProfile,
-      dancingStyles
+      dancingStyles,
+      _id
    } = userDetail
 
+   const idUsers = { sender: profileDetails._id, receiver: _id }
    return (
 
       <Card sx={{ maxWidth: '100%', minHeight: '700px',m:'2rem' }}>
@@ -61,7 +64,7 @@ export default function ComponentUserDetail({ userDetail }) {
                         </IconButton>
                      </Tooltip>
                   </Box>
-                  <CardContent sx={{ display: 'flex', flexDirection: 'column',ml:'3rem' }}>
+                  <CardContent sx={{ display: 'flex', flexDirection: 'column',ml:'3rem',mt:'2rem' }}>
                      <Typography
                         color="primary.main"
                         mb="1rem"
@@ -81,7 +84,7 @@ export default function ComponentUserDetail({ userDetail }) {
                      >
                         <RatingDanceStar dancingStyles={dancingStyles} />
                      </CardContent>
-                     <CardContent sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                     <CardContent sx={{display:'flex',alignItems:'center',flexDirection:'column',mt:'4rem'}}>
                         <Typography
                            variant="h3"
                            color="primary.main"
@@ -102,7 +105,7 @@ export default function ComponentUserDetail({ userDetail }) {
                         </Typography>
 
                         <CardActions sx={{}}>
-                           <Button onClick={openConversation} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
+                           <Button onClick={()=>openConversation(idUsers)} size="large" variant='contained'  sx={{my:'1rem', p:'1rem'}}>Empieza una conversación</Button>
                         </CardActions>
                         <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                         <CardActions>

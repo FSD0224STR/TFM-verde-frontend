@@ -5,6 +5,7 @@ import {
    TextField,
    Button,
    IconButton,
+   CircularProgress,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,6 +26,7 @@ export default function ComponentMessage({ setOpenMessage }) {
       messageSend,
       handleSendMessage,
       deleteMyConversation,
+      loadingChat,
       
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
@@ -56,7 +58,7 @@ export default function ComponentMessage({ setOpenMessage }) {
          setInvitationMessage(true);
       }
    };
-
+   console.log('esto es loading chat',loadingChat)
    return (
       <Box
          onChange={scrollToBottom}
@@ -73,6 +75,15 @@ export default function ComponentMessage({ setOpenMessage }) {
             p: '1rem',
          }}
       >
+         {/* {loadingChat ?
+            
+            <Box sx={{
+               display: 'flex', height: '100vh', justifyContent: 'center',
+               alignItems:'center'}}>
+               <CircularProgress size={110}  sx={{color:'primary.main'}} />
+            </Box>
+            : 
+            <> */}
          <Box width="100%" display="flex" p={1}>
             <Box display="flex" flexGrow={1}>
                <Avatar
@@ -174,6 +185,10 @@ export default function ComponentMessage({ setOpenMessage }) {
           Send
             </Button>
          </Box>
+            
+         {/* </>
+         } */}
+         
       </Box>
    );
 }

@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import  { useContext, useState } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,14 +9,14 @@ import InfoIcon from '@mui/icons-material/Info';
 import CheckIcon from '@mui/icons-material/Check';
 import { Alert } from '@mui/material';
 
-export default function AlertDialog({ openDialog, handleClose, handleConfirmSubmit,alertStatus,handleResetStatus }) {
-    
+export default function AlertDelete({alertStatusDelete,openAlert,handleClose,handleResetStatus,deleteMyConversation}) {
+
    const alertsUpdateUser = () => {
-      if (alertStatus) {
+      if (alertStatusDelete) {
          return (
             <DialogContent>
                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-            Los cambios se han realizados correctamente 
+            Se ha elimando correctamente la conversación
                </Alert>
             </DialogContent>
 
@@ -25,7 +25,7 @@ export default function AlertDialog({ openDialog, handleClose, handleConfirmSubm
          return (
             <DialogContent>
                <Alert icon={<CheckIcon fontSize="inherit" />} severity="error">
-            No se ha podido realizar los cambios. Intentalo mas tarde
+            No se ha podido la Conversación
                </Alert>
             </DialogContent>
          )
@@ -36,16 +36,16 @@ export default function AlertDialog({ openDialog, handleClose, handleConfirmSubm
       <>
 
          <Dialog
-            open={openDialog}
+            open={openAlert}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
          >
-            {alertStatus === true || false ?
+            {alertStatusDelete === true || false ?
                alertsUpdateUser() :
                <>
                   <DialogTitle sx={{color:'primary.main',textAlign:'center'}} id="alert-dialog-title">
-            ¿Estas seguro que quieres realizar los cambios?
+            ¿Estas seguro que quieres eliminar esta conversación?
                   </DialogTitle>
                   <DialogContent>
                      <DialogContentText sx={{textAlign:'center'}} id="alert-dialog-description">
@@ -55,14 +55,14 @@ export default function AlertDialog({ openDialog, handleClose, handleConfirmSubm
                   </DialogContent>
                </>} 
             <DialogActions>
-               {alertStatus === true || false ?
+               {alertStatusDelete === true || false ?
                   
                   <Button sx={{ ':hover': { color: 'text.primary', bgcolor: 'error.main' } }} onClick={handleResetStatus}>Cerrar</Button>
                   
                   : 
                   <>
                      <Button sx={{':hover':{color:'text.primary',bgcolor:'error.main'}}} onClick={handleClose}>Cancelar</Button>
-                     <Button sx={{':hover':{color:'text.primary',bgcolor:'success.main'}}} onClick={handleConfirmSubmit} autoFocus>
+                     <Button sx={{':hover':{color:'text.primary',bgcolor:'success.main'}}} onClick={deleteMyConversation} autoFocus>
                      Confirmar
                      </Button>
                   </>

@@ -19,11 +19,13 @@ import {
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import MenuProfile from './MenuProfile';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
+import { MessagesContext } from '../../context/messagesContext';
 
-export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
+export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
+   const {getListMessages} = useContext(MessagesContext)
    const [open, setOpen] = useState(false);
    const navigate = useNavigate()
    return (
@@ -63,7 +65,7 @@ export default function NavigationMenu({handleNavProfile,handleSwitchNav}) {
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="mensajes">
-                     <IconButton onClick={()=>navigate('/messages')}>
+                     <IconButton onClick={getListMessages}>
                         <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
                            <MailIcon sx={{fontSize:45,ml:'0.5rem'}}/>
                         </Badge>
