@@ -28,15 +28,15 @@ export default function ComponentMessageList() {
       setSendMessage,
       setOpenMessage,
       alertStatusDelete,
-      setAlertStatusDelete
+      setAlertStatusDelete,
+      invitationMessage,
+      handleRequestCouple,
+      infoConversation
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-   const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
-
    const messagesEndRef = useRef(null);
-
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
@@ -44,14 +44,6 @@ export default function ComponentMessageList() {
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);
-
-   const ControlInvitacion = () => {
-      if (invitationMessage) {
-         return alert('ya has enviado un invitacion');
-      } else {
-         setInvitationMessage(true);
-      }
-   };
 
    //TODO gestinar el alerta
    
@@ -70,6 +62,8 @@ export default function ComponentMessageList() {
       setOpenAlert(false);
         
    }
+
+   const dataForRequest = {sender:profileDetails._id,receiver:userDetail._id,idConversation:infoConversation._id}
 
    return (
       <Box
@@ -108,7 +102,7 @@ export default function ComponentMessageList() {
                <Button
                   variant="contained"
                   sx={{ bgcolor: 'secondary.variante', p: '0.5rem', mr: '0.5rem' }}
-                  onClick={ControlInvitacion}
+                  onClick={() => handleRequestCouple(dataForRequest)}
                >
                   {invitationMessage
                      ? 'Solicitud Enviada'

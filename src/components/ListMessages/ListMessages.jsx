@@ -13,9 +13,9 @@ import ComponentChatBox from './ComponentChatBox';
 export default function ListMessages() {
    
    const { allConversation,openMessage,loadingChat } = useContext(MessagesContext);
-   console.log('esto es allConvertaion en component',allConversation)
+   // console.log('esto es allConvertaion en component',allConversation)
    const infoUser = allConversation
-   console.log('esto es infoUser',infoUser)
+   // console.log('esto es infoUser',infoUser)
    return (
       <Grid
          container
@@ -51,7 +51,6 @@ export default function ListMessages() {
                      </Typography>
                   </Box>
                   {allConversation?.map(chat => {
-                     console.log('esto es chat',chat)
                      let checkLastMessage = chat.idMensage[0]
                      if (!checkLastMessage) {
                         checkLastMessage = { message: 'No hay mensajes ' }

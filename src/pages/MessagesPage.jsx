@@ -15,7 +15,7 @@ export default function MessagesPage() {
 
    return (
       <>
-         {console.log('esto es all conversation en page',allConversation)}
+         {/* {console.log('esto es all conversation en page',allConversation)} */}
          <NavigationMenu />
          {allConversation.length > 0 ?
             <ListMessages />

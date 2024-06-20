@@ -82,9 +82,9 @@ export default function ProfileList() {
                      container
                      maxWidth="100%"
                      justifyContent="center"
-                     gap={4}
+                     gap={2}
                      spacing={4}
-                     sx={{ m: '4rem' }}
+                     sx={{ m: '2rem' }}
                   >
                      {Interested_without_me.map((user, index) => (
                         <Grid
@@ -95,7 +95,7 @@ export default function ProfileList() {
                            xs={12}
                            sm={6}
                            md={4}
-                           lg={3}
+                           lg={2}
                         >
                            <User userApi={user} />
                         </Grid>

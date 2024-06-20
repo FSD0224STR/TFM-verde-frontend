@@ -4,16 +4,13 @@ import {
    CardContent,
    CardActions,
    Button,
-   ThemeProvider,
    Box,
    Typography,
-   Container,
    Divider,
    Rating,
    IconButton,
    Tooltip
 } from '@mui/material';
-import { main_theme } from '../../../palette-theme-colors';
 import RoleComponent from './RoleComponent';
 import RatingDanceStar from './RatingDanceStar';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,7 +23,7 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ComponentUserDetail({ userDetail }) {
 
-   const {openMessage,openConversation,setOpenMessage} = useContext(MessagesContext)
+   const {openMessage,openConversation,setOpenMessage,handleRequestCouple} = useContext(MessagesContext)
    const { profileDetails } = useContext(LoginContextP)
    const navigate = useNavigate()
 
@@ -109,7 +106,7 @@ export default function ComponentUserDetail({ userDetail }) {
                         </CardActions>
                         <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                         <CardActions>
-                           <Button size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
+                           <Button onClick={handleRequestCouple} size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
                         </CardActions>
                      </CardContent>
                   </CardContent>

@@ -1,5 +1,5 @@
 import { Divider, ListItemButton, Avatar, Box, Typography, } from '@mui/material'
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import { MessagesContext } from '../../context/messagesContext';
 import { UserContext } from '../../context/userContext';
@@ -20,15 +20,13 @@ export default function ComponentChatBox({ members, lastmessage }) {
    return (
       <>
          {members.map(member => {
-            if (member._id === myUserid()) {
-               return
-            } else {
+            if (member._id !== myUserid()) {
                const idUsers = { sender: myUserid(), receiver: member._id }
                return (
-                  <>
+                  <Fragment key={member._id} >
                     
                      <ListItemButton
-                        key={member._id}
+                    
                         onClick={() => {
                            openConversation(idUsers)
                            setUserDetail(member)
@@ -54,7 +52,7 @@ export default function ComponentChatBox({ members, lastmessage }) {
                      </ListItemButton>
                      <Divider />
             
-                  </>)
+                  </Fragment>)
             }
             
          })}

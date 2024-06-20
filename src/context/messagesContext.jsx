@@ -16,10 +16,11 @@ export default function MessagesContextProvider({ children }) {
    const [message, setMessage] = useState('');
    const [messageSend, setSendMessage] = useState([]);
    const [allConversation,setallConversation] = useState([])
-   const [infoConversation, setInfoConversation] = useState();
+   const [infoConversation, setInfoConversation] = useState({});
    const { profileDetails} = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
    const [alertStatusDelete, setAlertStatusDelete] = useState(null)
+   const [invitationMessage, setInvitationMessage] = useState(false);
    const navigate = useNavigate()
    useEffect(() => {
       setOpenMessage(false) //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
@@ -54,6 +55,8 @@ export default function MessagesContextProvider({ children }) {
 
    }
 
+   console.log('esto es infoConversation',infoConversation)
+
    const getListMessages = async () => {
       const idUser = sessionStorage.getItem('idUser')
       const allChats = await messagesApi.getAllMyconversation(idUser)
@@ -63,7 +66,6 @@ export default function MessagesContextProvider({ children }) {
       navigate('/messages')
    }
 
-   console.log('esto es allconversation en context',allConversation)
    const handleSendMessage = async() => {
       if (message.trim() !== '') {
          const newMessage = { sender: profileDetails._id, receiver: userDetail._id, message }
@@ -96,6 +98,19 @@ export default function MessagesContextProvider({ children }) {
 
    }
 
+   const ControlInvitacion = () => {
+      if (invitationMessage) {
+         return alert('ya has enviado un invitacion');
+      } else {
+         setInvitationMessage(true);
+      }
+   };
+
+   const handleRequestCouple = async (dataForRequest) => {
+      const response = await messagesApi.addRequestCouple(dataForRequest)
+      ControlInvitacion()
+   }
+
    const messagesContextValue = {
       openMessage,
       setOpenMessage,
@@ -113,7 +128,11 @@ export default function MessagesContextProvider({ children }) {
       setOpenChat,
       loadingChat,
       alertStatusDelete,
-      setAlertStatusDelete
+      setAlertStatusDelete,
+      handleRequestCouple,
+      invitationMessage,
+      infoConversation
+
    };
 
    return (

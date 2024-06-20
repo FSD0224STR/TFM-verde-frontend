@@ -72,10 +72,35 @@ const deleletConversation = async (id) => {
 
 }
 
+const addRequestCouple = async (dataForRequest) => {
+   
+   const response = await fetch(`${Servidorurl}/requests`,{
+      method: 'POST',
+      body: JSON.stringify(dataForRequest),
+      headers: {
+         'Content-Type': 'application/json',
+      },
+   });
+   if (!response.ok) {
+        
+      const error = await response.json()
+      console.log('esto es error',error)
+      return  {error};
+   }
+   if (response.status === 400) {
+      const error = await response.json()
+      return {error}
+   }
+   const responseRequest = await response.json()
+   console.log('esto es la respuesta request',responseRequest)
+
+}
+
 export default {
    sendNewMessage,
    getMyConversation,
    deleletConversation,
-   getAllMyconversation
+   getAllMyconversation,
+   addRequestCouple
    
 }
