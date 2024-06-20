@@ -13,12 +13,19 @@ import { LocationContext } from '../../context/locationContext';
 import { useNavigate } from 'react-router-dom';
 import { Chip, Stack } from '@mui/material';
 import { RepeatButton } from './CommonButton';
+import { useContext } from 'react';
 
 export function LocationsComponent({ name,address,_id,events}) {
   
    const navigate = useNavigate();
-   const{setIdLocal}=React.useContext(LocationContext)
+   const{setIdLocal}=useContext(LocationContext)
    const uniqueTypeOfDancing = new Set(events.map(event => event.typeOfDancing))
+
+   const handleClick = () => {
+      setIdLocal(_id)
+      navigate(`/events/${_id}`)
+      
+   }
 
    return (
       <Card sx={{color: 'primary.main',fontWeight: 'bold',
@@ -93,7 +100,7 @@ export function LocationsComponent({ name,address,_id,events}) {
 
          <CardActions sx={{justifyContent: 'center',position:'absolute',left: '50%',transform:'translateX(-50%)',  bottom: 10}} >
 
-            <RepeatButton onClick={()=> {navigate(`/events/${_id}`);setIdLocal(_id)}} name='Ver eventos'></RepeatButton>
+            <RepeatButton onClick={handleClick} name='Ver eventos'></RepeatButton>
           
          </CardActions>
          

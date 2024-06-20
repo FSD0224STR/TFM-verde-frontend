@@ -6,21 +6,56 @@ import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
 import { DateCalendarValue } from '../components/Pure/Calendar';
-import { LoginContextP } from '../context/loginContextPrueba';
+import { useState } from 'react';
 export default function Home() {
 
    const { getLocationFiltered, coordinates, city, date, typeOfDancing, locations, setCity, setTypeOfDancing } = useContext(LocationContext)
-   const {profileDetails} = useContext(LoginContextP)
-   useEffect(() => {
-      getLocationFiltered();
+   const [loading,setLoading]=useState(false)
+   const [buttonClicked, setButtonClicked] = useState(false);
+
+   const LocationFilteredInfo = async () => {
+
+      setLoading(true)
+      const response=await getLocationFiltered(coordinates, city, date, typeOfDancing);
+      if(response){
+         setLoading(false)
+         return 
+
+      }
+     
+   };
+
+   const handleClick = () => {
+      setButtonClicked(true);
+      
+   }
+   useEffect (()=>{
+
+      if (buttonClicked) {
+         LocationFilteredInfo(coordinates, city, date, typeOfDancing)
+         setButtonClicked(false)
+
+      }
+      
+   },[buttonClicked])
+
+   useEffect (()=>{
+  
+      LocationFilteredInfo() 
+      
    },[])
 
    const optionsCity=['Madrid','Barcelona']
    const optionsDanceStyle=['Swing','Salsa cubana','Salsa','Merengue','Bachata','Kizomba','Festival','Bachata Dominicana']
  
    return (
-      <>
-         {profileDetails ? <>
+      
+      <> {loading ?( <Box sx={{ display: 'flex',height:'100vh',justifyContent:'center',
+         alignItems:'center'}}>
+         <CircularProgress size={130}  sx={{color:'white'}} color="inherit"/>
+      </Box>):(
+
+         <>
             <NavigationMenu/>
 
             <Grid
@@ -85,7 +120,7 @@ export default function Home() {
               
                   <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',}} 
    
-                     onClick={() => {getLocationFiltered(coordinates,city,date,typeOfDancing)}}>Filtrar</Button>
+                     onClick={handleClick}>Filtrar</Button>
 
                </Grid>
 
@@ -93,7 +128,7 @@ export default function Home() {
 
             <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
 
-               {locations.length > 0?(
+               {locations.length?(
                
                   <Box
                      width="100%"
@@ -141,14 +176,10 @@ export default function Home() {
             </Paper>
          
          </>
-            :
             
-            <Box sx={{
-               display: 'flex', height: '100vh', justifyContent: 'center',
-               alignItems:'center'}}>
-               <CircularProgress size={130}  sx={{color:'white'}} />
-            </Box>} 
-          
+      )
+      } 
+            
       </>
    )
 }

@@ -14,45 +14,34 @@ export const LocationContextProvider = ({ children }) => {
    const [locations,setLocations]=useState([])
    const [error, setError] = useState('')
    const [idLocal,setIdLocal]=useState('')
-   const [locationDatas,setLocationData]=useState('')
-   const [LocationEventsData,setLocationEventsData]=useState('')
+   const [locationDatas,setLocationData]=useState({})
+   const [LocationEventsData,setLocationEventsData]=useState([])
    const [dateInput, setDateInput] = useState(dayjs(Date));
 
    const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
       const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
      
-      if(locationsFiltered.error) setError(locationsFiltered.error)
+      if(locationsFiltered.error) {setError(locationsFiltered.error); return error}
       else {
          setLocations(locationsFiltered);
          setCity('');
          setDate('');
          setTypeOfDancing('')
          setDateInput(dayjs(Date))
+         return true
         
       }
         
-   }
-
-   const getOneLocation= async (id)=>{
-      const location= await getOneLocationApi(id)
-
-      if(location.error) setError(location.error)
-
-      else {
-         setIdLocal(id)
-         return  location.data
-                   
-      }
-    
    }
    
-   //Se obtienen todos los eventos del local con ese idLocal.
+   //Se obtienen tanto los datos del local (setLocationData), como el listado de los eventos (LocationEventsData) de ese idLocal.
    const getLocationData = async () => {
 
       if (idLocal) {
-         const local = await getOneLocation(idLocal);
-         setLocationData(local);
-         setLocationEventsData(local.events)
+         const local = await getOneLocationApi(idLocal);
+         setLocationData(local.data);
+         setLocationEventsData(local.data.events)
+         return true
                 
       }
    }
@@ -64,7 +53,6 @@ export const LocationContextProvider = ({ children }) => {
       typeOfDancing,
       locations,
       date,
-      getOneLocation,
       idLocal,
       setIdLocal,
       getLocationData,
