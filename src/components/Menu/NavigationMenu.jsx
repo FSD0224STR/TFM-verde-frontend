@@ -23,9 +23,11 @@ import { useContext, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
 import { MessagesContext } from '../../context/messagesContext';
+import { UserContext } from '../../context/userContext';
 
 export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
-   const {getListMessages} = useContext(MessagesContext)
+   const { getListMessages } = useContext(MessagesContext)
+   const { handleNavConfig} = useContext(UserContext)
    const [open, setOpen] = useState(false);
    const navigate = useNavigate()
    return (
@@ -92,7 +94,7 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
             </Toolbar>
          </AppBar>
          <Drawer open={open}    anchor="left" onClose={() => setOpen(false)}>
-            <MenuDrawerList setOpen={setOpen}  />
+            <MenuDrawerList setOpen={setOpen}  handleNavConfig={handleNavConfig} />
          </Drawer>
       </>
    );

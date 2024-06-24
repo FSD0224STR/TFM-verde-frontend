@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import {
    Box,
-   Button,
    Divider,
    List,
    ListItem,
@@ -22,13 +21,15 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Settings from '@mui/icons-material/Settings';
 import MailIcon from '@mui/icons-material/Mail';
 import CloseIcon from '@mui/icons-material/Close';
-import { NavLink ,Link} from 'react-router-dom';
-import imagenDefault from '../../assets/fotoDefault.png'
 import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined';
+import { NavLink ,Link} from 'react-router-dom';
 import { LoginContextP } from '../../context/loginContextPrueba';
-export default function MenuDrawerList({ setOpen }) {
+import { UserContext } from '../../context/userContext';
+export default function MenuDrawerList({ setOpen,handleNavConfig }) {
 
-   const { logout,profileDetails } = useContext(LoginContextP)
+   const { logout, profileDetails } = useContext(LoginContextP)
+   // const { handleNavConfig} = useContext(UserContext)
+
    return (
       <ThemeProvider theme={main_theme}>
          <Box
@@ -189,7 +190,7 @@ export default function MenuDrawerList({ setOpen }) {
                            },
                         }}
                      >
-                        <ListItemButton component={NavLink} to="/profile">
+                        <ListItemButton onClick={handleNavConfig}>
                            <ListItemIcon>
                               <Settings fontSize="medium" />
                            </ListItemIcon>

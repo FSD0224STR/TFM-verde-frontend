@@ -10,6 +10,8 @@ export const UserContextProvider = ({ children }) => {
    const [userDetail, setUserDetail] = useState(null);
    const [listEventsInterested, setListEventsInterested] = useState([]);
    const [error, setError] = useState('')
+   const [editPass, setEditPass] = useState(false);
+   const [navProfile, setNavProfile] = useState(false);
     
    const navigate = useNavigate()
 
@@ -40,6 +42,23 @@ export const UserContextProvider = ({ children }) => {
     
    }
 
+   ///controler de userSettings
+   const handleNavProfile = () => {
+      setNavProfile(true)
+      navigate('/profile')
+   }
+
+   const handleSwitchNav = () => {
+      setNavProfile(false)
+      navigate('/profile')
+   }
+
+   const handleNavConfig = () => {
+      
+      console.log('entrando en config de')
+      navigate('/profile')
+      setNavProfile(true)
+   }
    const userContextValue = {
       users,
       userDetail,
@@ -48,6 +67,14 @@ export const UserContextProvider = ({ children }) => {
       getOneUser,
       getListEventsUser,
       listEventsInterested,
+      editPass,
+      setEditPass,
+      navProfile,
+      setNavProfile,
+      handleNavProfile,
+      handleSwitchNav,
+      navigate,
+      handleNavConfig
   
    }
   

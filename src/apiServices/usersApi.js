@@ -74,6 +74,22 @@ export const updateUser = async (id, modifiedData) => {
    return { data: user };
 };
 
+const changeMyPass = async (newData) => {
+   console.log('esto es new Data en api',newData)
+   const token = localStorage.getItem('access_token');
+   const response = await fetch(`${Servidorurl}/users/${newData.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(newData),
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`,
+      },
+   });
+   if(!response.ok || response.status === 401 || response.status === 400 ) return { error: await response.json() };
+   const data = await response.json();
+   return { dataReceiver: 'contraseña cambiada correctamente' };
+}
+
 const login = async (email, password) => {
    const response = await fetch(`${Servidorurl}/users/login`, {
       method: 'POST',
@@ -139,4 +155,5 @@ export default {
    getMyprofile,
    getOneUserApi,
    updateUser,
+   changeMyPass
 };

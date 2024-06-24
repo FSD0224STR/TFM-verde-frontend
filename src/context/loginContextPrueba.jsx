@@ -15,7 +15,7 @@ export const LoginContextProviderP = ({ children }) => {
    
    const navigate = useNavigate()
    const urlLocation = useLocation()
-   console.log('esto es urlLocation',urlLocation.pathname)
+   // console.log('esto es urlLocation',urlLocation.pathname)
    //!revisar como esta actuando el useEfFect
    useEffect(() => {
       console.log('componente siendo montado llamandoa checkToken')

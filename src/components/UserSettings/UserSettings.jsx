@@ -17,7 +17,7 @@ import {
    Select,
    MenuItem,
    IconButton,
-   Tooltip
+   Tooltip,
 } from '@mui/material';
 import RoleComponent from '../Pure/RoleComponent';
 import { Link, useNavigate } from 'react-router-dom';
@@ -35,25 +35,33 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AlertDialog from '../Pure/AlertDialog';
 import upload from '../../apiServices/upload';
 import CircularProgress from '@mui/material/CircularProgress';
+import { UserContext } from '../../context/userContext';
 
 export default function UserSettings({ navProfile }) {
+
+   const {editPass,setEditPass} = useContext(UserContext)
+
    const [openDialog, setOpenDialog] = useState(false);
-   const [alertStatus, setAlertStatus] = useState(null)
+   const [alertStatus, setAlertStatus] = useState({});
    const [loading, setLoading] = useState(false);
+   const [loadingAlert, setLoadingAlert] = useState(false);
 
    const handleClickOpen = () => {
       setOpenDialog(true);
    };
-  
+
    const handleClose = () => {
       setOpenDialog(false);
    };
 
    const handleResetStatus = () => {
-      setAlertStatus(null)
+      setAlertStatus({});
       setOpenDialog(false);
+      setEditPass(false)
+      setFieldValue('newPassword','')
+      setFieldValue('ConfirmPassword', '')
       
-   }
+   };
 
    //? interceptando el envio de formulario en onsubmit del form para gestior la respuesta del alert
    const handleSubmitFormik = () => {
@@ -61,12 +69,13 @@ export default function UserSettings({ navProfile }) {
    };
 
    const handleConfirmSubmit = () => {
+      console.log('llamadno a hanldeSubimt')
       handleSubmit();
    };
 
-   const navigate = useNavigate()
- 
-   const { profileDetails,setProfileDetails } = useContext(LoginContextP);
+   const navigate = useNavigate();
+
+   const { profileDetails, setProfileDetails } = useContext(LoginContextP);
    const {
       name,
       subName,
@@ -99,52 +108,103 @@ export default function UserSettings({ navProfile }) {
       imgProfile: imgProfile,
       description: description,
       dancingStyles: dancingStyles,
-      current_pass:'12345678',
+      current_pass: '12345678',
       newPassword: '',
-      ConfirmPassword:'',
+      ConfirmPassword: '',
       email: email,
-      id:_id
+      id: _id,
+      isDisabled: !editPass
    };
 
    const registerSchema = Yup.object().shape({
+      isDisabled:  Yup.boolean(),
       name: Yup.string().required('Debes ingrensar un nombre'),
+      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
+      current_pass: Yup.string().when('isDisabled', {
+         is: false,
+         then: ()=> Yup.string().required('Debes ingrensar una contraseña nueva').min(8, 'la contraseña tiene que tener minimo 8 carateres')}),
+      newPassword: Yup.string().when('isDisabled', {
+         is: false,
+         then: ()=> Yup.string().required('Debes ingrensar una contraseña nueva').min(8, 'la contraseña tiene que tener minimo 8 carateres')}),
+      ConfirmPassword: Yup.string().when('isDisabled', {
+         is: false,
+         then: () => Yup.string().oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden')
+      }),
       gender: Yup.string().required('Debes ingrensar un genero'),
-      age: Yup.number('tienes que ingresar un numero')
-         .min(18, 'tienes que se mayor de 18 años')
-         .required('Debes ingrensar una edad'),
+      age: Yup.number('tienes que ingresar un numero').min(18, 'tienes que se mayor de 18 años').required('Debes ingrensar una edad'),
       city: Yup.string().required('Debes ingrensar un ubicacion'),
    });
 
-   const updateUserSettings = async (dataUpdateUser) => {
-      const id = dataUpdateUser.id
-      const user = await usersApi.updateUser(id,dataUpdateUser );
-      if (user.error) {
-         setAlertStatus(false)
+   const ControllerUpdateSettings = (dataUpdateUser) => {
+      const checkPass = dataUpdateUser.newPassword !== '' && dataUpdateUser.ConfirmPassword !== ''
+      if (checkPass) {
+         console.log('que es checkpass',checkPass)
+         return  changeMyPass(dataUpdateUser)
+      }
+      updateUserSettings(dataUpdateUser)
+   }
+
+   const changeMyPass = async (dataUpdateUser) => {
+
+      console.log('llamando a pass')
+      setLoadingAlert(true);
+      const newData = {
+         password: dataUpdateUser.newPassword,
+         id: dataUpdateUser.id,
+      };
+      const data = await usersApi.changeMyPass(newData);
+      if (data.error) {
+         console.log('esto es el error', data.error);
+         const dataAlert = { errorPass: true };
+         setAlertStatus(dataAlert);
+         // setFieldError(data.error);
+         setLoadingAlert(false);
+         return;
       } else {
-         setAlertStatus(true)
-         setProfileDetails(user.data)
+         const dataAlert = { errorPass: false };
+         setAlertStatus(dataAlert);
+         console.log('resouesta del cambio de contraseña', data.dataReceiver);
+         setLoadingAlert(false);
+         return;
       }
       
+   }
+
+   const updateUserSettings = async (dataUpdateUser) => {
+      console.log('llamando a update')
+      setLoadingAlert(true);
+      const id = dataUpdateUser.id;
+      const user = await usersApi.updateUser(id, dataUpdateUser);
+      if (user.error) {
+         const dataAlert = { errorUpdate: true };
+         setAlertStatus(dataAlert);
+         // setFieldError(user.error);
+         setLoadingAlert(false);
+      } else {
+         const dataAlert = { errorUpdate: false };
+         setAlertStatus(dataAlert);
+         setProfileDetails(user.data);
+         setLoadingAlert(false);
+      }
    };
-   
+
    const handleSelectImg = async (e) => {
       const file = e.target.files[0];
       const data = new FormData();
       data.append('file', file);
-      const id = values.id // obtener el id del usuasrio del los values de formik
-      setLoading(true)
-      const imgUser = await upload.changeImgProfile(data,id);
+      const id = values.id; // obtener el id del usuasrio del los values de formik
+      setLoading(true);
+      const imgUser = await upload.changeImgProfile(data, id);
 
-      console.log('Que es imgUser',imgUser)
-         
+      console.log('Que es imgUser', imgUser);
+
       if (imgUser.error) {
-         setLoading(false)
-         console.log('este es el error',imgUser.error)
+         setLoading(false);
+         console.log('este es el error', imgUser.error);
       } else {
-         setLoading(false)
-         setProfileDetails({...profileDetails,imgProfile:imgUser}); 
+         setLoading(false);
+         setProfileDetails({ ...profileDetails, imgProfile: imgUser });
       }
-
    };
 
    const handleSliderChange = (index) => (event, newValue) => {
@@ -162,25 +222,23 @@ export default function UserSettings({ navProfile }) {
       setFieldError,
    } = useFormik({
       initialValues: initialValuesForm,
-      onSubmit: updateUserSettings,
+      onSubmit: ControllerUpdateSettings,
       validationSchema: registerSchema,
+
    });
 
    return (
       <>
-       
-         <Container sx={{ my: '4rem', minHeight: '100%',maxWidth:'100%' }}>
-        
+         <Container sx={{ my: '4rem', minHeight: '100%', maxWidth: '100%' }}>
             <Card
                sx={{
                   maxWidth: '100%',
                   display: 'flex',
-                  p:'1rem',
-                  position:'relative'
+                  p: '1rem',
+                  position: 'relative',
                }}
             >
-            
-               <Box sx={{ position: 'absolute',right:0,top:5 }} >
+               <Box sx={{ position: 'absolute', right: 0, top: 5 }}>
                   <Tooltip title="Volver">
                      <IconButton onClick={() => navigate(-1)}>
                         <CancelIcon
@@ -190,10 +248,29 @@ export default function UserSettings({ navProfile }) {
                      </IconButton>
                   </Tooltip>
                </Box>
-               <CardContent sx={{ position:'relative', display: 'flex', flexDirection: 'row-reverse' }}>
-                  {navProfile ? <ConfigurationComponent values={values} setFieldValue={setFieldValue} errors={errors} handleChange={handleChange} /> : 
-          
-                     <Box component='form' onSubmit={handleSubmitFormik} sx={{ ml: '1rem' }}>
+               <CardContent
+                  sx={{
+                     position: 'relative',
+                     display: 'flex',
+                     flexDirection: 'row-reverse',
+                  }}
+               >
+                  {navProfile ? (
+                     <ConfigurationComponent
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        errors={errors}
+                        handleChange={handleChange}
+                        handleClickOpen={handleClickOpen}
+                        loading={loading}
+                        setFieldError={setFieldError}
+                     />
+                  ) : (
+                     <Box
+                        component="form"
+                        onSubmit={handleSubmitFormik}
+                        sx={{ ml: '1rem' }}
+                     >
                         <Box sx={{ padding: '1rem', lineHeight: '1', mb: '1rem' }}>
                            <Typography
                               component="p"
@@ -207,18 +284,18 @@ export default function UserSettings({ navProfile }) {
                                  },
                               }}
                            >
-                                      Nombre
+                    Nombre
                            </Typography>
                            <Typography
                               component="span"
                               variant="body2"
                               sx={{ color: 'text.secondary' }}
                            >
-                                      Este es el nombre que usarás en MeetDancing. Puede ser tu
-                                      nombre verdadero o un alias.
+                    Este es el nombre que usarás en MeetDancing. Puede ser tu
+                    nombre verdadero o un alias.
                            </Typography>
                         </Box>
-                        <CardContent >
+                        <CardContent>
                            <TextField
                               id="nameRegister"
                               type="text"
@@ -239,7 +316,7 @@ export default function UserSettings({ navProfile }) {
                                  },
                               }}
                            />
-                  
+
                            <Box
                               sx={{
                                  display: 'flex',
@@ -259,7 +336,7 @@ export default function UserSettings({ navProfile }) {
                                           mb: '1rem',
                                        }}
                                     >
-                                          ¿Eres un hombre o una mujer?
+                          ¿Eres un hombre o una mujer?
                                     </FormLabel>
                                     <RadioGroup
                                        row
@@ -298,7 +375,7 @@ export default function UserSettings({ navProfile }) {
                                     </RadioGroup>
                                  </FormControl>
                               </Box>
-                  
+
                               <Box xs={12} md={5} sx={{ ml: '1rem' }}>
                                  <Typography
                                     sx={{
@@ -309,13 +386,17 @@ export default function UserSettings({ navProfile }) {
                                        my: '0.5rem',
                                     }}
                                  >
-                                        ¿Que roll quieres realizar?
+                        ¿Que roll quieres realizar?
                                  </Typography>
                                  <FormControl
-                                    sx={{ width: 250, mt: '0.4rem', color: 'text.secondary' }}
+                                    sx={{
+                                       width: 250,
+                                       mt: '0.4rem',
+                                       color: 'text.secondary',
+                                    }}
                                  >
                                     <InputLabel id="demo-simple-select-label">
-                                          Roll
+                          Roll
                                     </InputLabel>
                                     <Select
                                        sx={{ color: 'text.secondary' }}
@@ -339,7 +420,7 @@ export default function UserSettings({ navProfile }) {
                                  </FormControl>
                               </Box>
                            </Box>
-                           <CardContent  sx={{display:'flex',gap:9}}>
+                           <CardContent sx={{ display: 'flex', gap: 9 }}>
                               <Box>
                                  <Typography
                                     sx={{
@@ -347,12 +428,12 @@ export default function UserSettings({ navProfile }) {
                                        fontSize: 20,
                                        color: 'primary.main',
                                        fontWeight: 'bold',
-                                       my:'1rem'
+                                       my: '1rem',
                                     }}
                                  >
-                                      ¿En dónde quieres bailar?
+                        ¿En dónde quieres bailar?
                                  </Typography>
-                  
+
                                  <TextField
                                     id="cityUser"
                                     type="text"
@@ -373,8 +454,8 @@ export default function UserSettings({ navProfile }) {
                                     }}
                                  />
                               </Box>
-                  
-                              <Box display='flex' sx={{flexDirection:'column'}}>
+
+                              <Box display="flex" sx={{ flexDirection: 'column' }}>
                                  <Typography
                                     sx={{
                                        textAlign: 'left',
@@ -384,12 +465,16 @@ export default function UserSettings({ navProfile }) {
                                        mt: '1rem',
                                     }}
                                  >
-                                                ¿Cual es tu edad?
+                        ¿Cual es tu edad?
                                  </Typography>
-                                 <FormControl sx={{ width: 250, color: 'text.secondary',mt:'1rem' }}>
-                                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                                 <FormControl
+                                    sx={{ width: 250, color: 'text.secondary', mt: '1rem' }}
+                                 >
+                                    <InputLabel id="demo-simple-select-label">
+                          Age
+                                    </InputLabel>
                                     <Select
-                                       sx={{color:'text.secondary'}}
+                                       sx={{ color: 'text.secondary' }}
                                        labelId="age-label"
                                        id="age-select"
                                        name="age"
@@ -397,9 +482,12 @@ export default function UserSettings({ navProfile }) {
                                        label="Age"
                                        onChange={handleChange}
                                     >
-                                       {dataAge().map(num => (
-                                                      
-                                          <MenuItem key={num.number} sx={{ color: 'text.secondary' }} value={num.number}>
+                                       {dataAge().map((num) => (
+                                          <MenuItem
+                                             key={num.number}
+                                             sx={{ color: 'text.secondary' }}
+                                             value={num.number}
+                                          >
                                              {num.number}
                                           </MenuItem>
                                        ))}
@@ -413,16 +501,15 @@ export default function UserSettings({ navProfile }) {
                               color="primary.main"
                               fontSize="1.5rem"
                               fontWeight="600"
-                                            
                            >
-                                    Nivel según los tipos de baile:
+                    Nivel según los tipos de baile:
                            </Typography>
                            <Typography
                               component="span"
                               variant="body2"
-                              sx={{ color: 'text.secondary',mb:'1rem'}}
+                              sx={{ color: 'text.secondary', mb: '1rem' }}
                            >
-                                             principiante: 1 || avanzado: 5
+                    principiante: 1 || avanzado: 5
                            </Typography>
                            <Box
                               sx={{
@@ -437,10 +524,9 @@ export default function UserSettings({ navProfile }) {
                                  values={values}
                                  dancingStyles={dancingStyles}
                               />
-                                         
                            </Box>
                         </CardContent>
-                        <Box component="div" sx={{mt:'5rem',ml:'1rem'}}>
+                        <Box component="div" sx={{ mt: '5rem', ml: '1rem' }}>
                            <Typography
                               variant="h6"
                               sx={{
@@ -450,7 +536,7 @@ export default function UserSettings({ navProfile }) {
                                  margin: '10px',
                               }}
                            >
-                                    3.Hablanos un poco mas de ti.
+                    3.Hablanos un poco mas de ti.
                            </Typography>
                            <TextField
                               label="Descripción"
@@ -472,63 +558,97 @@ export default function UserSettings({ navProfile }) {
                            />
                         </Box>
 
-                        <Box sx={{ display: 'flex',justifyContent:'center' }}>
-
-                           <Button sx={{':hover':{bgcolor:'secondary.variante'},fontSize:'1.5rem'}}  onClick={handleClickOpen}  variant='contained'>Guardar Cambios</Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                           <Button
+                              sx={{
+                                 ':hover': { bgcolor: 'secondary.variante' },
+                                 fontSize: '1.5rem',
+                              }}
+                              onClick={handleClickOpen}
+                              variant="contained"
+                           >
+                    Guardar Cambios
+                           </Button>
                         </Box>
-                        <AlertDialog openDialog={openDialog} handleClose={handleClose} handleResetStatus={handleResetStatus} handleConfirmSubmit={handleConfirmSubmit} alertStatus={alertStatus} />
                      </Box>
-                  
-                  }
+                  )}
 
                   {/* //!de aqui para abajo es la parte izquierda del componente */}
                   <CardContent
-                     sx={{bgcolor:'#d1ebdc', maxWidth: '400px',height: '100%', display: { xs: 'none', sm: 'block' } }}
+                     sx={{
+                        bgcolor: '#d1ebdc',
+                        maxWidth: '400px',
+                        height: '100%',
+                        display: { xs: 'none', sm: 'block' },
+                     }}
                   >
                      <Box sx={{ position: 'relative' }}>
-                        
-                        {loading ?
-                        
-                           <Box sx={{display:'flex',justifyContent:'center',alignContent:'center',m:'6rem'}}> <CircularProgress size={80} />  </Box> :
-                          
-                           <>  <CardMedia
-                              sx={{ MaxWidth: '300px', MaxHeight: '300px', margin: 'auto' ,position:'relative'}}
-                              component="img"
-                              alt="Foto Perfil"
-                              height="300px"
-                              src={!imgProfile ? profileDefault : imgProfile}
-                           /> 
-
-                           <Box sx={{position:'absolute',top: 265, left: 0,}}>
-                              <Button variant="outlined" endIcon={<EditIcon/>}  sx={{border:'none', color:'text.primary', position: 'relative',  mb: '5rem'}}>
-                                 <input
-                                    style={{
-                                       position: 'absolute',
-                                       top: 0,
-                                       left: 0,
-                                       width: '100%',
-                                       height: '100%',
-                                       opacity: 0,
-                                       cursor: 'pointer',
-                                    }}
-                                    name="imgProfile"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleSelectImg}
-                                 />
-                             Modificar foto
-                              </Button>
+                        {loading ? (
+                           <Box
+                              sx={{
+                                 display: 'flex',
+                                 justifyContent: 'center',
+                                 alignContent: 'center',
+                                 m: '6rem',
+                              }}
+                           >
+                              {' '}
+                              <CircularProgress size={80} />{' '}
                            </Box>
-                           </>}
+                        ) : (
+                           <>
+                              {' '}
+                              <CardMedia
+                                 sx={{
+                                    MaxWidth: '300px',
+                                    MaxHeight: '300px',
+                                    margin: 'auto',
+                                    position: 'relative',
+                                 }}
+                                 component="img"
+                                 alt="Foto Perfil"
+                                 height="300px"
+                                 src={!imgProfile ? profileDefault : imgProfile}
+                              />
+                              <Box sx={{ position: 'absolute', top: 265, left: 0 }}>
+                                 <Button
+                                    variant="outlined"
+                                    endIcon={<EditIcon />}
+                                    sx={{
+                                       border: 'none',
+                                       color: 'text.primary',
+                                       position: 'relative',
+                                       mb: '5rem',
+                                    }}
+                                 >
+                                    <input
+                                       style={{
+                                          position: 'absolute',
+                                          top: 0,
+                                          left: 0,
+                                          width: '100%',
+                                          height: '100%',
+                                          opacity: 0,
+                                          cursor: 'pointer',
+                                       }}
+                                       name="imgProfile"
+                                       type="file"
+                                       accept="image/*"
+                                       onChange={handleSelectImg}
+                                    />
+                        Modificar foto
+                                 </Button>
+                              </Box>
+                           </>
+                        )}
                      </Box>
                      <Box>
-                        
                         <Typography
                            color="primary.main"
                            variant="h5"
                            component="div"
                            sx={{
-                              mt:'1rem',
+                              mt: '1rem',
                               fontSize: '2rem',
                               fontWeight: 'bold',
                            }}
@@ -538,9 +658,13 @@ export default function UserSettings({ navProfile }) {
                      </Box>
                      <Box
                         component="span"
-                        sx={{ fontSize: '1.5rem', fontWeight: 'bold',color:'secondary.variante' }}
+                        sx={{
+                           fontSize: '1.5rem',
+                           fontWeight: 'bold',
+                           color: 'secondary.variante',
+                        }}
                      >
-                        ({gender === 'Male' ? 'M' : 'F'}/{age}){' '}{city}
+                ({gender === 'Male' ? 'M' : 'F'}/{age}) {city}
                      </Box>
                      <Box>
                         <Box
@@ -558,14 +682,14 @@ export default function UserSettings({ navProfile }) {
                                  mt="0.2rem"
                                  ml="1rem"
                               >
-                        Reseña
+                      Reseña
                               </Typography>
                            </Link>
                            <Rating name="read-only" value={4} readOnly />
                         </Box>
                         <RoleComponent role={role} />
                      </Box>
-                     
+
                      <Typography
                         variant="h5"
                         fontSize="1.3rem"
@@ -584,6 +708,14 @@ export default function UserSettings({ navProfile }) {
                      </Typography>
                   </CardContent>
                </CardContent>
+               <AlertDialog
+                  openDialog={openDialog}
+                  handleClose={handleClose}
+                  handleResetStatus={handleResetStatus}
+                  handleConfirmSubmit={handleConfirmSubmit}
+                  alertStatus={alertStatus}
+                  loadingAlert={loadingAlert}
+               />
             </Card>
          </Container>
       </>

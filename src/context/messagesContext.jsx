@@ -55,7 +55,7 @@ export default function MessagesContextProvider({ children }) {
 
    }
 
-   console.log('esto es infoConversation',infoConversation)
+   // console.log('esto es infoConversation',infoConversation)
 
    const getListMessages = async () => {
       const idUser = sessionStorage.getItem('idUser')

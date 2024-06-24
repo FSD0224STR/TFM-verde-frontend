@@ -15,21 +15,26 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 export default function ConfigurationComponent({
    values,
    setFieldValue,
    errors,
    handleChange,
+   handleClickOpen,
+   loading,
+   setFieldError
 }) {
-   const [editPass, setEditPass] = useState(false);
+   console.log('error',errors)
+   const { editPass, setEditPass } = useContext(UserContext)
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
-
-   const [loading, setLoading] = useState(false);
-
+   const [showPassworNew, setShowPassworNew] = useState(false);
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
+   const handleClickShowPasswordNew = () => setShowPassworNew((show) => !show);
 
    const handleMouseDownPassword = (event) => {
       event.preventDefault();
@@ -37,6 +42,16 @@ export default function ConfigurationComponent({
    const handleMouseDownPasswordC = (event) => {
       event.preventDefault();
    };
+   const handleMouseDownPassworNew = (event) => {
+      event.preventDefault();
+   };
+   const checkFieldPass = () => {
+      const filter = values.current_pass && values.newPassword && values.ConfirmPassword
+      const error = Object.keys(errors).length
+      if (filter && error === 0) {
+         return true
+      }return false
+   }
 
    return (
       <Grid 
@@ -83,6 +98,11 @@ export default function ConfigurationComponent({
                   value={values.email}
                   label="email"
                />
+               {errors.email ? (
+                  <Typography variant="body2" sx={{ color: 'error.main' }}>
+                     {errors.email}
+                  </Typography>
+               ) : null}
             </FormControl>
             <Box >
                <Typography
@@ -100,8 +120,19 @@ export default function ConfigurationComponent({
            Modificar Contraseña
                   <Tooltip title="Editar">
                      <IconButton onClick={() => {
-                        setEditPass(!editPass)
-                        setFieldValue('current_pass','')
+                        const newEditPass = !editPass;
+                        setEditPass(newEditPass)
+                        setFieldValue('isDisabled', !newEditPass)
+                        if (newEditPass) {
+                           setFieldValue('current_pass', '');
+                           
+                        } else {
+                           setFieldError('current_pass','')
+                           setFieldValue('newPassword', '') 
+                           setFieldValue('ConfirmPassword', '') 
+                           setFieldValue('current_pass', '12345678') 
+                           
+                        }
                      }} >
                         <EditIcon
                            color="primary"
@@ -116,7 +147,7 @@ export default function ConfigurationComponent({
                fullWidth
                variant="outlined"
             >
-               <InputLabel htmlFor="newPassword">Contraseña Actual</InputLabel>
+               <InputLabel htmlFor="current_pass">Contraseña Actual</InputLabel>
                <OutlinedInput
                   sx={{ color: 'text.secondary' }}
                   id="current_pass"
@@ -126,7 +157,7 @@ export default function ConfigurationComponent({
                      editPass && 
                      <InputAdornment position="end">
                         <IconButton
-                           aria-label="toggle newPassword visibility"
+                           aria-label="toggle current_pass visibility"
                            onClick={handleClickShowPassword}
                            onMouseDown={handleMouseDownPassword}
                         >
@@ -138,12 +169,12 @@ export default function ConfigurationComponent({
                   onChange={handleChange}
                   error={!!errors.current_pass}
                   value={values.current_pass}
-                  label="Contraseña"
-                
+                  label="Contraseña actual"
+                  
                />
-               {errors.newPassword ? (
+               {errors.current_pass ? (
                   <Typography variant="body2" sx={{ color: 'error.main' }}>
-                     {errors.newPassword}
+                     {errors.current_pass}
                   </Typography>
                ) : null}
             </FormControl>
@@ -157,17 +188,18 @@ export default function ConfigurationComponent({
                >
                   <InputLabel htmlFor="newPassword">Nueva Contraseña </InputLabel>
                   <OutlinedInput
+                     disabled={!editPass}
                      sx={{ color: 'text.secondary' }}
                      id="newPassword"
-                     type={showPassword ? 'text' : 'Password'}
+                     type={showPassworNew ? 'text' : 'Password'}
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
                               aria-label="toggle newPassword visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
+                              onClick={handleClickShowPasswordNew}
+                              onMouseDown={handleMouseDownPassworNew}
                            >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                              {showPassworNew ? <VisibilityOff /> : <Visibility />}
                            </IconButton>
                         </InputAdornment>
                      }
@@ -175,7 +207,7 @@ export default function ConfigurationComponent({
                      onChange={handleChange}
                      error={!!errors.newPassword}
                      value={values.newPassword}
-                     label="Contraseña"
+                     label="Nueva Contraseña"
                   />
                   {errors.newPassword ? (
                      <Typography variant="body2" sx={{ color: 'error.main' }}>
@@ -184,10 +216,11 @@ export default function ConfigurationComponent({
                   ) : null}
                </FormControl>
                <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="passwordC">Confirma nueva contraseña</InputLabel>
+                  <InputLabel htmlFor="ConfirmPassword">Confirma contraseña</InputLabel>
                   <OutlinedInput
+                     disabled={!editPass}
                      sx={{ color: 'text.secondary' }}
-                     id="passwordC"
+                     id="ConfirmPassword"
                      type={showPasswordC ? 'text' : 'Password'}
                      endAdornment={
                         <InputAdornment position="end">
@@ -200,18 +233,21 @@ export default function ConfigurationComponent({
                            </IconButton>
                         </InputAdornment>
                      }
-                     name="passwordC"
+                     name="ConfirmPassword"
                      onChange={handleChange}
-                     error={!!errors.passwordC}
-                     value={values.passwordC}
+                     error={!!errors.ConfirmPassword}
+                     value={values.ConfirmPassword}
                      label="Confirma contraseña"
                   />
-                  {errors.passwordC ? (
+                  {errors.ConfirmPassword ? (
                      <Typography variant="body2" sx={{ color: 'error.main' }}>
-                        {errors.passwordC}
+                        {errors.ConfirmPassword}
                      </Typography>
                   ) : null}
                </FormControl>
+               <Box sx={{display:'flex',width:'100%',justifyContent:'center',mt:'1rem',}}>
+                  <Button onClick={handleClickOpen} variant='contained' disabled={checkFieldPass() ? false : true} sx={{':hover':{bgcolor:'secondary.variante'}}}>Modificar Contraseña</Button>
+               </Box>
             
             </> }
 
@@ -245,6 +281,7 @@ export default function ConfigurationComponent({
                   sx={{ mt: '40px', fontSize: '20px',color:'error.main',':hover':{color:'text.primary',bgcolor:'error.main'} }}
                   size="large"
                   fullWidth
+                  disabled={editPass}
                >
               Borrar mi Cuenta
                </Button>
@@ -254,10 +291,12 @@ export default function ConfigurationComponent({
                   <CircularProgress size={80} sx={{ m: '2rem' }} />
                ) : (
                   <Button
+                     onClick={handleClickOpen}
                      type="submit"
                      variant="contained"
-                     sx={{ mt: '40px', fontSize: '20px' }}
+                     sx={{ mt: '40px', fontSize: '20px' ,':hover':{bgcolor:'secondary.variante'},':disabled':{opacity:0}}}
                      size="large"
+                     disabled={editPass}
                   >
           Guardar Cambios
                   </Button>

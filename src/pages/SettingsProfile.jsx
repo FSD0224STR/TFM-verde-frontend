@@ -5,21 +5,23 @@ import NavSettings from '../components/UserSettings/NavSettings'
 import { useNavigate } from 'react-router-dom';
 import { LoginContextP } from '../context/loginContextPrueba';
 import { Box, CircularProgress } from '@mui/material';
+import { UserContext } from '../context/userContext';
 
 export default function SettingsProfile() {
-   const {profileDetails} = useContext(LoginContextP)
-   const [navProfile, setNavProfile] = useState(false);
-   const navigate = useNavigate()
+   const { profileDetails } = useContext(LoginContextP)
+   const {navProfile,setNavProfile,handleNavProfile,handleSwitchNav} = useContext(UserContext)
+   // const [navProfile, setNavProfile] = useState(false);
+   // const navigate = useNavigate()
 
-   const handleNavProfile = () => {
-      setNavProfile(true)
-      navigate('/profile')
-   }
+   // const handleNavProfile = () => {
+   //    setNavProfile(true)
+   //    navigate('/profile')
+   // }
 
-   const handleSwitchNav = () => {
-      setNavProfile(false)
-      navigate('/profile')
-   }
+   // const handleSwitchNav = () => {
+   //    setNavProfile(false)
+   //    navigate('/profile')
+   // }
 
    return (
 
