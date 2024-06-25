@@ -21,6 +21,7 @@ export default function MessagesContextProvider({ children }) {
    const { userDetail } = useContext(UserContext)
    const [alertStatusDelete, setAlertStatusDelete] = useState(null)
    const [invitationMessage, setInvitationMessage] = useState(false);
+
    const navigate = useNavigate()
    useEffect(() => {
       setOpenMessage(false) //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
@@ -34,7 +35,7 @@ export default function MessagesContextProvider({ children }) {
    const openConversation = async (idUsers) => {
       setLoadingChat(true)
       const conversation = await messagesApi.getMyConversation(idUsers)
-      // console.log('esto es conversation',conversation)
+      console.log('esto es conversation',conversation)
       console.log('esto es loadngi en context',loadingChat)
       if (conversation === false) {
          setLoadingChat(false)
@@ -58,7 +59,8 @@ export default function MessagesContextProvider({ children }) {
    // console.log('esto es infoConversation',infoConversation)
 
    const getListMessages = async () => {
-      const idUser = sessionStorage.getItem('idUser')
+      // const idUser = sessionStorage.getItem('idUser')
+      const idUser = profileDetails._id
       const allChats = await messagesApi.getAllMyconversation(idUser)
       // console.log('todas las conversaciones en contexto', allChats)
       if (allChats.error) return setError(allChats.error)
@@ -76,13 +78,6 @@ export default function MessagesContextProvider({ children }) {
           
       }
    };
-    
-   // const myConversation = async () => {
-   //    const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
-   //    const getMessages = await messagesApi.getMyConversation(idUsers)
-   //    setSendMessage(getMessages.mensajes)
-
-   // }
     
    const deleteMyConversation = async () => {
       const idConversation = infoConversation._id

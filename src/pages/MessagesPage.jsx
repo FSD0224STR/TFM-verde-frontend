@@ -4,20 +4,25 @@ import ListMessages from '../components/ListMessages/ListMessages'
 import { useContext, useEffect } from 'react'
 import { MessagesContext } from '../context/messagesContext'
 import { Box, CircularProgress } from '@mui/material'
+import { LoginContextP } from '../context/loginContextPrueba'
 
 export default function MessagesPage() {
-   const { allConversation,getListMessages } = useContext(MessagesContext)
+   const { allConversation, getListMessages } = useContext(MessagesContext)
+   const {profileDetails} = useContext(LoginContextP)
    
    useEffect(() => {
       
-      getListMessages()
-   }, []);
+      if (profileDetails) {
+         getListMessages()
+      }
+     
+   }, [profileDetails]);
 
    return (
       <>
-         {/* {console.log('esto es all conversation en page',allConversation)} */}
+         {console.log('esto es all conversation en page',allConversation)}
          <NavigationMenu />
-         {allConversation.length > 0 ?
+         {profileDetails && allConversation?
             <ListMessages />
             :
             <Box sx={{
