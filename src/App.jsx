@@ -1,4 +1,4 @@
-import {  Route, Routes } from 'react-router-dom';
+import {  Route, Routes, useParams } from 'react-router-dom';
 
 import './App.css';
 import Home from './pages/Home';
@@ -12,6 +12,8 @@ import NotFound from './pages/NotFound';
 import DetailUser from './pages/DetailUser';
 import MessagesPage from './pages/MessagesPage';
 import EventsInterested from './pages/EventsInterested'
+import RecoverPage from './pages/RecoverPage';
+import ChangePassPage from './pages/ChangePassPage';
 
 function App() {
    return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/recoverpass" element={<RecoverPage/>} />
+            <Route path="/reset-password/:tokenRecoveryparams" element={<ChangePassPage/>} />
             <Route path="/home" element={<Home />} />
             <Route path="/events" element={<EventsInterested />} />
             <Route path="/events/:id" element={<EventsList />} />

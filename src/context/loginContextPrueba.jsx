@@ -14,13 +14,17 @@ export const LoginContextProviderP = ({ children }) => {
    const [profileDetails, setProfileDetails] = useState();
    
    const navigate = useNavigate()
+   let  tokenRecoveryparams  = useParams()
    const urlLocation = useLocation()
-   // console.log('esto es urlLocation',urlLocation.pathname)
-   //!revisar como esta actuando el useEfFect
+   
    useEffect(() => {
-      console.log('componente siendo montado llamandoa checkToken')
-      checkToken()
-   },[]);
+      // Si la URL no incluye '/reset-password/', ejecuta checkToken
+      if (!urlLocation.pathname.includes('/reset-password/')) {
+         // console.log('Estado URL y su comprobación:', urlLocation.pathname);
+         console.log('Componente siendo montado llamando a checkToken');
+         checkToken();
+      }
+   }, []);
 
    const checkToken = async () => {
       const token = localStorage.getItem('access_token');
@@ -88,6 +92,7 @@ export const LoginContextProviderP = ({ children }) => {
       profileDetails,
       setProfileDetails,
       logout,
+      tokenRecoveryparams
    };
 
    return (

@@ -145,6 +145,35 @@ const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplica
    const user=await response.json()
    return user
 }
+
+const recoverMypass = async (data) => {
+   const response = await fetch(`${Servidorurl}/users/forgotPassword`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   })
+   if (!response.ok) {
+      const error = await response.json();
+      return { error};
+   }
+   const info =  await response.json()
+   return info
+}
+
+const resetPassword = async (data) => {
+   const response = await fetch(`${Servidorurl}/users/reset-password/${data.token}`,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   })
+   if (!response.ok) {
+      const error = await response.json();
+      return { error};
+   }
+   const resultPass = await response.json()
+   return  resultPass
+} 
+
 export default { 
    getAllUsers,
    addUser,
@@ -155,5 +184,7 @@ export default {
    getMyprofile,
    getOneUserApi,
    updateUser,
-   changeMyPass
+   changeMyPass,
+   recoverMypass,
+   resetPassword
 };

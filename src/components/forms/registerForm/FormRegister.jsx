@@ -53,31 +53,6 @@ export default function FormRegister() {
       event.preventDefault();
    };
 
-   let initialValuesForm = {
-      name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
-      subName: '',
-      email: '',
-      role: 'Leader',
-      newPassword: '',
-      passwordC:'',
-      city: '',
-      gender: 'Female',
-      age: '',
-      imgProfile: defaultImg,
-      description: '',
-      dancingStyles: danceStylesList,
-   };
-
-   const registerSchema = Yup.object().shape({
-      name: Yup.string().required('Debes ingrensar un nombre'),
-      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
-      newPassword: Yup.string().required('Debes ingrensar un contraseña').min(8, 'la contraseña tiene que tener minimo 8 carateres'),
-      passwordC: Yup.string().required('Debes Confirmar tu contraseña').oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden'),
-      gender: Yup.string().required('Debes ingrensar un genero'),
-      age: Yup.number('tienes que ingresar un numero').min(18,'tienes que se mayor de 18 años').required('Debes ingrensar una edad'),
-      city: Yup.string().required('Debes ingrensar un ubicacion'),
-   });
-
    const addNewUser = async (newUserData) => {
       if (newUserData.imgProfile === defaultImg) {
          setLoading(true)
@@ -135,6 +110,31 @@ export default function FormRegister() {
       }
 
    };
+
+   let initialValuesForm = {
+      name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
+      subName: '',
+      email: '',
+      role: 'Leader',
+      newPassword: '',
+      passwordC:'',
+      city: '',
+      gender: 'Female',
+      age: '',
+      imgProfile: defaultImg,
+      description: '',
+      dancingStyles: danceStylesList,
+   };
+
+   const registerSchema = Yup.object().shape({
+      name: Yup.string().required('Debes ingrensar un nombre'),
+      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
+      newPassword: Yup.string().required('Debes ingrensar un contraseña').min(8, 'la contraseña tiene que tener minimo 8 carateres'),
+      passwordC: Yup.string().required('Debes Confirmar tu contraseña').oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden'),
+      gender: Yup.string().required('Debes ingrensar un genero'),
+      age: Yup.number('tienes que ingresar un numero').min(18,'tienes que se mayor de 18 años').required('Debes ingrensar una edad'),
+      city: Yup.string().required('Debes ingrensar un ubicacion'),
+   });
 
    const { handleChange, handleSubmit, setFieldValue, values, errors,setFieldError} =
     useFormik({

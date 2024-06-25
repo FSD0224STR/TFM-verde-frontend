@@ -197,6 +197,8 @@ export  function SignIn() {
                         <Grid container>
                            <Grid item xs>
                               <Link 
+                                 component={NavLink}
+                                 to={'/recoverpass'}
                                  href="#" variant="body2">
                   ¿Olvidaste tu contraseña?
 

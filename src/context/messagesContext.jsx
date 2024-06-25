@@ -70,6 +70,7 @@ export default function MessagesContextProvider({ children }) {
       if (message.trim() !== '') {
          const newMessage = { sender: profileDetails._id, receiver: userDetail._id, message }
          const addNewMessage = await messagesApi.sendNewMessage(newMessage)
+         console.log('esto es addNewMessage',addNewMessage)
          setSendMessage([...messageSend, { message: addNewMessage, sender: profileDetails._id }]);
          setMessage(' ');
           
