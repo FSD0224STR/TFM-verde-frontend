@@ -80,6 +80,7 @@ export const LoginContextProviderP = ({ children }) => {
       localStorage.setItem('auth',false)
       navigate('/')
    }
+   
    const loginContextValue = {
       isLoggedIn,
       error,

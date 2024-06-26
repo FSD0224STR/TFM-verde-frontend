@@ -7,16 +7,18 @@ import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
 import { DateCalendarValue } from '../components/Pure/Calendar';
 import { useState } from 'react';
+import { Map } from '../components/Pure/Map';
+
 export default function Home() {
 
-   const { getLocationFiltered, coordinates, city, date, typeOfDancing, locations, setCity, setTypeOfDancing } = useContext(LocationContext)
+   const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)
    const [buttonClicked, setButtonClicked] = useState(false);
 
    const LocationFilteredInfo = async () => {
 
       setLoading(true)
-      const response=await getLocationFiltered(coordinates, city, date, typeOfDancing);
+      const response=await getLocationFiltered(city, date, typeOfDancing);
       if(response){
          setLoading(false)
          return 
@@ -32,7 +34,7 @@ export default function Home() {
    useEffect (()=>{
 
       if (buttonClicked) {
-         LocationFilteredInfo(coordinates, city, date, typeOfDancing)
+         LocationFilteredInfo()
          setButtonClicked(false)
 
       }
@@ -57,7 +59,9 @@ export default function Home() {
 
          <>
             <NavigationMenu/>
-
+              
+            <Map />       
+          
             <Grid
                container
                maxWidth="100%"
@@ -65,7 +69,7 @@ export default function Home() {
                spacing={4}
                sx={{ m: '1rem' }}
             >
-
+         
                <Grid 
                   item  
                   display="flex"
@@ -124,8 +128,8 @@ export default function Home() {
 
                </Grid>
 
-            </Grid>
-
+            </Grid> 
+ 
             <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
 
                {locations.length?(

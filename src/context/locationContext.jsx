@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
+import { getAllLocation, getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
+import { useEffect } from 'react';
+import {useNavigate } from 'react-router-dom';
 
 export const LocationContext = React.createContext();
 
 export const LocationContextProvider = ({ children }) => {
-
-   const [coordinates,setCoordinates]=useState('')
+  
    const [city,setCity]=useState('')
    const [date,setDate]=useState('')
    const [typeOfDancing,setTypeOfDancing]=useState('')
@@ -16,10 +17,11 @@ export const LocationContextProvider = ({ children }) => {
    const [idLocal,setIdLocal]=useState('')
    const [locationDatas,setLocationData]=useState({})
    const [LocationEventsData,setLocationEventsData]=useState([])
+   const [clusterData,setClusterData]=useState({})
    const [dateInput, setDateInput] = useState(dayjs(Date));
 
-   const getLocationFiltered= async (coordinates,city,date,typeOfDancing)=>{
-      const locationsFiltered= await getLocationfilteredApi(coordinates,city,date,typeOfDancing)
+   const getLocationFiltered= async (city,date,typeOfDancing)=>{
+      const locationsFiltered= await getLocationfilteredApi(city,date,typeOfDancing)
      
       if(locationsFiltered.error) {setError(locationsFiltered.error); return error}
       else {
@@ -45,10 +47,48 @@ export const LocationContextProvider = ({ children }) => {
                 
       }
    }
+
+   const getDataForCluster = async () => {
+      
+      const locations = await getAllLocation();
+      if(locations.error) {setError(locations.error); return error}
+
+      const dataForCluster=locations.map(local=>{
+
+         return {
+        
+            'type': 'Feature',
+            'geometry': {
+               'type': 'Point',
+               'coordinates': [
+                  local.coordinates['lng'],  local.coordinates['lat']
+               ]
+            },
+            'properties': {
+               'name': local.name,
+               'address':local.address,
+               '_id':local._id,
+               'events':local.events,
+               'img':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt_fcdW_dwM-vM7XKx-dQyEpkN4RUTwhrSPQ&s'
+            }
+           
+         }
+
+      })
+
+      setClusterData(dataForCluster)
+   
+   }
+  
+   useEffect(() => {
+
+      getDataForCluster()
+      /* console.log('Estas entrando en el useEffect para obtener los datos del cluster del mapa') */
+   },[])
    
    const locationContextValue = {
       getLocationFiltered,
-      coordinates,
+
       city,
       typeOfDancing,
       locations,
@@ -62,7 +102,8 @@ export const LocationContextProvider = ({ children }) => {
       setDate,
       setTypeOfDancing,
       dateInput, 
-      setDateInput
+      setDateInput,
+      clusterData
               
    }
   

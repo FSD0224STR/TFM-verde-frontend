@@ -13,7 +13,7 @@ export const EventContextProvider = ({ children }) => {
 
       const event= await getEventByIdApi(idEvent)
 
-      if(event.error) return event.error
+      if(event.error) return {error:event.error}
      
       return  event
       

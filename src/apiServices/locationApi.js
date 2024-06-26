@@ -1,10 +1,8 @@
 
 const Servidorurl='http://localhost:3000'
 
-export const queryParamsDynamic=  (coordinates,city,date,typeOfDancing)=>{
+export const queryParamsDynamic=  (city,date,typeOfDancing)=>{
    const queryParams = new URLSearchParams()
-        
-   coordinates? queryParams.append('coordinates',`${coordinates}`):null
         
    city? queryParams.append('city',`${city}`):null
 
@@ -16,9 +14,9 @@ export const queryParamsDynamic=  (coordinates,city,date,typeOfDancing)=>{
 
 }
 
-export const getLocationfilteredApi=async(coordinates,city,date,typeOfDancing)=>{
+export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
-   const queryParamsdone=queryParamsDynamic(coordinates,city,date,typeOfDancing)
+   const queryParamsdone=queryParamsDynamic(city,date,typeOfDancing)
            
    const response =await fetch(`${Servidorurl}/locations/?${queryParamsdone.toString()}`)
 
@@ -44,4 +42,19 @@ export const getOneLocationApi=async (id)=>{
    }
        
    return {data: await response.json()}
+}
+
+export const getAllLocation=async ()=>{
+
+   const response=await fetch(`${Servidorurl}/locations/all`)
+
+   const data=await response.json()
+
+   if (!response.ok)   {
+             
+      return {error: response.statusText}
+           
+   }
+       
+   return data
 }
