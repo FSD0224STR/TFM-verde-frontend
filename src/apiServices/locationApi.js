@@ -44,7 +44,7 @@ export const getOneLocationApi=async (id)=>{
    return {data: await response.json()}
 }
 
-export const getAllLocation=async ()=>{
+/* export const getAllLocation=async ()=>{
 
    const response=await fetch(`${Servidorurl}/locations/all`)
 
@@ -57,4 +57,4 @@ export const getAllLocation=async ()=>{
    }
        
    return data
-}
+} */

@@ -1,9 +1,7 @@
 
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { getAllLocation, getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
-import { useEffect } from 'react';
-import {useNavigate } from 'react-router-dom';
+import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
 
 export const LocationContext = React.createContext();
 
@@ -19,6 +17,7 @@ export const LocationContextProvider = ({ children }) => {
    const [LocationEventsData,setLocationEventsData]=useState([])
    const [clusterData,setClusterData]=useState({})
    const [dateInput, setDateInput] = useState(dayjs(Date));
+   const [button_Events_Clicked, setButton_Events_Clicked] = useState(false);
 
    const getLocationFiltered= async (city,date,typeOfDancing)=>{
       const locationsFiltered= await getLocationfilteredApi(city,date,typeOfDancing)
@@ -35,7 +34,13 @@ export const LocationContextProvider = ({ children }) => {
       }
         
    }
-   
+ 
+   const click_Buttons_Events = (idLocal) => {
+      setIdLocal(idLocal)
+      setButton_Events_Clicked(true);
+      return true
+      
+   }
    //Se obtienen tanto los datos del local (setLocationData), como el listado de los eventos (LocationEventsData) de ese idLocal.
    const getLocationData = async () => {
 
@@ -48,9 +53,9 @@ export const LocationContextProvider = ({ children }) => {
       }
    }
 
-   const getDataForCluster = async () => {
+   const getDataForCluster = async (city,date,typeOfDancing) => {
       
-      const locations = await getAllLocation();
+      const locations = await  getLocationfilteredApi(city,date,typeOfDancing)
       if(locations.error) {setError(locations.error); return error}
 
       const dataForCluster=locations.map(local=>{
@@ -77,18 +82,12 @@ export const LocationContextProvider = ({ children }) => {
       })
 
       setClusterData(dataForCluster)
+      return true
    
    }
-  
-   useEffect(() => {
 
-      getDataForCluster()
-      /* console.log('Estas entrando en el useEffect para obtener los datos del cluster del mapa') */
-   },[])
-   
    const locationContextValue = {
       getLocationFiltered,
-
       city,
       typeOfDancing,
       locations,
@@ -103,7 +102,11 @@ export const LocationContextProvider = ({ children }) => {
       setTypeOfDancing,
       dateInput, 
       setDateInput,
-      clusterData
+      clusterData,
+      button_Events_Clicked,
+      setButton_Events_Clicked,
+      click_Buttons_Events,
+      getDataForCluster 
               
    }
   

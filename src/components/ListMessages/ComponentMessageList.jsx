@@ -40,7 +40,7 @@ export default function ComponentMessageList() {
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
-
+   console.log('messageSemd',messageSend)
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);

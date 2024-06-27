@@ -6,6 +6,7 @@ height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   
    
 }
@@ -25,21 +26,20 @@ footer {
 main {
   flex-grow: 1;
   max-height: 300px;
-
   margin-bottom: 60px; 
+
 }
 
 
 
 .sidebar {
-  background-color:black;
-  color: #fff;
-  padding: 6px 12px;
+  background-color:'transparent';
+  color: #000;
   font-family: monospace;
+  font-size: x-small;
   z-index: 1;
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 12px;
   border-radius: 4px;
 }

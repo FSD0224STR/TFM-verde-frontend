@@ -10,6 +10,7 @@ import { LocationContext } from '../../context/locationContext';
 export function DateCalendarValue() {
 
    const{setDate,dateInput,setDateInput}=useContext(LocationContext)
+
    dayjs.locale('es')
 
    const isDateDisabled = (date) => {
@@ -30,22 +31,12 @@ export function DateCalendarValue() {
                      color: 'primary.main'
                   },
                },
-
-               toolbar:{
-                  sx:{color:'blue'
-
-                  }},
-
+              
                textField: { 
                   format:'DD/MM/YYYY',
                   variant: 'filled',
                   inputProps:{style:{backgroundColor: 'white', color: 'black',fontSize:'small',textAlign:'center'}}},
                openPickerButton: {style:{backgroundColor:'#163938',color:'white'}},
-               /* day:{style:{backgroundColor:'#163948',color:'white'}},
-               
-               month: {style:{backgroundColor:'#163938',color:'white'}},
-               year:{style:{backgroundColor:'#163938',color:'#163938'}}, */
-               /*    toolbar: {style:{backgroundColor:'#163938',color:'white'}} */
             
             }}
         

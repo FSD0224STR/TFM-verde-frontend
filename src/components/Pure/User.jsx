@@ -69,6 +69,7 @@ export default function User({ userApi }) {
                   sx={{
                      fontSize: '1.5rem',
                      fontWeight: 'bold',
+                     color:'white'
                   }}
                >
                   {name} {subName}
@@ -77,6 +78,7 @@ export default function User({ userApi }) {
                   sx={{
                      fontSize: '1.1rem',
                      fontWeight: 'bold',
+                     color:'white'
                   }}
                >
               ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
@@ -122,7 +124,7 @@ export default function User({ userApi }) {
                   mb: '1rem',
                   maxWidth: '90%',
                   bgcolor: 'primary.main',
-                  color: 'text.primary',
+                  color: 'white',
                   display: 'flex',
                   alignItems: 'center',
                   px: '1rem',

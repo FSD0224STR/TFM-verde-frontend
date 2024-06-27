@@ -18,6 +18,7 @@ const sendNewMessage = async (newMessage) => {
    }
   
    const messageSend = await response.json();
+   console.log('esto es el mensaje nuevo',messageSend)
    console.log('esto es messageSend creada en Appi',messageSend.Data.message)
    return  messageSend.Data.message ;
  

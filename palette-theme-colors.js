@@ -20,7 +20,8 @@ export const main_theme= createTheme({
          avatar:'#fff9'
       },
       text: {
-         primary: '#ffffff',
+    
+         primary: '#1D6B68',
          secondary:'#278F8B'
       },
       error: {

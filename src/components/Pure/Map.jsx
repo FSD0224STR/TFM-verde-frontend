@@ -11,28 +11,30 @@ import { main_theme } from '../../../palette-theme-colors';
 import locationicon from '../../img/location-icon.png'
 import { createRoot } from 'react-dom/client';
 import { LocationComponentMap } from './LocationComponentMap';
+import { useNavigate } from 'react-router-dom';
 
 export const Map=()=>{
 
    mapboxgl.accessToken = 'pk.eyJ1IjoibWVldGFuY2luZyIsImEiOiJjbHhzd3dldDIwczNnMmpzZW1iaTN2dWxjIn0.RXMnscY4UR13dJD2PCD5aw';
-   const { clusterData} = useContext(LocationContext)
+   const { clusterData,click_Buttons_Events} = useContext(LocationContext)
    const mapContainer = useRef(null);
    const map = useRef(null);
-   /* const [lng, setLng] = useState(-1.9885  );
-   const [lat, setLat] = useState(38.3610);
-   const [zoom, setZoom] = useState(4.53);
- */
-   const [lng, setLng] = useState(-3.6153);
+   const navigate = useNavigate();
+   const [lng, setLng] = useState(-3.4375  );
+   const [lat, setLat] = useState( 39.7514);
+   const [zoom, setZoom] = useState(5.1);
+ 
+   /* const [lng, setLng] = useState(-3.6153);
    const [lat, setLat] = useState( 40.4156 );
-   const [zoom, setZoom] = useState(10.44);
+   const [zoom, setZoom] = useState(10.44); */
 
    useEffect(() => {
-      console.log('Que es  clusterData ',clusterData)
+    
       if (map.current) return; 
       map.current = new mapboxgl.Map({
         
          container: mapContainer.current,
-         style: 'mapbox://styles/mapbox/light-v11', //Opcion 2:'mapbox://styles/examples/clg45vm7400c501pfubolb0xz'
+         style: 	'mapbox://styles/mapbox/light-v11', //Opcion 2:'mapbox://styles/examples/clg45vm7400c501pfubolb0xz' opcion 1:'mapbox://styles/mapbox/light-v11'
          center: [lng, lat],
          zoom: zoom,
          attributionControl: false  
@@ -62,7 +64,7 @@ export const Map=()=>{
             data: {'type': 'FeatureCollection',
                'features':clusterData},
             cluster: true,
-            clusterMaxZoom: 12,
+            clusterMaxZoom: 10,
             clusterRadius: 50
          })
 
@@ -86,7 +88,7 @@ export const Map=()=>{
              
                   'step',
                   ['get', 'point_count'],
-                  10,   // Radio de 10 píxeles cuando la cuenta de puntos es menor que 35
+                  25,   // Radio de 10 píxeles cuando la cuenta de puntos es menor que 35
                   35,
                   15,   // Radio de 15 píxeles cuando la cuenta de puntos está entre 35 y 50
                   50,
@@ -131,7 +133,8 @@ export const Map=()=>{
             layers: ['unclustered-point']
          });
          if (!features.length) { //Si no hay propiedades para mostrar en el punto seleccionado, no se ejecuta el popup. 
-            return;
+            
+            return
          }
          const feature = features[0]; //Se coge el primer objeto de propiedades
 
@@ -141,11 +144,22 @@ export const Map=()=>{
 
          root.render(<LocationComponentMap  feature={feature}/>) //En ese elemento del dom renderizo el componente que aparecerá en el popup
  
-         const popup = new mapboxgl.Popup({ offset: [0, 10] }) //El offset es para no tapar el punto, se mostrará arriba a la derecha del pnto
+         const popup = new mapboxgl.Popup({ offset: [0, 10],closeOnClick: true }) //El offset es para no tapar el punto, se mostrará arriba a la derecha del pnto
             .setLngLat(feature.geometry.coordinates)
             .setDOMContent(div)
-          
             .addTo(map.current);
+
+         //Es como si popup fuera un elemento del html, ahora se pueden aplicar metodos de js 
+         popup.getElement().addEventListener('click',()=>
+         {
+           
+            const response=click_Buttons_Events(feature.properties._id)
+
+            if (response){
+               navigate(`/location/${feature.properties._id}/events`)
+            } 
+         }) 
+            
       });
 
       map.current.addControl(new MapboxLanguage({
@@ -158,15 +172,15 @@ export const Map=()=>{
             accessToken: mapboxgl.accessToken,
             mapboxgl: mapboxgl,
             language: 'es-ES',
-            placeholder: 'Buscar' 
+            placeholder: 'Buscar dirección' 
       
          }))
 
    });
- 
+  
    return (
     
-      <Paper  square={false}  sx={{ width: '95%', height:'90vh',m: '1.5rem',position:'relative'}} >
+      <Paper  square={false}  sx={{ width: '97%', height:'80vh',m: '1.5rem',position:'relative'}} >
 
          <div className="sidebar">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}

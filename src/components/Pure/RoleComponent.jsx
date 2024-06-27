@@ -10,7 +10,7 @@ export default function RoleComponent({ role }) {
                color="success"
                size="small"
                sx={{
-                  '&.MuiChip-root': { backgroundColor: 'stack.secondary' },
+                  '&.MuiChip-root': {color:'white', backgroundColor: 'stack.secondary' },
                }}
             />
          )
@@ -19,7 +19,7 @@ export default function RoleComponent({ role }) {
          return (
             <Chip
                label="Follower"
-               sx={{ '&.MuiChip-root': { backgroundColor: 'stack.primary' } }}
+               sx={{ '&.MuiChip-root': { color:'white',backgroundColor: 'stack.primary' } }}
                size="small"
             />
          )
@@ -28,8 +28,9 @@ export default function RoleComponent({ role }) {
             <Chip
                label="Switch"
                size="small"
+             
                sx={{
-                  '&.MuiChip-root': { backgroundColor: 'stack.terciary' },
+                  '&.MuiChip-root': {  color:'white', backgroundColor: 'stack.terciary' },
                }}
             />
          )

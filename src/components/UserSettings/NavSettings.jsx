@@ -7,7 +7,7 @@ export default function NavSettings({handleSwitchNav,handleNavProfile}) {
          <AppBar sx={{position:'absolute',top:149}}>
             <Toolbar sx={{justifyContent:'center',gap:'2rem'}}>
                <Button onClick={handleSwitchNav}  color="inherit" sx={{fontSize:'1.5rem'}} >Perfil</Button>
-               <Button onClick={handleNavProfile}  color="inherit" sx={{fontSize:'1.5rem'}}>Configuaración</Button>
+               <Button onClick={handleNavProfile}  color="inherit" sx={{fontSize:'1.5rem'}}>Configuración</Button>
             </Toolbar>
          </AppBar>
       </Box>

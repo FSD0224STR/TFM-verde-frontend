@@ -14,18 +14,24 @@ import { useNavigate } from 'react-router-dom';
 import { Chip, Stack } from '@mui/material';
 import { RepeatButton } from './CommonButton';
 import { useContext } from 'react';
+import { useEffect } from 'react';
 
 export function LocationsComponent({ name,address,_id,events}) {
   
    const navigate = useNavigate();
-   const{setIdLocal}=useContext(LocationContext)
+   const{button_Events_Clicked, setButton_Events_Clicked,click_Buttons_Events}=useContext(LocationContext)
    const uniqueTypeOfDancing = new Set(events.map(event => event.typeOfDancing))
 
-   const handleClick = () => {
-      setIdLocal(_id)
-      navigate(`/events/${_id}`)
+   useEffect (()=>{
+
+      if (button_Events_Clicked) {
+         navigate(`/location/${_id}/events`)
+         setButton_Events_Clicked(false)
+
+      }
       
-   }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_Events_Clicked])
 
    return (
       <Card sx={{color: 'primary.main',fontWeight: 'bold',
@@ -78,7 +84,7 @@ export function LocationsComponent({ name,address,_id,events}) {
 
                         <Chip key={index}
    
-                           sx={{m:0.6,  bgcolor:index % 2 === 0 ? 'stack.secondary' : 'stack.primary'} }
+                           sx={{ color:'white', m:0.6,  bgcolor:index % 2 === 0 ? 'stack.secondary' : 'stack.primary'} }
                            label={typeOfDancing}
    
                         />
@@ -100,7 +106,7 @@ export function LocationsComponent({ name,address,_id,events}) {
 
          <CardActions sx={{justifyContent: 'center',position:'absolute',left: '50%',transform:'translateX(-50%)',  bottom: 10}} >
 
-            <RepeatButton onClick={handleClick} name='Ver eventos'></RepeatButton>
+            <RepeatButton onClick={()=>click_Buttons_Events(_id)} name='Ver eventos'></RepeatButton>
           
          </CardActions>
          
