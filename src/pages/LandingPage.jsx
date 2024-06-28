@@ -87,14 +87,14 @@ export default function LandingPage() {
                      >
                         <Typography
                            component="h2"
-                           sx={{ fontSize: '4rem', fontWeight: 'bold', mt: '15rem' }}
+                           sx={{ fontSize: '4rem', fontWeight: 'bold', mt: '15rem',color:'text.terciary' }}
                         >
                            {' '}
                   Juntos somos más{' '}
                         </Typography>
                         <Typography
                            component="h6"
-                           sx={{ fontSize: '2rem', mb: '4rem' }}
+                           sx={{ fontSize: '2rem', mb: '4rem',color:'text.terciary' }}
                         >
                   La página para encontrar pareja de baile en España{' '}
                         </Typography>
@@ -135,7 +135,7 @@ export default function LandingPage() {
                         <Box sx={{ maxWidth: '70%', textAlign: 'center' }}>
                            <Typography
                               component="h2"
-                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem' }}
+                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem',color:'text.terciary' }}
                            >
                     En España hay mucha gente buscando parejas para practicar
                     diversos Tipos de baile.
@@ -169,11 +169,11 @@ export default function LandingPage() {
                               to={'/register'}
                               variant="contained"
                               sx={{
-                                 color: 'text.primary',
+                                 color:'text.terciary',
                                  mb: '3rem',
                                  p: '1rem',
                                  ':hover': {
-                                    color: 'text.primary',
+                                    color:'text.terciary',
                                     bgcolor: 'secondary.variante',
                                     border: 'none',
                                  },
@@ -202,11 +202,11 @@ export default function LandingPage() {
                         ref={ref2}
                      >
                         <Box sx={{ maxWidth: '90%' }}>
-                           <Typography sx={{ fontSize: '2rem', ml: '4rem' }}>
+                           <Typography sx={{ fontSize: '2rem', ml: '4rem',color:'text.terciary' }}>
                     En{' '}
                               <Box
                                  component="span"
-                                 sx={{ fontFamily: 'Dancing Script', fontSize: '3rem' }}
+                                 sx={{ fontFamily: 'Dancing Script', fontSize: '3rem',color:'text.terciary' }}
                               >
                       MeetDancig
                               </Box>{' '}
@@ -247,6 +247,7 @@ export default function LandingPage() {
                                        m: '1rem',
                                        mr: '8rem',
                                        mt: '2rem',
+                                       color:'text.terciary'
                                     }}
                                  >
                         Algunos centros:
@@ -275,7 +276,7 @@ export default function LandingPage() {
                   >
                      <Typography
                         variant={'h2'}
-                        sx={{ fontWeight: 'bold', mb: '4rem' }}
+                        sx={{ fontWeight: 'bold', mb: '4rem' ,color:'text.terciary'}}
                      >
                 ¿Porque MeetDancing?
                      </Typography>
@@ -289,7 +290,7 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={aniversario} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center',color:'text.terciary' }}>
                     MeetDancing ha ayudado a la gente a ser más social y activa
                     desde hace más de 10 años. Para conocer gente y hacer
                     amigos. Para tener una vida más sana y divertida. Regístrate
@@ -305,7 +306,7 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={mejorVendido} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center' }}>
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center',color:'text.terciary' }}>
                     MeetDancing funciona muy bien porque todos los perfiles se
                     revisan manualmente. Como tal, la fiabilidad de los miembros
                     es muy alta. Nuestro equipo de empleados monitoriza de cerca
@@ -326,6 +327,7 @@ export default function LandingPage() {
                                  fontSize: '1.5rem',
                                  textAlign: 'center',
                                  mt: '0.5rem',
+                                 color:'text.terciary'
                               }}
                            >
                     Tu privacidad es lo primero para nosotros. No tienes que
@@ -360,6 +362,7 @@ export default function LandingPage() {
                            fontWeight: 'bold',
                            mt: '4rem',
                            lineHeight: '8rem',
+                           color:'text.terciary'
                         }}
                      >
                 Sé activo(a) junto con{' '}
@@ -375,7 +378,7 @@ export default function LandingPage() {
                   MeetDancing
                         </Box>{' '}
                      </Typography>
-                     <Typography sx={{ fontSize: '2rem', fontWeight: '600' }}>
+                     <Typography sx={{ fontSize: '2rem', fontWeight: '600',color:'text.terciary' }}>
                 ¡Encuentra compañía para practicar tu estilo de baile favorito
                 cerca de ti!
                      </Typography>
@@ -398,7 +401,7 @@ export default function LandingPage() {
                {/* 
                   //TODO hacer un componente de las reseñas */}
                <FullpageSection style={SectionStyle}>
-                  <Typography variant='h2' sx={{fontSize:'4rem',fontWeight:'bold',my:'2rem',pt:'2rem'}}>¿Qué dicen otros de MeetDancig?</Typography>
+                  <Typography variant='h2' sx={{fontSize:'4rem',fontWeight:'bold',my:'2rem',pt:'2rem',color:'text.terciary'}}>¿Qué dicen otros de MeetDancig?</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                      <Card
                         sx={{

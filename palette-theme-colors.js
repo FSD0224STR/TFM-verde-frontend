@@ -22,7 +22,8 @@ export const main_theme= createTheme({
       text: {
     
          primary: '#1D6B68',
-         secondary:'#278F8B'
+         secondary: '#278F8B',
+         terciary:'#ffffff'
       },
       error: {
          main: '#d32f2f',

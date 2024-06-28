@@ -22,7 +22,7 @@ export default function BoxMessageRemitente({ msg }) {
                />
                <Typography
                   color="text.main"
-                  sx={{ fontSize: '1.3rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal',mt:'0.4rem'}}
+                  sx={{ color:'text.terciary', fontSize: '1.3rem', fontWeight: '600', ml: '1rem',wordBreak:'break-word', overflowWrap: 'break-word',whiteSpace: 'normal',mt:'0.4rem'}}
                >
                   {msg}
                </Typography>
