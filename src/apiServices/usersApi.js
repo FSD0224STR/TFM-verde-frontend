@@ -1,9 +1,11 @@
-const Servidorurl = 'http://localhost:3000';
+/* const Servidorurl='http://localhost:3000' */
+
+const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 
 const getAllUsers = async () => {
    //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
    const token = localStorage.getItem('access_token');
-   const response = await fetch(`${Servidorurl}/users`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users`, {
       headers: { 'authorization:': `Bearer ${token}` },
    });
    const users = await response.json();
@@ -12,14 +14,14 @@ const getAllUsers = async () => {
 
 const detailByIdUser = async (id) => {
    // console.log('entrado en la llamda de la api con su id',id)
-   const response = await fetch(`${Servidorurl}/users/${id}`);
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`);
    const user = await response.json();
    // console.log('esta es la respues de la api',user)
    return user; /* .user */ //? hay quew revisar lo que se estta devolviendo //Yirka:he modificado aqui
 };
 
 const addUser = async (newUserData) => {
-   const response = await fetch(`${Servidorurl}/users/register`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/register`, {
       method: 'POST',
       body: JSON.stringify(newUserData),
       headers: {
@@ -38,7 +40,7 @@ const addUser = async (newUserData) => {
 };
 
 const loginUser = async (data) => {
-   const response = await fetch(`${Servidorurl}/login`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +50,7 @@ const loginUser = async (data) => {
 };
 
 export const deleteUser = async (id) => {
-   const response = await fetch(`${Servidorurl}/user/${id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
       method: 'DELETE',
    });
    const deleteUser = await response.json();
@@ -59,7 +61,7 @@ export const updateUser = async (id, modifiedData) => {
    console.log('esto es id en la api', id);
    console.log('esto es modifiedData la api', modifiedData);
    const token = localStorage.getItem('access_token');
-   const response = await fetch(`${Servidorurl}/users/${id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'PUT',
       body: JSON.stringify(modifiedData),
       headers: {
@@ -77,7 +79,7 @@ export const updateUser = async (id, modifiedData) => {
 const changeMyPass = async (newData) => {
    console.log('esto es new Data en api',newData)
    const token = localStorage.getItem('access_token');
-   const response = await fetch(`${Servidorurl}/users/${newData.id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${newData.id}`, {
       method: 'PATCH',
       body: JSON.stringify(newData),
       headers: {
@@ -91,7 +93,7 @@ const changeMyPass = async (newData) => {
 }
 
 const login = async (email, password) => {
-   const response = await fetch(`${Servidorurl}/users/login`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/login`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' },
@@ -120,7 +122,7 @@ const getMyprofile = async () => {
       return { error: 'No token found' };
    }
    try {
-      const response = await fetch(`${Servidorurl}/users/myinfo`, {
+      const response = await fetch(`${VITE_HOSTING_BACKEND}/users/myinfo`, {
          method: 'GET',
          headers: { authorization: `Bearer ${token}` },
       });
@@ -138,7 +140,7 @@ const getMyprofile = async () => {
 
 const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
    
-   const response=await fetch(`${Servidorurl}/users/${userId}`)
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
   
    if (!response.ok)   return { error: await response.json() }
   
@@ -147,7 +149,7 @@ const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplica
 }
 
 const recoverMypass = async (data) => {
-   const response = await fetch(`${Servidorurl}/users/forgotPassword`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/forgotPassword`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -161,7 +163,7 @@ const recoverMypass = async (data) => {
 }
 
 const resetPassword = async (data) => {
-   const response = await fetch(`${Servidorurl}/users/reset-password/${data.token}`,{
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/reset-password/${data.token}`,{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

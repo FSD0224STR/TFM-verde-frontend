@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import NavBar from '../components/NavBar/NavBar';
+
 import FullPage, {
    FullPageSections,
    FullpageSection,
@@ -16,6 +17,7 @@ import mejorVendido from './../img/mejor-vendido.png';
 import proteger from './../img/proteger.png';
 import fondo2 from './../img/fondo2.png';
 export default function LandingPage() {
+   
    const [ref, inView] = useInView({
       triggerOnce: true, // La animación se activa una vez
       threshold: 0.1, // El umbral de visibilidad para activar la animación

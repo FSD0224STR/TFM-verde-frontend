@@ -1,5 +1,7 @@
 
-const Servidorurl='http://localhost:3000'
+/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
+
+const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 
 export const queryParamsDynamic=  (city,date,typeOfDancing)=>{
    const queryParams = new URLSearchParams()
@@ -18,7 +20,7 @@ export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
    const queryParamsdone=queryParamsDynamic(city,date,typeOfDancing)
            
-   const response =await fetch(`${Servidorurl}/locations/?${queryParamsdone.toString()}`)
+   const response =await fetch(`${VITE_HOSTING_BACKEND}/locations/?${queryParamsdone.toString()}`)
 
    if(!response.ok){
 
@@ -33,7 +35,7 @@ export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
 export const getOneLocationApi=async (id)=>{
 
-   const response=await fetch(`${Servidorurl}/locations/${id}`)
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/locations/${id}`)
 
    if (!response.ok)   {
              
@@ -46,7 +48,7 @@ export const getOneLocationApi=async (id)=>{
 
 /* export const getAllLocation=async ()=>{
 
-   const response=await fetch(`${Servidorurl}/locations/all`)
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/locations/all`)
 
    const data=await response.json()
 

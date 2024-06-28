@@ -1,9 +1,10 @@
 
-const Servidorurl = 'http://localhost:3000'
+/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
 
+const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 const sendNewMessage = async (newMessage) => {
     
-   const response = await fetch(`${Servidorurl}/conversation`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation`, {
       method: 'POST',
       body: JSON.stringify(newMessage),
       headers: {
@@ -25,7 +26,7 @@ const sendNewMessage = async (newMessage) => {
 }
 
 const getMyConversation = async (idUsers) => {
-   const response = await fetch(`${Servidorurl}/conversation/${idUsers.sender}/${idUsers.receiver}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${idUsers.sender}/${idUsers.receiver}`, {
       method:'GET'  
    })
    
@@ -49,7 +50,7 @@ const getMyConversation = async (idUsers) => {
 
 const getAllMyconversation = async (myId) => {
    console.log('esto es my Id',myId)
-   const response = await fetch(`${Servidorurl}/conversation/${myId}`)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`)
    if (!response.ok) {
       const error = await response.json()
       return { error }
@@ -59,7 +60,7 @@ const getAllMyconversation = async (myId) => {
 }
 
 const deleletConversation = async (id) => {
-   const response = await fetch(`${Servidorurl}/conversation/${id}`,{method:'DELETE'})
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${id}`,{method:'DELETE'})
    if (!response.ok) {
         
       const error = await response.json()
@@ -75,7 +76,7 @@ const deleletConversation = async (id) => {
 
 const addRequestCouple = async (dataForRequest) => {
    
-   const response = await fetch(`${Servidorurl}/requests`,{
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/requests`,{
       method: 'POST',
       body: JSON.stringify(dataForRequest),
       headers: {
