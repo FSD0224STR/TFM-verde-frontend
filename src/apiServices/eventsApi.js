@@ -1,8 +1,9 @@
-const Servidorurl='http://localhost:3000'
+
+const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 
 export const updateInterestedPeopleApi=async (eventId,userId)=>{
 
-   const response=await fetch(`${Servidorurl}/events/${eventId}/interested/${userId}`,{method:'PATCH'})
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/events/${eventId}/interested/${userId}`,{method:'PATCH'})
 
    if (!response.ok)   {
              
@@ -15,7 +16,7 @@ export const updateInterestedPeopleApi=async (eventId,userId)=>{
 
 export const updateEventApi=async (eventId,modifiedData)=>{
 
-   const response=await fetch(`${Servidorurl}/events/${eventId}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json'}})
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/events/${eventId}`,{method:'PUT',body:JSON.stringify(modifiedData),headers: { 'Content-Type': 'application/json'}})
 
    if (!response.ok)   return {error: response.status}
          
@@ -24,7 +25,7 @@ export const updateEventApi=async (eventId,modifiedData)=>{
 
 export const getEventByIdApi=async (eventId)=>{
 
-   const response=await fetch(`${Servidorurl}/events/${eventId}`)
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/events/${eventId}`)
 
    if (!response.ok)   return {error: response.status}
          

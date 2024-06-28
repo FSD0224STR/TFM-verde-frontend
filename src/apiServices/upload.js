@@ -1,7 +1,9 @@
-const Servidorurl = 'http://localhost:3000'
+/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
+
+const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 
 const uploadImgProfile = async (data) => {
-   const response = await fetch(`${Servidorurl}/uploads/photoUser`,
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/uploads/photoUser`,
       {
          method: 'POST',
          body: data,
@@ -19,7 +21,7 @@ const uploadImgProfile = async (data) => {
 }
 
 const changeImgProfile = async (data, id) => {
-   const response = await fetch(`${Servidorurl}/uploads/photoUser/change/${id}`,
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/uploads/photoUser/change/${id}`,
       {
          method: 'POST',
          body: data,
