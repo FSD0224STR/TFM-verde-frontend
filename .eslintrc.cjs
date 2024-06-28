@@ -20,7 +20,7 @@ module.exports = {
     'react/prop-types': 'off',
     //Añadir reglas, el nombre de la regla lo vemos en la doc.
     quotes: ['warn', 'single'], //Cuando pones 0 es para quitar una regla que viene por defecto.
-    indent: ["warn",8],
+    indent: ["warn",3],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
      
     //Esto es para evitar los saltos de lineas vacios.

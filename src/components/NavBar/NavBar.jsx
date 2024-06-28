@@ -19,7 +19,7 @@ export default function NavBar() {
 
    return (
       <>
-         <AppBar position="static" sx={{ textAlign: 'left', padding: '0.8rem'}}>
+         <AppBar sx={{ textAlign: 'left', padding: '0.8rem',position: 'fixed',top: 0,width: '100%',zIndex: 1000,}}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                <Box display='flex'>
                   <IconButton color="inherit" size="3rem" onClick={() => setOpen(true)}>

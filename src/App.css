@@ -1,5 +1,3 @@
-
-
 #root {
   max-width: 100%;
 height: 100%;
@@ -8,6 +6,7 @@ height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   
    
 }
@@ -27,32 +26,20 @@ footer {
 main {
   flex-grow: 1;
   max-height: 300px;
-
   margin-bottom: 60px; 
+
 }
 
- 
 
-/* .conteinerUsers {
-  width: 500px;
-  max-width: 90%;
-  background-color: #d3e7e5;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 20px;
-  box-shadow: 1px 4px 20px -1px rgba(0, 0, 0, 0.75);
-}
 
-.titleUser {
-  font-size: 28px;
-  color: rgb(0, 80, 184);
+.sidebar {
+  background-color:'transparent';
+  color: #000;
+  font-family: monospace;
+  font-size: x-small;
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 4px;
 }
-
-.surname {
-  color: rgb(0, 80, 184);
-  font-size: 28px;
-}
-.date {
-  color: rgb(0, 80, 184);
-  font-size: 28px;
-} */

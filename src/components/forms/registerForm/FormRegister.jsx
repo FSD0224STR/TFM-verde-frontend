@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import {
    Box,
    Button,
@@ -12,47 +12,131 @@ import {
    RadioGroup,
    Divider,
    ThemeProvider,
+   Slider,
+   InputLabel,
+   InputAdornment,
+   IconButton,
+   OutlinedInput
 } from '@mui/material';
 import './formRegister.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import usersApi from '../../../apiServices/usersApi';
 import { main_theme } from '../../../../palette-theme-colors';
+import SelectImg from '../../Pure/SelectImg';
+import defaultImg from '../../../img/profile.png';
+import { Password, Visibility, VisibilityOff } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useState } from 'react';
+import upload from '../../../apiServices/upload'
 export default function FormRegister() {
-   const defaultImg = 'http://via.placeholder.com/200';
+   const danceStylesList = [
+      { style: 'Salsa', level: 1 },
+      { style: 'Salsa Cubana', level: 1 },
+      { style: 'Merengue', level: 1 },
+      { style: 'Swing', level: 1 },
+      { style: 'Bachata', level: 1 },
+   ];
+
+   const [showPassword, setShowPassword] = useState(false);
+   const [showPasswordC, setShowPasswordC] = useState(false);
+   
+   const [loading, setLoading] = useState(false);
+
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+   const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
+      
+   const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+   };
+   const handleMouseDownPasswordC = (event) => {
+      event.preventDefault();
+   };
+
+   const addNewUser = async (newUserData) => {
+      if (newUserData.imgProfile === defaultImg) {
+         setLoading(true)
+         const dataUpdate = { ...newUserData, imgProfile: ' ', password: newUserData.newPassword }
+         const user = await usersApi.addUser(dataUpdate);
+         if (user) {
+            setTimeout(() => {
+               
+               setLoading(false)
+            }, 2000);
+            
+         }
+         if (user.error1) {
+            setLoading(false)
+            setFieldError('email',user.error1) 
+         } 
+      } else {
+         const dataUpdate = { ...newUserData, password: newUserData.newPassword } 
+         setLoading(true)
+         const user = await usersApi.addUser(dataUpdate);  
+         if (user) {
+            setTimeout(() => {
+               
+               setLoading(false)
+            }, 2000);
+            
+         }
+         if (user.error1) {
+            setLoading(false)
+            setFieldError('email',user.error1) 
+         }   
+      }    
+   };
+
+   const handleSliderChange = (index) => (event, newValue) => {
+      const newDanceStyles = [...values.dancingStyles];
+      newDanceStyles[index].level = newValue;
+      setFieldValue('dancingStyles', newDanceStyles);
+   };
+
+   const handleSelectImg = async (e) => {
+      const file = e.target.files[0];
+      const data = new FormData();
+      data.append('file', file);
+
+      setLoading(true)
+      const imgUser = await upload.uploadImgProfile(data);
+         
+      if (imgUser.error) {
+         console.log('este es el error',imgUser.error)
+      } else {
+         setLoading(false)
+
+         setFieldValue('imgProfile', imgUser); 
+      }
+
+   };
+
    let initialValuesForm = {
       name: '', //este valor es referente al name del input para que formik sepa donde tiene que cambiar con el onchange por eso tiene que ser igual
       subName: '',
       email: '',
       role: 'Leader',
-      password: '',
+      newPassword: '',
+      passwordC:'',
       city: '',
       gender: 'Female',
       age: '',
       imgProfile: defaultImg,
       description: '',
+      dancingStyles: danceStylesList,
    };
 
-   // const registerSchema = Yup.object().shape({
-   //   name: Yup.string().required("Debes ingrensar un nombre"),
-   //   email: Yup.string().required("Debes ingrensar un email"),
-   //   password: Yup.string().required("Debes ingrensar un password"),
-   //   gener: Yup.string().required("Debes ingrensar un genero"),
-   //   age: Yup.string().required("Debes ingrensar una edad"),
-   //   city: Yup.string().required("Debes ingrensar un ubicacion"),
-   // });
+   const registerSchema = Yup.object().shape({
+      name: Yup.string().required('Debes ingrensar un nombre'),
+      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
+      newPassword: Yup.string().required('Debes ingrensar un contraseña').min(8, 'la contraseña tiene que tener minimo 8 carateres'),
+      passwordC: Yup.string().required('Debes Confirmar tu contraseña').oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden'),
+      gender: Yup.string().required('Debes ingrensar un genero'),
+      age: Yup.number('tienes que ingresar un numero').min(18,'tienes que se mayor de 18 años').required('Debes ingrensar una edad'),
+      city: Yup.string().required('Debes ingrensar un ubicacion'),
+   });
 
-   // const addNewUser = (data) => {
-   //   console.log("entrando en el el submit");
-   //   console.log(data);
-
-   // };
-   const addNewUser = async (newUserData) => {
-      const user = await usersApi.addUser(newUserData);
-      console.log('esto es response', user);
-   };
-
-   const { handleChange, handleSubmit, setFieldValue, values, errors } =
+   const { handleChange, handleSubmit, setFieldValue, values, errors,setFieldError} =
     useFormik({
        //destructuring de formik
        //primero recibe los valores iniciales
@@ -60,19 +144,25 @@ export default function FormRegister() {
        //SEGUNDA PROPIEDAD Recibe el onSUbmit
        onSubmit: addNewUser,
        //validacion
-       // validationSchema: registerSchema,
+       validationSchema: registerSchema,
     });
+
+   function nameSlider() {
+      return 'Estilos de baile';
+   }
+
    return (
       <ThemeProvider theme={main_theme}>
-         <div className="form-container">
-            <h1 className="title-register">
-          ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
-            </h1>
+         <Grid maxWidth='100%' container sx={{flexDirection:'column',justifyContent:'center',alignContent:'center',alignItems:'center'}} >
+                                   
+            <Typography variant='h2' textAlign='center' mt='10rem' fontSize='3rem' fontWeight={'bold'}>
+                 ¡Bienvenido! 250.000 personas ya se han registrado antes que tú
+            </Typography>
+        
             <Box
                component="form"
                onSubmit={handleSubmit}
-               height={1800}
-               width={1000}
+               maxWidth={'70%'}
                m={20}
                display="flex"
                flexDirection="column"
@@ -101,68 +191,84 @@ export default function FormRegister() {
                   spacing={3}
                   sx={{ width: '100%', margin: 10 }}
                >
-                  <Box>
+                                                   
+                  <SelectImg
+                     imgProfile={values.imgProfile}
+                     handleSelectImg={handleSelectImg}
+                     loading={loading}
+                  />
+               
+                  <Grid item xs={12} md={9}>
                      <Typography
-                        variant="h6"
+                        component="p"
                         sx={{
-                           color: 'primary.main',
-                           fontWeight: 'bold',
                            textAlign: 'left',
-                           margin: '10px',
+                           padding: '10px',
+                           color: 'primary.main',
+                           fontSize: '20px',
+                           fontWeight: 'bold',
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
                         }}
                      >
-                1.Seleccione una foto para tu perfil
+                         ¿Cual es tu nombre?
                      </Typography>
-                     <img
-                        style={{
-                           maxWidth: '200px',
-                           maxHeight: '200px',
-                           padding: '10px',
+                     <TextField
+                        id="nameRegister"
+                        type="text"
+                        label="Nombre"
+                        variant="outlined"
+                        placeholder="tu nombre"
+                        fullWidth
+                        //   name="name"
+                        value={values.name} //necesito el value pero no el name para setfield
+                        onChange={(e) => {
+                           setFieldValue('name', e.target.value); //PARA RECOGER VALORES DE TARGET
                         }}
-                        src={values.imgProfile}
-                     ></img>
-                     <Grid item xs={12}>
-                        <Button
-                           variant="contained"
-                           sx={{ position: 'relative', mb: '40px' }}
-                        >
-                           <input
-                              style={{
-                                 position: 'absolute',
-                                 top: 0,
-                                 left: 0,
-                                 width: '100%',
-                                 height: '100%',
-                                 opacity: 0,
-                                 cursor: 'pointer',
-                              }}
-                              name="imgProfile"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => {
-                                 setFieldValue('imgProfile', e.target.files[0]); //PARA RECOGER VALORES DE TARGET
-                                 if (e.target.files[0]) {
-                                    const reader = new FileReader();
-                                    reader.onload = function (e) {
-                                       setFieldValue('imgProfile', e.target.result); //PARA RECOGER VALORES DE TARGET
-                                    };
-                                    reader.readAsDataURL(e.target.files[0]);
-                                 } else {
-                                    setFieldValue('imgProfile', defaultImg);
-                                 }
-                              }}
-                           />
-                  Seleccionar foto
-                        </Button>
-                     </Grid>
-                  </Box>
-                  <Grid
-                     container
-                     alignItems="center"
-                     justifyContent="flex-end"
-                     margin={2}
-                  >
-                     <Grid item xs={12} md={5}>
+                        error={!!errors.name}
+                        helperText={errors.name}
+                        sx={{
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
+                        }}
+                     />
+                  </Grid>
+                  <Grid item xs={12} md={9}>
+                     <Typography
+                        component="p"
+                        sx={{
+                           textAlign: 'left',
+                           padding: '10px',
+                           color: 'primary.main',
+                           fontSize: '20px',
+                           fontWeight: 'bold',
+                        }}
+                     >
+                ¿Cual es tu apellido?
+                     </Typography>
+                     <TextField
+                        id="subNameRegister"
+                        type="text"
+                        label="Apellido"
+                        variant="outlined"
+                        placeholder="tu apellido"
+                        fullWidth
+                        name="subName"
+                        sx={{
+                           '& .MuiInputBase-input': {
+                              color: 'text.secondary',
+                           },
+                        }}
+                        value={values.subName} //necesito el value pero no el name apra setfiel
+                        onChange={handleChange}
+                        error={!!errors.subName}
+                        helperText={errors.subName}
+                     />
+                  </Grid>
+                  <Box sx={{display:'flex',alignItems:'center',mt:'3rem',justifyContent:'center'}}>
+                     <Box md={5} xs={12} mx='5rem'>
                         <FormControl>
                            <FormLabel
                               sx={{
@@ -172,7 +278,7 @@ export default function FormRegister() {
                                  fontWeight: 'bold',
                               }}
                            >
-                    Sexo
+                           Sexo
                            </FormLabel>
                            <RadioGroup
                               row
@@ -183,30 +289,34 @@ export default function FormRegister() {
                               }}
                            >
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Female"
                                  control={<Radio />}
-                                 label="Female"
+                                 label="Mujer"
                               />
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Male"
                                  control={<Radio />}
-                                 label="Male"
+                                 label="Hombre"
                               />
                            </RadioGroup>
                         </FormControl>
-                     </Grid>
+                     </Box>
 
-                     <Grid item xs={12} md={5}>
+                     <Box xs={12} md={5}  >
                         <FormControl>
                            <FormLabel
                               sx={{
@@ -227,31 +337,35 @@ export default function FormRegister() {
                               }}
                            >
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Leader"
                                  control={<Radio />}
                                  label="Leader"
                               />
                               <FormControlLabel
-                                 sx={{ '& .MuiTypography-root': {
-                                    color: 'text.secondary',
-                                    fontSize: '1.5rem',
-                                    fontWeight:'600'
-                                 },}}
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
                                  value="Follower"
                                  control={<Radio />}
                                  label="Follower"
                               />
                            </RadioGroup>
                         </FormControl>
-                     </Grid>
-                  </Grid>
+                     </Box>
+                  </Box>
+                
                   <Grid item xs={12} md={9} sx={{ fontSize: '40px' }}>
-                     <Divider />
                      <Typography
                         component="p"
                         sx={{
@@ -320,75 +434,6 @@ export default function FormRegister() {
                         helperText={errors.city}
                      />
                   </Grid>
-                  <Grid item xs={12} md={9}>
-                     <Typography
-                        component="p"
-                        sx={{
-                           textAlign: 'left',
-                           padding: '10px',
-                           color: 'primary.main',
-                           fontSize: '20px',
-                           fontWeight: 'bold',
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                     >
-                ¿Cual es tu nombre?
-                     </Typography>
-                     <TextField
-                        id="nameRegister"
-                        type="text"
-                        label="Nombre"
-                        variant="outlined"
-                        placeholder="tu nombre"
-                        fullWidth
-                        //   name="name"
-                        value={values.name} //necesito el value pero no el name para setfield
-                        onChange={(e) => {
-                           setFieldValue('name', e.target.value); //PARA RECOGER VALORES DE TARGET
-                        }}
-                        error={!!errors.name}
-                        helperText={errors.name}
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                     />
-                  </Grid>
-                  <Grid item xs={12} md={9}>
-                     <Typography
-                        component="p"
-                        sx={{
-                           textAlign: 'left',
-                           padding: '10px',
-                           color: 'primary.main',
-                           fontSize: '20px',
-                           fontWeight: 'bold',
-                        }}
-                     >
-                ¿Cual es tu apellido?
-                     </Typography>
-                     <TextField
-                        id="subNameRegister"
-                        type="text"
-                        label="Apellidos"
-                        variant="outlined"
-                        placeholder="tu apellido"
-                        fullWidth
-                        name="subName"
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                        value={values.subName} //necesito el value pero no el name apra setfiel
-                        onChange={handleChange}
-                        error={!!errors.subName}
-                        helperText={errors.subName}
-                     />
-                  </Grid>
 
                   <Grid item xs={12} md={9}>
                      <Divider />
@@ -423,7 +468,48 @@ export default function FormRegister() {
                            onChange={handleChange}
                         />
                      </Box>
-                     <Divider />
+                     <Typography
+                        variant="h6"
+                        sx={{
+                           color: 'primary.main',
+                           fontWeight: 'bold',
+                           textAlign: 'left',
+                           margin: '10px',
+                        }}
+                     >
+                4.Tipos de baile según tu nivel{' '}
+                        <Box
+                           component="span"
+                           sx={{ fontWeight: '400', fontSize: '1rem' }}
+                        >
+                  (nivel iniciante:1)
+                        </Box>
+                     </Typography>
+                     {danceStylesList.map((styleItem, index) => (
+                        <Box ml="1.2rem" mb="0.5rem" key={styleItem.style}>
+                           <Typography
+                              sx={{ color: 'text.secondary', fontSize: '1.2rem' }}
+                           >
+                              {styleItem.style}
+                           </Typography>
+                           <Slider
+                              aria-label={styleItem.style}
+                              defaultValue={1}
+                              getAriaValueText={nameSlider}
+                              valueLabelDisplay="auto"
+                              shiftStep={5}
+                              step={1}
+                              marks
+                              min={1}
+                              max={5}
+                              sx={{ maxWidth: '90%' }}
+                              name="danceStyles"
+                              value={values.dancingStyles[index].level}
+                              onChange={handleSliderChange(index)}
+                           />
+                        </Box>
+                     ))}
+                     <Divider sx={{ m: '1rem' }} />
                      <Typography
                         color="primary"
                         variant="h6"
@@ -431,7 +517,7 @@ export default function FormRegister() {
                         fontWeight="bold"
                         margin="10px"
                      >
-                4.Casi terminamos. ¿Cómo quieres iniciar sesión?
+                5.Casi terminamos. ¿Cómo quieres iniciar sesión?
                      </Typography>
 
                      <TextField
@@ -454,37 +540,74 @@ export default function FormRegister() {
                   </Grid>
 
                   <Grid item xs={12} md={9}>
-                     <TextField
-                        id="passRegister"
-                        type="password"
-                        label="Contraseña"
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                           '& .MuiInputBase-input': {
-                              color: 'text.secondary',
-                           },
-                        }}
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        error={!!errors.password}
-                        helperText={errors.password}
-                     />
-                     <Grid item display="flex" justifyContent='center'>
-                        <Button
+            
+                     <FormControl  sx={{my:'1rem',mb:'2rem'}} fullWidth variant="outlined" >
+                        <InputLabel htmlFor="newPassword">Contraseña</InputLabel>
+                        <OutlinedInput
+                           sx={{color:'text.secondary'}}    
+                           id="newPassword"
+                           type={showPassword ? 'text' : 'Password'}
+                           endAdornment={
+                              <InputAdornment position="end">
+                                 <IconButton
+                                    aria-label="toggle newPassword visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                 >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                 </IconButton>
+                              </InputAdornment>
+                           }
+                           name="newPassword"
+                           onChange={handleChange}
+                           error={!!errors.newPassword}
+                           value={values.newPassword}
+                           label="Contraseña"
+                                                                   
+                        />
+                        {errors.newPassword ? <Typography variant='body2' sx={{color:'error.main'}}>{ errors.newPassword}</Typography> : null}
+                     </FormControl>
+                     <FormControl  fullWidth variant="outlined" >
+                        <InputLabel htmlFor="passwordC">Confirma contraseña</InputLabel>
+                        <OutlinedInput
+                           sx={{color:'text.secondary'}}
+                           id="passwordC"
+                           type={showPasswordC ? 'text' : 'Password'}
+                           endAdornment={
+                              <InputAdornment position="end">
+                                 <IconButton
+                                    aria-label="toggle Password visibility"
+                                    onClick={handleClickShowPasswordC}
+                                    onMouseDown={handleMouseDownPasswordC}
+                                 >
+                                    {showPasswordC ? <VisibilityOff /> : <Visibility />}
+                                 </IconButton>
+                              </InputAdornment>
+                           }
+                           name="passwordC"
+                           onChange={handleChange}
+                           error={!!errors.passwordC}
+                           value={values.passwordC}
+                           label="Confirma contraseña"
+                        />
+                        {errors.passwordC ? <Typography variant='body2' sx={{color:'error.main'}}>{ errors.passwordC}</Typography> : null}
+                     </FormControl>
+                        
+                     <Grid item display="flex" justifyContent="center">
+
+                        {loading ? <CircularProgress size={80} sx={{m:'2rem'}} /> : <Button
                            type="submit"
                            variant="contained"
                            sx={{ mt: '40px', fontSize: '24px' }}
                            size="large"
                         >
                   Enviar
-                        </Button>
+                        </Button>}
                      </Grid>
                   </Grid>
                </Grid>
             </Box>
-         </div>
+         </Grid>
       </ThemeProvider>
    );
 }

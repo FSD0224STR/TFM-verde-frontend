@@ -1,24 +1,22 @@
 import React from 'react'
 import '../App.css'
 import {SignIn} from '../components/forms/loginForm/SignIn';
-
 import NavBar from '../components/NavBar/NavBar';
+import { Box,Typography } from '@mui/material';
 
-export default function Login() {
-        return (
-                <>
-                        <NavBar/>
-                        <div>
-                                <main>
+export default function Login({children}) {
+   
+   return (
 
-                                        <h1>Bienvenido nuevamente a MeetDancing</h1>
-                                     
-                                        <SignIn/>
+      <>
+         <NavBar></NavBar>
 
-                                </main>
-                  
-                        </div>
-                </>
+         <Box> 
+            <SignIn/>
+         </Box>
+         {children}
+                        
+      </>
     
-        )
+   )
 }
