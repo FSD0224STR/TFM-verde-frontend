@@ -7,20 +7,21 @@ export const ShowMapButton=({name,onClick})=> {
 
          <Button
             onClick={onClick}
-         
+                     
             sx={{
+               fontSize: '1em' ,
 
-               size:'xx-large',
+               height: '65px',
                position: 'fixed',
                left:'45%',
-               bottom: '35px',
+               bottom: '45px',
                borderRadius: '50px', 
                padding: '10px 20px', 
-               textTransform: 'none', 
-               backgroundColor: 'primary.main',
+          
+               backgroundColor: 'success.main',
                color: 'white',
                '&:hover': {
-                  backgroundColor: 'background.nav',
+                  backgroundColor: 'stack.secondary',
                   
                },
 

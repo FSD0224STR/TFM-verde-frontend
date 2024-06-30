@@ -11,8 +11,6 @@ import { Map } from '../components/Pure/Map';
 import { ShowMapButton } from '../components/Pure/CommonButton';
 
 export default function Home() {
-   
-   console.log('Esto es',import.meta.env.VITE_HOSTING_BACK)
 
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)
@@ -71,8 +69,19 @@ export default function Home() {
       LocationFilteredInfo() 
       
    },[])
-
-   const optionsCity=['Madrid','Barcelona']
+  
+   const optionsCity=[ 
+      'Barcelona',
+      'Bilbao',
+      'Las Palmas',
+      'Madrid',
+      'Murcia',
+      'Málaga',
+      'Palma',
+      'Sevilla',
+      'Valencia',
+      'Zaragoza'
+   ]
    const optionsDanceStyle=['Swing','Salsa cubana','Salsa','Merengue','Bachata','Kizomba','Festival','Bachata Dominicana']
  
    return (
