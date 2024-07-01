@@ -1,7 +1,6 @@
 import { Button } from '@mui/material'
-import MapIcon from '@mui/icons-material/Map';
 
-export const ShowMapButton=({name,onClick})=> {
+export const ShowMapButton=({name,onClick,icon})=> {
    return (
       <>
 
@@ -30,7 +29,7 @@ export const ShowMapButton=({name,onClick})=> {
          >
         
             {name}
-            <MapIcon/>
+            {icon}
          </Button>
       </>
    );
