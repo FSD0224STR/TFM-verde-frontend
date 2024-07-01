@@ -40,7 +40,7 @@ export default function ComponentMessageList() {
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
-   console.log('messageSemd',messageSend)
+   // console.log('messageSemd',messageSend)
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);
@@ -57,6 +57,13 @@ export default function ComponentMessageList() {
       setOpenAlert(false);
    };
   
+   //enviar mensajes presionando la tecla enter
+   function keypress(e) {
+      const keypress = e.keyCode
+      if(keypress === 13 ) return handleSendMessage()
+
+   }
+
    const handleResetStatus = () => {
       setAlertStatusDelete(null)
       setOpenAlert(false);
@@ -156,7 +163,7 @@ export default function ComponentMessageList() {
                src={profileDetails.imgProfile}
             />
             <TextField
-               id="outlined-textarea"
+               id="entrada"
                label="Ecribe un mensaje"
                placeholder="escribe un mensaje "
                multiline
@@ -171,18 +178,24 @@ export default function ComponentMessageList() {
                      overflow: 'auto',
                      whiteSpace: 'nowrap',
                   },
-             
+                  
                }}
                onChange={(e) => setMessage(e.currentTarget.value)}
+               onKeyDown={keypress}
             />
-            <Button
-               sx={{ px: '2rem', py: '1rem' }}
-               variant="contained"
-               endIcon={<SendIcon />}
-               onClick={handleSendMessage}
-            >
-          Send
-            </Button>
+            <div id='press' >
+               <Button
+                  id='Button_Send'
+                  sx={{ px: '2rem', py: '1rem' }}
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  onClick={handleSendMessage}
+
+               >
+          Enviar
+               </Button>
+               
+            </div>
             <AlertDelete alertStatusDelete={alertStatusDelete} openAlert={openAlert} handleClose={handleClose} handleResetStatus={handleResetStatus} deleteMyConversation={deleteMyConversation} />
          </Box>
       </Box>

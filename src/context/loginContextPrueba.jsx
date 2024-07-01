@@ -16,12 +16,11 @@ export const LoginContextProviderP = ({ children }) => {
    const navigate = useNavigate();
    let tokenRecoveryparams = useParams();
    const urlLocation = useLocation();
-
+   const checkForPageLogin = urlLocation.pathname.includes('/login')
+   console.log('cjeck',checkForPageLogin)
    useEffect(() => {
       // Si la URL no incluye '/reset-password/', ejecuta checkToken
       if (!urlLocation.pathname.includes('/reset-password/')) {
-      // console.log('Estado URL y su comprobación:', urlLocation.pathname);
-         console.log('Componente siendo montado llamando a checkToken');
          checkToken();
       }
    }, []);
@@ -38,9 +37,10 @@ export const LoginContextProviderP = ({ children }) => {
          if (token && !response.error) {
             setIsLoggedIn(true);
             setProfileDetails(response);
-            // console.log('esto es CheckLogin response',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
+            navigate('/home')
             if (auth === 'true') {
                if (urlLocation.pathname === '/') {
+                  setIsLoggedIn(true);
                   setProfileDetails(response);
                   navigate('/home');
                }
@@ -48,6 +48,7 @@ export const LoginContextProviderP = ({ children }) => {
                return;
             } else {
                localStorage.setItem('auth', true);
+               setIsLoggedIn(true);
                navigate('/home');
             }
          } else {
@@ -77,7 +78,8 @@ export const LoginContextProviderP = ({ children }) => {
    const logout = () => {
       console.log('cerrando session')
       localStorage.removeItem('access_token')
-      localStorage.setItem('auth',false)
+      localStorage.setItem('auth', false)
+      setIsLoggedIn(false)
       navigate('/')
    }
    
@@ -90,6 +92,7 @@ export const LoginContextProviderP = ({ children }) => {
       setProfileDetails,
       logout,
       tokenRecoveryparams,
+      checkToken
    };
 
    return (

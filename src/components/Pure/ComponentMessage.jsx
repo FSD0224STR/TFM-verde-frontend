@@ -35,6 +35,14 @@ export default function ComponentMessage({ setOpenMessage }) {
    const [invitationMessage, setInvitationMessage] = useState(false);
    const [responseInvitation, setResponseInvitation] = useState(null);
 
+   //enviar mensajes presionando la tecla enter
+   const handleKeyDown = (event) => {
+      console.log('entrando en key')
+      if (event.key === 'Enter') {
+         handleSendMessage();
+      }
+   };
+
    const resetBoxMessage = () => {
       setSendMessage([])
       setOpenMessage(false)
@@ -181,14 +189,11 @@ export default function ComponentMessage({ setOpenMessage }) {
                variant="contained"
                endIcon={<SendIcon />}
                onClick={handleSendMessage}
+               onKeyDown={handleKeyDown}
             >
-          Send
+          Enviar
             </Button>
          </Box>
-            
-         {/* </>
-         } */}
-         
       </Box>
    );
 }
