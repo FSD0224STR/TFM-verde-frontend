@@ -1,7 +1,7 @@
 
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
-import {Box, Button, CircularProgress, Grid, Paper, Typography } from '@mui/material'
+import {Box, Button, CircularProgress, Grid, Paper, Stack, Typography } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
@@ -9,14 +9,16 @@ import { DateCalendarValue } from '../components/Pure/Calendar';
 import { useState } from 'react';
 import { Map } from '../components/Pure/Map';
 import { ShowMapButton } from '../components/Pure/CommonButton';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import MapIcon from '@mui/icons-material/Map';
+import ListIcon from '@mui/icons-material/List';
 
 export default function Home() {
-   
-   // console.log('Esto es',import.meta.env.VITE_HOSTING_BACK)
 
-   const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster } = useContext(LocationContext)
+   const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster,cleanFilter } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)
    const [filterButtonClicked, setFilterButtonClicked] = useState(false); 
+   const [clearFilterButtonClicked, setClearFilterButtonClicked] = useState(false); 
    const [NameMapButton, setNameMapButton] = useState('Mostrar mapa'); 
 
    const LocationFilteredInfo = async () => {
@@ -56,23 +58,43 @@ export default function Home() {
       setFilterButtonClicked(true);
       
    }
+
+   const handleClearFilterButtonClicked = () => {
+      cleanFilter()
+      setClearFilterButtonClicked(true);
+      
+   }
+
    useEffect (()=>{
 
-      if (filterButtonClicked) {
+      if (filterButtonClicked ||  clearFilterButtonClicked) {
          LocationFilteredInfo()
          setFilterButtonClicked(false)
+         setClearFilterButtonClicked(false);
 
       }
       
-   },[filterButtonClicked])
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[filterButtonClicked,clearFilterButtonClicked])
 
    useEffect (()=>{
   
       LocationFilteredInfo() 
       
    },[])
-
-   const optionsCity=['Madrid','Barcelona']
+  
+   const optionsCity=[ 
+      'Barcelona',
+      'Bilbao',
+      'Las Palmas',
+      'Madrid',
+      'Murcia',
+      'Málaga',
+      'Palma',
+      'Sevilla',
+      'Valencia',
+      'Zaragoza'
+   ]
    const optionsDanceStyle=['Swing','Salsa cubana','Salsa','Merengue','Bachata','Kizomba','Festival','Bachata Dominicana']
  
    return (
@@ -86,89 +108,96 @@ export default function Home() {
          </Box>):(
 
             <>
+            
+               <Grid
+            
+                  container
+                  maxWidth="50%"
+                  justifyContent="center"
+                  spacing={2}
+                  sx={{ m: '0.5rem',bgcolor:'white', borderRadius: '50px' ,  padding: '10px 10px 10px'}}
+               >
+
+                  <Grid 
+                     item  
+                     display="flex"
+                     justifyContent="center"
+                     xs={12}
+                     sm={4}
+                     lg={3}
+   
+                  >
+
+                     <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
+                    
+                  </Grid>
+
+                  <Grid 
+                     item   
+                     display="flex" 
+                     justifyContent="center"
+                     xs={12}
+                     sm={4}
+                     lg={3}
+   
+                  >
+
+                     <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
+
+                  </Grid>
+
+                  <Grid
+                     item   
+                     display="flex"
+                     justifyContent="center"
+                     xs={12}
+                     sm={4}
+                     lg={3}
+   
+                  >
+ 
+                     <DateCalendarValue/>
+
+                  </Grid>
+
+                  <Grid
+                     item  
+                     display="flex"
+                     justifyContent="center"
+                     xs={12}
+                     sm={12}
+                     lg={3}
+  
+                  >
+                     <Stack direction="column"  alignItems="center" >
+
+                        <Button 
+               
+                           sx={{borderRadius: '50%',height:'50px',width:'50px', bgcolor: 'primary.main',color: 'white',
+                              '&:hover': {
+                                 backgroundColor: 'background.nav',
+                  
+                              },
+
+                           }} 
+
+                           onClick={handleClick}>Filtrar</Button>
+
+                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={handleClearFilterButtonClicked}   startIcon={<HighlightOffIcon/>}>
+Quitar filtros
+                        </Button>
+
+                     </Stack>
+
+                  </Grid>
+
+               </Grid> 
 
                {NameMapButton=='Mostrar mapa'?(
 
                   <>   
-
-                     <Grid
-            
-                        container
-                        maxWidth="50%"
-                        justifyContent="center"
-                        spacing={4}
-                        sx={{ m: '1rem',bgcolor:'white', borderRadius: '50px',  padding: '10px 10px 20px', }}
-                     >
-         
-                        <Grid 
-                           item  
-                           display="flex"
-                           justifyContent="center"
-                           xs={12}
-                           sm={4}
-                           lg={3}
-               
-                        >
-            
-                           <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
-                                
-                        </Grid>
-
-                        <Grid 
-                           item   
-                           display="flex" 
-                           justifyContent="center"
-                           xs={12}
-                           sm={4}
-                           lg={3}
-               
-                        >
-            
-                           <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
-
-                        </Grid>
-
-                        <Grid
-                           item   
-                           display="flex"
-                           justifyContent="center"
-                           xs={12}
-                           sm={4}
-                           lg={3}
-               
-                        >
-             
-                           <DateCalendarValue/>
-          
-                        </Grid>
-
-                        <Grid
-                           item  
-                           display="flex"
-                           justifyContent="center"
-                           xs={12}
-                           sm={12}
-                           lg={3}
-              
-                        >
-              
-                           <Button 
-                           
-                              sx={{borderRadius: '50%', bgcolor: 'primary.main',color: 'white',
-                                 '&:hover': {
-                                    backgroundColor: 'background.nav',
-                                 
-                                 },
-
-                              }} 
-   
-                              onClick={handleClick}>Filtrar</Button>
-
-                        </Grid>
-
-                     </Grid> 
- 
-                     <Paper square={false} sx={{ minWidth: '80%', m: '3rem', pb: '2rem' }}>
+      
+                     <Paper square={false} sx={{ minWidth: '80%', m: '2rem', pb: '2rem' }}>
 
                         {locations.length?(
                
@@ -219,9 +248,16 @@ export default function Home() {
               
                   </>
             
-               ):(<Map /> ) } 
-            
-               <ShowMapButton     onClick={clickMapButton} name={NameMapButton} />
+               ):(<Map  /> ) } 
+
+               {NameMapButton=='Mostrar mapa' ?(
+   
+                  <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<MapIcon/>}/>
+               ):(
+
+                  <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<ListIcon/>}/>
+               )}
+               
             </>
             
          )

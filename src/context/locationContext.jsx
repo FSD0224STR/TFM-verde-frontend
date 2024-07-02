@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
+import { useNavigate } from 'react-router-dom';
 
 export const LocationContext = React.createContext();
 
@@ -25,14 +26,19 @@ export const LocationContextProvider = ({ children }) => {
       if(locationsFiltered.error) {setError(locationsFiltered.error); return error}
       else {
          setLocations(locationsFiltered);
-         setCity('');
-         setDate('');
-         setTypeOfDancing('')
-         setDateInput(dayjs(Date))
          return true
         
       }
         
+   }
+
+   const cleanFilter=  ()=>{
+     
+      setCity('');
+      setDate('');
+      setTypeOfDancing('')
+      setDateInput(dayjs(Date))
+
    }
  
    const click_Buttons_Events = (idLocal) => {
@@ -106,7 +112,8 @@ export const LocationContextProvider = ({ children }) => {
       button_Events_Clicked,
       setButton_Events_Clicked,
       click_Buttons_Events,
-      getDataForCluster 
+      getDataForCluster,
+      cleanFilter
               
    }
   

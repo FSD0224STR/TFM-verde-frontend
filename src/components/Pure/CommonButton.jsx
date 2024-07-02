@@ -1,26 +1,26 @@
 import { Button } from '@mui/material'
-import MapIcon from '@mui/icons-material/Map';
 
-export const ShowMapButton=({name,onClick})=> {
+export const ShowMapButton=({name,onClick,icon})=> {
    return (
       <>
 
          <Button
             onClick={onClick}
-         
+                     
             sx={{
+               fontSize: '1em' ,
 
-               size:'xx-large',
+               height: '65px',
                position: 'fixed',
                left:'45%',
-               bottom: '35px',
+               bottom: '45px',
                borderRadius: '50px', 
                padding: '10px 20px', 
-               textTransform: 'none', 
-               backgroundColor: 'primary.main',
+          
+               backgroundColor: 'success.main',
                color: 'white',
                '&:hover': {
-                  backgroundColor: 'background.nav',
+                  backgroundColor: 'stack.secondary',
                   
                },
 
@@ -29,7 +29,7 @@ export const ShowMapButton=({name,onClick})=> {
          >
         
             {name}
-            <MapIcon/>
+            {icon}
          </Button>
       </>
    );
