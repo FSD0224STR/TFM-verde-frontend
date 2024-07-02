@@ -25,6 +25,7 @@ export default function MessagesContextProvider({ children }) {
    const navigate = useNavigate()
    useEffect(() => {
       setOpenMessage(false) //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
+      setSendMessage([])
    }, [navigate]);
     
    const scrollToBottom = () => {
@@ -74,7 +75,7 @@ export default function MessagesContextProvider({ children }) {
          const addNewMessage = await messagesApi.sendNewMessage(newMessage)
          console.log('esto es addNewMessage',addNewMessage)
          setSendMessage([...messageSend, { message: addNewMessage, sender: profileDetails._id }]);
-         setMessage(' ');
+         setMessage('');
           
       }
    };
@@ -90,6 +91,7 @@ export default function MessagesContextProvider({ children }) {
       console.log('eliminando')
       setAlertStatusDelete(true)
       setSendMessage([])
+      setOpenMessage(false)
       getListMessages()
 
    }

@@ -16,8 +16,6 @@ export const LoginContextProviderP = ({ children }) => {
    const navigate = useNavigate();
    let tokenRecoveryparams = useParams();
    const urlLocation = useLocation();
-   const checkForPageLogin = urlLocation.pathname.includes('/login')
-   console.log('cjeck',checkForPageLogin)
    useEffect(() => {
       // Si la URL no incluye '/reset-password/', ejecuta checkToken
       if (!urlLocation.pathname.includes('/reset-password/')) {

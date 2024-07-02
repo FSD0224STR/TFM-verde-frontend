@@ -36,13 +36,11 @@ export default function ComponentMessage({ setOpenMessage }) {
    const [responseInvitation, setResponseInvitation] = useState(null);
 
    //enviar mensajes presionando la tecla enter
-   const handleKeyDown = (event) => {
-      console.log('entrando en key')
-      if (event.key === 'Enter') {
-         handleSendMessage();
-      }
-   };
+   function keypress(e) {
+      const keypress = e.keyCode
+      if(keypress === 13 ) return handleSendMessage()
 
+   }
    const resetBoxMessage = () => {
       setSendMessage([])
       setOpenMessage(false)
@@ -66,7 +64,7 @@ export default function ComponentMessage({ setOpenMessage }) {
          setInvitationMessage(true);
       }
    };
-   console.log('esto es loading chat',loadingChat)
+ 
    return (
       <Box
          onChange={scrollToBottom}
@@ -183,13 +181,13 @@ export default function ComponentMessage({ setOpenMessage }) {
              
                }}
                onChange={(e) => setMessage(e.currentTarget.value)}
+               onKeyDown={keypress}
             />
             <Button
                sx={{ px: '2rem', py: '1rem' }}
                variant="contained"
                endIcon={<SendIcon />}
                onClick={handleSendMessage}
-               onKeyDown={handleKeyDown}
             >
           Enviar
             </Button>

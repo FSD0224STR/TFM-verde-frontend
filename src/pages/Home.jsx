@@ -12,7 +12,7 @@ import { ShowMapButton } from '../components/Pure/CommonButton';
 
 export default function Home() {
    
-   console.log('Esto es',import.meta.env.VITE_HOSTING_BACK)
+   // console.log('Esto es',import.meta.env.VITE_HOSTING_BACK)
 
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)

@@ -31,7 +31,7 @@ export default function ComponentMessageList() {
       setAlertStatusDelete,
       invitationMessage,
       handleRequestCouple,
-      infoConversation
+      infoConversation,
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
@@ -49,7 +49,7 @@ export default function ComponentMessageList() {
    
    const [openAlert, setOpenAlert] = useState(false);
     
-   const handleClickOpen = () => {
+   const handleClickOpenAlert = () => {
       setOpenAlert(true);
    };
     
@@ -124,7 +124,7 @@ export default function ComponentMessageList() {
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
                   />
                </IconButton>
-               <IconButton onClick={handleClickOpen}>
+               <IconButton onClick={handleClickOpenAlert}>
                   <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
@@ -158,7 +158,7 @@ export default function ComponentMessageList() {
          </Box>
          <Box display="flex" m="1rem">
             <Avatar
-               sx={{ width: '60px', height: '60px', mr: '1rem', mt: '0.3rem' }}
+               sx={{ width: '60px', height: '60px', mr: '1rem',mb:'0.3rem'}}
                alt={profileDetails.name}
                src={profileDetails.imgProfile}
             />
