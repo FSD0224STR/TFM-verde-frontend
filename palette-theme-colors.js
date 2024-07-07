@@ -14,7 +14,7 @@ export const main_theme= createTheme({
       
       },
       background: {
-         default: '#1D6B68', 
+         default: '#E3F5E7', 
          secondary: '#ffffff',
          nav:'rgb(39, 143, 139, 0.5)',
          avatar:'#fff9'

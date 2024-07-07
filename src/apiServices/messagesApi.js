@@ -1,6 +1,4 @@
 
-/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
-
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 const sendNewMessage = async (newMessage) => {
     

@@ -23,10 +23,6 @@ export const Map=()=>{
    const [lng, setLng] = useState(-3.4375  );
    const [lat, setLat] = useState( 39.7514);
    const [zoom, setZoom] = useState(5.1);
- 
-   /* const [lng, setLng] = useState(-3.6153);
-   const [lat, setLat] = useState( 40.4156 );
-   const [zoom, setZoom] = useState(10.44); */
 
    useEffect(() => {
     
