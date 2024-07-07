@@ -8,7 +8,6 @@ export default function ComponentChatBox({ members, lastmessage }) {
    const { profileDetails } = useContext(LoginContextP)
    const {setUserDetail} = useContext(UserContext)
    const {openConversation} = useContext(MessagesContext)
-
    const myUserid = () => { 
       if(profileDetails) return profileDetails._id
    }

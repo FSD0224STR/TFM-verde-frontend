@@ -31,7 +31,7 @@ export default function ComponentMessageList() {
       setAlertStatusDelete,
       invitationMessage,
       handleRequestCouple,
-      infoConversation
+      infoConversation,
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
@@ -40,7 +40,7 @@ export default function ComponentMessageList() {
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
-   console.log('messageSemd',messageSend)
+   // console.log('messageSemd',messageSend)
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);
@@ -49,7 +49,7 @@ export default function ComponentMessageList() {
    
    const [openAlert, setOpenAlert] = useState(false);
     
-   const handleClickOpen = () => {
+   const handleClickOpenAlert = () => {
       setOpenAlert(true);
    };
     
@@ -57,6 +57,13 @@ export default function ComponentMessageList() {
       setOpenAlert(false);
    };
   
+   //enviar mensajes presionando la tecla enter
+   function keypress(e) {
+      const keypress = e.keyCode
+      if(keypress === 13 ) return handleSendMessage()
+
+   }
+
    const handleResetStatus = () => {
       setAlertStatusDelete(null)
       setOpenAlert(false);
@@ -117,7 +124,7 @@ export default function ComponentMessageList() {
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
                   />
                </IconButton>
-               <IconButton onClick={handleClickOpen}>
+               <IconButton onClick={handleClickOpenAlert}>
                   <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
@@ -151,12 +158,12 @@ export default function ComponentMessageList() {
          </Box>
          <Box display="flex" m="1rem">
             <Avatar
-               sx={{ width: '60px', height: '60px', mr: '1rem', mt: '0.3rem' }}
+               sx={{ width: '60px', height: '60px', mr: '1rem',mb:'0.3rem'}}
                alt={profileDetails.name}
                src={profileDetails.imgProfile}
             />
             <TextField
-               id="outlined-textarea"
+               id="entrada"
                label="Ecribe un mensaje"
                placeholder="escribe un mensaje "
                multiline
@@ -171,18 +178,24 @@ export default function ComponentMessageList() {
                      overflow: 'auto',
                      whiteSpace: 'nowrap',
                   },
-             
+                  
                }}
                onChange={(e) => setMessage(e.currentTarget.value)}
+               onKeyDown={keypress}
             />
-            <Button
-               sx={{ px: '2rem', py: '1rem' }}
-               variant="contained"
-               endIcon={<SendIcon />}
-               onClick={handleSendMessage}
-            >
-          Send
-            </Button>
+            <div id='press' >
+               <Button
+                  id='Button_Send'
+                  sx={{ px: '2rem', py: '1rem' }}
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  onClick={handleSendMessage}
+
+               >
+          Enviar
+               </Button>
+               
+            </div>
             <AlertDelete alertStatusDelete={alertStatusDelete} openAlert={openAlert} handleClose={handleClose} handleResetStatus={handleResetStatus} deleteMyConversation={deleteMyConversation} />
          </Box>
       </Box>

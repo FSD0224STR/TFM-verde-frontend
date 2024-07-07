@@ -61,7 +61,7 @@ export default function ConfigurationComponent({
             
          }}
       >
-         <Grid  minWidth='210%'sx={{display:'flex',flexDirection:'column'}} ml={'2.7rem'} item xs={12} md={9}>
+         <Grid  minWidth='210%'sx={{display:'flex',flexDirection:'column',mt:'2rem'}} ml={'2.7rem'} item xs={12} md={9}>
             <Box sx={{  lineHeight: '1', mb: '1rem' }}>
                <Typography
                   component="p"
