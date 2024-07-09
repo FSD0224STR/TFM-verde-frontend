@@ -38,10 +38,6 @@ export default function EventsList() {
       current_Location_Info()
    
    },[])
-
-   /*   console.log('que es eventsFilteredData',eventsFilteredData)
-   console.log('que es eventsUnFilteredData',eventsUnFilteredData)
-   console.log('Que es showAllEvents',showAllEvents)  */
     
    return (
       <>

@@ -1,15 +1,5 @@
-import {
-   Card,
-   CardMedia,
-   CardContent,
-   Typography,
-   CardActions,
-   Button,
-   Box,
-   Chip,
-   Stack,
-} from '@mui/material';
-// import { useNavigate } from 'react-router-dom';
+import {Card,CardMedia, CardContent,Typography,Button, Box} from '@mui/material';
+
 import RoleComponent from './RoleComponent';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
@@ -34,9 +24,8 @@ export default function User({ userApi }) {
    } = userInfo
 
    const getUser=async ()=>{
-      const user=await getOneUser(userApi.userId)
+      const user=await getOneUser(userApi)
       setUserInfo(user)
-      // console.log('Que es useIfo',user)
   
    }
    useEffect( ()=>{

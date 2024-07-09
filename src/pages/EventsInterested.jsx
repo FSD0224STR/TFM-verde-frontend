@@ -1,45 +1,67 @@
 import  { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
-import { Box, CircularProgress, Grid,Paper, Typography } from '@mui/material'
+import { Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
-import { UserContext } from '../context/userContext'
-import { LoginContextP } from '../context/loginContextPrueba'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
 
 export default function EventsList() {
 
-   const {listEventsInterested,getListEventsUser}=useContext(UserContext) 
-   const{profileDetails}=useContext(LoginContextP)
-   const{getOneEvent}=useContext(EventContext)
-   const[eventsInfoList,setEventsInfoList]=useState([])
+   const [loading,setLoading]=useState(false)
+   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList}=useContext(EventContext) 
 
-   /*    useEffect (()=>{
+   const getListEventsInterested  = async () => {
+
+      setLoading(true)
+      const response=await getListEventsUser()
+
+      if (response) {
+
+         setLoading(false)
+         const dataAllEvent=await fetchAllEvent()
+
+         if (dataAllEvent){
+            setLoading(false)
+
+         } 
+       
+      } 
    
-      getListEventsUser(profileDetails)
-     
-   },[])
+   };
+  
+   useEffect (()=>{
+      
+      getListEventsInterested()
+   
+   },[]) 
 
-   useEffect(() => {
-      const fetchAllEvent = async () => {
-         const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
-         setEventsInfoList(events);
+   /* useEffect(() => {
+
+      setLoading(true)
+      
+      const getallEvent = async () => {
+         getListEventsUser
+         const response=await getListEventsUser()
+
+         if(response){
+            setLoading(false)
+         }
       };
 
-      fetchAllEvent();
+      getallEvent();
   
-   }, [listEventsInterested]);
-   
-   console.log('Que es listEventsInterested', listEventsInterested)
-   console.log('esto es profileDetail',profileDetails)
- */
+   }, []); */
+
+   console.log('Que es listEventsInterested en eventinterested',listEventsInterested)
    return (
+
       <>
-           
-         {profileDetails ? (
+         <NavigationMenu />
+
+         {loading ?  (  <CircularProgressLoading/>):(
+
             <>
-               <NavigationMenu />
-               {/* <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}> */}
+            
                <Typography
                   textAlign="center"
                   variant="h2"
@@ -100,13 +122,10 @@ export default function EventsList() {
                    Actualmente no te has interesado en ningun evento.
                   </Typography>
                )}
-               {/*    </Paper> */}
+            
             </>
-         ): ( 
-            <CircularProgressLoading/>
-         )
 
-         }
+         )} 
        
       </>
    )

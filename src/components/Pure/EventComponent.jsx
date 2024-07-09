@@ -52,7 +52,7 @@ export function EventComponent({event}) {
 
    }=event
 
-   const {addInterestedPeople,deleteInterestedPeople}=useContext(EventContext)
+   const {addInterestedPeople,deleteInterestedPeople,setEventId}=useContext(EventContext)
    const navigate = useNavigate();
    const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
@@ -67,8 +67,8 @@ export function EventComponent({event}) {
       setExpanded(!expanded);
    };
 
-   const click_Find_Partner = async () => {
-     
+   const click_Find_Partner =  () => {
+      
       navigate('/profiles'); 
  
    };
@@ -86,6 +86,7 @@ export function EventComponent({event}) {
             setError(response.error)
             setLoading(false)
             setIsInterested(true)
+            setEventId(_id)
             return 
          }
          
@@ -97,7 +98,8 @@ export function EventComponent({event}) {
       
       setLoading(false)
       setIsInterested(true)
-      setSuccess('Te has interesado a este evento correctamente')
+      setEventId(_id)
+      setSuccess('Te has INTERESADO a este evento')
     
    };
 
