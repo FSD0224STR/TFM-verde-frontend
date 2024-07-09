@@ -19,6 +19,10 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import danceCouple from '../../img/danceCouple.png'
 import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
+import { useContext } from 'react';
+import { EventContext } from '../../context/eventContext';
+import { CircularProgressLoadingEvent } from './Loading';
+import { AlertTiming } from './AlertTiming';
 
 const ExpandMore = styled((props) => {
    const { expand, ...other } = props;
@@ -47,10 +51,13 @@ export function EventComponent({event}) {
       photoURL,      
 
    }=event
-   
+
+   const {addInterestedPeople,deleteInterestedPeople}=useContext(EventContext)
    const navigate = useNavigate();
+   const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
-   const [error,setError] = useState();
+   const [error,setError] = useState('');
+   const [success,setSuccess] = useState('');
    const [isInterested,setIsInterested]=useState(false)
    const dateFormat=dayjs(date.start).format('DD MMMM YYYY').toUpperCase()
    const hourFormat=dayjs(date.start).format('HH:mm').toUpperCase()
@@ -64,6 +71,53 @@ export function EventComponent({event}) {
      
       navigate('/profiles'); 
  
+   };
+
+   const click_For_interesting = async () => {
+
+      setLoading(true)
+
+      const response=await addInterestedPeople(_id)
+
+      if (response.error)  {
+
+         if (response.error==='Ya estas interesad@ en este evento'){
+
+            setError(response.error)
+            setLoading(false)
+            setIsInterested(true)
+            return 
+         }
+         
+         setError(response.error)
+         setLoading(false)
+         return
+ 
+      }
+      
+      setLoading(false)
+      setIsInterested(true)
+      setSuccess('Te has interesado a este evento correctamente')
+    
+   };
+
+   const delete_Interest_Event= async () => {
+      
+      setLoading(true)
+
+      const response= await deleteInterestedPeople(_id)
+
+      if (response.error)  {
+         
+         setError(response.error)
+         setLoading(false)
+         return 
+ 
+      }
+      
+      setLoading(false)
+      setIsInterested(false)
+      setSuccess('Ya NO estas interesado')
    };
   
    return (
@@ -111,21 +165,40 @@ export function EventComponent({event}) {
 
          <CardActions   sx={{justifyContent: 'center',display:'flex',flexDirection:'column',padding: '0',gap: '0'}}>
 
-            {isInterested ?
+            {isInterested || success=='Te has interesado a este evento' ?
             
                (<>
-                  <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}  /* onClick={delete_Interest_Event}  */ startIcon={<HighlightOffIcon/>}>
-  Ya no me interesa este evento
-                  </Button>
+               
+                  {loading ? (<CircularProgressLoadingEvent />) :(
+
+                     <>
+
+                        <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
+                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+Ya no me interesa este evento
+                        </Button>
+
+                     </>
+                  )}
            
                </>
             
                )                     
-               :(<RepeatButton name='Me interesa' /* onClick={click_For_interesting} */ ></RepeatButton>)
+               :(
+                  <>
+
+                     {loading ? (<CircularProgressLoadingEvent />) :(
+
+                        <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+                     )}
+                  </>
+            
+               )
             
             }
-           
+
+            <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+        
          </CardActions>
 
          <CardActions>
@@ -155,8 +228,6 @@ export function EventComponent({event}) {
                </Typography>
             </CardContent>
          </Collapse>
-
-         {error && <Alert sx={{ mb: 2,mt:2 }}  variant="outlined" severity="error" onClose={() => setError('')}>{` ${error}`}</Alert>}
                      
       </Paper>
 

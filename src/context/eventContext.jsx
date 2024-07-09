@@ -22,10 +22,10 @@ export const EventContextProvider = ({ children }) => {
    const addInterestedPeople=async (eventId)=>{
 
       const response= await addInterestedPeopleApi(eventId)
-
-      if(response.error) return response.error
-     
-      return  response
+                                                                 
+      if(response.error) return {error: response.error}
+      
+      return  response //Esto es el evento actualizado
       
    }
 
@@ -33,9 +33,9 @@ export const EventContextProvider = ({ children }) => {
 
       const response= await deleteInterestedPeopleApi(eventId)
 
-      if(response.error) return response.error
-     
-      return  response
+      if(response.error) return {error: response.error}
+   
+      return  response //Esto es un mensaje de exito.
       
    }
 
