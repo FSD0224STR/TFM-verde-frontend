@@ -3,7 +3,6 @@ import { Avatar, Badge, styled } from '@mui/material';
 import { useContext } from 'react';
 
 export default function AvatarChatComponent({member}) {
-   console.log('member',member)
    const StyledBadge = styled(Badge)(({ theme }) => ({
       '& .MuiBadge-badge': {
          backgroundColor: '#44b700',
