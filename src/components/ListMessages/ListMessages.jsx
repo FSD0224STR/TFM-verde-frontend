@@ -69,6 +69,7 @@ export default function ListMessages() {
                      display: 'flex',
                      justifyContent: 'center',
                      alignItems: 'center',
+                     minHeight:'80vh'
                   }}
                >
                   {openMessage === true && loadingChat === false ? (

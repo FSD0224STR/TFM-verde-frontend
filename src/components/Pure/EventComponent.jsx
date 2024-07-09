@@ -25,6 +25,7 @@ import people from '../../img/people.png'
 import {updateUser} from '../../apiServices/usersApi'
 import { useEffect } from 'react';
 import { EventContext } from '../../context/eventContext';
+import { MessagesContext } from '../../context/messagesContext';
 
 const ExpandMore = styled((props) => {
    const { expand, ...other } = props;
@@ -53,7 +54,7 @@ export function EventComponent({event}) {
       photoURL,      
 
    }=event
-   
+   const {setSendEventForCouple} = useContext(MessagesContext)
    const navigate = useNavigate();
    const [expanded, setExpanded] = useState(false);
    const [error,setError] = useState();
@@ -130,7 +131,7 @@ export function EventComponent({event}) {
    }
 
    const click_Find_Partner = async () => {
-     
+      setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id})
       navigate('/profiles'); 
  
    };

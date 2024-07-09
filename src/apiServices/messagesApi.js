@@ -94,8 +94,42 @@ const addRequestCouple = async (dataForRequest) => {
       return {error}
    }
    const responseRequest = await response.json()
-   console.log('esto es la respuesta request',responseRequest)
+   return responseRequest
+}
 
+const answerRequest = async (dataForAnswer) => {
+   console.log('data for Reqst',dataForAnswer)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${dataForAnswer.idRequest}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dataForAnswer),
+      headers: {
+         'Content-Type': 'application/json',
+      },
+   });
+   if (!response.ok) {
+        
+      const error = await response.json()
+      console.log('esto es error',error)
+      return  {error};
+   }
+   const updateRequest = await response.json()
+   return updateRequest
+   
+} 
+
+const getRequest = async (idRequest) => {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${idRequest}`, {
+      method: 'GET',
+   })
+   if (!response.ok) {
+        
+      const error = await response.json()
+      console.log('esto es error',error)
+      return  {error};
+   }
+   const myRequest = await response.json()
+   return myRequest
+   
 }
 
 export default {
@@ -103,6 +137,8 @@ export default {
    getMyConversation,
    deleletConversation,
    getAllMyconversation,
-   addRequestCouple
+   addRequestCouple,
+   answerRequest,
+   getRequest
    
 }

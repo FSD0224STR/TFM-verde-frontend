@@ -1,4 +1,4 @@
-import  { useContext, useState } from 'react'
+import  { useContext, useEffect, useState } from 'react'
 import UserSettings from '../components/UserSettings/UserSettings'
 import NavigationMenu from '../components/Menu/NavigationMenu'
 import NavSettings from '../components/UserSettings/NavSettings'
@@ -8,21 +8,14 @@ import { Box, CircularProgress } from '@mui/material';
 import { UserContext } from '../context/userContext';
 
 export default function SettingsProfile() {
-   const { profileDetails } = useContext(LoginContextP)
+   const { profileDetails,setIsLoggedIn } = useContext(LoginContextP)
    const {navProfile,setNavProfile,handleNavProfile,handleSwitchNav} = useContext(UserContext)
-   // const [navProfile, setNavProfile] = useState(false);
-   // const navigate = useNavigate()
-
-   // const handleNavProfile = () => {
-   //    setNavProfile(true)
-   //    navigate('/profile')
-   // }
-
-   // const handleSwitchNav = () => {
-   //    setNavProfile(false)
-   //    navigate('/profile')
-   // }
-
+   
+   useEffect(() => {
+      const token = localStorage.getItem('access_token');
+      if(token)setIsLoggedIn(true)
+   
+   }, []);
    return (
 
       <>

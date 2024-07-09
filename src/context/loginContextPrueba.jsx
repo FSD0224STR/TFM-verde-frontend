@@ -9,10 +9,10 @@ export const LoginContextP = React.createContext();
 //se desee interactuar (siempre y cuando sean componentes hijos de este componente LoginContextProvider), por ello se completa el nombre con la palabra provider.
 //Aqui se incluye toda la logica, funciones etc.
 export const LoginContextProviderP = ({ children }) => {
+
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [error, setError] = useState('');
    const [profileDetails, setProfileDetails] = useState();
-
    const navigate = useNavigate();
    let tokenRecoveryparams = useParams();
    const urlLocation = useLocation();
@@ -33,9 +33,12 @@ export const LoginContextProviderP = ({ children }) => {
          const response = await usersApi.getMyprofile();
          const auth = localStorage.getItem('auth');
          if (token && !response.error) {
-            setIsLoggedIn(true);
-            setProfileDetails(response);
-            navigate('/home')
+          
+            if (urlLocation.pathname === '/login') {
+               setIsLoggedIn(true);
+               setProfileDetails(response);
+               navigate('/home')
+            }
             if (auth === 'true') {
                if (urlLocation.pathname === '/') {
                   setIsLoggedIn(true);
@@ -66,11 +69,11 @@ export const LoginContextProviderP = ({ children }) => {
          const userdetails = response.userDetails;
          localStorage.setItem('access_token', token);
          console.log('Cuales son los datos del usuario logeado', userdetails);
+         setIsLoggedIn(true);
          navigate('/home');
          setProfileDetails(userdetails);
          console.log('esto es login abajo', profileDetails);
       }
-      setIsLoggedIn(true);
    };
 
    const logout = () => {
@@ -83,6 +86,7 @@ export const LoginContextProviderP = ({ children }) => {
    
    const loginContextValue = {
       isLoggedIn,
+      setIsLoggedIn,
       error,
       setError,
       login,

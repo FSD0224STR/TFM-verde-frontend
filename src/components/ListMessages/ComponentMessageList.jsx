@@ -31,12 +31,14 @@ export default function ComponentMessageList() {
       setAlertStatusDelete,
       invitationMessage,
       handleRequestCouple,
-      infoConversation,
+      // infoConversation,
+      setInvitationMessage,
+      // checkRequest,
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-   const [responseInvitation, setResponseInvitation] = useState(null);
    const messagesEndRef = useRef(null);
+
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
@@ -44,6 +46,14 @@ export default function ComponentMessageList() {
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);
+
+   useEffect(() => {
+      messageSend.forEach((msg) => {
+         if (msg.type === 'request') {
+            setInvitationMessage(true);
+         }
+      });
+   }, [messageSend, profileDetails._id])
 
    //TODO gestinar el alerta
    
@@ -70,7 +80,7 @@ export default function ComponentMessageList() {
         
    }
 
-   const dataForRequest = {sender:profileDetails._id,receiver:userDetail._id,idConversation:infoConversation._id}
+   const dataForRequest = {sender:profileDetails._id,receiver:userDetail._id}
 
    return (
       <Box
@@ -82,7 +92,6 @@ export default function ComponentMessageList() {
             width: '100%',
             minHeight: '83vh',
             display: 'flex',
-           
             flexDirection: 'column',
             p: '1rem',
          }}
@@ -90,7 +99,7 @@ export default function ComponentMessageList() {
          <Box width="100%" display="flex" p={1}>
             <Box display="flex" flexGrow={1}>
                <Avatar
-                  sx={{ width: '40px', height: '40px' }}
+                  sx={{ width: '55px', height: '55px' }}
                   alt="Profile"
                   src={userDetail.imgProfile}
                />
@@ -106,15 +115,18 @@ export default function ComponentMessageList() {
                </Typography>
             </Box>
             <Box display="flex" minWidth="auto">
+
                <Button
                   variant="contained"
-                  sx={{ bgcolor: 'secondary.variante', p: '0.5rem', mr: '0.5rem' }}
+                  sx={{ bgcolor: 'secondary.variante', p: '0.5rem', mr: '0.5rem',':disabled':{bgcolor:'stack.terciary',color:'primary.main'} }}
                   onClick={() => handleRequestCouple(dataForRequest)}
+                  disabled={invitationMessage}
                >
                   {invitationMessage
-                     ? 'Solicitud Enviada'
+                     ? `Invita a ${userDetail.name} otro  evento`
                      : `Invita a ${userDetail.name} a este evento`}
                </Button>
+               
                <IconButton onClick={() => {
                   setSendMessage([])
                   setOpenMessage(false)
@@ -140,19 +152,17 @@ export default function ComponentMessageList() {
                   overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
                }}
             >
-               {messageSend.map((msg, index) =>
-                  msg.sender === profileDetails._id ? (
-                     <BoxMessageRemitente key={index} msg={msg.message} />
-                  ) : (
-                     <BoxMessageDestinatario key={index} msg={msg.message} />
-                  )
-               )}
-               {invitationMessage && (
-                  <InvitationMessageText
-                     responseInvitation={responseInvitation}
-                     setResponseInvitation={setResponseInvitation}
-                  />
-               )}
+               {messageSend.map((msg, index) => {
+                  if (msg.sender === profileDetails._id && msg.type === 'message') {
+                     return <BoxMessageRemitente key={index} msg={msg.message} />
+                  }
+                  if (msg.type === 'request') {
+                     return <InvitationMessageText key={index} msg={msg.message} sender={msg.sender} status={msg.idRequest.status} idRequest={msg.idRequest._id} />
+                  }  
+                  else{
+                     return <BoxMessageDestinatario key={index} msg={msg.message} />
+                  }
+               })}
                <div ref={messagesEndRef} />
             </Box>
          </Box>

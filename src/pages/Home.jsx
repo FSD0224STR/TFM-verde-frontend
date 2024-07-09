@@ -12,9 +12,10 @@ import { ShowMapButton } from '../components/Pure/CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import MapIcon from '@mui/icons-material/Map';
 import ListIcon from '@mui/icons-material/List';
+import { LoginContextP } from '../context/loginContextPrueba';
 
 export default function Home() {
-
+   const {setIsLoggedIn}= useContext(LoginContextP)
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster,cleanFilter } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)
    const [filterButtonClicked, setFilterButtonClicked] = useState(false); 
@@ -78,7 +79,8 @@ export default function Home() {
    },[filterButtonClicked,clearFilterButtonClicked])
 
    useEffect (()=>{
-  
+      const token = localStorage.getItem('access_token');
+      if(token)setIsLoggedIn(true)
       LocationFilteredInfo() 
       
    },[])
