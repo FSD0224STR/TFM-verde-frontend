@@ -1,7 +1,7 @@
 
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { Search } from '../components/Pure/Search'
-import {Box, Button, CircularProgress, Grid, Paper, Stack, Typography } from '@mui/material'
+import {Box, Button, Grid,  Stack, Typography } from '@mui/material'
 import { LocationsComponent } from '../components/Pure/LocationComponent'
 import { useContext, useEffect} from 'react';
 import { LocationContext } from '../context/locationContext';
@@ -12,6 +12,7 @@ import { ShowMapButton } from '../components/Pure/CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import MapIcon from '@mui/icons-material/Map';
 import ListIcon from '@mui/icons-material/List';
+import { CircularProgressLoading } from '../components/Pure/Loading';
 import { LoginContextP } from '../context/loginContextPrueba';
 
 export default function Home() {
@@ -104,10 +105,7 @@ export default function Home() {
       <> 
       
          <NavigationMenu/>
-         {loading ?( <Box sx={{ display: 'flex',height:'100vh',justifyContent:'center',
-            alignItems:'center'}}>
-            <CircularProgress size={130}  sx={{color:'white'}} color="inherit"/>
-         </Box>):(
+         {loading ?( <CircularProgressLoading/>):(
 
             <>
             
@@ -198,55 +196,51 @@ Quitar filtros
                {NameMapButton=='Mostrar mapa'?(
 
                   <>   
-      
-                     <Paper square={false} sx={{ minWidth: '80%', m: '2rem', pb: '2rem' }}>
 
-                        {locations.length?(
+                     {locations.length?(
                
-                           <Box
-                              width="100%"
-                              display="flex"
-                              flexDirection="column"
-                              justifyContent="center"
-                              alignItems="center"
-                           >
-                              <Grid
-                                 container
-                                 maxWidth="100%"
-                                 justifyContent="center"
-                                 gap={4}
-                                 spacing={4}
-                                 sx={{ m: '4rem' }}
-                              >
-                                 {locations.map((local,index)=> (
-                                    <Grid
-
-                                       item
-                                       key={index}
-                                       display="flex"
-                                       justifyContent="center"
-                                       xs={12}
-                                       sm={6}
-                                       md={4}
-                                       lg={3}
-                                    >
-                                       <LocationsComponent  {...local}/>
-
-                                    </Grid>
-                                 ))}
-                              </Grid>
-                           </Box>
-
-                        ):(<Typography
-                           textAlign="center"
-                           variant="h2"
-                           my="3rem"
-                           color="text.secondary"
+                        <Box
+                           width="100%"
+                           display="flex"
+                           flexDirection="column"
+                           justifyContent="center"
+                           alignItems="center"
                         >
+                           <Grid
+                              container
+                              maxWidth="100%"
+                              justifyContent="center"
+                              gap={4}
+                              spacing={4}
+                              sx={{ m: '4rem' }}
+                           >
+                              {locations.map((local,index)=> (
+                                 <Grid
+
+                                    item
+                                    key={index}
+                                    display="flex"
+                                    justifyContent="center"
+                                    xs={12}
+                                    sm={6}
+                                    md={4}
+                                    lg={3}
+                                 >
+                                    <LocationsComponent  {...local}/>
+
+                                 </Grid>
+                              ))}
+                           </Grid>
+                        </Box>
+
+                     ):(<Typography
+                        textAlign="center"
+                        variant="h2"
+                        my="3rem"
+                        color="text.secondary"
+                     >
           No se han encontrado resultados
-                        </Typography>)}
-           
-                     </Paper>
+                     </Typography>)}
               
                   </>
             

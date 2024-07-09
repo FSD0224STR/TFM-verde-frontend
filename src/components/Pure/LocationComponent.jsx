@@ -26,9 +26,9 @@ export function LocationsComponent({ name,address,_id,events}) {
 
       if (button_Events_Clicked) {
          navigate(`/location/${_id}/events`)
-         setButton_Events_Clicked(false)
 
       }
+      setButton_Events_Clicked(false)
       
    // eslint-disable-next-line react-hooks/exhaustive-deps
    },[button_Events_Clicked])

@@ -8,7 +8,7 @@ export default function Login({ children }) {
    return (
 
       <>
-         <NavBar></NavBar>
+         <NavBar/>
 
          <Box> 
             <SignIn/>

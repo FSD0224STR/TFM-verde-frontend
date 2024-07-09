@@ -8,12 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LoginContextP } from '../../context/loginContextPrueba';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Alert, Box, Button, Icon, Paper, Stack} from '@mui/material';
-import { updateEventApi, updateInterestedPeopleApi } from '../../apiServices/eventsApi';
-import { useContext } from 'react';
 import { RepeatButton } from './CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import dayjs from 'dayjs';
@@ -22,9 +19,6 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import danceCouple from '../../img/danceCouple.png'
 import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
-import {updateUser} from '../../apiServices/usersApi'
-import { useEffect } from 'react';
-import { EventContext } from '../../context/eventContext';
 import { MessagesContext } from '../../context/messagesContext';
 
 const ExpandMore = styled((props) => {
@@ -58,89 +52,19 @@ export function EventComponent({event}) {
    const navigate = useNavigate();
    const [expanded, setExpanded] = useState(false);
    const [error,setError] = useState();
-   const {profileDetails} = useContext(LoginContextP)
-   const{setListOfInterested}=useContext(EventContext)
    const [isInterested,setIsInterested]=useState(false)
    const dateFormat=dayjs(date.start).format('DD MMMM YYYY').toUpperCase()
    const hourFormat=dayjs(date.start).format('HH:mm').toUpperCase()
    const hourFormatEnd=dayjs(date.end).format('HH:mm').toUpperCase()
-   const userId=profileDetails._id
 
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
 
-   const check_interested_event=()=>{
-      const eventId =_id
-      const arrayInterestingEvent=profileDetails.interestingEvent
-      const eventId_exist=arrayInterestingEvent.find((event)=>event===eventId)
-      if (eventId_exist!==undefined) setIsInterested(true)
-      return eventId_exist
-   }
-
-   useEffect(() => {
-      console.log('entrnado en use efeect de interested')
-      check_interested_event()
-      setListOfInterested(interestedPeople)    
-   },[interestedPeople])
-
-   //Esta función incluye el evento en el usuario en el array de interestingEvent
-   const update_User_Id_Event= async ()=>{
-
-      const eventId_exist=check_interested_event()
-
-      if (eventId_exist===undefined){
-         const interesting_Event_Updated = [...profileDetails.interestingEvent,_id] //Añadimos el id de este evento a los que ya hay en interestingEvent del user.
-         const modifiedData={interestingEvent:interesting_Event_Updated}
-         const user = await updateUser(userId,modifiedData) 
-
-         if (user.error) return setError('Este es el error al intentar añadir el evento a user',user.error )
-         
-         console.log('Has añadido este evento en interestingEvent en tu perfil:',user.data.interestingEvent)
-         return (user.data.interestingEvent)
-
-      }
-   }
-
-   const delete_Interest_Event= async ()=>{
-
-      const delete_event_InUser=profileDetails.interestingEvent.filter(event=>event !=_id) //Me devuelve todos los eventos de interesados menos este.
-      const modifyUser={interestingEvent:delete_event_InUser}
-      const user = await updateUser(userId,modifyUser) 
-
-      //////////////////////////////////////////////////////////////////////////
-      const  delete_user_InEvent=interestedPeople.filter(user=>user.userId!==userId)
-      console.log('Que es delete_user_InEvent',delete_user_InEvent)
-      const modifyEvent={interestedPeople:delete_user_InEvent}
-      const event = await updateEventApi(_id,modifyEvent)
-      if(event.error || user.error) setError(`aqui estan los posibles errores al eliminar evento evento:${event.error} user:${user.error}`)  
-      
-      console.log('Tras eliminar el evento quiero ver que hay en interestedPeople dentro de este evento:' ,event.data.interestedPeople,'y user',user.data.interestingEvent)
-      setIsInterested(false)
-     
-   }
-
-   const  updateInterestedPeople_Event = async () => {
-  
-      const event = await updateInterestedPeopleApi(_id,userId)
-  
-      if(event.error) return setError(`aqui esta el error',${event.error}`)
-         
-      console.log('Te has interesad por este evento, ver evento con interestedPeople modificado:',event.data.interestedPeople)
-      
-   }
-
    const click_Find_Partner = async () => {
       setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id})
       navigate('/profiles'); 
  
-   };
-
-   const click_For_interesting = async () => {
-      setIsInterested(true)
-      await update_User_Id_Event(); 
-      await updateInterestedPeople_Event(); 
-      
    };
   
    return (
@@ -192,14 +116,14 @@ export function EventComponent({event}) {
             
                (<>
                   <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}  onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}  /* onClick={delete_Interest_Event}  */ startIcon={<HighlightOffIcon/>}>
   Ya no me interesa este evento
                   </Button>
            
                </>
             
                )                     
-               :(<RepeatButton name='Me interesa' onClick={click_For_interesting} ></RepeatButton>)
+               :(<RepeatButton name='Me interesa' /* onClick={click_For_interesting} */ ></RepeatButton>)
             
             }
            

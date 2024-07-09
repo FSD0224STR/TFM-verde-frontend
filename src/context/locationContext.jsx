@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
-import { useNavigate } from 'react-router-dom';
 
 export const LocationContext = React.createContext();
 
@@ -15,7 +14,9 @@ export const LocationContextProvider = ({ children }) => {
    const [error, setError] = useState('')
    const [idLocal,setIdLocal]=useState('')
    const [locationDatas,setLocationData]=useState({})
-   const [LocationEventsData,setLocationEventsData]=useState([])
+   const [eventsFilteredData,setEventsFilteredData]=useState([])
+   const [eventsUnFilteredData,  setEventsUnFilteredData]=useState([])
+ 
    const [clusterData,setClusterData]=useState({})
    const [dateInput, setDateInput] = useState(dayjs(Date));
    const [button_Events_Clicked, setButton_Events_Clicked] = useState(false);
@@ -51,9 +52,11 @@ export const LocationContextProvider = ({ children }) => {
    const getLocationData = async () => {
 
       if (idLocal) {
-         const local = await getOneLocationApi(idLocal);
-         setLocationData(local.data);
-         setLocationEventsData(local.data.events)
+         const local = await getOneLocationApi(idLocal,city,date,typeOfDancing);
+         setLocationData(local.data.infoLocation);
+         setEventsFilteredData(local.data.filteredEvents)
+         setEventsUnFilteredData(local.data.unfilteredEvents)
+         
          return true
                 
       }
@@ -102,7 +105,8 @@ export const LocationContextProvider = ({ children }) => {
       setIdLocal,
       getLocationData,
       locationDatas,
-      LocationEventsData,
+      eventsFilteredData,
+      eventsUnFilteredData,
       setCity,
       setDate,
       setTypeOfDancing,
@@ -113,7 +117,7 @@ export const LocationContextProvider = ({ children }) => {
       setButton_Events_Clicked,
       click_Buttons_Events,
       getDataForCluster,
-      cleanFilter
+      cleanFilter,
               
    }
   

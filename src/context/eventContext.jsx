@@ -1,17 +1,17 @@
 
 import { createContext } from 'react';
 import{ useState } from 'react';
-import { getEventByIdApi } from '../apiServices/eventsApi';
+import { getEventByIdApi,addInterestedPeopleApi ,deleteInterestedPeopleApi} from '../apiServices/eventsApi';
 
 export const EventContext = createContext();
 
 export const EventContextProvider = ({ children }) => {
 
-   const [listOfInterested,setListOfInterested]=useState([])
+   const [listOfInterested,setListOfInterested]=useState([]) 
 
-   const getOneEvent=async (idEvent)=>{
+   const getOneEvent=async (eventId)=>{
 
-      const event= await getEventByIdApi(idEvent)
+      const event= await getEventByIdApi(eventId)
 
       if(event.error) return {error:event.error}
      
@@ -19,11 +19,33 @@ export const EventContextProvider = ({ children }) => {
       
    }
    
-   const eventContextValue = {
+   const addInterestedPeople=async (eventId)=>{
 
+      const response= await addInterestedPeopleApi(eventId)
+
+      if(response.error) return response.error
+     
+      return  response
+      
+   }
+
+   const deleteInterestedPeople=async (eventId)=>{
+
+      const response= await deleteInterestedPeopleApi(eventId)
+
+      if(response.error) return response.error
+     
+      return  response
+      
+   }
+
+   const eventContextValue = {
+      
       listOfInterested,
-      setListOfInterested,
-      getOneEvent
+      setListOfInterested, 
+      getOneEvent,
+      addInterestedPeople,
+      deleteInterestedPeople
               
    }
   
