@@ -15,6 +15,7 @@ export const EventContextProvider = ({ children }) => {
    const [listEventsInterested, setListEventsInterested] = useState([]); 
    const[eventsInfoList,setEventsInfoList]=useState([])
    const [eventId,setEventId]=useState()
+   const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
 
    const getProfileList=async ()=>{
 
@@ -41,7 +42,7 @@ export const EventContextProvider = ({ children }) => {
       const detailUser = await usersApi.detailByIdUser(userId);            
       const listEvents=detailUser.interestingEvent
       setListEventsInterested(listEvents) 
-      return true
+      return listEvents
       
    }
    
@@ -55,7 +56,7 @@ export const EventContextProvider = ({ children }) => {
       
    }
  
-   const fetchAllEvent = async () => {
+   const fetchAllEvent = async (listEventsInterested) => {
       const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
       setEventsInfoList(events)
       return true
@@ -63,10 +64,9 @@ export const EventContextProvider = ({ children }) => {
 
    const addInterestedPeople=async (eventId)=>{
 
-      const response= await addInterestedPeopleApi(eventId)
-                                                                 
+      const response= await addInterestedPeopleApi(eventId)                                                   
       if(response.error) return {error: response.error}
-      
+      setButton_interestedEvent_Clicked(true)
       return  response 
       
    }
@@ -74,9 +74,8 @@ export const EventContextProvider = ({ children }) => {
    const deleteInterestedPeople=async (eventId)=>{
 
       const response= await deleteInterestedPeopleApi(eventId)
-
       if(response.error) return {error: response.error}
-   
+      setButton_interestedEvent_Clicked(true)
       return  response 
       
    }
@@ -85,15 +84,17 @@ export const EventContextProvider = ({ children }) => {
       
       listOfInterested,
       eventId,
+      button_interestedEvent_Clicked,
+      eventsInfoList,
+      listEventsInterested,
+      getListEventsUser,
+      fetchAllEvent,
+      setButton_interestedEvent_Clicked,
       setEventId,
       setListOfInterested, 
       getProfileList,
       addInterestedPeople,
       deleteInterestedPeople,
-      listEventsInterested,
-      getListEventsUser,
-      eventsInfoList,
-      fetchAllEvent
               
    }
   

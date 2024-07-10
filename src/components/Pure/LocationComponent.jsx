@@ -54,13 +54,13 @@ export function LocationsComponent({ name,address,_id,events}) {
                   {name.slice(0,2)}
                </Avatar>
             }
-            action={
+            /*   action={
 
                <IconButton >
                   <ShareIcon />
                </IconButton>
 
-            }
+            } */
             titleTypographyProps={{ sx: { fontSize: '1.20rem', fontWeight: 'bold'} }}
             subheaderTypographyProps={{ sx: {fontSize: '0.9rem',fontStyle:'italic'} }}
             title={name}

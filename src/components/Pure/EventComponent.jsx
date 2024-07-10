@@ -35,7 +35,7 @@ const ExpandMore = styled((props) => {
    }),
 }));
 
-export function EventComponent({event}) {
+export function EventComponent({event,findPartner}) {
 
    const {
 
@@ -167,40 +167,58 @@ export function EventComponent({event}) {
 
          <CardActions   sx={{justifyContent: 'center',display:'flex',flexDirection:'column',padding: '0',gap: '0'}}>
 
-            {isInterested || success=='Te has interesado a este evento' ?
-            
-               (<>
-               
-                  {loading ? (<CircularProgressLoadingEvent />) :(
+            {findPartner ? (
 
-                     <>
+               <>
 
-                        <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+                  <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
+                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
-                        </Button>
+                  </Button>
 
-                     </>
-                  )}
-           
                </>
-            
-               )                     
-               :(
-                  <>
+            ):(
 
-                     {loading ? (<CircularProgressLoadingEvent />) :(
-
-                        <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
-                     )}
-                  </>
+               <>
+               
+                  {isInterested || success=='Te has interesado a este evento' ?
             
-               )
+                     (<>
             
-            }
+                        {loading ? (<CircularProgressLoadingEvent />) :(
 
-            <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+                           <>
+
+                              <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
+                              <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+Ya no me interesa este evento
+                              </Button>
+
+                           </>
+                        )}
         
+                     </>
+         
+                     )                     
+                     :(
+                        <>
+
+                           {loading ? (<CircularProgressLoadingEvent />) :(
+
+                              <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+                           )}
+                        </>
+         
+                     )
+         
+                  }
+
+                  <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+               
+               </>
+
+            )}
+
          </CardActions>
 
          <CardActions>
@@ -213,9 +231,9 @@ Ya no me interesa este evento
             
             </ExpandMore>
 
-            <IconButton>
+            {/*  <IconButton>
                <ShareIcon />
-            </IconButton>
+            </IconButton> */}
 
          </CardActions>
          

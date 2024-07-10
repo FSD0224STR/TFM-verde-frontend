@@ -74,17 +74,20 @@ export default function ProfileList() {
                   </Grid>
 
                </Grid>
-      
-               <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}>
-                  <Typography
-                     textAlign="center"
-                     variant="h2"
-                     my="3rem"
-                     color="text.secondary"
-                  >
-          Lista de interesados
-                  </Typography>
-                  {listOfInterested.length ? (
+              
+               {listOfInterested.length ? (
+
+                  <>
+
+                     <Typography
+                        textAlign="center"
+                        variant="h2"
+                        my="3rem"
+                        color="primary.main"
+                        fontWeight='bold'
+                     >
+                 Lista de interesados
+                     </Typography>
                      <Box
                         width="100%"
                         display="flex"
@@ -116,18 +119,20 @@ export default function ProfileList() {
                            ))}
                         </Grid>
                      </Box>
-                  ) : (
-                     <Typography
-                        textAlign="center"
-                        variant="h2"
-                        my="3rem"
-                        color="text.secondary"
-                     >
-            Eres el primer interesado a este evento, pero tenemos estas
-            sugerencias para ti
-                     </Typography>
-                  )}
-               </Paper>
+
+                  </>
+               ) : (
+                  <Typography
+                     textAlign="center"
+                     variant="h2"
+                     my="3rem"
+                     color="primary.main"
+                     fontStyle='italic'
+                     bgcolor='white'
+                  >
+            Eres el primer interesado en este evento. 
+                  </Typography>
+               )}
 
             </>)} 
          

@@ -8,23 +8,19 @@ import { CircularProgressLoading } from '../components/Pure/Loading'
 export default function EventsList() {
 
    const [loading,setLoading]=useState(false)
-   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList}=useContext(EventContext) 
+   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
 
    const getListEventsInterested  = async () => {
 
       setLoading(true)
-      const response=await getListEventsUser()
-
+      const listEvents=await getListEventsUser()
+      const response=await fetchAllEvent(listEvents)
+      
       if (response) {
-
+         
          setLoading(false)
-         const dataAllEvent=await fetchAllEvent()
-
-         if (dataAllEvent){
-            setLoading(false)
-
-         } 
-       
+         setButton_interestedEvent_Clicked(false);
+         return 
       } 
    
    };
@@ -35,24 +31,17 @@ export default function EventsList() {
    
    },[]) 
 
-   /* useEffect(() => {
+   useEffect (()=>{
 
-      setLoading(true)
+      if (button_interestedEvent_Clicked) {
+         getListEventsInterested()
+         setButton_interestedEvent_Clicked(false);
+
+      }
       
-      const getallEvent = async () => {
-         getListEventsUser
-         const response=await getListEventsUser()
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_interestedEvent_Clicked])
 
-         if(response){
-            setLoading(false)
-         }
-      };
-
-      getallEvent();
-  
-   }, []); */
-
-   console.log('Que es listEventsInterested en eventinterested',listEventsInterested)
    return (
 
       <>
@@ -103,7 +92,7 @@ export default function EventsList() {
                               lg={3}
                            >
 
-                              <EventComponent   event={event} />  
+                              <EventComponent findPartner={true}  event={event} />  
                              
                            </Grid> 
                         ))}
