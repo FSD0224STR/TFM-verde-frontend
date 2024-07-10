@@ -14,28 +14,28 @@ import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 import { LocationContextProvider } from './context/locationContext.jsx';
 import { EventContextProvider } from './context/eventContext.jsx';
 import MessagesContextProvider from './context/messagesContext.jsx';
-import WebsocketsContextProvider from './context/websocketsContext.jsx';
+/* import WebsocketsContextProvider from './context/websocketsContext.jsx'; */
 
 ReactDOM.createRoot(document.getElementById('root')).render(
        
    <ThemeProvider theme={main_theme}>
       <BrowserRouter>
          <LoginContextProviderP>
-            <WebsocketsContextProvider>
-               <LocationContextProvider>
-                  <EventContextProvider>
-                     <UserContextProvider>
-                        <MessagesContextProvider>
+            {/*    <WebsocketsContextProvider> */}
+            <LocationContextProvider>
+               <EventContextProvider>
+                  <UserContextProvider>
+                     <MessagesContextProvider>
                   
-                           <CssBaseline />
+                        <CssBaseline />
                   
-                           <App />
+                        <App />
                 
-                        </MessagesContextProvider>         
-                     </UserContextProvider>
-                  </EventContextProvider>
-               </LocationContextProvider>
-            </WebsocketsContextProvider>
+                     </MessagesContextProvider>         
+                  </UserContextProvider>
+               </EventContextProvider>
+            </LocationContextProvider>
+            {/*  </WebsocketsContextProvider> */}
          </LoginContextProviderP> 
       </BrowserRouter>
    </ThemeProvider>
