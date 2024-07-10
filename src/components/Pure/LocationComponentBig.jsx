@@ -12,8 +12,6 @@ export const LocationComponentBig=({location})=> {
 
    }=location
 
-   console.log('Que es location',location)
-
    return (
      
       <Paper square={false} elevation={15} sx={{ minWidth: '90%', m: '1rem', p: '1rem'}} >

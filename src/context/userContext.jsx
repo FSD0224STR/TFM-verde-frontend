@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usersApi from '../apiServices/usersApi';
 
@@ -8,7 +8,7 @@ export const UserContext = React.createContext();
 export const UserContextProvider = ({ children }) => {
    const [users, setUsers] = useState([])
    const [userDetail, setUserDetail] = useState(null);
-   const [listEventsInterested, setListEventsInterested] = useState([]);
+ 
    const [error, setError] = useState('')
    const [editPass, setEditPass] = useState(false);
    const [navProfile, setNavProfile] = useState(false);
@@ -28,19 +28,12 @@ export const UserContextProvider = ({ children }) => {
       }
    }
     
-   const getOneUser= async (userId)=>{ //Con esta función se pintan solo aquellos usuarios interesados en un determinado evento
-      const user= await usersApi.getOneUserApi (userId)
+   const getOneUser= async (userId)=>{ 
+      const user= await usersApi.detailByIdUser (userId)
       if(user.error) setError(user.error)
       return user
     
-   }
-
-   const getListEventsUser= (userDetail)=>{
-      
-      const listEvents=userDetail.interestingEvent
-      setListEventsInterested(listEvents) 
-    
-   }
+   } 
 
    ///controler de userSettings
    const handleNavProfile = () => {
@@ -64,9 +57,7 @@ export const UserContextProvider = ({ children }) => {
       userDetail,
       setUserDetail,
       getUserDetail,
-      getOneUser,
-      getListEventsUser,
-      listEventsInterested,
+      getOneUser, 
       editPass,
       setEditPass,
       navProfile,

@@ -1,4 +1,4 @@
-import {  Route, Routes, useParams } from 'react-router-dom';
+import {  Route, Routes} from 'react-router-dom';
 
 import './App.css';
 import Home from './pages/Home';
@@ -14,16 +14,9 @@ import MessagesPage from './pages/MessagesPage';
 import EventsInterested from './pages/EventsInterested'
 import RecoverPage from './pages/RecoverPage';
 import ChangePassPage from './pages/ChangePassPage';
-import { useContext } from 'react';
-import { LoginContextP } from './context/loginContextPrueba';
-import { CircularProgressLoading } from './components/Pure/Loading';
 
 function App() {
-/* 
-   const {loading}=useContext(LoginContextP)
 
-   if (loading) return <CircularProgressLoading />
- */
    return (
       <>
 

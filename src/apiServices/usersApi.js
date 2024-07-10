@@ -12,11 +12,10 @@ const getAllUsers = async () => {
 };
 
 const detailByIdUser = async (id) => {
-   // console.log('entrado en la llamda de la api con su id',id)
+
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`);
    const user = await response.json();
-   // console.log('esta es la respues de la api',user)
-   return user; /* .user */ //? hay quew revisar lo que se estta devolviendo //Yirka:he modificado aqui
+   return user; 
 };
 
 const addUser = async (newUserData) => {
@@ -137,16 +136,6 @@ const getMyprofile = async () => {
    }
 };
 
-const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
-   
-   const response=await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
-  
-   if (!response.ok)   return { error: await response.json() }
-  
-   const user=await response.json()
-   return user
-}
-
 const recoverMypass = async (data) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/forgotPassword`, {
       method: 'POST',
@@ -183,7 +172,6 @@ export default {
    login,
    detailByIdUser,
    getMyprofile,
-   getOneUserApi,
    updateUser,
    changeMyPass,
    recoverMypass,

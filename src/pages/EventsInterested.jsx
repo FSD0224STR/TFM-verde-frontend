@@ -1,45 +1,56 @@
 import  { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
-import { Box, CircularProgress, Grid,Paper, Typography } from '@mui/material'
+import { Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
-import { UserContext } from '../context/userContext'
-import { LoginContextP } from '../context/loginContextPrueba'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
 
 export default function EventsList() {
 
-   const {listEventsInterested,getListEventsUser}=useContext(UserContext) 
-   const{profileDetails}=useContext(LoginContextP)
-   const{getOneEvent}=useContext(EventContext)
-   const[eventsInfoList,setEventsInfoList]=useState([])
+   const [loading,setLoading]=useState(false)
+   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
 
-   /*    useEffect (()=>{
+   const getListEventsInterested  = async () => {
+
+      setLoading(true)
+      const listEvents=await getListEventsUser()
+      const response=await fetchAllEvent(listEvents)
+      
+      if (response) {
+         
+         setLoading(false)
+         setButton_interestedEvent_Clicked(false);
+         return 
+      } 
    
-      getListEventsUser(profileDetails)
-     
-   },[])
-
-   useEffect(() => {
-      const fetchAllEvent = async () => {
-         const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
-         setEventsInfoList(events);
-      };
-
-      fetchAllEvent();
+   };
   
-   }, [listEventsInterested]);
+   useEffect (()=>{
+      
+      getListEventsInterested()
    
-   console.log('Que es listEventsInterested', listEventsInterested)
-   console.log('esto es profileDetail',profileDetails)
- */
+   },[]) 
+
+   useEffect (()=>{
+
+      if (button_interestedEvent_Clicked) {
+         getListEventsInterested()
+         setButton_interestedEvent_Clicked(false);
+
+      }
+      
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_interestedEvent_Clicked])
+
    return (
+
       <>
-           
-         {profileDetails ? (
+         <NavigationMenu />
+
+         {loading ?  (  <CircularProgressLoading/>):(
+
             <>
-               <NavigationMenu />
-               {/* <Paper square={false} sx={{ minWidth: '90%', m: '3rem', pb: '2rem' }}> */}
+            
                <Typography
                   textAlign="center"
                   variant="h2"
@@ -81,7 +92,7 @@ export default function EventsList() {
                               lg={3}
                            >
 
-                              <EventComponent   event={event} />  
+                              <EventComponent findPartner={true}  event={event} />  
                              
                            </Grid> 
                         ))}
@@ -100,13 +111,10 @@ export default function EventsList() {
                    Actualmente no te has interesado en ningun evento.
                   </Typography>
                )}
-               {/*    </Paper> */}
+            
             </>
-         ): ( 
-            <CircularProgressLoading/>
-         )
 
-         }
+         )} 
        
       </>
    )
