@@ -20,6 +20,10 @@ import danceCouple from '../../img/danceCouple.png'
 import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
 import { MessagesContext } from '../../context/messagesContext';
+import { useContext } from 'react';
+import { CircularProgressLoadingEvent } from './Loading';
+import { AlertTiming } from './AlertTiming';
+import { EventContext } from '../../context/eventContext';
 
 const ExpandMore = styled((props) => {
    const { expand, ...other } = props;
@@ -48,8 +52,8 @@ export function EventComponent({event,findPartner}) {
       photoURL,      
 
    }=event
-const {setSendEventForCouple} = useContext(MessagesContext)
-   const {addInterestedPeople,deleteInterestedPeople,setEventId}=useContext(EventContext)
+   const {setSendEventForCouple} = useContext(MessagesContext)
+   const {addInterestedPeople,deleteInterestedPeople,setEventId}=useContext (EventContext)
    const navigate = useNavigate();
    const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
@@ -65,7 +69,7 @@ const {setSendEventForCouple} = useContext(MessagesContext)
    };
 
    const click_Find_Partner =  () => {
-       setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id})
+      setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id}) 
       navigate('/profiles'); 
  
    };
