@@ -20,8 +20,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
        
    <ThemeProvider theme={main_theme}>
       <BrowserRouter>
-         <LoginContextProviderP>
-            <WebsocketsContextProvider>
+         <WebsocketsContextProvider>
+            <LoginContextProviderP>
                <LocationContextProvider>
                   <EventContextProvider>
                      <UserContextProvider>
@@ -35,8 +35,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                      </UserContextProvider>
                   </EventContextProvider>
                </LocationContextProvider>
-            </WebsocketsContextProvider>
-         </LoginContextProviderP> 
+            </LoginContextProviderP> 
+         </WebsocketsContextProvider>
       </BrowserRouter>
    </ThemeProvider>
       

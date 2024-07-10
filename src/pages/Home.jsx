@@ -104,161 +104,162 @@ export default function Home() {
       
       <> 
       
-         <NavigationMenu/>
          {loading ?( <CircularProgressLoading/>):(
-
             <>
+               <NavigationMenu/>
+               <>
             
-               <Grid
+                  <Grid
             
-                  container
-                  maxWidth="50%"
-                  justifyContent="center"
-                  spacing={2}
-                  sx={{ m: '0.5rem',bgcolor:'white', borderRadius: '50px' ,  padding: '10px 10px 10px'}}
-               >
-
-                  <Grid 
-                     item  
-                     display="flex"
+                     container
+                     maxWidth="50%"
                      justifyContent="center"
-                     xs={12}
-                     sm={4}
-                     lg={3}
+                     spacing={2}
+                     sx={{ m: '0.5rem',bgcolor:'white', borderRadius: '50px' ,  padding: '10px 10px 10px'}}
+                  >
+
+                     <Grid 
+                        item  
+                        display="flex"
+                        justifyContent="center"
+                        xs={12}
+                        sm={4}
+                        lg={3}
    
-                  >
-
-                     <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
-                    
-                  </Grid>
-
-                  <Grid 
-                     item   
-                     display="flex" 
-                     justifyContent="center"
-                     xs={12}
-                     sm={4}
-                     lg={3}
-   
-                  >
-
-                     <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
-
-                  </Grid>
-
-                  <Grid
-                     item   
-                     display="flex"
-                     justifyContent="center"
-                     xs={12}
-                     sm={4}
-                     lg={3}
-   
-                  >
- 
-                     <DateCalendarValue/>
-
-                  </Grid>
-
-                  <Grid
-                     item  
-                     display="flex"
-                     justifyContent="center"
-                     xs={12}
-                     sm={12}
-                     lg={3}
-  
-                  >
-                     <Stack direction="column"  alignItems="center" >
-
-                        <Button 
-               
-                           sx={{borderRadius: '50%',height:'50px',width:'50px', bgcolor: 'primary.main',color: 'white',
-                              '&:hover': {
-                                 backgroundColor: 'background.nav',
-                  
-                              },
-
-                           }} 
-
-                           onClick={handleClick}>Filtrar</Button>
-
-                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={handleClearFilterButtonClicked}   startIcon={<HighlightOffIcon/>}>
-Quitar filtros
-                        </Button>
-
-                     </Stack>
-
-                  </Grid>
-
-               </Grid> 
-
-               {NameMapButton=='Mostrar mapa'?(
-
-                  <>   
-
-                     {locations.length?(
-               
-                        <Box
-                           width="100%"
-                           display="flex"
-                           flexDirection="column"
-                           justifyContent="center"
-                           alignItems="center"
-                        >
-                           <Grid
-                              container
-                              maxWidth="100%"
-                              justifyContent="center"
-                              gap={4}
-                              spacing={4}
-                              sx={{ m: '4rem' }}
-                           >
-                              {locations.map((local,index)=> (
-                                 <Grid
-
-                                    item
-                                    key={index}
-                                    display="flex"
-                                    justifyContent="center"
-                                    xs={12}
-                                    sm={6}
-                                    md={4}
-                                    lg={3}
-                                 >
-                                    <LocationsComponent  {...local}/>
-
-                                 </Grid>
-                              ))}
-                           </Grid>
-                        </Box>
-
-                     ):(<Typography
-                        textAlign="center"
-                        variant="h2"
-                        my="3rem"
-                        color="text.secondary"
                      >
-          No se han encontrado resultados
-                     </Typography>)}
-              
-                  </>
-            
-               ):(<Map  /> ) } 
 
-               {NameMapButton=='Mostrar mapa' ?(
+                        <Search     value={city}   label='Filtrar por ciudad'  options={optionsCity} onChange={(event, newValue) => {setCity(newValue)}}  > </Search>
+                    
+                     </Grid>
+
+                     <Grid 
+                        item   
+                        display="flex" 
+                        justifyContent="center"
+                        xs={12}
+                        sm={4}
+                        lg={3}
    
-                  <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<MapIcon/>}/>
-               ):(
+                     >
 
-                  <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<ListIcon/>}/>
-               )}
+                        <Search  value={typeOfDancing}  label='Filtrar por estilo' options={optionsDanceStyle} onChange={(event, newValue) => {setTypeOfDancing(newValue)}}></Search>
+
+                     </Grid>
+
+                     <Grid
+                        item   
+                        display="flex"
+                        justifyContent="center"
+                        xs={12}
+                        sm={4}
+                        lg={3}
+   
+                     >
+ 
+                        <DateCalendarValue/>
+
+                     </Grid>
+
+                     <Grid
+                        item  
+                        display="flex"
+                        justifyContent="center"
+                        xs={12}
+                        sm={12}
+                        lg={3}
+  
+                     >
+                        <Stack direction="column"  alignItems="center" >
+
+                           <Button 
                
-            </>
+                              sx={{borderRadius: '50%',height:'50px',width:'50px', bgcolor: 'primary.main',color: 'white',
+                                 '&:hover': {
+                                    backgroundColor: 'background.nav',
+                  
+                                 },
+
+                              }} 
+
+                              onClick={handleClick}>Filtrar</Button>
+
+                           <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={handleClearFilterButtonClicked}   startIcon={<HighlightOffIcon/>}>
+Quitar filtros
+                           </Button>
+
+                        </Stack>
+
+                     </Grid>
+
+                  </Grid> 
+
+                  {NameMapButton=='Mostrar mapa'?(
+
+                     <>   
+
+                        {locations.length?(
+               
+                           <Box
+                              width="100%"
+                              display="flex"
+                              flexDirection="column"
+                              justifyContent="center"
+                              alignItems="center"
+                           >
+                              <Grid
+                                 container
+                                 maxWidth="100%"
+                                 justifyContent="center"
+                                 gap={4}
+                                 spacing={4}
+                                 sx={{ m: '4rem' }}
+                              >
+                                 {locations.map((local,index)=> (
+                                    <Grid
+
+                                       item
+                                       key={index}
+                                       display="flex"
+                                       justifyContent="center"
+                                       xs={12}
+                                       sm={6}
+                                       md={4}
+                                       lg={3}
+                                    >
+                                       <LocationsComponent  {...local}/>
+
+                                    </Grid>
+                                 ))}
+                              </Grid>
+                           </Box>
+
+                        ):(<Typography
+                           textAlign="center"
+                           variant="h2"
+                           my="3rem"
+                           color="text.secondary"
+                        >
+          No se han encontrado resultados
+                        </Typography>)}
+              
+                     </>
             
+                  ):(<Map  /> ) } 
+
+                  {NameMapButton=='Mostrar mapa' ?(
+   
+                     <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<MapIcon/>}/>
+                  ):(
+
+                     <ShowMapButton     onClick={clickMapButton} name={NameMapButton} icon={<ListIcon/>}/>
+                  )}
+               
+               </>
+            </>
          )
          } 
             
       </>
+            
    )
 }
