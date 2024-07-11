@@ -6,12 +6,12 @@ import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/location
 export const LocationContext = React.createContext();
 export const LocationContextProvider = ({ children }) => {
   
-   const [city,setCity]=useState('')
-   const [date,setDate]=useState('')
-   const [typeOfDancing,setTypeOfDancing]=useState('')
+   const [city,setCity]=useState(null)
+   const [date,setDate]=useState(null)
+   const [typeOfDancing,setTypeOfDancing]=useState(null)
    const [locations,setLocations]=useState([])
    const [error, setError] = useState('')
-   const [idLocal,setIdLocal]=useState('')  
+   const [idLocal,setIdLocal]=useState(null)  
    const [locationDatas,setLocationData]=useState({})
    const [eventsFilteredData,setEventsFilteredData]=useState([])
    const [eventsUnFilteredData,  setEventsUnFilteredData]=useState([])
@@ -47,7 +47,7 @@ export const LocationContextProvider = ({ children }) => {
       
    }
    
-   const getLocationData = async (  /*idLocal ,city,date,typeOfDancing   */) => {
+   const getLocationData = async (  idLocal ) => {
 
       if (idLocal) {
          const local = await getOneLocationApi(idLocal,city,date,typeOfDancing);

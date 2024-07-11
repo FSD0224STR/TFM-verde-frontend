@@ -11,17 +11,31 @@ import { useParams } from 'react-router-dom'
 
 export default function EventsList() {
 
-   const { idLocal } = useParams()  
+   const { idLocalurl} = useParams()  
+   console.log('Que es idLocal de  useParams',idLocalurl)
 
    const [loading,setLoading]=useState(false)
    const [showAllEvents,setShowAllEvents]=useState([])
-   const {getLocationData,locationDatas,eventsFilteredData,eventsUnFilteredData,typeOfDancing,date,city}=useContext(LocationContext)
-      
+   const {getLocationData,locationDatas,eventsFilteredData,eventsUnFilteredData,typeOfDancing,date,idLocal}=useContext(LocationContext)
+   
+   /* console.log('Que es idLocal tras refrescar linea 21',idLocal) */
+
    const current_Location_Info = async () => {
 
       setLoading(true)
-      const response=await getLocationData(  )
+      if(idLocal==null) {
+       
+         console.log('Que es idLocal tras refrescar',idLocal)
+         const response=await getLocationData( idLocalurl  )
+         if (response) {
+            setLoading(false)
+          
+         } 
+         return
 
+      }
+     
+      const response=await getLocationData(  idLocal )
       if (response) {
          setLoading(false)
        
