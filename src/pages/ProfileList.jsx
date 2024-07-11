@@ -1,7 +1,7 @@
 
 import { useContext, useEffect } from 'react';
 import User from '../components/Pure/User';
-import { Grid, Box, Typography, Paper, Button } from '@mui/material';
+import { Grid, Box, Typography,Button } from '@mui/material';
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { EventContext } from '../context/eventContext';
 import { Search } from '../components/Pure/Search';
@@ -12,7 +12,7 @@ export default function ProfileList() {
 
    const [loading,setLoading]=useState(false)
 
-   const { listOfInterested,getProfileList } = useContext(EventContext);
+   const { listOfInterested,getProfileList,button_findPartner_Clicked,setButton_findPartner_Clicked} = useContext(EventContext);
 
    const getListOfInterested  = async () => {
 
@@ -20,7 +20,9 @@ export default function ProfileList() {
       const response=await getProfileList()
 
       if (response) {
+         console.log('Que es listOfInterested',listOfInterested)
          setLoading(false)
+         setButton_findPartner_Clicked(false)
        
       } 
    
@@ -30,7 +32,7 @@ export default function ProfileList() {
       
       getListOfInterested()
    
-   },[]) 
+   },[button_findPartner_Clicked]) 
 
    const optionsRole=['Leader','Follower','Switch']
    return (

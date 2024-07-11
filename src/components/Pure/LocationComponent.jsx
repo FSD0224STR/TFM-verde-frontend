@@ -6,9 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
 import { LocationContext } from '../../context/locationContext';
 import { useNavigate } from 'react-router-dom';
 import { Chip, Stack } from '@mui/material';
@@ -54,13 +52,7 @@ export function LocationsComponent({ name,address,_id,events}) {
                   {name.slice(0,2)}
                </Avatar>
             }
-            /*   action={
-
-               <IconButton >
-                  <ShareIcon />
-               </IconButton>
-
-            } */
+           
             titleTypographyProps={{ sx: { fontSize: '1.20rem', fontWeight: 'bold'} }}
             subheaderTypographyProps={{ sx: {fontSize: '0.9rem',fontStyle:'italic'} }}
             title={name}

@@ -16,7 +16,7 @@ import { CircularProgressLoading } from '../components/Pure/Loading';
 import { LoginContextP } from '../context/loginContextPrueba';
 
 export default function Home() {
-   const {setIsLoggedIn}= useContext(LoginContextP)
+   const {setIsLoggedIn,profileDetails}= useContext(LoginContextP)
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing,getDataForCluster,cleanFilter } = useContext(LocationContext)
    const [loading,setLoading]=useState(false)
    const [filterButtonClicked, setFilterButtonClicked] = useState(false); 
@@ -103,12 +103,11 @@ export default function Home() {
    return (
       
       <> 
-      
-         <NavigationMenu/>
-         {loading ?( <CircularProgressLoading/>):(
+         
+         {loading && profileDetails?( <CircularProgressLoading/>):(
 
             <>
-            
+               <NavigationMenu/>
                <Grid
             
                   container

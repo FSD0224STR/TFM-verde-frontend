@@ -5,6 +5,7 @@ import { getEventByIdApi,addInterestedPeopleApi ,deleteInterestedPeopleApi} from
 import { useContext } from 'react';
 import { LoginContextP } from './loginContextPrueba';
 import usersApi from '../apiServices/usersApi';
+import { useNavigate } from 'react-router-dom';
 
 export const EventContext = createContext();
 
@@ -16,6 +17,16 @@ export const EventContextProvider = ({ children }) => {
    const[eventsInfoList,setEventsInfoList]=useState([])
    const [eventId,setEventId]=useState()
    const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
+   const [button_findPartner_Clicked, setButton_findPartner_Clicked] = useState(false);
+   const navigate=useNavigate()
+
+   const click_Find_Partner =  (idEvent) => {
+  
+      setEventId(idEvent)
+      navigate('/profiles'); 
+      setButton_findPartner_Clicked(true) 
+ 
+   };
 
    const getProfileList=async ()=>{
 
@@ -95,6 +106,9 @@ export const EventContextProvider = ({ children }) => {
       getProfileList,
       addInterestedPeople,
       deleteInterestedPeople,
+      setButton_findPartner_Clicked,
+      button_findPartner_Clicked,
+      click_Find_Partner
               
    }
   

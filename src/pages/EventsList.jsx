@@ -7,17 +7,20 @@ import { LocationComponentBig } from '../components/Pure/LocationComponentBig'
 import { useState } from 'react'
 import { CircularProgressLoading } from '../components/Pure/Loading'
 import {DividerWithText} from '../components/Pure/Divider'
+import { useParams } from 'react-router-dom' 
 
 export default function EventsList() {
 
+   const { idLocal } = useParams()  
+
    const [loading,setLoading]=useState(false)
    const [showAllEvents,setShowAllEvents]=useState([])
-   const {getLocationData,locationDatas,eventsFilteredData,eventsUnFilteredData,typeOfDancing,date}=useContext(LocationContext)
+   const {getLocationData,locationDatas,eventsFilteredData,eventsUnFilteredData,typeOfDancing,date,city}=useContext(LocationContext)
       
    const current_Location_Info = async () => {
 
       setLoading(true)
-      const response=await getLocationData()
+      const response=await getLocationData(  )
 
       if (response) {
          setLoading(false)
@@ -27,10 +30,13 @@ export default function EventsList() {
    };
 
    useEffect(() => {
+
+      console.log('Estoy entrando en el useEffect que me setea showallevents')
      
       if (!date && !typeOfDancing) {
          setShowAllEvents(eventsFilteredData);
       }
+    
    }, [eventsFilteredData, date, typeOfDancing]);
 
    useEffect (()=>{
@@ -38,6 +44,8 @@ export default function EventsList() {
       current_Location_Info()
    
    },[])
+
+   console.log('Que es showallevents',showAllEvents)
     
    return (
       <>

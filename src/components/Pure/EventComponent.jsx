@@ -53,8 +53,8 @@ export function EventComponent({event,findPartner}) {
 
    }=event
    const {setSendEventForCouple} = useContext(MessagesContext)
-   const {addInterestedPeople,deleteInterestedPeople,setEventId}=useContext (EventContext)
-   const navigate = useNavigate();
+   const {addInterestedPeople,deleteInterestedPeople,setEventId,click_Find_Partner}=useContext (EventContext)
+   /*    const navigate = useNavigate(); */
    const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
    const [error,setError] = useState('');
@@ -68,11 +68,11 @@ export function EventComponent({event,findPartner}) {
       setExpanded(!expanded);
    };
 
-   const click_Find_Partner =  () => {
+   /*  const click_Find_Partner -cambiar nombre a esta funcion=  () => {
       setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id}) 
       navigate('/profiles'); 
  
-   };
+   }; */
 
    const click_For_interesting = async () => {
 
@@ -87,7 +87,7 @@ export function EventComponent({event,findPartner}) {
             setError(response.error)
             setLoading(false)
             setIsInterested(true)
-            setEventId(_id)
+            setEventId(_id) 
             return 
          }
          
@@ -172,8 +172,8 @@ export function EventComponent({event,findPartner}) {
 
                <>
 
-                  <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+                  <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
                   </Button>
 
@@ -190,7 +190,7 @@ Ya no me interesa este evento
 
                            <>
 
-                              <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
+                              <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
                               <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
                               </Button>
