@@ -1,14 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
+import { useNavigate } from 'react-router-dom';
 
 export const LocationContext = React.createContext();
 export const LocationContextProvider = ({ children }) => {
   
-   const [city,setCity]=useState(null)
-   const [date,setDate]=useState(null)
-   const [typeOfDancing,setTypeOfDancing]=useState(null)
+   const [city,setCity]=useState('')
+   const [date,setDate]=useState('')
+   const [typeOfDancing,setTypeOfDancing]=useState('')
    const [locations,setLocations]=useState([])
    const [error, setError] = useState('')
    const [idLocal,setIdLocal]=useState(null)  
@@ -46,6 +47,18 @@ export const LocationContextProvider = ({ children }) => {
       return true
       
    }
+   const navigate = useNavigate();
+   
+   useEffect (()=>{
+
+      if (button_Events_Clicked) {
+         navigate(`/location/${idLocal}/events`)
+
+      }
+      setButton_Events_Clicked(false)
+      
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_Events_Clicked])
    
    const getLocationData = async (  idLocal ) => {
 
@@ -93,48 +106,6 @@ export const LocationContextProvider = ({ children }) => {
    
    }
 
-   /*   import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-const MyComponent = () => {
-  // Obtener parámetros de la URL usando useParams
-  const { id } = useParams();
-  
-  // Definir una variable de estado
-  const [data, setData] = useState(null);
-
-  // Definir una función asíncrona que use ambos valores
-  const fetchData = async (id, stateValue) => {
-    try {
-      const response = await fetch(`https://api.example.com/data/${id}?query=${stateValue}`);
-      const result = await response.json();
-      setData(result);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  // Llamar a la función asíncrona cuando el componente se monte o cuando cambien los valores
-  useEffect(() => {
-    if (id) {
-      fetchData(id, 'someStateValue');
-    }
-  }, [id]);
-
-  return (
-    <div>
-      <h1>Data for ID: {id}</h1>
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  );
-};
-
-export default MyComponent; */
-
    const locationContextValue = {
       getLocationFiltered,
       city,
@@ -157,7 +128,7 @@ export default MyComponent; */
       setButton_Events_Clicked,
       click_Buttons_Events,
       getDataForCluster,
-      cleanFilter,
+      cleanFilter
               
    }
   

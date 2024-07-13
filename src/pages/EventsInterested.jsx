@@ -4,16 +4,18 @@ import { Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
+import { useParams } from 'react-router-dom'
 
 export default function EventsList() {
-
+   
+   const { loggedUserId} = useParams()  
    const [loading,setLoading]=useState(false)
    const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
 
    const getListEventsInterested  = async () => {
 
       setLoading(true)
-      const listEvents=await getListEventsUser()
+      const listEvents=await getListEventsUser(loggedUserId)
       const response=await fetchAllEvent(listEvents)
       
       if (response) {
@@ -41,7 +43,7 @@ export default function EventsList() {
       
    // eslint-disable-next-line react-hooks/exhaustive-deps
    },[button_interestedEvent_Clicked])
-
+   
    return (
 
       <>

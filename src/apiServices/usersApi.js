@@ -2,7 +2,7 @@
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 
 const getAllUsers = async () => {
-   //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
+ 
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users`, {
       headers: { 'authorization:': `Bearer ${token}` },
@@ -56,8 +56,7 @@ export const deleteUser = async (id) => {
 };
 
 export const updateUser = async (id, modifiedData) => {
-   console.log('esto es id en la api', id);
-   console.log('esto es modifiedData la api', modifiedData);
+  
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'PUT',
@@ -129,8 +128,8 @@ const getMyprofile = async () => {
          return { error: error };
       }
       const data = await response.json();
-      console.log('esto es la la respuesta del back de getmYprofile', data);
-      return data; //LO que me devuelve el backend es toda la información de usuario.
+      
+      return data; 
    } catch (error) {
       return { error: 'Problema de conexion' };
    }

@@ -12,21 +12,17 @@ import { useParams } from 'react-router-dom'
 export default function EventsList() {
 
    const { idLocalurl} = useParams()  
-   console.log('Que es idLocal de  useParams',idLocalurl)
 
    const [loading,setLoading]=useState(false)
    const [showAllEvents,setShowAllEvents]=useState([])
    const {getLocationData,locationDatas,eventsFilteredData,eventsUnFilteredData,typeOfDancing,date,idLocal}=useContext(LocationContext)
-   
-   /* console.log('Que es idLocal tras refrescar linea 21',idLocal) */
 
    const current_Location_Info = async () => {
 
       setLoading(true)
-      if(idLocal==null) {
-       
-         console.log('Que es idLocal tras refrescar',idLocal)
-         const response=await getLocationData( idLocalurl  )
+      if(idLocal) {
+         
+         const response=await getLocationData( idLocal )
          if (response) {
             setLoading(false)
           
@@ -34,8 +30,8 @@ export default function EventsList() {
          return
 
       }
-     
-      const response=await getLocationData(  idLocal )
+    
+      const response=await getLocationData(  idLocalurl )
       if (response) {
          setLoading(false)
        
@@ -44,8 +40,6 @@ export default function EventsList() {
    };
 
    useEffect(() => {
-
-      console.log('Estoy entrando en el useEffect que me setea showallevents')
      
       if (!date && !typeOfDancing) {
          setShowAllEvents(eventsFilteredData);
@@ -58,8 +52,6 @@ export default function EventsList() {
       current_Location_Info()
    
    },[])
-
-   console.log('Que es showallevents',showAllEvents)
     
    return (
       <>

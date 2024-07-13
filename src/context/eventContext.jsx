@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { LoginContextP } from './loginContextPrueba';
 import usersApi from '../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const EventContext = createContext();
 
@@ -17,6 +18,7 @@ export const EventContextProvider = ({ children }) => {
    const[eventsInfoList,setEventsInfoList]=useState([])
    const [eventId,setEventId]=useState()
    const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
+   const [checkInterestedEvents_Button, setCheckInterestedEvents_Button] = useState(false);
    const [button_findPartner_Clicked, setButton_findPartner_Clicked] = useState(false);
    const navigate=useNavigate()
 
@@ -34,8 +36,6 @@ export const EventContextProvider = ({ children }) => {
 
       if(event.error) return {error:event.error}
 
-      console.log(event)
-      console.log(profileDetails)
       const interestedPeople=event.interestedPeople
       const Interested_without_me = interestedPeople.filter(
          (person) => person !== profileDetails._id
@@ -47,15 +47,26 @@ export const EventContextProvider = ({ children }) => {
       
    }
 
-   const getListEventsUser= async ()=>{
+   const getListEventsUser= async (userId)=>{
 
-      const userId=profileDetails._id
       const detailUser = await usersApi.detailByIdUser(userId);            
       const listEvents=detailUser.interestingEvent
-      setListEventsInterested(listEvents) 
+      setListEventsInterested(listEvents)
+    
       return listEvents
       
    }
+   
+   useEffect (()=>{
+
+      if (checkInterestedEvents_Button ) {
+         navigate(`/events/${profileDetails._id}`)
+
+      }
+      setCheckInterestedEvents_Button(false)
+      
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[checkInterestedEvents_Button])
    
    const getOneEvent=async (eventId)=>{
 
@@ -98,6 +109,8 @@ export const EventContextProvider = ({ children }) => {
       button_interestedEvent_Clicked,
       eventsInfoList,
       listEventsInterested,
+      checkInterestedEvents_Button, 
+      button_findPartner_Clicked,
       getListEventsUser,
       fetchAllEvent,
       setButton_interestedEvent_Clicked,
@@ -107,8 +120,8 @@ export const EventContextProvider = ({ children }) => {
       addInterestedPeople,
       deleteInterestedPeople,
       setButton_findPartner_Clicked,
-      button_findPartner_Clicked,
-      click_Find_Partner
+      click_Find_Partner,
+      setCheckInterestedEvents_Button
               
    }
   

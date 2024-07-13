@@ -24,11 +24,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
 import { MessagesContext } from '../../context/messagesContext';
 import { UserContext } from '../../context/userContext';
+import { EventContext } from '../../context/eventContext';
 
 export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
    const { getListMessages } = useContext(MessagesContext)
    const { handleNavConfig} = useContext(UserContext)
    const [open, setOpen] = useState(false);
+   const {setCheckInterestedEvents_Button}=useContext(EventContext) 
    const navigate = useNavigate()
    return (
       <>
@@ -74,7 +76,7 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="Eventos de interés">
-                     <IconButton onClick={()=> navigate('/events')} >
+                     <IconButton onClick={()=>setCheckInterestedEvents_Button(true)} >
                    
                         <Icon component="img" src={events} sx={{ fontSize: 35,ml:'0.5rem'}}></Icon>
                        

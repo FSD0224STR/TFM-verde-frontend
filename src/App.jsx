@@ -27,7 +27,7 @@ function App() {
             <Route path="/recoverpass" element={<RecoverPage/>} />
             <Route path="/reset-password/:tokenRecoveryparams" element={<ChangePassPage/>} />
             <Route path="/home" element={<Home />} />
-            <Route path="/events" element={<EventsInterested />} />
+            <Route path="/events/:loggedUserId" element={<EventsInterested />} />
             <Route path="/location/:idLocalurl/events" element={<EventsList />} /> 
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
