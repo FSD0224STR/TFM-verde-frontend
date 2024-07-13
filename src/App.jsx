@@ -29,7 +29,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/events/:loggedUserId" element={<EventsInterested />} />
             <Route path="/location/:idLocalurl/events" element={<EventsList />} /> 
-            <Route path="/profiles" element={<ProfileList />} />
+            <Route path="/profiles/:idEventurl/:loggedUserId" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:idUser" element={<DetailUser />} />
             <Route path="/messages" element={<MessagesPage/>} />

@@ -7,20 +7,24 @@ import { EventContext } from '../context/eventContext';
 import { Search } from '../components/Pure/Search';
 import { CircularProgressLoading } from '../components/Pure/Loading';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function ProfileList() {
 
+   const {idEventurl}=useParams()
+   const { loggedUserId} = useParams()  
+
    const [loading,setLoading]=useState(false)
 
-   const { listOfInterested,getProfileList,button_findPartner_Clicked,setButton_findPartner_Clicked} = useContext(EventContext);
+   const { listOfInterested,getProfileList,setButton_findPartner_Clicked} = useContext(EventContext);
 
    const getListOfInterested  = async () => {
 
       setLoading(true)
-      const response=await getProfileList()
+      const response=await getProfileList(idEventurl,loggedUserId)
 
       if (response) {
-         console.log('Que es listOfInterested',listOfInterested)
+      
          setLoading(false)
          setButton_findPartner_Clicked(false)
        
@@ -32,7 +36,7 @@ export default function ProfileList() {
       
       getListOfInterested()
    
-   },[button_findPartner_Clicked]) 
+   },[]) 
 
    const optionsRole=['Leader','Follower','Switch']
    return (

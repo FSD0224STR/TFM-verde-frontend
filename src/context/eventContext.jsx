@@ -20,17 +20,17 @@ export const EventContextProvider = ({ children }) => {
    const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
    const [checkInterestedEvents_Button, setCheckInterestedEvents_Button] = useState(false);
    const [button_findPartner_Clicked, setButton_findPartner_Clicked] = useState(false);
+   
    const navigate=useNavigate()
 
    const click_Find_Partner =  (idEvent) => {
   
       setEventId(idEvent)
-      navigate('/profiles'); 
       setButton_findPartner_Clicked(true) 
  
    };
 
-   const getProfileList=async ()=>{
+   const getProfileList=async (eventId,userId)=>{
 
       const event= await getEventByIdApi(eventId)
 
@@ -38,7 +38,7 @@ export const EventContextProvider = ({ children }) => {
 
       const interestedPeople=event.interestedPeople
       const Interested_without_me = interestedPeople.filter(
-         (person) => person !== profileDetails._id
+         (person) => person !== userId
       );
 
       setListOfInterested(Interested_without_me)
@@ -67,6 +67,17 @@ export const EventContextProvider = ({ children }) => {
       
    // eslint-disable-next-line react-hooks/exhaustive-deps
    },[checkInterestedEvents_Button])
+
+   useEffect (()=>{
+
+      if (button_findPartner_Clicked ) {
+         navigate(`/profiles/${eventId}/${profileDetails._id}`)
+        
+      }
+      setButton_findPartner_Clicked(false)
+      
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_findPartner_Clicked])
    
    const getOneEvent=async (eventId)=>{
 
@@ -121,7 +132,7 @@ export const EventContextProvider = ({ children }) => {
       deleteInterestedPeople,
       setButton_findPartner_Clicked,
       click_Find_Partner,
-      setCheckInterestedEvents_Button
+      setCheckInterestedEvents_Button,
               
    }
   
