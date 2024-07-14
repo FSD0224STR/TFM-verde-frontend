@@ -24,9 +24,11 @@ import { useContext } from 'react';
 import { CircularProgressLoadingEvent } from './Loading';
 import { AlertTiming } from './AlertTiming';
 import { EventContext } from '../../context/eventContext';
+import unavailableimage from '../../img/unavailable-image.jpg'
+import coupleconfirmed from '../../img/coupleconfirmed.png'
 
 const ExpandMore = styled((props) => {
-   const { expand, ...other } = props;
+   const {  ...other } = props;
    return <IconButton {...other} />;
 })(({ theme, expand }) => ({
    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
@@ -73,6 +75,8 @@ export function EventComponent({event,findPartner}) {
       navigate('/profiles'); 
  
    }; */
+
+   const availableSpot=`${availability-danceCouples.length*2}`
 
    const click_For_interesting = async () => {
 
@@ -129,8 +133,8 @@ export function EventComponent({event,findPartner}) {
          <CardMedia
             component="img"
             height="200"
-            image= {photoURL[0]} 
-            alt=""
+            image={photoURL[0] ? (photoURL[0]):( unavailableimage)}
+            alt="Imagen de evento"
          />
             
          <CardContent sx={{display: 'flex',flexDirection:'column',gap:'15px',fontSize: '1rem'}}>
@@ -152,16 +156,19 @@ export function EventComponent({event,findPartner}) {
                   {typeOfDancing.toUpperCase()}
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
+           
                   <Icon component="img" src={people}  ></Icon>
-                  {availability}
+                  <Typography  >{`${availability} plazas`}  </Typography>
+                  
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
                   <Icon component="img" src={priceImg}  ></Icon>
                   {`${price}€`}
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
-                  <Icon component="img" src={people}  ></Icon>
-                  {_id}
+                  <Icon component="img" src={coupleconfirmed}  ></Icon>
+                  {`${danceCouples.length} Parejas `}
+                  <Typography sx={{color:'red',fontSize:'small',marginLeft:'5px',p:'3px'}}>{`(${availableSpot} plazas disponibles)`} </Typography>
                </Box>
             </Stack>
          </CardContent>
@@ -207,6 +214,7 @@ Ya no me interesa este evento
                            {loading ? (<CircularProgressLoadingEvent />) :(
 
                               <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+                          
                            )}
                         </>
          
@@ -231,10 +239,6 @@ Ya no me interesa este evento
                <ExpandMoreIcon   />
             
             </ExpandMore>
-
-            {/*  <IconButton>
-               <ShareIcon />
-            </IconButton> */}
 
          </CardActions>
          

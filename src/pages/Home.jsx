@@ -98,7 +98,7 @@ export default function Home() {
       'Valencia',
       'Zaragoza'
    ]
-   const optionsDanceStyle=['Swing','Salsa cubana','Salsa','Merengue','Bachata','Kizomba','Festival','Bachata Dominicana']
+   const optionsDanceStyle=['Swing','Salsa cubana','Salsa','Merengue','Bachata','Kizomba']
  
    return (
       
