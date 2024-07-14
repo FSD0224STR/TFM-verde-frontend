@@ -28,7 +28,7 @@ import unavailableimage from '../../img/unavailable-image.jpg'
 import coupleconfirmed from '../../img/coupleconfirmed.png'
 
 const ExpandMore = styled((props) => {
-   const {  ...other } = props;
+   const {expand, ...other } = props;
    return <IconButton {...other} />;
 })(({ theme, expand }) => ({
    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
@@ -186,45 +186,77 @@ Ya no me interesa este evento
 
                </>
             ):(
-
-               <>
                
-                  {isInterested || success=='Te has interesado a este evento' ?
-            
-                     (<>
-            
-                        {loading ? (<CircularProgressLoadingEvent />) :(
+               <> 
 
-                           <>
+                  {availableSpot != 0 ?(
 
-                              <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
-                              <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+                     <>
+               
+                        {isInterested || success=='Te has interesado a este evento' ?
+            
+                           (<>
+            
+                              {loading ? (<CircularProgressLoadingEvent />) :(
+
+                                 <>
+
+                                    <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                                    <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
-                              </Button>
+                                    </Button>
 
-                           </>
-                        )}
+                                 </>
+                              )}
         
-                     </>
+                           </>
          
-                     )                     
-                     :(
-                        <>
+                           )                     
+                           :(
+                              <>
 
-                           {loading ? (<CircularProgressLoadingEvent />) :(
+                                 {loading ? (<CircularProgressLoadingEvent />) :(
 
-                              <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+                                    <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
                           
-                           )}
-                        </>
+                                 )}
+                              </>
          
-                     )
+                           )
          
-                  }
+                        }
 
-                  <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+                        <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
                
-               </>
+                     </>
+
+                  ):(
+
+                     <Button
+                    
+                        size="medium"
+                        sx={{
+                      
+                           padding: '0.5rem',
+                           mb: '1rem',                 
+                           bgcolor: 'red',
+                           color: '#ffff',
+                           px: '1rem',
+                           '&:hover': {
+                              '& .MuiTypography-root': {
+                                 color: 'text.secondary',
+                              },
+                              backgroundColor: 'background.nav',
+                           },
+                        }}
+                     >
+                 AFORO COMPLETO
+                     
+                     </Button>
+
+                  )}
+
+               </>    
 
             )}
 

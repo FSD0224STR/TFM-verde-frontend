@@ -17,11 +17,11 @@ export const LocationComponentBig=({location})=> {
 
       <Grid
          container
-         maxWidth="80%"
-         minWidth='80%'
-         justifyContent="left"
+         maxWidth="50%" 
+         minWidth='600px'
+         justifyContent="center"
          spacing={1}
-         sx={{ m: '1rem',bgcolor:'white', borderRadius: '50px' ,  padding: '5px 5px 5px'}}
+         sx={{ m: '1rem',bgcolor:'white', borderRadius: '50px' ,  padding: '5px 5px'}}
          
       >
             
@@ -38,7 +38,7 @@ export const LocationComponentBig=({location})=> {
           
             <CardMedia
                component="img"
-               sx={{maxWidth: 280,borderRadius: '50px'}}
+               sx={{maxWidth: 290,minWidth:290,borderRadius: '50px'}}
 
                image={photoURL ? (photoURL):( unavailableimage)}
               
