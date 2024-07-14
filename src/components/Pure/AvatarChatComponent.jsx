@@ -4,11 +4,11 @@ import { useContext, useEffect, useState } from 'react';
 import { WebSocketsContext } from '../../context/websocketsContext';
 
 export default function AvatarChatComponent({ member }) {
-   const {userConnected} = useContext(WebSocketsContext)
+   const { userConnected } = useContext(WebSocketsContext)
    //comporbacion de los ids  conectados
    const status = userConnected.some(id => id === member._id)
- 
-   console.log('userconect enm avatar',userConnected)
+
+   console.log('userconect en avatar', userConnected)
    const StyledBadge = styled(Badge)(({ theme }) => ({
       '& .MuiBadge-badge': {
          backgroundColor: '#44b700',
@@ -37,7 +37,7 @@ export default function AvatarChatComponent({ member }) {
          },
       },
    }));
-    
+
    return (
 
       <StyledBadge

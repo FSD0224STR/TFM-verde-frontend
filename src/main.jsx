@@ -17,7 +17,7 @@ import MessagesContextProvider from './context/messagesContext.jsx';
 import WebsocketsContextProvider from './context/websocketsContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-       
+
    <ThemeProvider theme={main_theme}>
       <BrowserRouter>
          <WebsocketsContextProvider>
@@ -26,18 +26,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <EventContextProvider>
                      <UserContextProvider>
                         <MessagesContextProvider>
-                  
+
                            <CssBaseline />
-                  
+
                            <App />
-                
-                        </MessagesContextProvider>         
+
+                        </MessagesContextProvider>
                      </UserContextProvider>
                   </EventContextProvider>
                </LocationContextProvider>
-            </LoginContextProviderP> 
+            </LoginContextProviderP>
          </WebsocketsContextProvider>
       </BrowserRouter>
    </ThemeProvider>
-      
+
 );

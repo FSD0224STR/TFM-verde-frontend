@@ -1,5 +1,5 @@
 
-const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
+const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
 
 const getAllUsers = async () => {
    //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
@@ -31,7 +31,7 @@ const addUser = async (newUserData) => {
       if (response.status == 403)
          return {
             error1:
-          'Este email ya existe,si has olvidado tu contraseña puedes recuperarla',
+               'Este email ya existe,si has olvidado tu contraseña puedes recuperarla',
          };
    }
    const users = await response.json();
@@ -76,7 +76,7 @@ export const updateUser = async (id, modifiedData) => {
 };
 
 const changeMyPass = async (newData) => {
-   console.log('esto es new Data en api',newData)
+   console.log('esto es new Data en api', newData)
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${newData.id}`, {
       method: 'PATCH',
@@ -86,7 +86,7 @@ const changeMyPass = async (newData) => {
          authorization: `Bearer ${token}`,
       },
    });
-   if(!response.ok || response.status === 401 || response.status === 400 ) return { error: await response.json() };
+   if (!response.ok || response.status === 401 || response.status === 400) return { error: await response.json() };
    const data = await response.json();
    return { dataReceiver: 'contraseña cambiada correctamente' };
 }
@@ -102,7 +102,7 @@ const login = async (email, password) => {
       if (response.status == 403)
          return {
             error:
-          'La contraseña es incorrecta, por favor inserte contraseña correcta.',
+               'La contraseña es incorrecta, por favor inserte contraseña correcta.',
          };
       if (response.status == 404)
          return {
@@ -130,20 +130,20 @@ const getMyprofile = async () => {
          return { error: error };
       }
       const data = await response.json();
-      console.log('esto es la la respuesta del back de getmYprofile', data);
+      //console.log('esto es la la respuesta del back de getmYprofile', data);
       return data; //LO que me devuelve el backend es toda la información de usuario.
    } catch (error) {
       return { error: 'Problema de conexion' };
    }
 };
 
-const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
-   
-   const response=await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
-  
-   if (!response.ok)   return { error: await response.json() }
-  
-   const user=await response.json()
+const getOneUserApi = async (userId) => { //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
+
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
+
+   if (!response.ok) return { error: await response.json() }
+
+   const user = await response.json()
    return user
 }
 
@@ -155,27 +155,27 @@ const recoverMypass = async (data) => {
    })
    if (!response.ok) {
       const error = await response.json();
-      return { error};
+      return { error };
    }
-   const info =  await response.json()
+   const info = await response.json()
    return info
 }
 
 const resetPassword = async (data) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/reset-password/${data.token}`,{
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/reset-password/${data.token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
    })
    if (!response.ok) {
       const error = await response.json();
-      return { error};
+      return { error };
    }
    const resultPass = await response.json()
-   return  resultPass
-} 
+   return resultPass
+}
 
-export default { 
+export default {
    getAllUsers,
    addUser,
    deleteUser,

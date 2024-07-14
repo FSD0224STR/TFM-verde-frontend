@@ -10,11 +10,11 @@ export const LoginContextP = React.createContext();
 //se desee interactuar (siempre y cuando sean componentes hijos de este componente LoginContextProvider), por ello se completa el nombre con la palabra provider.
 //Aqui se incluye toda la logica, funciones etc.
 export const LoginContextProviderP = ({ children }) => {
-   const {onLogoutSocket} = useContext(WebSocketsContext)
+   const { onUserDisconnected, socket, token } = useContext(WebSocketsContext)
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [error, setError] = useState('');
    const [profileDetails, setProfileDetails] = useState();
-   const [loading,setLoading]=useState(false)
+   const [loading, setLoading] = useState(false)
 
    const navigate = useNavigate();
    let tokenRecoveryparams = useParams();
@@ -42,7 +42,7 @@ export const LoginContextProviderP = ({ children }) => {
          const auth = localStorage.getItem('auth');
          /*   setLoading(false) */
          if (token && !response.error) {
-          
+
             if (urlLocation.pathname === '/login') {
                setIsLoggedIn(true);
                setProfileDetails(response);
@@ -85,16 +85,17 @@ export const LoginContextProviderP = ({ children }) => {
       }
    };
 
-   const logout = () => {
+   const logout = async () => {
       console.log('cerrando session')
+      navigate('/')
+      await socket.on('userDisconnected', onUserDisconnected)
+      socket.emit('userDisconnected', token)
       localStorage.removeItem('access_token')
       localStorage.setItem('auth', false)
       setIsLoggedIn(false)
-      onLogoutSocket()
-      navigate('/')
-      
+
    }
-   
+
    const loginContextValue = {
       isLoggedIn,
       setIsLoggedIn,
