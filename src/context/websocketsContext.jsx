@@ -5,16 +5,18 @@ export const WebSocketsContext = createContext();
 export default function WebsocketsContextProvider({ children }) {
 
    const [userConnected, setUserConnected] = useState([])
+   const [socket, setSocket] = useState(null)
    const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
-   const socket = io(VITE_HOSTING_BACKEND)
    const token = localStorage.getItem('access_token')
+   const newSocket = io(VITE_HOSTING_BACKEND)
    /* const socket = io({
       autoConnect: false
    }); */
 
    function onLoginSuccess(data) {
       console.log('data', data)
-      if (!data) {
+      if (Object.keys(data).length === 0) {
+         //Object.keys(data).length === 0
          return
       }
       setUserConnected(prevUserConnected => {
@@ -32,13 +34,21 @@ export default function WebsocketsContextProvider({ children }) {
       console.log('Usuario desconectado:', data);
       setUserConnected(prevUserConnected => {
          const datos = prevUserConnected.filter(user => user !== data)
-         console.log('prevUserConnected', datos)
-      });
+         console.log('datos antes de añadir a userConnected', datos)
+         if (!datos) {
+            return [...prevUserConnected, data];
+         }
+         return datos
+      })
       console.log('ejecutando disconect socker', userConnected)
-      socket.emit('userDisconnected', userConnected)
+      newSocket.emit('userBroadcast', userConnected)
       //socket.disconnect(); // Desconectar el socket explícitamente
       setUserConnected([]);
 
+   }
+
+   const updateUserConnected = (data) => {
+      setUserConnected(data)
    }
 
 
@@ -47,7 +57,9 @@ export default function WebsocketsContextProvider({ children }) {
       //   function onConnect() {
       //      setIsConnected(true);
       //   }
-      socket.on('connect', () => {
+
+      setSocket(newSocket);
+      newSocket.on('connect', () => {
          console.log('Conectado al servidor');
          //socket.on('loginSuccess', onLoginSuccess)
 
@@ -55,24 +67,22 @@ export default function WebsocketsContextProvider({ children }) {
             console.log('Desconectado del servidor');
          }) */
       })
-
-      socket.on('disconnect', () => {
+      newSocket.on('userDisconnected', onUserDisconnected)
+      newSocket.on('userBroadcast', updateUserConnected)
+      newSocket.on('disconnect', () => {
          console.log('Disconnected from backend');
       });
-
-
-
-
       return () => {
          //  socket.off('connect', onConnect);
-         socket.off('userDisconnected', onUserDisconnected);
-         socket.off('loginSuccess', onLoginSuccess);
+         newSocket.off('userDisconnected', onUserDisconnected);
+         newSocket.off('loginSuccess', onLoginSuccess);
       };
    }, []);
 
-   useEffect(() => {
-      socket.on('loginSuccess', onLoginSuccess)
-   }, [userConnected]);
+   /* useEffect(() => {
+      const newSocket = io(VITE_HOSTING_BACKEND)
+      newSocket.on('loginSuccess', onLoginSuccess)
+   }, [userConnected]); */
 
    const webSocketsContextValue = {
       userConnected,

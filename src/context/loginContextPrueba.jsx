@@ -10,7 +10,7 @@ export const LoginContextP = React.createContext();
 //se desee interactuar (siempre y cuando sean componentes hijos de este componente LoginContextProvider), por ello se completa el nombre con la palabra provider.
 //Aqui se incluye toda la logica, funciones etc.
 export const LoginContextProviderP = ({ children }) => {
-   const { onUserDisconnected, socket, token } = useContext(WebSocketsContext)
+   const { onUserDisconnected, socket } = useContext(WebSocketsContext)
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [error, setError] = useState('');
    const [profileDetails, setProfileDetails] = useState();
@@ -85,14 +85,16 @@ export const LoginContextProviderP = ({ children }) => {
       }
    };
 
-   const logout = async () => {
+   const logout = () => {
       console.log('cerrando session')
-      navigate('/')
-      await socket.on('userDisconnected', onUserDisconnected)
+
+      //await socket.on('userDisconnected', onUserDisconnected)
+      const token = localStorage.getItem('access_token')
       socket.emit('userDisconnected', token)
       localStorage.removeItem('access_token')
       localStorage.setItem('auth', false)
       setIsLoggedIn(false)
+      navigate('/')
 
    }
 

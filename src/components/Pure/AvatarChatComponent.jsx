@@ -6,9 +6,9 @@ import { WebSocketsContext } from '../../context/websocketsContext';
 export default function AvatarChatComponent({ member }) {
    const { userConnected } = useContext(WebSocketsContext)
    //comporbacion de los ids  conectados
-   const status = userConnected.some(id => id === member._id)
+   const status = userConnected?.some(id => id === member._id)
 
-   console.log('userconect en avatar', userConnected)
+   console.log('userconect en avatar', status)
    const StyledBadge = styled(Badge)(({ theme }) => ({
       '& .MuiBadge-badge': {
          backgroundColor: '#44b700',

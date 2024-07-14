@@ -7,12 +7,15 @@ import { Box, CircularProgress } from '@mui/material'
 import { LoginContextP } from '../context/loginContextPrueba'
 import { useState } from 'react'
 import { WebSocketsContext } from '../context/websocketsContext'
+import { io } from 'socket.io-client'
+const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
+const socket = io(VITE_HOSTING_BACKEND)
 
 export default function MessagesPage() {
 
    const { allConversation, getListMessages } = useContext(MessagesContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
-   const { userConnected } = useContext(WebSocketsContext)
+   const { /* token, */ onLoginSuccess, /* socket, */ userConnected } = useContext(WebSocketsContext)
    console.log("Usuarios conectados en este momento", userConnected)
    const token = localStorage.getItem('access_token')
 
@@ -23,6 +26,16 @@ export default function MessagesPage() {
          getListMessages()
       }
    }, [profileDetails]);
+
+   useEffect(() => {
+      const socket = io(VITE_HOSTING_BACKEND)
+      const loginData = async () => {
+         await socket.emit('loginSuccess', token)
+         socket.on('loginSuccess', onLoginSuccess)
+      }
+      loginData()
+
+   }, []);
 
 
    return (
