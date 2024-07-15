@@ -35,7 +35,7 @@ export const deleteInterestedPeopleApi= async (eventId)=>{
    if (!response.ok)  {
 
       if (response.status===404) return  {error:'Evento o usuario no encontrado'}  
-      else if (response.status===500) return   {error:'Error al actualizar el evento'}  
+      else if (response.status===500) return   {error:'Token inválido'}  
    }
   
    return await response.json()    

@@ -6,19 +6,23 @@ import { MessagesContext } from '../context/messagesContext'
 import { Box, CircularProgress } from '@mui/material'
 import { LoginContextP } from '../context/loginContextPrueba'
 import { EventContext } from '../context/eventContext'
+import { useParams } from 'react-router-dom'
 
 export default function MessagesPage() {
+
+   const {loggedUserId}=useParams()
 
    const { allConversation, getListMessages } = useContext(MessagesContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
    const {getListEventsUser,fetchAllEvent} = useContext(EventContext)
 
    useEffect(() => {
-      if (profileDetails) {
-         
+      if (loggedUserId) {
+
+         console.log('Estoy entrando en el usseEffect de MessagePage para ver getListEventsInterested')         
          const getListEventsInterested  = async () => {
    
-            const listEvents=await getListEventsUser()
+            const listEvents=await getListEventsUser(loggedUserId)
             const response=await fetchAllEvent(listEvents)
          };
          getListEventsInterested()

@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 export default function User({ userApi }) {
    const { getUserDetail,getOneUser} = useContext(UserContext);
    const[userInfo,setUserInfo]=useState({})
+   console.log('Que es userApi en el componente user',userApi)
     
    const { 
       _id,

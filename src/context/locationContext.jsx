@@ -94,7 +94,7 @@ export const LocationContextProvider = ({ children }) => {
                'address':local.address,
                '_id':local._id,
                'events':local.events,
-               'img':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt_fcdW_dwM-vM7XKx-dQyEpkN4RUTwhrSPQ&s'
+               'img':local.photoURL[0]
             }
            
          }

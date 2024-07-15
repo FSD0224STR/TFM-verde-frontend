@@ -11,7 +11,7 @@ export function LocationComponentMap({ feature}) {
          <CardMedia
             component="img"
             height="194"
-            image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt_fcdW_dwM-vM7XKx-dQyEpkN4RUTwhrSPQ&s'
+            image={feature.properties.img}
             alt="no hay"
          />
         

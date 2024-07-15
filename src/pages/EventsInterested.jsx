@@ -37,19 +37,8 @@ export default function EventsList() {
       
       getListEventsInterested()
    
-   },[]) 
-
-   useEffect (()=>{
-
-      if (button_interestedEvent_Clicked) {
-         getListEventsInterested()
-         setButton_interestedEvent_Clicked(false);
-
-      }
-      
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   },[button_interestedEvent_Clicked])
-   
+   },[button_interestedEvent_Clicked ]) 
+  
    return (
 
       <>
@@ -69,7 +58,7 @@ export default function EventsList() {
                  Eventos de interés
                </Typography>
 
-               {listEventsInterested.length ? (
+               {listEventsInterested?.length ? (
                   
                   <Box
                      width="100%"

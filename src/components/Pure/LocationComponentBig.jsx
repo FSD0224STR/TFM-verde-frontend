@@ -40,7 +40,7 @@ export const LocationComponentBig=({location})=> {
                component="img"
                sx={{maxWidth: 290,minWidth:290,borderRadius: '50px'}}
 
-               image={photoURL ? (photoURL):( unavailableimage)}
+               image={photoURL ? (photoURL[0]):( unavailableimage)}
               
             />
          </Grid>
