@@ -35,7 +35,7 @@ export default function MessagesContextProvider({ children }) {
       // console.log('recibiend idUser',idUsers)
       setLoadingChat(true);
       const conversation = await messagesApi.getMyConversation(idUsers);
-      console.log('esto es conversation', conversation);
+      //console.log('esto es conversation', conversation);
       if (conversation === false) {
          setLoadingChat(false);
          setOpenMessage(true);
@@ -51,7 +51,7 @@ export default function MessagesContextProvider({ children }) {
          setInfoConversation(conversation);
          setLoadingChat(false);
       }
-      
+
    };
 
    // console.log('idRequest',idRequest)
@@ -64,7 +64,7 @@ export default function MessagesContextProvider({ children }) {
       // console.log('todas las conversaciones en contexto', allChats)
       if (allChats.error) return setError(allChats.error);
       setallConversation(allChats);
-      navigate( `/messages/${profileDetails._id}`);
+      navigate(`/messages/${profileDetails._id}`);
    };
 
    const handleSendMessage = async () => {
@@ -107,7 +107,7 @@ export default function MessagesContextProvider({ children }) {
       setOpenMessage(false);
       setResponseInvitation('')
       setInvitationMessage(false)
-      
+
    };
 
    const handleRequestCouple = async (dataForRequest) => {
@@ -118,7 +118,7 @@ export default function MessagesContextProvider({ children }) {
       };
 
       console.log('esto es dataforrequest', dataWithIdEvent);
-  
+
       const response = await messagesApi.addRequestCouple(dataWithIdEvent);
 
       console.log('response request', response.data.request._id);
@@ -148,31 +148,31 @@ export default function MessagesContextProvider({ children }) {
    };
 
    const hanldeAnswerRequest = async (data) => {
-      console.log('data recibida para answer',data)
-      const dataForAnswer = { ...data,idUser1: profileDetails._id, idUser2: userDetail._id, idEvent: sendEventForCouple._id ? sendEventForCouple._id : data.idEvent}
-      const idUsers = {sender:profileDetails._id,receiver:userDetail._id}
-      console.log('dataforAnswer',dataForAnswer)
-      const response = await messagesApi.answerRequest(dataForAnswer)  
+      console.log('data recibida para answer', data)
+      const dataForAnswer = { ...data, idUser1: profileDetails._id, idUser2: userDetail._id, idEvent: sendEventForCouple._id ? sendEventForCouple._id : data.idEvent }
+      const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
+      console.log('dataforAnswer', dataForAnswer)
+      const response = await messagesApi.answerRequest(dataForAnswer)
       console.log('esto es la respuesta de Answer', response)
       if (response.error) setError(response.error)
       if (response.data.status === 'Accepted') {
          setResponseInvitation('Accepted')
-      
-      } else if(response.data.status === 'Declined') {
+
+      } else if (response.data.status === 'Declined') {
          setResponseInvitation('Declined')
-      
+
       } else {
          setResponseInvitation('Cancelled')
-      
+
       }
       setTimeout(() => {
-         setInvitationMessage(false)  
+         setInvitationMessage(false)
          setResponseInvitation('')
          openConversation(idUsers)
       }, 2000);
-      
+
    }
-   
+
    //localizar request en chat 
    const invitationMessageRef = useRef(null);
    const scrollToInvitationMessage = () => {

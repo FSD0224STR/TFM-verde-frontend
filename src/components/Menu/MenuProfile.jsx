@@ -75,14 +75,14 @@ export default function MenuProfile({handleNavProfile}) {
                      </ListItemIcon>
          Configuración
                   </MenuItem>
-                  <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
+                  {/* <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                      color:'primary.main',fontWeight:'600'
                   } }}>
                      <ListItemIcon>
                         <ContactSupportOutlinedIcon color='primary' fontSize="medium" />
                      </ListItemIcon>
        Servicio al cliente
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem onClick={logout} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                      color:'primary.main',fontWeight:'600'
                   } }}>

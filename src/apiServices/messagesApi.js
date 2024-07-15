@@ -1,5 +1,6 @@
 
-const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
+const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
+const token = localStorage.getItem('access_token');
 const sendNewMessage = async (newMessage) => {
     
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation`, {
@@ -7,6 +8,7 @@ const sendNewMessage = async (newMessage) => {
       body: JSON.stringify(newMessage),
       headers: {
          'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
       },
    });
    if (!response.ok) {
@@ -25,7 +27,11 @@ const sendNewMessage = async (newMessage) => {
 
 const getMyConversation = async (idUsers) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${idUsers.sender}/${idUsers.receiver}`, {
-      method:'GET'  
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      },
    })
    
    // console.log('primera llamada',response)
@@ -48,7 +54,13 @@ const getMyConversation = async (idUsers) => {
 
 const getAllMyconversation = async (myId) => {
    console.log('esto es my Id',myId)
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      }
+   })
    if (!response.ok) {
       const error = await response.json()
       return { error }

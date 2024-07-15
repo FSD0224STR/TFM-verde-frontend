@@ -1,6 +1,6 @@
 
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
-
+const token = localStorage.getItem('access_token');
 export const queryParamsDynamic=  (city,date,typeOfDancing)=>{
    const queryParams = new URLSearchParams()
         
@@ -18,7 +18,13 @@ export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
    const queryParamsdone=queryParamsDynamic(city,date,typeOfDancing)
            
-   const response =await fetch(`${VITE_HOSTING_BACKEND}/locations/?${queryParamsdone.toString()}`)
+   const response =await fetch(`${VITE_HOSTING_BACKEND}/locations/?${queryParamsdone.toString()}`,{
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      },
+   })
 
    if(!response.ok){
 

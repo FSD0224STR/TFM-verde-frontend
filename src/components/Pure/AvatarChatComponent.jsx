@@ -1,8 +1,14 @@
 
 import { Avatar, Badge, styled } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { WebSocketsContext } from '../../context/websocketsContext';
 
-export default function AvatarChatComponent({member}) {
+export default function AvatarChatComponent({ member }) {
+   const { userConnected } = useContext(WebSocketsContext)
+   //comporbacion de los ids  conectados
+   const status = userConnected?.some(id => id === member._id)
+
+   //console.log('userconect en avatar', status)
    const StyledBadge = styled(Badge)(({ theme }) => ({
       '& .MuiBadge-badge': {
          backgroundColor: '#44b700',
@@ -31,16 +37,16 @@ export default function AvatarChatComponent({member}) {
          },
       },
    }));
-    
+
    return (
 
       <StyledBadge
          overlap="circular"
          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
          variant="dot"
-         invisible={false}
+         invisible={!status}
       >
-         <Avatar src={member.imgProfile} sx={{ width: 60, height: 60, bgcolor: ' background.avatar' }} />
+         <Avatar src={member.imgProfile} sx={{ width: 70, height: 70, bgcolor: ' background.avatar' }} />
       </StyledBadge>
    )
 }
