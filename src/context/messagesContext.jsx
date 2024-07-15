@@ -64,7 +64,7 @@ export default function MessagesContextProvider({ children }) {
       // console.log('todas las conversaciones en contexto', allChats)
       if (allChats.error) return setError(allChats.error);
       setallConversation(allChats);
-      navigate('/messages');
+      navigate( `/messages/${profileDetails._id}`);
    };
 
    const handleSendMessage = async () => {

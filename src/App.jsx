@@ -32,7 +32,7 @@ function App() {
             <Route path="/profiles/:idEventurl/:loggedUserId" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:idUser" element={<DetailUser />} />
-            <Route path="/messages" element={<MessagesPage/>} />
+            <Route path="/messages/:loggedUserId" element={<MessagesPage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>

@@ -12,7 +12,7 @@ import { Chip, Stack } from '@mui/material';
 import { RepeatButton } from './CommonButton';
 import { useContext } from 'react';
 
-export function LocationsComponent({ name,address,_id,events}) {
+export function LocationsComponent({ name,address,_id,events,photoURL}) {
   
    const{click_Buttons_Events}=useContext(LocationContext)
    const uniqueTypeOfDancing = new Set(events.map(event => event.typeOfDancing))
@@ -46,9 +46,9 @@ export function LocationsComponent({ name,address,_id,events}) {
          />
          <CardMedia
             component="img"
-            height="194"
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6cXZHOGuTHCJ7zH0W5vS-zeNvrUNCUnXH9w&usqp=CAU"
-            alt=""
+            height="225"
+            image={photoURL[0]}
+            alt="Foto de centro"
          />
         
          <CardContent>

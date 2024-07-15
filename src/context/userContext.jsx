@@ -22,6 +22,7 @@ export const UserContextProvider = ({ children }) => {
          const detailUser = await usersApi.detailByIdUser(id);
          console.log('esto es detailUser',detailUser)
          setUserDetail(detailUser);
+         
          navigate(`/profile/${id}`)
       } catch (err) {
          alert('Ha ocurrido el siguiente error: ' + err.message);
