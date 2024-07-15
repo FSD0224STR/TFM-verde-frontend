@@ -20,7 +20,7 @@ import danceCouple from '../../img/danceCouple.png'
 import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
 import { MessagesContext } from '../../context/messagesContext';
-import { useContext } from 'react';
+import { useContext,useEffect } from 'react';
 import { CircularProgressLoadingEvent } from './Loading';
 import { AlertTiming } from './AlertTiming';
 import { EventContext } from '../../context/eventContext';
@@ -69,12 +69,14 @@ export function EventComponent({event,findPartner}) {
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
+   useEffect(() => {
+      const InfoEventForRequest = () => {
+         console.log('ejecuantondo funcion')
+         setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
+      };
 
-   /*  const click_Find_Partner -cambiar nombre a esta funcion=  () => {
-      setSendEventForCouple({name,date:dateFormat,hour:hourFormat,_id}) 
-      navigate('/profiles'); 
- 
-   }; */
+      InfoEventForRequest()
+   }, []);
 
    const availableSpot=`${availability-(danceCouples.length)*2}`
 
