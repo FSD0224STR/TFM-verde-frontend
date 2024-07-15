@@ -16,6 +16,9 @@ import aniversario from './../img/aniversario.png';
 import mejorVendido from './../img/mejor-vendido.png';
 import proteger from './../img/proteger.png';
 import fondo2 from './../img/fondo2.png';
+import cardUsers from './../img/cardUsers.png'
+import cardlocations from './../img/locationsDetails.png'
+import maps from './../img/maps.png'
 export default function LandingPage() {
 
    const [ref, inView] = useInView({
@@ -135,7 +138,7 @@ export default function LandingPage() {
                         <Box sx={{ maxWidth: '70%', textAlign: 'center' }}>
                            <Typography
                               component="h2"
-                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem', color: 'text.terciary' }}
+                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem', color: 'primary.main' }}
                            >
                               En España hay mucha gente buscando parejas para practicar
                               diversos Tipos de baile.
@@ -160,10 +163,11 @@ export default function LandingPage() {
                               }}
                            >
                               {/* Usuarios, poner imagen de nuestros usuarios */}
+                              {/* <UserPrueba />
                               <UserPrueba />
                               <UserPrueba />
-                              <UserPrueba />
-                              <UserPrueba />
+                              <UserPrueba /> */}
+                              <img src={cardUsers} alt="Imagen de usuarios" />
                            </Box>
                            <Button
                               component={NavLink}
@@ -212,9 +216,8 @@ export default function LandingPage() {
                               >
                                  MeetDancig
                               </Box>{' '}
-                              podrás encontrar los mejores centros de baile ya sea en
-                              Madrid o Barcelona.Nos encargarmos de encontrar el centro de
-                              baile que mejor encaje contigo y con tus preferencias.
+                              podrás encontrar los mejores centros de baile en España. Nos encargarmos de encontrar el centro de
+                              baile que mejor encaje contigo y con tus preferencias. Podrás buscar los centros en nuestro mapa o directamente en la tarjeta de centro.
                            </Typography>
                         </Box>
                      </motion.div>
@@ -228,8 +231,8 @@ export default function LandingPage() {
                            transition={{ duration: 3 }}
                            ref={ref2}
                         >
-                           <Box sx={{ mr: '10rem', mt: '8rem' }}>
-                              <img src={mapIcons} alt="maps" width="400px" />
+                           <Box sx={{ ml: '10rem', mr: '5rem', mt: '8rem' }}>
+                              <img src={maps} alt="maps" width="80%" />
                            </Box>
                         </motion.div>
                         <motion.div
@@ -249,16 +252,17 @@ export default function LandingPage() {
                                        m: '1rem',
                                        mr: '8rem',
                                        mt: '2rem',
-                                       color: 'text.terciary'
+                                       color: 'primary.main'
                                     }}
                                  >
                                     Algunos centros:
                                  </Typography>
                               </Box>
                               <Box sx={{ display: 'flex', gap: '2rem' }}>
+                                 {/* <UserPrueba />
                                  <UserPrueba />
-                                 <UserPrueba />
-                                 <UserPrueba />
+                                 <UserPrueba /> */}
+                                 <img src={cardlocations} alt="Algunos centros" width={'90%'} />
                               </Box>
                            </Box>
                         </motion.div>
@@ -266,7 +270,7 @@ export default function LandingPage() {
                   </Box>
                </FullpageSection>
                <FullpageSection
-                  style={{ ...SectionStyle, margin: '3rem', padding: '0.8rem' }}
+                  style={{ ...SectionStyle, marginTop: '3rem', marginLeft: '10rem', marginRight: '10rem', padding: '0.8rem' }}
                >
                   <motion.div
                      initial="hidden"
@@ -278,9 +282,9 @@ export default function LandingPage() {
                   >
                      <Typography
                         variant={'h2'}
-                        sx={{ fontWeight: 'bold', mb: '4rem', color: 'text.terciary' }}
+                        sx={{ fontWeight: 'bold', mb: '8rem', color: 'primary.main' }}
                      >
-                        ¿Porque MeetDancing?
+                        ¿Por qué MeetDancing?
                      </Typography>
                      <Box display={'flex'} sx={{ justifyContent: 'space-between' }}>
                         <Box
@@ -292,7 +296,7 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={aniversario} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'text.terciary' }}>
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'primary.main' }}>
                               MeetDancing ha ayudado a la gente a ser más social y activa
                               desde hace más de 10 años. Para conocer gente y hacer
                               amigos. Para tener una vida más sana y divertida. Regístrate
@@ -308,7 +312,7 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={mejorVendido} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'text.terciary' }}>
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'primary.main' }}>
                               MeetDancing funciona muy bien porque todos los perfiles se
                               revisan manualmente. Como tal, la fiabilidad de los miembros
                               es muy alta. Nuestro equipo de empleados monitoriza de cerca
@@ -329,7 +333,7 @@ export default function LandingPage() {
                                  fontSize: '1.5rem',
                                  textAlign: 'center',
                                  mt: '0.5rem',
-                                 color: 'text.terciary'
+                                 color: 'primary.main'
                               }}
                            >
                               Tu privacidad es lo primero para nosotros. No tienes que
@@ -403,7 +407,7 @@ export default function LandingPage() {
                {/* 
                   //TODO hacer un componente de las reseñas */}
                <FullpageSection style={SectionStyle}>
-                  <Typography variant='h2' sx={{ fontSize: '4rem', fontWeight: 'bold', my: '2rem', pt: '2rem', color: 'text.terciary' }}>¿Qué dicen otros de MeetDancig?</Typography>
+                  <Typography variant='h2' sx={{ fontSize: '4rem', fontWeight: 'bold', my: '2rem', pt: '2rem', color: 'primary.main' }}>¿Qué dicen otros de MeetDancig?</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                      <Card
                         sx={{
