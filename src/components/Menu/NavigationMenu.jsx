@@ -70,7 +70,7 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
                   </Tooltip>
                   <Tooltip title="mensajes">
                      <IconButton onClick={getListMessages}>
-                        <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
+                        <Badge  sx={{'&.MuiBadge-root':{color:'white'}}} >
                            <MailIcon sx={{fontSize:45,ml:'0.5rem'}}/>
                         </Badge>
                      </IconButton>
@@ -84,13 +84,7 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
                   </Tooltip>
                </Box>
                <Box sx={{display: { xs: 'none', sm: 'flex' }, alignItems: 'center', textAlign: 'center' }}>
-                  <Tooltip title="Notificaciones">
-                     <IconButton>
-                        <Badge  badgeContent={5} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
-                           <NotificationsIcon sx={{ fontSize: 45, color: 'white' }} />
-                        </Badge>
-                     </IconButton>
-                  </Tooltip>
+              
                   <MenuProfile handleNavProfile={handleNavProfile} handleSwitchNav={ handleSwitchNav} />
                </Box>
             </Toolbar>
