@@ -69,7 +69,7 @@ export default function EventsList() {
                  Eventos de interés
                </Typography>
 
-               {listEventsInterested.length ? (
+               {listEventsInterested?.length ? (
                   
                   <Box
                      width="100%"
