@@ -5,13 +5,14 @@ import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
 import { useParams } from 'react-router-dom'
+import { LoginContextP } from '../context/loginContextPrueba'
 
 export default function EventsList() {
    
    const { loggedUserId} = useParams()  
    const [loading,setLoading]=useState(false)
    const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
-
+   const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
    const getListEventsInterested  = async () => {
 
       setLoading(true)
@@ -26,6 +27,11 @@ export default function EventsList() {
       } 
    
    };
+
+   useEffect(() => {
+      const token = localStorage.getItem('access_token');
+      if(token)setIsLoggedIn(true)
+   }, [profileDetails]);
   
    useEffect (()=>{
       

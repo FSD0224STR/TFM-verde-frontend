@@ -5,12 +5,26 @@ import { useContext, useEffect } from 'react'
 import { MessagesContext } from '../context/messagesContext'
 import { Box, CircularProgress } from '@mui/material'
 import { LoginContextP } from '../context/loginContextPrueba'
+import { EventContext } from '../context/eventContext'
 
 export default function MessagesPage() {
 
    const { allConversation, getListMessages } = useContext(MessagesContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
+   const {getListEventsUser,fetchAllEvent} = useContext(EventContext)
+
+   useEffect(() => {
+      if (profileDetails) {
+         
+         const getListEventsInterested  = async () => {
    
+            const listEvents=await getListEventsUser()
+            const response=await fetchAllEvent(listEvents)
+         };
+         getListEventsInterested()
+      }
+   }, []);
+
    useEffect(() => {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)

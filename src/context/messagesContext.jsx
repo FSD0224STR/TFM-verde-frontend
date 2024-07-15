@@ -3,7 +3,7 @@ import messagesApi from '../apiServices/messagesApi';
 import { LoginContextP } from './loginContextPrueba';
 import { UserContext } from './userContext';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Await, useNavigate } from 'react-router-dom';
 
 export const MessagesContext = createContext();
 
@@ -16,14 +16,13 @@ export default function MessagesContextProvider({ children }) {
    const [messageSend, setSendMessage] = useState([]);
    const [allConversation, setallConversation] = useState([]);
    const [infoConversation, setInfoConversation] = useState({});
-   const [idRequest, setIdRequest] = useState({});
-   const [infoRequest,setInfoRequest] = useState('')
+   const [alertRequest, setAlertRequest] = useState(null);
+   const [responseInvitation, setResponseInvitation] = useState('');
    const { profileDetails } = useContext(LoginContextP);
    const { userDetail } = useContext(UserContext);
    const [alertStatusDelete, setAlertStatusDelete] = useState(null);
    const [invitationMessage, setInvitationMessage] = useState(false);
-   const [sendEventForCouple, setSendEventForCouple] = useState('');
-   const [responseInvitation, setResponseInvitation] = useState(null);
+   const [sendEventForCouple, setSendEventForCouple] = useState({});
    const [buttonReceiver, setbuttonReceiver] = useState(false);
    const navigate = useNavigate();
 
@@ -33,6 +32,7 @@ export default function MessagesContextProvider({ children }) {
    }, [navigate]);
 
    const openConversation = async (idUsers) => {
+      // console.log('recibiend idUser',idUsers)
       setLoadingChat(true);
       const conversation = await messagesApi.getMyConversation(idUsers);
       console.log('esto es conversation', conversation);
@@ -51,6 +51,7 @@ export default function MessagesContextProvider({ children }) {
          setInfoConversation(conversation);
          setLoadingChat(false);
       }
+      
    };
 
    // console.log('idRequest',idRequest)
@@ -74,7 +75,7 @@ export default function MessagesContextProvider({ children }) {
             message,
          };
          const addNewMessage = await messagesApi.sendNewMessage(newMessage);
-         console.log('esto es addNewMessage', addNewMessage);
+         // console.log('esto es addNewMessage', addNewMessage);
          setSendMessage([
             ...messageSend,
             { message: addNewMessage, sender: profileDetails._id, type: 'message' },
@@ -85,7 +86,7 @@ export default function MessagesContextProvider({ children }) {
 
    const deleteMyConversation = async () => {
       const idConversation = infoConversation._id;
-      console.log('esto es infoConvertaion', infoConversation);
+      // console.log('esto es infoConvertaion', infoConversation);
       const deleteMsg = await messagesApi.deleletConversation(idConversation);
       if (deleteMsg.error) {
          setError(deleteMsg.error);
@@ -96,26 +97,18 @@ export default function MessagesContextProvider({ children }) {
       setSendMessage([]);
       getListMessages();
       setOpenMessage(false);
-      setIdRequest('')
+      // setIdRequest('')
       setInvitationMessage(false)
-      setResponseInvitation(null)
+      setResponseInvitation('')
    };
 
    const resetBoxMessage = () => {
       setSendMessage([]);
       setOpenMessage(false);
-      setIdRequest('')
+      setResponseInvitation('')
+      setInvitationMessage(false)
       
    };
-
-   // const ControlInvitacion = () => {
-
-   //    if (invitationMessage) {
-   //       return alert('ya has enviado un invitacion');
-   //    } else {
-   //       setInvitationMessage(true);
-   //    }
-   // };
 
    const handleRequestCouple = async (dataForRequest) => {
       const dataWithIdEvent = {
@@ -123,58 +116,62 @@ export default function MessagesContextProvider({ children }) {
          idEvent: sendEventForCouple._id,
          event: sendEventForCouple,
       };
+
       console.log('esto es dataforrequest', dataWithIdEvent);
+  
       const response = await messagesApi.addRequestCouple(dataWithIdEvent);
-      console.log('response request', response);
+
+      console.log('response request', response.data.request._id);
+      console.log(' response.message.message', response.message.message)
       if (response.success) {
+         setAlertRequest(true)
+         setTimeout(() => {
+            setAlertRequest(null)
+         }, 4000);
+
          setInvitationMessage(true);
-         setSendMessage([
-            ...messageSend,
+         setSendMessage((prevMessages) => [
+            ...prevMessages,
             {
-               message: response.message.message,
+               message: response.data.message.message,
                sender: profileDetails._id,
                type: 'request',
-               idRequest:{status:'Pending',_id:''}
+               idRequest: { status: 'Pending', _id: response.data.request._id },
             },
          ]);
          return;
       }
-      return alert('no se ha podido realizar la solicitur intentalo mas tarde');
-      // ControlInvitacion()
+      setAlertRequest(false)
+      setTimeout(() => {
+         setAlertRequest(null)
+      }, 4000);
    };
 
-   const hanldeAnswerRequest =  async(data) => {
-      const dataForAnswer = {...data,idUser1:profileDetails._id,idUser2:userDetail._id,idEvent: sendEventForCouple._id}
+   const hanldeAnswerRequest = async (data) => {
+      console.log('data recibida para answer',data)
+      const dataForAnswer = { ...data,idUser1: profileDetails._id, idUser2: userDetail._id, idEvent: sendEventForCouple._id ? sendEventForCouple._id : data.idEvent}
+      const idUsers = {sender:profileDetails._id,receiver:userDetail._id}
+      console.log('dataforAnswer',dataForAnswer)
       const response = await messagesApi.answerRequest(dataForAnswer)  
       console.log('esto es la respuesta de Answer', response)
       if (response.error) setError(response.error)
       if (response.data.status === 'Accepted') {
-         setResponseInvitation(true)
-
+         setResponseInvitation('Accepted')
+      
+      } else if(response.data.status === 'Declined') {
+         setResponseInvitation('Declined')
+      
       } else {
-         setResponseInvitation(false)
+         setResponseInvitation('Cancelled')
+      
       }
+      setTimeout(() => {
+         setInvitationMessage(false)  
+         setResponseInvitation('')
+         openConversation(idUsers)
+      }, 2000);
+      
    }
-
-   // const checkRequest = async () => {
-   //    if (messageSend.length === 0) return
-   //    const response = await messagesApi.getRequest(idRequest)
-   //    // console.log('esto es mi requeste', response.data)
-   //    const sender = response.data.sender
-   //    const status = response.data.status
-   //    // console.log('status,sender', sender, status)
-   //    // console.log('condicion', sender !== profileDetails._id && status === 'Pending')
-
-   //    if (response.error) {
-   //       setError(response.error)
-   //       return
-   //    } 
-   //    setInfoRequest(response.data.status)
-   //    response.data.status ? setInvitationMessage(true) : setInvitationMessage(false)
-   //    if (sender !== profileDetails._id && status === 'Pending')setbuttonReceiver(true)
-   //    if (response.data.status === 'Accepted') setResponseInvitation(true)
-   //    if (response.data.status === 'Declined') setResponseInvitation(false)
-   // } 
    
    //localizar request en chat 
    const invitationMessageRef = useRef(null);
@@ -209,14 +206,12 @@ export default function MessagesContextProvider({ children }) {
       setResponseInvitation,
       setInvitationMessage,
       hanldeAnswerRequest,
-      // checkRequest,
       scrollToInvitationMessage,
       invitationMessageRef,
       buttonReceiver,
       setbuttonReceiver,
-      infoRequest,
-      setIdRequest,
-      resetBoxMessage
+      alertRequest,
+      resetBoxMessage,
    };
 
    return (

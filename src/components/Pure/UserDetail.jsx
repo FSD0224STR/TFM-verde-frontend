@@ -20,6 +20,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { MessagesContext } from '../../context/messagesContext';
 import profileDefault from '../../img/profile.png'
 import { LoginContextP } from '../../context/loginContextPrueba';
+import AlertRequest from './AlertRequest';
 
 export default function ComponentUserDetail({ userDetail }) {
 
@@ -41,6 +42,15 @@ export default function ComponentUserDetail({ userDetail }) {
       dancingStyles,
       _id
    } = userDetail
+
+   const dataForRequest = {
+      sender: profileDetails._id,
+      nameSender: profileDetails.name,
+      subnameSender: profileDetails.subName,
+      receiver: userDetail._id,
+      nameReceiver: userDetail.name,
+      subnamereceiver: userDetail.subName,
+   };
 
    const idUsers = { sender: profileDetails._id, receiver: _id }
    return (
@@ -106,9 +116,11 @@ export default function ComponentUserDetail({ userDetail }) {
                         </CardActions>
                         <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                         <CardActions>
-                           <Button onClick={handleRequestCouple} size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
+                           <Button  onClick={() => handleRequestCouple(dataForRequest)} size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
                         </CardActions>
                      </CardContent>
+
+                     <AlertRequest/>
                   </CardContent>
                </>}
                  

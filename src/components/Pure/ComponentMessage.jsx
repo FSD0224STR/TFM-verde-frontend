@@ -8,7 +8,7 @@ import {
    CircularProgress,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import BoxMessageDestinatario from './BoxMessageDestinatario';
 import BoxMessageRemitente from './BoxMessageRemitente';
@@ -17,6 +17,7 @@ import InvitationMessageText from './InvitationMessageText';
 import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
+import AlertRequest from './AlertRequest';
 
 export default function ComponentMessage({ setOpenMessage }) {
 
@@ -37,14 +38,22 @@ export default function ComponentMessage({ setOpenMessage }) {
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
    const [loadingChat,setloadingChat] = useState(false)
-   // console.log('esto es messagesend', messageSend)
+   console.log('esto es invitationMessage', invitationMessage)
 
    useEffect(() => {
 
       setloadingChat(true)
       messageSend.forEach((msg) => {
-         if (msg.type === 'request') {
-            setInvitationMessage(true);
+         if ( msg.idRequest && msg.idRequest.status) {
+            if (msg.type === 'request' && msg.idRequest.status === 'Accepted') {
+               console.log('estoy entrando para invitacion true')
+               setInvitationMessage(true);
+            }
+            if ((msg.type === 'request' && msg.idRequest.status === 'Pending')) {
+               setInvitationMessage(true)
+            }
+         } else {
+            return
          }
       })
       setloadingChat(false)
@@ -95,6 +104,7 @@ export default function ComponentMessage({ setOpenMessage }) {
             p: '1rem',
          }}
       >
+         <AlertRequest/>
          {loadingChat ?
             
             <Box sx={{
@@ -163,6 +173,7 @@ export default function ComponentMessage({ setOpenMessage }) {
                            return <BoxMessageRemitente key={index} msg={msg.message} />
                         }
                         if (msg.type === 'request') {
+                         
                            return <InvitationMessageText key={index} msg={msg.message} sender={msg.sender} status={msg.idRequest.status} idRequest={msg.idRequest._id} />
                         }  
                         else{

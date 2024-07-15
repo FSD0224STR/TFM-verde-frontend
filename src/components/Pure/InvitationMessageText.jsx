@@ -1,48 +1,73 @@
 
 import { Avatar, Box, Typography, Button, Alert } from '@mui/material';
-import { forwardRef, useContext } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 
-const InvitationMessageText = ({ msg, sender,status,idRequest }) => {
-   // console.log('esto es idRequest', idRequest)
+const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
+
+   // console.log('esto es idRequest inincio', idRequest)
    // console.log('esto es status', status)
+
    const { profileDetails } = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
-   const{responseInvitation,hanldeAnswerRequest,invitationMessageRef} = useContext(MessagesContext)
+   const {responseInvitation,hanldeAnswerRequest, invitationMessageRef,setSendEventForCouple,} = useContext(MessagesContext)
+   
+   // console.log('estado de responseInvitation fuera de del controlerResponse',responseInvitation)
 
+   useEffect(() => {
+      updateDataForRequest()
+   }, [idEvent])
+   
+   const updateDataForRequest = () => {
+      if (idEvent) {
+         // console.log('tomando el idEvente de la request ',idEvent)
+         setSendEventForCouple({ _id: idEvent })
+      }
+   }
+   
    const ControlledResponse = () => {
-      if (status === 'Pending' && sender === profileDetails._id ) {
-
+      // console.log('idrequest',idRequest)
+      // console.log('status', status)
+      // console.log('responseInvitation dentro de controler',responseInvitation)
+      if (status === 'Pending' && sender === profileDetails._id && responseInvitation === '') {
+         // console.log('estoy entrando en la primera condicion')
          return (
-            <> <Box sx={{display:'flex',justifyContent:'center',gap:2}} > 
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }} > 
 
-               <Alert severity="warning" sx={{ fontSize: '1.2rem' } }>Aguardando la respuesta ...</Alert>
+               <Alert severity="warning" sx={{ fontSize: '1.2rem' } }>Esperando la respuesta ...</Alert>
                <Button
                   sx={{
                      bgcolor: '#e8b1a0', ':hover': {
-                        bgcolor:'#db5a32'
-                     } }}
+                        bgcolor: '#db5a32'
+                     }
+                  }}
                   size='small'
                   variant="contained"
-                  onClick={()=>console.log('cancelando...')}
+                  onClick={() => {
+                     hanldeAnswerRequest({status: 'Cancelled', idRequest})
+                 
+                  }}
                >
-               cancelar
+                           Cancelar
                </Button>
             </Box>
-            </>
          )
-      } 
+         
+      }
 
-      if (status === 'Accepted') {
+      if (status === 'Accepted' || responseInvitation === 'Accepted') {
          return <Alert severity="success" sx={{ fontSize: '1.2rem' }} >Invitación aceptada por {sender === profileDetails._id ? userDetail.name : profileDetails.name }</Alert>;
       } 
 
-      if ( status === 'Declined') {
+      if ( status === 'Declined' || responseInvitation === 'Declined') {
          return <Alert severity="error"sx={{ fontSize: '1.2rem' } } >Invitación Rechazada por {sender === profileDetails._id ? userDetail.name : profileDetails.name }</Alert>;
       }
-
+      if (status === 'Cancelled'  || responseInvitation === 'Cancelled' ) {
+         return <Alert severity="warning" sx={{ fontSize: '1.2rem' }} >Invitación Cancelada por {profileDetails.name} </Alert>;
+         
+      }
       return (
          <>
             <Box sx={{display:'flex',justifyContent:'center',flexDirection:'column'}}>
@@ -54,14 +79,20 @@ const InvitationMessageText = ({ msg, sender,status,idRequest }) => {
                   <Button
                      sx={{ ml: '0.5rem', mr: '2rem', bgcolor: 'success.main',width:'10rem' }}
                      variant="contained"
-                     onClick={()=>hanldeAnswerRequest({status:'Accepted',idRequest})}
+                     onClick={() => {
+                        hanldeAnswerRequest({ status: 'Accepted', idRequest,idEvent})
+                      
+                     }}
                   >
                aceptar
                   </Button>
                   <Button
                      variant="contained"
-                     sx={{ bgcolor: 'error.main',width:'10rem' }}
-                     onClick={() => hanldeAnswerRequest({status:'Declined',idRequest})}
+                     sx={{ bgcolor: 'error.main', width: '10rem' }}
+                     onClick={() => {
+                        hanldeAnswerRequest({ status: 'Declined', idRequest,idEvent })
+                     
+                     }}
                   >
                rechazar
                   </Button>
@@ -105,8 +136,9 @@ const InvitationMessageText = ({ msg, sender,status,idRequest }) => {
                   >
                      {msg}
                   </Typography>
-             
-                  <Box m="0.8rem">{ControlledResponse()}</Box>
+                  <Box m="0.8rem">
+                     {ControlledResponse()}
+                  </Box>
                </Box>
             </Box>
          </Box>
