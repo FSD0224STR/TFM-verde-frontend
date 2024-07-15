@@ -14,7 +14,7 @@ import { LoginContextProviderP } from './context/loginContextPrueba.jsx';
 import { LocationContextProvider } from './context/locationContext.jsx';
 import { EventContextProvider } from './context/eventContext.jsx';
 import MessagesContextProvider from './context/messagesContext.jsx';
-/* import WebsocketsContextProvider from './context/websocketsContext.jsx'; */
+import WebsocketsContextProvider from './context/websocketsContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
