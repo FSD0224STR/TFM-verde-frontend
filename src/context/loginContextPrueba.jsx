@@ -87,8 +87,6 @@ export const LoginContextProviderP = ({ children }) => {
 
    const logout = () => {
       console.log('cerrando session')
-
-      //await socket.on('userDisconnected', onUserDisconnected)
       const token = localStorage.getItem('access_token')
       socket.emit('userDisconnected', token)
       localStorage.removeItem('access_token')

@@ -21,7 +21,7 @@ const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
 
 export default function Home() {
    const { setIsLoggedIn } = useContext(LoginContextP)
-   const { token, onLoginSuccess/* , socket */ } = useContext(WebSocketsContext)
+   const { token, onLoginSuccess, socket } = useContext(WebSocketsContext)
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing, getDataForCluster, cleanFilter } = useContext(LocationContext)
    const [loading, setLoading] = useState(false)
    const [filterButtonClicked, setFilterButtonClicked] = useState(false);
@@ -30,16 +30,9 @@ export default function Home() {
 
 
    useEffect(() => {
-      const socket = io(VITE_HOSTING_BACKEND)
-      const loginData = async () => {
-         await socket.emit('loginSuccess', token)
-         socket.on('loginSuccess', onLoginSuccess)
-      }
-      loginData()
-
+      socket.emit('loginSuccess', token)
    }, []);
    const LocationFilteredInfo = async () => {
-
       setLoading(true)
       const locationHome = await getLocationFiltered(city, date, typeOfDancing);
       const locationMap = await getDataForCluster(city, date, typeOfDancing)

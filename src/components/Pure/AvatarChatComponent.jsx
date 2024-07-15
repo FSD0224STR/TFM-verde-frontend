@@ -8,7 +8,7 @@ export default function AvatarChatComponent({ member }) {
    //comporbacion de los ids  conectados
    const status = userConnected?.some(id => id === member._id)
 
-   console.log('userconect en avatar', status)
+   //console.log('userconect en avatar', status)
    const StyledBadge = styled(Badge)(({ theme }) => ({
       '& .MuiBadge-badge': {
          backgroundColor: '#44b700',
