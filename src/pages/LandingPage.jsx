@@ -17,7 +17,7 @@ import mejorVendido from './../img/mejor-vendido.png';
 import proteger from './../img/proteger.png';
 import fondo2 from './../img/fondo2.png';
 export default function LandingPage() {
-   
+
    const [ref, inView] = useInView({
       triggerOnce: true, // La animación se activa una vez
       threshold: 0.1, // El umbral de visibilidad para activar la animación
@@ -87,16 +87,16 @@ export default function LandingPage() {
                      >
                         <Typography
                            component="h2"
-                           sx={{ fontSize: '4rem', fontWeight: 'bold', mt: '15rem',color:'text.terciary' }}
+                           sx={{ fontSize: '4rem', fontWeight: 'bold', mt: '15rem', color: 'text.terciary' }}
                         >
                            {' '}
-                  Juntos somos más{' '}
+                           Juntos somos más{' '}
                         </Typography>
                         <Typography
                            component="h6"
-                           sx={{ fontSize: '2rem', mb: '4rem',color:'text.terciary' }}
+                           sx={{ fontSize: '2rem', mb: '4rem', color: 'text.terciary' }}
                         >
-                  La página para encontrar pareja de baile en España{' '}
+                           La página para encontrar pareja de baile en España{' '}
                         </Typography>
                         <Button
                            component={NavLink}
@@ -109,7 +109,7 @@ export default function LandingPage() {
                               px: 6,
                            }}
                         >
-                  Encuentra tu pareja!
+                           Encuentra tu pareja!
                         </Button>
                      </Box>
                   </motion.div>
@@ -135,10 +135,10 @@ export default function LandingPage() {
                         <Box sx={{ maxWidth: '70%', textAlign: 'center' }}>
                            <Typography
                               component="h2"
-                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem',color:'text.terciary' }}
+                              sx={{ fontSize: '2.5rem', fontWeight: 'bold', mt: '8rem', color: 'text.terciary' }}
                            >
-                    En España hay mucha gente buscando parejas para practicar
-                    diversos Tipos de baile.
+                              En España hay mucha gente buscando parejas para practicar
+                              diversos Tipos de baile.
                            </Typography>
                         </Box>
                      </motion.div>
@@ -159,6 +159,7 @@ export default function LandingPage() {
                                  alignItems: 'center',
                               }}
                            >
+                              {/* Usuarios, poner imagen de nuestros usuarios */}
                               <UserPrueba />
                               <UserPrueba />
                               <UserPrueba />
@@ -169,17 +170,17 @@ export default function LandingPage() {
                               to={'/register'}
                               variant="contained"
                               sx={{
-                                 color:'text.terciary',
+                                 color: 'text.terciary',
                                  mb: '3rem',
                                  p: '1rem',
                                  ':hover': {
-                                    color:'text.terciary',
+                                    color: 'text.terciary',
                                     bgcolor: 'secondary.variante',
                                     border: 'none',
                                  },
                               }}
                            >
-                    ¿Quieres ver mas miembros?
+                              ¿Quieres ver mas miembros?
                            </Button>
                         </Box>
                      </motion.div>
@@ -202,17 +203,18 @@ export default function LandingPage() {
                         ref={ref2}
                      >
                         <Box sx={{ maxWidth: '90%' }}>
-                           <Typography sx={{ fontSize: '2rem', ml: '4rem',color:'text.terciary' }}>
-                    En{' '}
+                           {/* Ejemplo cambio color */}
+                           <Typography sx={{ fontSize: '2rem', ml: '4rem', color: 'primary.main' }}>
+                              En{' '}
                               <Box
                                  component="span"
-                                 sx={{ fontFamily: 'Dancing Script', fontSize: '3rem',color:'text.terciary' }}
+                                 sx={{ fontFamily: 'Dancing Script', fontSize: '3rem', color: 'secondary.variante' }}
                               >
-                      MeetDancig
+                                 MeetDancig
                               </Box>{' '}
-                    podrás encontrar los mejores centros de baile ya sea en
-                    Madrid o Barcelona.Nos encargarmos de encontrar el centro de
-                    baile que mejor encaje contigo y con tus preferencias.
+                              podrás encontrar los mejores centros de baile ya sea en
+                              Madrid o Barcelona.Nos encargarmos de encontrar el centro de
+                              baile que mejor encaje contigo y con tus preferencias.
                            </Typography>
                         </Box>
                      </motion.div>
@@ -247,10 +249,10 @@ export default function LandingPage() {
                                        m: '1rem',
                                        mr: '8rem',
                                        mt: '2rem',
-                                       color:'text.terciary'
+                                       color: 'text.terciary'
                                     }}
                                  >
-                        Algunos centros:
+                                    Algunos centros:
                                  </Typography>
                               </Box>
                               <Box sx={{ display: 'flex', gap: '2rem' }}>
@@ -276,9 +278,9 @@ export default function LandingPage() {
                   >
                      <Typography
                         variant={'h2'}
-                        sx={{ fontWeight: 'bold', mb: '4rem' ,color:'text.terciary'}}
+                        sx={{ fontWeight: 'bold', mb: '4rem', color: 'text.terciary' }}
                      >
-                ¿Porque MeetDancing?
+                        ¿Porque MeetDancing?
                      </Typography>
                      <Box display={'flex'} sx={{ justifyContent: 'space-between' }}>
                         <Box
@@ -290,11 +292,11 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={aniversario} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center',color:'text.terciary' }}>
-                    MeetDancing ha ayudado a la gente a ser más social y activa
-                    desde hace más de 10 años. Para conocer gente y hacer
-                    amigos. Para tener una vida más sana y divertida. Regístrate
-                    y busca a los miembros que estén ubicados más cerca de ti.
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'text.terciary' }}>
+                              MeetDancing ha ayudado a la gente a ser más social y activa
+                              desde hace más de 10 años. Para conocer gente y hacer
+                              amigos. Para tener una vida más sana y divertida. Regístrate
+                              y busca a los miembros que estén ubicados más cerca de ti.
                            </Typography>
                         </Box>
                         <Box
@@ -306,11 +308,11 @@ export default function LandingPage() {
                            }}
                         >
                            <img src={mejorVendido} alt="10 años" width="200px" />
-                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center',color:'text.terciary' }}>
-                    MeetDancing funciona muy bien porque todos los perfiles se
-                    revisan manualmente. Como tal, la fiabilidad de los miembros
-                    es muy alta. Nuestro equipo de empleados monitoriza de cerca
-                    el sitio web diariamente.
+                           <Typography sx={{ fontSize: '1.5rem', textAlign: 'center', color: 'text.terciary' }}>
+                              MeetDancing funciona muy bien porque todos los perfiles se
+                              revisan manualmente. Como tal, la fiabilidad de los miembros
+                              es muy alta. Nuestro equipo de empleados monitoriza de cerca
+                              el sitio web diariamente.
                            </Typography>
                         </Box>
                         <Box
@@ -327,13 +329,13 @@ export default function LandingPage() {
                                  fontSize: '1.5rem',
                                  textAlign: 'center',
                                  mt: '0.5rem',
-                                 color:'text.terciary'
+                                 color: 'text.terciary'
                               }}
                            >
-                    Tu privacidad es lo primero para nosotros. No tienes que
-                    rellenar nada que no sea necesario. Tus datos no se venden y
-                    todo el sitio web está fuertemente protegido con un
-                    certificado SSL.
+                              Tu privacidad es lo primero para nosotros. No tienes que
+                              rellenar nada que no sea necesario. Tus datos no se venden y
+                              todo el sitio web está fuertemente protegido con un
+                              certificado SSL.
                            </Typography>
                         </Box>
                      </Box>
@@ -362,10 +364,10 @@ export default function LandingPage() {
                            fontWeight: 'bold',
                            mt: '4rem',
                            lineHeight: '8rem',
-                           color:'text.terciary'
+                           color: 'text.terciary'
                         }}
                      >
-                Sé activo(a) junto con{' '}
+                        Sé activo(a) junto con{' '}
                         <Box
                            component={'span'}
                            sx={{
@@ -375,12 +377,12 @@ export default function LandingPage() {
                               fontSize: '6rem',
                            }}
                         >
-                  MeetDancing
+                           MeetDancing
                         </Box>{' '}
                      </Typography>
-                     <Typography sx={{ fontSize: '2rem', fontWeight: '600',color:'text.terciary' }}>
-                ¡Encuentra compañía para practicar tu estilo de baile favorito
-                cerca de ti!
+                     <Typography sx={{ fontSize: '2rem', fontWeight: '600', color: 'text.terciary' }}>
+                        ¡Encuentra compañía para practicar tu estilo de baile favorito
+                        cerca de ti!
                      </Typography>
                      <Button
                         variant="contained"
@@ -394,14 +396,14 @@ export default function LandingPage() {
                            fontSize: '1.2rem',
                         }}
                      >
-                Registrate
+                        Registrate
                      </Button>
                   </Box>
                </FullpageSection>
                {/* 
                   //TODO hacer un componente de las reseñas */}
                <FullpageSection style={SectionStyle}>
-                  <Typography variant='h2' sx={{fontSize:'4rem',fontWeight:'bold',my:'2rem',pt:'2rem',color:'text.terciary'}}>¿Qué dicen otros de MeetDancig?</Typography>
+                  <Typography variant='h2' sx={{ fontSize: '4rem', fontWeight: 'bold', my: '2rem', pt: '2rem', color: 'text.terciary' }}>¿Qué dicen otros de MeetDancig?</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                      <Card
                         sx={{
@@ -422,12 +424,12 @@ export default function LandingPage() {
                               fontWeight: 'bold',
                            }}
                         >
-                  Excelente
+                           Excelente
                         </Typography>
                         <Typography
                            sx={{ color: 'text.secondary', fontSize: '1.3rem' }}
                         >
-                  Muy buen app
+                           Muy buen app
                         </Typography>
                         <Box
                            sx={{
@@ -443,7 +445,7 @@ export default function LandingPage() {
                               src="https://reqres.in/img/faces/3-image.jpg"
                            />
                            <Typography sx={{ color: 'text.secondary' }}>
-                    Emma Wong
+                              Emma Wong
                            </Typography>
                         </Box>
                      </Card>
@@ -466,7 +468,7 @@ export default function LandingPage() {
                               textAlign: 'center',
                            }}
                         >
-                  Está muy bien
+                           Está muy bien
                         </Typography>
                         <Typography
                            sx={{
@@ -475,7 +477,7 @@ export default function LandingPage() {
                               textAlign: 'center',
                            }}
                         >
-                  Tiene muy buena pinta pero no es para mi.
+                           Tiene muy buena pinta pero no es para mi.
                         </Typography>
                         <Box
                            sx={{
@@ -491,7 +493,7 @@ export default function LandingPage() {
                               src="https://reqres.in/img/faces/1-image.jpg"
                            />
                            <Typography sx={{ color: 'text.secondary' }}>
-                    George Bluth
+                              George Bluth
                            </Typography>
                         </Box>
                      </Card>
@@ -514,10 +516,10 @@ export default function LandingPage() {
                               fontWeight: 'bold',
                            }}
                         >
-                            Una idea magnifica
+                           Una idea magnifica
                         </Typography>
                         <Typography
-                           sx={{ color: 'text.secondary', fontSize: '1.3rem',textAlign:'center' }}
+                           sx={{ color: 'text.secondary', fontSize: '1.3rem', textAlign: 'center' }}
                         >
                            Ya era hora de que hubiera un servicio asi, aun esta muy verde
                            y hay poca gente en mi ciudad, pero todo esta diseñado con
@@ -537,7 +539,7 @@ export default function LandingPage() {
                               src="https://reqres.in/img/faces/6-image.jpg"
                            />
                            <Typography sx={{ color: 'text.secondary' }}>
-                    Tracey Ramos
+                              Tracey Ramos
                            </Typography>
                         </Box>
                      </Card>
@@ -554,7 +556,7 @@ export default function LandingPage() {
                         fontSize: '1.2rem',
                      }}
                   >
-               Leer más comentarios
+                     Leer más comentarios
                   </Button>
                </FullpageSection>
             </FullPageSections>
