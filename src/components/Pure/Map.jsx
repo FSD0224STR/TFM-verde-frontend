@@ -30,7 +30,7 @@ export const Map=()=>{
       map.current = new mapboxgl.Map({
         
          container: mapContainer.current,
-         style: 	'mapbox://styles/mapbox/light-v11', //Opcion 2:'mapbox://styles/examples/clg45vm7400c501pfubolb0xz' opcion 1:'mapbox://styles/mapbox/light-v11'
+         style: 	'mapbox://styles/mapbox/light-v11',
          center: [lng, lat],
          zoom: zoom,
          attributionControl: false  
