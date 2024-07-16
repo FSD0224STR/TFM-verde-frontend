@@ -38,7 +38,7 @@ const addUser = async (newUserData) => {
 };
 
 const loginUser = async (data) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/login`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ const loginUser = async (data) => {
 };
 
 export const deleteUser = async (id) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
    });
    const deleteUser = await response.json();
