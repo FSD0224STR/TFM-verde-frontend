@@ -78,8 +78,8 @@ export default function User({ userApi }) {
                <CardMedia
                   component="img"
                   title="Profile picture"
-                  /*    {photoURL[0] ? (photoURL[0]):( unavailableimage)} */
-                  src={imgProfile ? String(imgProfile) : (unavailableimage)}
+               
+                  src={imgProfile ? imgProfile : unavailableimage}
                   sx={{
                      width: '100%',
                      height: '300px', 

@@ -6,11 +6,9 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Alert, Box, Button, Icon, Paper, Stack} from '@mui/material';
+import {Box, Button, Icon, Paper, Stack} from '@mui/material';
 import { RepeatButton } from './CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import dayjs from 'dayjs';
@@ -26,6 +24,8 @@ import { AlertTiming } from './AlertTiming';
 import { EventContext } from '../../context/eventContext';
 import unavailableimage from '../../img/unavailable-image.jpg'
 import coupleconfirmed from '../../img/coupleconfirmed.png'
+import locationIcon  from '../../img/locationIcon.png'
+import { LocationContext } from '../../context/locationContext';
 
 const ExpandMore = styled((props) => {
    const {expand, ...other } = props;
@@ -39,6 +39,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export function EventComponent({event,findPartner}) {
+   const {locationDatas}=useContext(LocationContext)
 
    const {
 
@@ -50,18 +51,19 @@ export function EventComponent({event,findPartner}) {
       date,
       danceCouples,
       description,
-      interestedPeople,
-      photoURL,      
+      photoURL,
 
    }=event
+
    const {setSendEventForCouple} = useContext(MessagesContext)
    const {addInterestedPeople,deleteInterestedPeople,setEventId,click_Find_Partner}=useContext (EventContext)
-   /*    const navigate = useNavigate(); */
+
    const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
    const [error,setError] = useState('');
    const [success,setSuccess] = useState('');
    const [isInterested,setIsInterested]=useState(false)
+ 
    const dateFormat=dayjs(date.start).format('DD MMMM YYYY').toUpperCase()
    const hourFormat=dayjs(date.start).format('HH:mm').toUpperCase()
    const hourFormatEnd=dayjs(date.end).format('HH:mm').toUpperCase()
@@ -71,7 +73,6 @@ export function EventComponent({event,findPartner}) {
    };
    useEffect(() => {
       const InfoEventForRequest = () => {
-         // console.log('ejecuantondo funcion')
          setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
       };
 
@@ -128,7 +129,7 @@ export function EventComponent({event,findPartner}) {
       setIsInterested(false)
       setSuccess('Ya NO estas interesado')
    };
-  
+   
    return (
       <Paper  elevation={22}  sx={{ minWidth: 400, minHeight:600, color: 'text.secondary'}}>
         
@@ -172,6 +173,14 @@ export function EventComponent({event,findPartner}) {
                   {`${danceCouples.length} Parejas `}
                   <Typography sx={{color:'red',fontSize:'small',marginLeft:'5px',p:'3px'}}>{`(${availableSpot} plazas disponibles)`} </Typography>
                </Box>
+
+               <Box sx={{ display: 'flex',gap:'5px'}}>
+                  <Icon component="img" src={ locationIcon }  ></Icon>
+
+                  <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas.name},${locationDatas.address} `} </Typography>
+                  
+               </Box>
+               
             </Stack>
          </CardContent>
 

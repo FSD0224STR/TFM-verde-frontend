@@ -1,6 +1,6 @@
 import  { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
-import { Box, Grid,Typography } from '@mui/material'
+import { Alert, Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
@@ -11,6 +11,7 @@ export default function EventsList() {
    
    const { loggedUserId} = useParams()  
    const [loading,setLoading]=useState(false)
+   const [error,setError]=useState('')
    const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, getListEventsUser ,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
     
@@ -27,22 +28,27 @@ export default function EventsList() {
          return 
       } 
    
-   };
+   }; 
 
    /*  const getListEventsInterested  = async () => {
 
       setLoading(true)
-      const listEvents=await getAllEventsUser() 
+      const response=await getAllEventsUser() 
          
-      if (response) {
+      if (response.error) {
+         setError('Ha habido un error al visualizar tus eventos de interés')
+         setTimeout(()=>{
+            setError('')
          
-         setLoading(false)
-         setButton_interestedEvent_Clicked(false);
-         return 
+         },3000)
+      
       } 
-   
-   }
-  */
+         
+      setLoading(false)
+      setButton_interestedEvent_Clicked(false);
+      return 
+   } 
+   */
    useEffect(() => {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)
@@ -58,6 +64,9 @@ export default function EventsList() {
 
       <>
          <NavigationMenu />
+         {/* {error && <Alert variant="filled" severity="error"  sx={{textAlign:'center',fontSize:'2rem',m:'20px'}}  > 
+            {error} 
+         </Alert> }  */}
 
          {loading ?  (  <CircularProgressLoading/>):(
 
