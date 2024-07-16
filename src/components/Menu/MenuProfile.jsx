@@ -67,14 +67,14 @@ export default function MenuProfile({handleNavProfile}) {
                      }}}>
                      <Person2Icon color='primary' sx={{mr:'0.8rem'}}/> Perfil
                   </MenuItem>
-                  <MenuItem onClick={handleNavProfile} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
+                  {/* <MenuItem onClick={handleNavProfile} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
                      color:'primary.main',fontWeight:'600'
                   }}}>
                      <ListItemIcon>
                         <Settings color='primary' fontSize="medium" />
                      </ListItemIcon>
          Configuración
-                  </MenuItem>
+                  </MenuItem> */}
                   {/* <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                      color:'primary.main',fontWeight:'600'
                   } }}>

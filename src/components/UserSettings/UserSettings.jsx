@@ -18,6 +18,7 @@ import {
    MenuItem,
    IconButton,
    Tooltip,
+   Alert,
 } from '@mui/material';
 import RoleComponent from '../Pure/RoleComponent';
 import { Link, useNavigate } from 'react-router-dom';
@@ -45,6 +46,7 @@ export default function UserSettings({ navProfile }) {
    const [alertStatus, setAlertStatus] = useState({});
    const [loading, setLoading] = useState(false);
    const [loadingAlert, setLoadingAlert] = useState(false);
+   const [alertImg,setAlertImg] = useState(false)
 
    const handleClickOpen = () => {
       setOpenDialog(true);
@@ -199,8 +201,12 @@ export default function UserSettings({ navProfile }) {
       console.log('Que es imgUser', imgUser);
 
       if (imgUser.error) {
-         setLoading(false);
          console.log('este es el error', imgUser.error);
+         setLoading(false);
+         setAlertImg(true)
+         setTimeout(() => {
+            setAlertImg(false)
+         }, 3000);
       } else {
          setLoading(false);
          setProfileDetails({ ...profileDetails, imgProfile: imgUser });
@@ -230,6 +236,12 @@ export default function UserSettings({ navProfile }) {
    return (
       <>
          <Container sx={{ my: '4rem', minHeight: '100%', maxWidth: '100%' }}>
+            {alertImg &&
+               <Alert variant="filled" severity="warning" sx={{ textAlign: 'center', width: '400px', m: '1rem' }}>
+                         Imagen muy grande.Intenta con otra
+               </Alert>
+            }
+       
             <Card
                sx={{
                   maxWidth: '100%',
@@ -240,7 +252,7 @@ export default function UserSettings({ navProfile }) {
             >
                <Box sx={{ position: 'absolute', right: 0, top: 5 }}>
                   <Tooltip title="Volver">
-                     <IconButton onClick={() => navigate(-1)}>
+                     <IconButton onClick={() => navigate('/home')}>
                         <CancelIcon
                            color="primary"
                            sx={{ mr: '0.5rem', fontSize: '2rem' }}
@@ -616,7 +628,7 @@ export default function UserSettings({ navProfile }) {
                                     endIcon={<EditIcon />}
                                     sx={{
                                        border: 'none',
-                                       color: 'text.primary',
+                                       color: 'text.terciary',
                                        position: 'relative',
                                        mb: '5rem',
                                     }}

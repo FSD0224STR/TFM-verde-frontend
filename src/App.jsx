@@ -14,6 +14,7 @@ import MessagesPage from './pages/MessagesPage';
 import EventsInterested from './pages/EventsInterested'
 import RecoverPage from './pages/RecoverPage';
 import ChangePassPage from './pages/ChangePassPage';
+import WelcomePage from './pages/WelcomePage';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/profile" element={<SettingsProfile />} />
             <Route path="/profile/:idUser" element={<DetailUser />} />
             <Route path="/messages/:loggedUserId" element={<MessagesPage/>} />
+            <Route path="/register/welcome" element={<WelcomePage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>
