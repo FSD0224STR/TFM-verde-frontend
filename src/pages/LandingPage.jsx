@@ -103,7 +103,7 @@ export default function LandingPage() {
                         </Typography>
                         <Button
                            component={NavLink}
-                           to={'/register'}
+                           to={'/register'} 
                            variant="contained"
                            sx={{
                               bgcolor: 'secondary.variante',

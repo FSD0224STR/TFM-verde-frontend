@@ -14,7 +14,7 @@ const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
    const { userDetail } = useContext(UserContext)
    const {responseInvitation,hanldeAnswerRequest, invitationMessageRef,setSendEventForCouple,} = useContext(MessagesContext)
    
-   // console.log('estado de responseInvitation fuera de del controlerResponse',responseInvitation)
+   console.log('estado de responseInvitation fuera de del controlerResponse',responseInvitation)
 
    useEffect(() => {
       updateDataForRequest()

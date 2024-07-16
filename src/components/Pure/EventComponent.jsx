@@ -71,7 +71,7 @@ export function EventComponent({event,findPartner}) {
    };
    useEffect(() => {
       const InfoEventForRequest = () => {
-         console.log('ejecuantondo funcion')
+         // console.log('ejecuantondo funcion')
          setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
       };
 

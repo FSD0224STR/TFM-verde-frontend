@@ -53,7 +53,7 @@ const getMyConversation = async (idUsers) => {
 }
 
 const getAllMyconversation = async (myId) => {
-   console.log('esto es my Id',myId)
+   // console.log('esto es my Id',myId)
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`, {
       method: 'GET',
       headers: {

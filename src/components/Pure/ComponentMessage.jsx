@@ -32,13 +32,19 @@ export default function ComponentMessage({ setOpenMessage }) {
       handleRequestCouple,
       invitationMessage,
       setInvitationMessage,
-      resetBoxMessage
+      resetBoxMessage,
+      setResponseInvitation
 
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
    const [loadingChat,setloadingChat] = useState(false)
    console.log('esto es invitationMessage', invitationMessage)
+   useEffect(() => {
+      console.log('entrando en use effect de reseteo')
+      setResponseInvitation('')
+      setInvitationMessage(false)
+   }, []);
 
    useEffect(() => {
 

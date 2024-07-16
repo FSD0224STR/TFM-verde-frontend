@@ -18,7 +18,6 @@ import { io } from 'socket.io-client'
 import { WebSocketsContext } from '../context/websocketsContext';
 const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
 
-
 export default function Home() {
    const { setIsLoggedIn, profileDetails } = useContext(LoginContextP)
    const { getLocationFiltered, city, date, typeOfDancing, locations, setCity, setTypeOfDancing, getDataForCluster, cleanFilter } = useContext(LocationContext)
@@ -27,7 +26,6 @@ export default function Home() {
    const [clearFilterButtonClicked, setClearFilterButtonClicked] = useState(false);
    const [NameMapButton, setNameMapButton] = useState('Mostrar mapa');
    const { token, onLoginSuccess, socket } = useContext(WebSocketsContext)
-
 
    useEffect(() => {
       socket.emit('loginSuccess', token)
@@ -261,8 +259,6 @@ export default function Home() {
 
                   <ShowMapButton onClick={clickMapButton} name={NameMapButton} icon={<ListIcon />} />
                )}
-
-
 
             </>
          )

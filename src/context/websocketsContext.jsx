@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 export const WebSocketsContext = createContext();
 
-
 export default function WebsocketsContextProvider({ children }) {
 
    const [userConnected, setUserConnected] = useState([])
@@ -61,7 +60,7 @@ export default function WebsocketsContextProvider({ children }) {
 
    }
    useEffect(() => {
-      console.log('Usuarios conectados despues de cerrar sesión', userConnected);
+      // console.log('Usuarios conectados despues de cerrar sesión', userConnected);
       socket.emit('userBroadcast', userConnected);
    }, [disconnectedUser])
 

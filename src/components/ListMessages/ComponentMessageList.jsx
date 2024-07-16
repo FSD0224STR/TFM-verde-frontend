@@ -38,7 +38,8 @@ export default function ComponentMessageList() {
       invitationMessage,
       handleRequestCouple,
       setInvitationMessage,
-      setSendEventForCouple
+      setSendEventForCouple,
+      setResponseInvitation
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
@@ -47,9 +48,15 @@ export default function ComponentMessageList() {
    const [openAlert, setOpenAlert] = useState(false);
    const [eventsId, setEventsId] = useState('');
    const [isDisable, setisDisable] = useState(false);
-   console.log('mis eventos interesados en componenteMessage', eventsInfoList);
+   // console.log('mis eventos interesados en componenteMessage', eventsInfoList);
   
    // console.log('messageSemd',messageSend)
+
+   useEffect(() => {
+      console.log('entrando en use effect de reseteo')
+      setResponseInvitation('')
+      setInvitationMessage(false)
+   }, []);
 
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
