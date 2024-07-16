@@ -4,7 +4,7 @@ import{ useState } from 'react';
 import { getEventByIdApi,addInterestedPeopleApi ,deleteInterestedPeopleApi} from '../apiServices/eventsApi';
 import { useContext } from 'react';
 import { LoginContextP } from './loginContextPrueba';
-import usersApi from '../apiServices/usersApi';
+import usersApi, { getEventsUserInfApi } from '../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -14,7 +14,8 @@ export const EventContextProvider = ({ children }) => {
 
    const { profileDetails } = useContext(LoginContextP);
    const [listOfInterested,setListOfInterested]=useState([])
-   const [listEventsInterested, setListEventsInterested] = useState([]); 
+   const [listEventsInterested, setListEventsInterested] = useState([]);
+   const [listUpcomingEvents, setListUpcomingEvents] = useState([]);  
    const[eventsInfoList,setEventsInfoList]=useState([])
    const [eventId,setEventId]=useState()
    const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
@@ -51,10 +52,27 @@ export const EventContextProvider = ({ children }) => {
 
       const detailUser = await usersApi.detailByIdUser(userId);            
       const listEvents=detailUser.interestingEvent
+
       setListEventsInterested(listEvents)
     
       return listEvents
       
+   }
+
+   const getAllEventsUser= async ()=>{
+
+      const allEvents = await getEventsUserInfApi();   
+      
+      if(allEvents.error) return {error:allEvents.error}
+
+      const interestingEvent=allEvents.interestingEvent
+      const upcomingEvents=allEvents.upcomingEvents
+      
+      setListEventsInterested( interestingEvent )
+      setListUpcomingEvents(upcomingEvents)
+      console.log('que es allEvents',allEvents)
+    
+      return interestingEvent
    }
    
    useEffect (()=>{
@@ -122,6 +140,7 @@ export const EventContextProvider = ({ children }) => {
       listEventsInterested,
       checkInterestedEvents_Button, 
       button_findPartner_Clicked,
+      listUpcomingEvents,
       getListEventsUser,
       fetchAllEvent,
       setButton_interestedEvent_Clicked,
@@ -133,6 +152,7 @@ export const EventContextProvider = ({ children }) => {
       setButton_findPartner_Clicked,
       click_Find_Partner,
       setCheckInterestedEvents_Button,
+      getAllEventsUser
               
    }
   

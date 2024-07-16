@@ -11,12 +11,13 @@ export default function EventsList() {
    
    const { loggedUserId} = useParams()  
    const [loading,setLoading]=useState(false)
-   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
+   const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, getListEventsUser ,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
+    
    const getListEventsInterested  = async () => {
 
       setLoading(true)
-      const listEvents=await getListEventsUser(loggedUserId)
+      const listEvents=await getListEventsUser(loggedUserId) 
       const response=await fetchAllEvent(listEvents)
       
       if (response) {
@@ -28,6 +29,20 @@ export default function EventsList() {
    
    };
 
+   /*  const getListEventsInterested  = async () => {
+
+      setLoading(true)
+      const listEvents=await getAllEventsUser() 
+         
+      if (response) {
+         
+         setLoading(false)
+         setButton_interestedEvent_Clicked(false);
+         return 
+      } 
+   
+   }
+  */
    useEffect(() => {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)
@@ -58,7 +73,7 @@ export default function EventsList() {
                  Eventos de interés
                </Typography>
 
-               {listEventsInterested?.length ? (
+               {listEventsInterested ?.length || listUpcomingEvents ?.length ? (
                   
                   <Box
                      width="100%"
@@ -77,22 +92,61 @@ export default function EventsList() {
                         sx={{ m: '4rem' }}
                      >
 
-                        {eventsInfoList.map((event,index)=> (
-                           <Grid
-                              item
-                              key={index}
-                              display="flex"
-                              justifyContent="center"
-                              xs={12}
-                              sm={6}
-                              md={4}
-                              lg={3}
-                           >
+                        {eventsInfoList.length ? (
 
-                              <EventComponent findPartner={true}  event={event} />  
-                             
-                           </Grid> 
-                        ))}
+                           <>
+
+                              {eventsInfoList.map((event,index)=> (
+                                 <Grid
+                                    item
+                                    key={index}
+                                    display="flex"
+                                    justifyContent="center"
+                                    xs={12}
+                                    sm={6}
+                                    md={4}
+                                    lg={3}
+                                 >
+   
+                                    <EventComponent findPartner={true}  event={event} />  
+                                
+                                 </Grid> 
+                              ))}
+
+                           </>
+
+                        ):( 
+
+                           null
+                        )}
+
+                        {listUpcomingEvents.length ? (
+
+                           <>
+
+                              {listUpcomingEvents.map((event,index)=> (
+                                 <Grid
+                                    item
+                                    key={index}
+                                    display="flex"
+                                    justifyContent="center"
+                                    xs={12}
+                                    sm={6}
+                                    md={4}
+                                    lg={3}
+                                 >
+
+                                    <EventComponent findPartner={true}  event={event} />  
+     
+                                 </Grid> 
+                              ))}
+
+                           </>
+
+                        ):( 
+
+                           null
+                        )}
                      
                      </Grid>
                   </Box>

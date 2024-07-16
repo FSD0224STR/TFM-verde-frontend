@@ -1,10 +1,9 @@
 
 import { useContext, useEffect } from 'react';
 import User from '../components/Pure/User';
-import { Grid, Box, Typography,Button } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import NavigationMenu from '../components/Menu/NavigationMenu';
 import { EventContext } from '../context/eventContext';
-import { Search } from '../components/Pure/Search';
 import { CircularProgressLoading } from '../components/Pure/Loading';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -38,7 +37,6 @@ export default function ProfileList() {
    
    },[]) 
 
-   const optionsRole=['Leader','Follower','Switch']
    return (
       <>
 
@@ -48,39 +46,6 @@ export default function ProfileList() {
 
             <>
 
-               <Grid
-                  container
-                  justifyContent="center"
-                  sx={{ m: '1.5rem' }}
-       
-               >
-           
-                  <Grid 
-                     item  
-                     display="flex"
-                     justifyContent="center"
-                     xs={12}
-                     sm={1}
-                     lg={1}
-               
-                  >
-                     <Search    /* value={role} */   label='Filtrar por Role'  options={optionsRole} /* onChange={(event, newValue) => {setCity(newValue)}} */  > </Search>          
-                  </Grid>
-            
-                  <Grid 
-                     item  
-                     display="flex"
-                     justifyContent="center"
-                     xs={12}
-                     sm={1}
-                     lg={1}
-               
-                  >
-                     <Button sx={{bgcolor: 'background.secondary',color: 'text.secondary',marginLeft:'10px'}} /*   onClick={() => {}} */>Filtrar</Button>         
-                  </Grid>
-
-               </Grid>
-              
                {listOfInterested.length ? (
 
                   <>

@@ -74,7 +74,7 @@ export const updateUser = async (id, modifiedData) => {
 };
 
 const changeMyPass = async (newData) => {
-   console.log('esto es new Data en api', newData)
+  
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${newData.id}`, {
       method: 'PATCH',
@@ -135,16 +135,6 @@ const getMyprofile = async () => {
    }
 };
 
-const getOneUserApi = async (userId) => { //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
-
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
-
-   if (!response.ok) return { error: await response.json() }
-
-   const user = await response.json()
-   return user
-}
-
 const recoverMypass = async (data) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/forgotPassword`, {
       method: 'POST',
@@ -173,6 +163,22 @@ const resetPassword = async (data) => {
    return resultPass
 }
 
+export const getEventsUserInfApi = async () => {
+
+   const token = localStorage.getItem('access_token');
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/events/interested`, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${token}` },
+   });
+
+   if (!response.ok) {
+      const error = await response.json();
+      return { error };
+   }
+   const allUserEvents= await response.json()
+   return allUserEvents;
+ 
+};
 export default {
    getAllUsers,
    addUser,
@@ -184,5 +190,6 @@ export default {
    updateUser,
    changeMyPass,
    recoverMypass,
-   resetPassword
+   resetPassword,
+ 
 };
