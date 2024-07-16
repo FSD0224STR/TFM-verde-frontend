@@ -30,7 +30,7 @@ const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
    const ControlledResponse = () => {
       // console.log('idrequest',idRequest)
       // console.log('status', status)
-      // console.log('responseInvitation dentro de controler',responseInvitation)
+      console.log('responseInvitation dentro de controler',responseInvitation)
       if (status === 'Pending' && sender === profileDetails._id && responseInvitation === '') {
          // console.log('estoy entrando en la primera condicion')
          return (
@@ -65,7 +65,7 @@ const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
          return <Alert severity="error"sx={{ fontSize: '1.2rem' } } >Invitación Rechazada por {sender === profileDetails._id ? userDetail.name : profileDetails.name }</Alert>;
       }
       if (status === 'Cancelled'  || responseInvitation === 'Cancelled' ) {
-         return <Alert severity="warning" sx={{ fontSize: '1.2rem' }} >Invitación Cancelada por {profileDetails.name} </Alert>;
+         return <Alert severity="warning" sx={{ fontSize: '1.2rem' }} >Invitación Cancelada por {sender === profileDetails._id ? profileDetails.name : userDetail.name} </Alert>;
          
       }
       return (

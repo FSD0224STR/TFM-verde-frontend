@@ -108,7 +108,7 @@ const addRequestCouple = async (dataForRequest) => {
 }
 
 const answerRequest = async (dataForAnswer) => {
-   console.log('data for Reqst',dataForAnswer)
+   // console.log('data for Reqst',dataForAnswer)
    const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${dataForAnswer.idRequest}`, {
       method: 'PATCH',
       body: JSON.stringify(dataForAnswer),

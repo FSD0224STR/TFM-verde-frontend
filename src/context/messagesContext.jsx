@@ -154,25 +154,27 @@ export default function MessagesContextProvider({ children }) {
       console.log('dataforAnswer', dataForAnswer)
       const response = await messagesApi.answerRequest(dataForAnswer)
       console.log('esto es la respuesta de Answer', response)
-      console.log('status request',response.data.status)
+      console.log('status request', response.data.status)
+      
       if (response.error) setError(response.error)
-      if (response.data.request.status === 'Accepted') {
-
+      if (response.data.status === 'Accepted') {
          console.log('entrando en Acepted')
          setResponseInvitation('Accepted')
 
       } else if (response.data.status === 'Declined') {
+         console.log('entrando en Declined')
          setResponseInvitation('Declined')
 
       } else {
+         console.log('entrando en Cancelled')
          setResponseInvitation('Cancelled')
 
       }
       setTimeout(() => {
          setInvitationMessage(false)
-         // setResponseInvitation('')
-         // openConversation(idUsers)
-      }, 2000);
+         setResponseInvitation('')
+         openConversation(idUsers)
+      }, 1000);
 
    }
 

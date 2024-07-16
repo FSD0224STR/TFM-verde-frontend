@@ -52,7 +52,7 @@ export function EventComponent({event,findPartner,locationDatas}) {
       photoURL,
 
    }=event
-
+ 
    const {setSendEventForCouple} = useContext(MessagesContext)
    const {addInterestedPeople,deleteInterestedPeople,setEventId,click_Find_Partner}=useContext (EventContext)
 

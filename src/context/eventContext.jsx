@@ -76,7 +76,7 @@ export const EventContextProvider = ({ children }) => {
       setListEventsInterested( interestingEvent )
       setListUpcomingEvents(upcomingEvents)
     
-      return interestingEvent
+      return true
    }
    
    useEffect (()=>{
@@ -110,13 +110,7 @@ export const EventContextProvider = ({ children }) => {
       return  event
       
    }
-   /* 
-   const fetchAllEvent = async (listEventsInterested) => {
-      const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
-      setEventsInfoList(events)
-      return true
-   };
- */
+
    const addInterestedPeople=async (eventId)=>{
 
       const response= await addInterestedPeopleApi(eventId)                                                   
@@ -146,7 +140,6 @@ export const EventContextProvider = ({ children }) => {
       button_findPartner_Clicked,
       listUpcomingEvents,
       getListEventsUser,
-      /*  fetchAllEvent, */
       setButton_interestedEvent_Clicked,
       setEventId,
       setListOfInterested, 
