@@ -46,7 +46,7 @@ export default function UserSettings({ navProfile }) {
    const [alertStatus, setAlertStatus] = useState({});
    const [loading, setLoading] = useState(false);
    const [loadingAlert, setLoadingAlert] = useState(false);
-   const [alertImg,setAlertImg] = useState(false)
+   const [alertImg,setAlertImg] = useState(null)
 
    const handleClickOpen = () => {
       setOpenDialog(true);
@@ -203,12 +203,16 @@ export default function UserSettings({ navProfile }) {
       if (imgUser.error) {
          console.log('este es el error', imgUser.error);
          setLoading(false);
-         setAlertImg(true)
+         setAlertImg(false)
          setTimeout(() => {
-            setAlertImg(false)
+            setAlertImg(null)
          }, 3000);
       } else {
          setLoading(false);
+         setAlertImg(true)
+         setTimeout(() => {
+            setAlertImg(null)
+         }, 3000);
          setProfileDetails({ ...profileDetails, imgProfile: imgUser });
       }
    };
@@ -237,9 +241,15 @@ export default function UserSettings({ navProfile }) {
       <>
          <Container sx={{ my: '4rem', minHeight: '100%', maxWidth: '100%' }}>
             {alertImg &&
+               <Alert variant="filled" severity="success" sx={{ textAlign: 'center', width: '400px', m: '1rem' }}>
+                        Imagen Cambiada Correctamente
+               </Alert>   }
+            {
+               alertImg === false &&
                <Alert variant="filled" severity="warning" sx={{ textAlign: 'center', width: '400px', m: '1rem' }}>
-                         Imagen muy grande.Intenta con otra
+                       Imagen con un tamaño superiror a 5mb
                </Alert>
+         
             }
        
             <Card
