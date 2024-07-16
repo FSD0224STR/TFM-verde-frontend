@@ -52,7 +52,7 @@ export default function EventsList() {
       current_Location_Info()
    
    },[])
-    
+
    return (
       <>
       
@@ -93,7 +93,7 @@ export default function EventsList() {
                               lg={3}
                  
                            >
-                              <EventComponent   event={event} />
+                              <EventComponent   event={event}  />
 
                            </Grid>
                         ))}
