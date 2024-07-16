@@ -63,14 +63,18 @@ export const EventContextProvider = ({ children }) => {
 
       const allEvents = await getEventsUserInfApi();   
       
-      if(allEvents.error) return {error:allEvents.error}
+      if(allEvents.error){
 
+         console.log('que es allEvents en el error',allEvents)
+         return {error:allEvents.error}
+      } 
+
+      console.log('que es allEvents si todo va bien',allEvents)
       const interestingEvent=allEvents.interestingEvent
       const upcomingEvents=allEvents.upcomingEvents
       
       setListEventsInterested( interestingEvent )
       setListUpcomingEvents(upcomingEvents)
-      console.log('que es allEvents',allEvents)
     
       return interestingEvent
    }
@@ -106,13 +110,13 @@ export const EventContextProvider = ({ children }) => {
       return  event
       
    }
- 
+   /* 
    const fetchAllEvent = async (listEventsInterested) => {
       const events = await Promise.all(listEventsInterested.map(eventId => getOneEvent(eventId)));
       setEventsInfoList(events)
       return true
    };
-
+ */
    const addInterestedPeople=async (eventId)=>{
 
       const response= await addInterestedPeopleApi(eventId)                                                   
@@ -142,7 +146,7 @@ export const EventContextProvider = ({ children }) => {
       button_findPartner_Clicked,
       listUpcomingEvents,
       getListEventsUser,
-      fetchAllEvent,
+      /*  fetchAllEvent, */
       setButton_interestedEvent_Clicked,
       setEventId,
       setListOfInterested, 

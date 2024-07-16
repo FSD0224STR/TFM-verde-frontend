@@ -4,35 +4,18 @@ import { Alert, Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
-import { useParams } from 'react-router-dom'
 import { LoginContextP } from '../context/loginContextPrueba'
 
 export default function EventsList() {
-   
-   const { loggedUserId} = useParams()  
+  
    const [loading,setLoading]=useState(false)
    const [error,setError]=useState('')
-   const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, getListEventsUser ,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
+   const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
-    
-   const getListEventsInterested  = async () => {
 
-      setLoading(true)
-      const listEvents=await getListEventsUser(loggedUserId) 
-      const response=await fetchAllEvent(listEvents)
-      
-      if (response) {
-         
-         setLoading(false)
-         setButton_interestedEvent_Clicked(false);
-         return 
-      } 
-   
-   }; 
+   const getAllEvents= async () => {
 
-   /*  const getListEventsInterested  = async () => {
-
-      setLoading(true)
+      setLoading(true) 
       const response=await getAllEventsUser() 
          
       if (response.error) {
@@ -41,6 +24,7 @@ export default function EventsList() {
             setError('')
          
          },3000)
+         return 
       
       } 
          
@@ -48,15 +32,15 @@ export default function EventsList() {
       setButton_interestedEvent_Clicked(false);
       return 
    } 
-   */
+   
    useEffect(() => {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)
    }, [profileDetails]);
   
    useEffect (()=>{
-      
-      getListEventsInterested()
+   
+      getAllEvents()
    
    },[button_interestedEvent_Clicked ]) 
   
@@ -64,9 +48,9 @@ export default function EventsList() {
 
       <>
          <NavigationMenu />
-         {/* {error && <Alert variant="filled" severity="error"  sx={{textAlign:'center',fontSize:'2rem',m:'20px'}}  > 
+         {error && <Alert variant="filled" severity="error"  sx={{textAlign:'center',fontSize:'2rem',m:'20px'}}  > 
             {error} 
-         </Alert> }  */}
+         </Alert> }  
 
          {loading ?  (  <CircularProgressLoading/>):(
 
@@ -101,11 +85,11 @@ export default function EventsList() {
                         sx={{ m: '4rem' }}
                      >
 
-                        {eventsInfoList.length ? (
+                        {listEventsInterested .length ? (
 
                            <>
 
-                              {eventsInfoList.map((event,index)=> (
+                              {listEventsInterested .map((event,index)=> (
                                  <Grid
                                     item
                                     key={index}

@@ -165,11 +165,12 @@ const resetPassword = async (data) => {
 
 export const getEventsUserInfApi = async () => {
 
-   const token = localStorage.getItem('access_token');
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/events/interested`, {
-      method: 'GET',
+   const token = localStorage.getItem('access_token'); 
+
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/events/interested`, {
+   
       headers: { authorization: `Bearer ${token}` },
-   });
+   }); 
 
    if (!response.ok) {
       const error = await response.json();

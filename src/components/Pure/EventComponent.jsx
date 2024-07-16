@@ -25,7 +25,6 @@ import { EventContext } from '../../context/eventContext';
 import unavailableimage from '../../img/unavailable-image.jpg'
 import coupleconfirmed from '../../img/coupleconfirmed.png'
 import locationIcon  from '../../img/locationIcon.png'
-import { LocationContext } from '../../context/locationContext';
 
 const ExpandMore = styled((props) => {
    const {expand, ...other } = props;
@@ -38,8 +37,7 @@ const ExpandMore = styled((props) => {
    }),
 }));
 
-export function EventComponent({event,findPartner}) {
-   const {locationDatas}=useContext(LocationContext)
+export function EventComponent({event,findPartner,locationDatas}) {
 
    const {
 
@@ -177,7 +175,7 @@ export function EventComponent({event,findPartner}) {
                <Box sx={{ display: 'flex',gap:'5px'}}>
                   <Icon component="img" src={ locationIcon }  ></Icon>
 
-                  <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas.name},${locationDatas.address} `} </Typography>
+                  <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas?.name},${locationDatas?.address} `} </Typography>
                   
                </Box>
                
