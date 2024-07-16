@@ -47,7 +47,7 @@ export default function ComponentMessageList() {
    const [openAlert, setOpenAlert] = useState(false);
    const [eventsId, setEventsId] = useState('');
    const [isDisable, setisDisable] = useState(false);
-   console.log('mis eventos interesados en componenteMessage', eventsInfoList);
+   // console.log('mis eventos interesados en componenteMessage', eventsInfoList);
   
    // console.log('messageSemd',messageSend)
 

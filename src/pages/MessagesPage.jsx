@@ -20,7 +20,7 @@ export default function MessagesPage() {
    const { allConversation, getListMessages } = useContext(MessagesContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
    const { /* token, */ socket, userConnected } = useContext(WebSocketsContext)
-   console.log("Usuarios conectados en este momento", userConnected)
+   // console.log("Usuarios conectados en este momento", userConnected)
    const token = localStorage.getItem('access_token')
 
    const { getListEventsUser, fetchAllEvent } = useContext(EventContext)
@@ -28,7 +28,7 @@ export default function MessagesPage() {
    useEffect(() => {
       if (loggedUserId) {
 
-         console.log('Estoy entrando en el usseEffect de MessagePage para ver getListEventsInterested')
+         // console.log('Estoy entrando en el usseEffect de MessagePage para ver getListEventsInterested')
          const getListEventsInterested = async () => {
 
             const listEvents = await getListEventsUser(loggedUserId)
@@ -49,7 +49,6 @@ export default function MessagesPage() {
    useEffect(() => {
       socket.emit('loginSuccess', token)
    }, []);
-
 
    return (
       <>
