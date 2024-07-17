@@ -53,6 +53,14 @@ export default function ConfigurationComponent({
       }return false
    }
 
+   const deleteMyAccount = async () => {
+      const response = await deleteUser(profileDetails._id)
+      if (response.data) {
+         console.log('esto es response data',response.data)
+         navigate('/')
+      }
+   }
+
    return (
       <Grid 
          sx={{

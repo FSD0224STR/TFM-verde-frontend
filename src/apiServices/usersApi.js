@@ -1,6 +1,6 @@
 
 const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
-
+const token = localStorage.getItem('access_token');
 const getAllUsers = async () => {
 
    const token = localStorage.getItem('access_token');
@@ -50,6 +50,10 @@ const loginUser = async (data) => {
 export const deleteUser = async (id) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
+      headers: {
+         'Authorization': `Bearer ${token}`,
+         'Content-Type': 'application/json'
+      }
    });
    const deleteUser = await response.json();
    return deleteUser;
