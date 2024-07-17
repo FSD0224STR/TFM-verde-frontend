@@ -16,7 +16,6 @@ export const EventContextProvider = ({ children }) => {
    const [listOfInterested,setListOfInterested]=useState([])
    const [listEventsInterested, setListEventsInterested] = useState([]);
    const [listUpcomingEvents, setListUpcomingEvents] = useState([]);  
-   const[eventsInfoList,setEventsInfoList]=useState([])
    const [eventId,setEventId]=useState()
    const [button_interestedEvent_Clicked, setButton_interestedEvent_Clicked] = useState(false);
    const [checkInterestedEvents_Button, setCheckInterestedEvents_Button] = useState(false);
@@ -100,17 +99,7 @@ export const EventContextProvider = ({ children }) => {
       
    // eslint-disable-next-line react-hooks/exhaustive-deps
    },[button_findPartner_Clicked])
-   
-   const getOneEvent=async (eventId)=>{
-
-      const event= await getEventByIdApi(eventId)
-
-      if(event.error) return event.error
-     
-      return  event
-      
-   }
-
+  
    const addInterestedPeople=async (eventId)=>{
 
       const response= await addInterestedPeopleApi(eventId)                                                   
@@ -134,7 +123,6 @@ export const EventContextProvider = ({ children }) => {
       listOfInterested,
       eventId,
       button_interestedEvent_Clicked,
-      eventsInfoList,
       listEventsInterested,
       checkInterestedEvents_Button, 
       button_findPartner_Clicked,

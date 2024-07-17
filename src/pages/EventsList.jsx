@@ -93,7 +93,7 @@ export default function EventsList() {
                               lg={3}
                  
                            >
-                              <EventComponent   event={event} locationDatas={locationDatas} />
+                              <EventComponent   event={event}  />
 
                            </Grid>
                         ))}

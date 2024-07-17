@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
-import {Box, Button, Icon, Paper, Stack} from '@mui/material';
+import { Box, Button, Icon, Paper, Stack} from '@mui/material';
 import { RepeatButton } from './CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import dayjs from 'dayjs';
@@ -25,6 +25,7 @@ import { EventContext } from '../../context/eventContext';
 import unavailableimage from '../../img/unavailable-image.jpg'
 import coupleconfirmed from '../../img/coupleconfirmed.png'
 import locationIcon  from '../../img/locationIcon.png'
+import AvatarComponentEvent from './AvatarComponentEvent';
 
 const ExpandMore = styled((props) => {
    const {expand, ...other } = props;
@@ -37,7 +38,7 @@ const ExpandMore = styled((props) => {
    }),
 }));
 
-export function EventComponent({event,findPartner,locationDatas}) {
+export function EventComponent({event,findPartner,couple,coupleInfo,locationDatas}) {
 
    const {
 
@@ -172,12 +173,15 @@ export function EventComponent({event,findPartner,locationDatas}) {
                   <Typography sx={{color:'red',fontSize:'small',marginLeft:'5px',p:'3px'}}>{`(${availableSpot} plazas disponibles)`} </Typography>
                </Box>
 
-               <Box sx={{ display: 'flex',gap:'5px'}}>
-                  <Icon component="img" src={ locationIcon }  ></Icon>
-
-                  <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas?.name},${locationDatas?.address} `} </Typography>
+               {findPartner && (
                   
-               </Box>
+                  <Box sx={{ display: 'flex',gap:'5px'}}>
+                     <Icon component="img" src={ locationIcon }  ></Icon>
+
+                     <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas?.name},${locationDatas?.address} `} </Typography>
+               
+                  </Box>
+               )}
                
             </Stack>
          </CardContent>
@@ -197,74 +201,99 @@ Ya no me interesa este evento
             ):(
                
                <> 
+                  {couple ? (
 
-                  {availableSpot !== 0 ?(
+                     <Box sx={{display: 'flex',justifyContent:'left',flexDirection:'row',gap:'5px',padding:'10px'}} >
 
-                     <>
-               
-                        {isInterested || success=='Te has interesado a este evento' ?
-            
-                           (<>
-            
-                              {loading ? (<CircularProgressLoadingEvent />) :(
+                        <Stack direction="column" spacing={1} >
 
-                                 <>
+                           <Box sx={{ display: 'flex',gap:'5px'}}>
+                              <AvatarComponentEvent imgProfile={coupleInfo.idUser1.imgProfile}/> <Typography>{coupleInfo.idUser1.name +' '+coupleInfo.idUser1.subName
+                              }</Typography>
+                             
+                           </Box>
 
-                                    <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
-                                    <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
-Ya no me interesa este evento
-                                    </Button>
+                           <Box sx={{ display: 'flex',gap:'5px'}}>
+                              <AvatarComponentEvent imgProfile={coupleInfo.idUser2.imgProfile}/> <Typography>{coupleInfo.idUser2.name+' '+coupleInfo.idUser2.subName}</Typography>
+                           </Box>
 
-                                 </>
-                              )}
-        
-                           </>
-         
-                           )                     
-                           :(
-                              <>
+                        </Stack>
 
-                                 {loading ? (<CircularProgressLoadingEvent />) :(
-
-                                    <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
-                          
-                                 )}
-                              </>
-         
-                           )
-         
-                        }
-
-                        <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
-               
-                     </>
+                     </Box>
 
                   ):(
+                     <>
 
-                     <Button
-                    
-                        size="medium"
-                        sx={{
-                      
-                           padding: '0.5rem',
-                           mb: '1rem',                 
-                           bgcolor: 'red',
-                           color: '#ffff',
-                           px: '1rem',
-                           '&:hover': {
-                              '& .MuiTypography-root': {
-                                 color: 'text.secondary',
-                              },
-                              backgroundColor: 'background.nav',
-                           },
-                        }}
-                     >
-                 AFORO COMPLETO
-                     
-                     </Button>
+                        {availableSpot >= 0 ?(
 
-                  )}
+                           <>
 
+                              {isInterested || success=='Te has interesado a este evento' ?
+
+                                 (<>
+
+                                    {loading ? (<CircularProgressLoadingEvent />) :(
+
+                                       <>
+
+                                          <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                                          <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+Ya no me interesa este evento
+                                          </Button>
+
+                                       </>
+                                    )}
+
+                                 </>
+
+                                 )                     
+                                 :(
+                                    <>
+
+                                       {loading ? (<CircularProgressLoadingEvent />) :(
+
+                                          <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+        
+                                       )}
+                                    </>
+
+                                 )
+
+                              }
+
+                              <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+
+                           </>
+
+                        ):(
+
+                           <Button
+  
+                              size="medium"
+                              sx={{
+    
+                                 padding: '0.5rem',
+                                 mb: '1rem',                 
+                                 bgcolor: 'red',
+                                 color: '#ffff',
+                                 px: '1rem',
+                                 '&:hover': {
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                    },
+                                    backgroundColor: 'background.nav',
+                                 },
+                              }}
+                           >
+AFORO COMPLETO
+   
+                           </Button>
+
+                        )}
+                     </>
+                  
+                  )} 
+                 
                </>    
 
             )}

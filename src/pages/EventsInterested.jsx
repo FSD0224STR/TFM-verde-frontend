@@ -5,7 +5,9 @@ import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
 import { LoginContextP } from '../context/loginContextPrueba'
+
 export default function EventsList() {
+
    const [loading,setLoading]=useState(false)
    const [error,setError]=useState('')
    const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext)
@@ -28,8 +30,10 @@ export default function EventsList() {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)
    }, [profileDetails]);
+
    useEffect (()=>{
       getAllEvents()
+      console.log('Que es listUpcomingEvents',listUpcomingEvents)
    },[button_interestedEvent_Clicked ])
    return (
       <>
@@ -97,13 +101,13 @@ export default function EventsList() {
                                     md={4}
                                     lg={3}
                                  >
-                                    <EventComponent findPartner={true}  event={event} />
+                                    <EventComponent   couple={true}  event={event.idEvent} coupleInfo={event.idCouple} />
                                  </Grid>
                               ))}
                            </>
                         ):(
                            null
-                        )}
+                        )} 
                      </Grid>
                   </Box>
                ):(
