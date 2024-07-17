@@ -103,7 +103,7 @@ export default function LandingPage() {
                         </Typography>
                         <Button
                            component={NavLink}
-                           to={'/register'} 
+                           to={'/register'}
                            variant="contained"
                            sx={{
                               bgcolor: 'secondary.variante',
@@ -548,7 +548,7 @@ export default function LandingPage() {
                         </Box>
                      </Card>
                   </Box>
-                  <Button
+                  {/* <Button
                      variant="contained"
                      size="large"
                      sx={{
@@ -561,7 +561,7 @@ export default function LandingPage() {
                      }}
                   >
                      Leer más comentarios
-                  </Button>
+                  </Button> */}
                </FullpageSection>
             </FullPageSections>
          </FullPage>
