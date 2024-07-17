@@ -1,12 +1,12 @@
 // const Servidorurl='http://localhost:3000' 
 
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
-
+const token = localStorage.getItem('access_token');
 const getAllUsers = async () => {
    //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users`, {
-      headers: { 'authorization:': `Bearer ${token}` },
+      headers: { 'authorization': `Bearer ${token}` },
    });
    const users = await response.json();
    return users;
@@ -50,11 +50,14 @@ const loginUser = async (data) => {
 };
 
 export const deleteUser = async (id) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
+   // console.log('esto es id de delete',id)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
+      headers: { 'authorization': `Bearer ${token}` }
    });
+   if (!response.ok) return { error: await response.json() };
    const deleteUser = await response.json();
-   return deleteUser;
+   return { data: deleteUser }
 };
 
 export const updateUser = async (id, modifiedData) => {

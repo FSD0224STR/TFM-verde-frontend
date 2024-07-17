@@ -17,6 +17,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext';
+import { LoginContextP } from '../../context/loginContextPrueba';
+import { deleteUser } from '../../apiServices/usersApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function ConfigurationComponent({
    values,
@@ -29,13 +32,14 @@ export default function ConfigurationComponent({
 }) {
    console.log('error',errors)
    const { editPass, setEditPass } = useContext(UserContext)
+   const{profileDetails} = useContext(LoginContextP)
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
    const [showPassworNew, setShowPassworNew] = useState(false);
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
    const handleClickShowPasswordNew = () => setShowPassworNew((show) => !show);
-
+   const navigate = useNavigate()
    const handleMouseDownPassword = (event) => {
       event.preventDefault();
    };
@@ -51,6 +55,13 @@ export default function ConfigurationComponent({
       if (filter && error === 0) {
          return true
       }return false
+   }
+
+   const deleteMyAccount = async () => {
+      const response = await deleteUser(profileDetails._id)
+      if (response.data) {
+         navigate('/')
+      }
    }
 
    return (
@@ -282,6 +293,7 @@ export default function ConfigurationComponent({
                   size="large"
                   fullWidth
                   disabled={editPass}
+                  onClick={deleteMyAccount}
                >
               Borrar mi Cuenta
                </Button>
