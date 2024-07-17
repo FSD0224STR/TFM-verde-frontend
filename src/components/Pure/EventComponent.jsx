@@ -173,7 +173,7 @@ export function EventComponent({event,findPartner,couple,coupleInfo,locationData
                   <Typography sx={{color:'red',fontSize:'small',marginLeft:'5px',p:'3px'}}>{`(${availableSpot} plazas disponibles)`} </Typography>
                </Box>
 
-               {findPartner && (
+               {locationDatas && (
                   
                   <Box sx={{ display: 'flex',gap:'5px'}}>
                      <Icon component="img" src={ locationIcon }  ></Icon>
@@ -188,14 +188,45 @@ export function EventComponent({event,findPartner,couple,coupleInfo,locationData
 
          <CardActions   sx={{justifyContent: 'center',display:'flex',flexDirection:'column',padding: '0',gap: '0'}}>
 
-            {findPartner ? (
+            {findPartner  ? (
 
                <>
 
-                  <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
+                  {availableSpot <=! 0 ? (
+
+                     <Button
+  
+                        size="medium"
+                        sx={{
+
+                           padding: '0.5rem',
+                           mb: '1rem',                 
+                           bgcolor: 'red',
+                           color: '#ffff',
+                           px: '1rem',
+                           '&:hover': {
+                              '& .MuiTypography-root': {
+                                 color: 'text.secondary',
+                              },
+                              backgroundColor: 'background.nav',
+                           },
+                        }}
+                     >
+AFORO COMPLETO
+
+                     </Button>
+
+                  ):(
+
+                     <>
+
+                        <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
-                  </Button>
+                        </Button>
+
+                     </>
+                  )}
 
                </>
             ):(
@@ -224,7 +255,7 @@ Ya no me interesa este evento
                   ):(
                      <>
 
-                        {availableSpot >= 0 ?(
+                        {availableSpot >=! 0 ? (
 
                            <>
 
