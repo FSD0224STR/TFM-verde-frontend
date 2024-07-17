@@ -195,7 +195,7 @@ export function EventComponent({event,findPartner,couple,coupleInfo,locationData
                   {availableSpot <=! 0 ? (
 
                      <Button
-  
+                        
                         size="medium"
                         sx={{
 
@@ -221,7 +221,7 @@ AFORO COMPLETO
                      <>
 
                         <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
-                        <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
+                        <Button  variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
                         </Button>
 
@@ -299,21 +299,18 @@ Ya no me interesa este evento
                         ):(
 
                            <Button
-  
+
+                              disabled
                               size="medium"
+                        
                               sx={{
     
                                  padding: '0.5rem',
                                  mb: '1rem',                 
-                                 bgcolor: 'red',
-                                 color: '#ffff',
-                                 px: '1rem',
-                                 '&:hover': {
-                                    '& .MuiTypography-root': {
-                                       color: 'text.secondary',
-                                    },
-                                    backgroundColor: 'background.nav',
-                                 },
+                                 bgcolor: '#b81414',
+                                 '&.Mui-disabled': {
+                                    color: '#ffff'}
+                                 
                               }}
                            >
 AFORO COMPLETO
