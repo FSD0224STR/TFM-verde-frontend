@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import {getLocationfilteredApi,getOneLocationApi } from '../apiServices/locationApi';
+import { useNavigate } from 'react-router-dom';
 
 export const LocationContext = React.createContext();
-
 export const LocationContextProvider = ({ children }) => {
   
    const [city,setCity]=useState('')
@@ -12,9 +12,10 @@ export const LocationContextProvider = ({ children }) => {
    const [typeOfDancing,setTypeOfDancing]=useState('')
    const [locations,setLocations]=useState([])
    const [error, setError] = useState('')
-   const [idLocal,setIdLocal]=useState('')
+   const [idLocal,setIdLocal]=useState(null)  
    const [locationDatas,setLocationData]=useState({})
-   const [LocationEventsData,setLocationEventsData]=useState([])
+   const [eventsFilteredData,setEventsFilteredData]=useState([])
+   const [eventsUnFilteredData,  setEventsUnFilteredData]=useState([])
    const [clusterData,setClusterData]=useState({})
    const [dateInput, setDateInput] = useState(dayjs(Date));
    const [button_Events_Clicked, setButton_Events_Clicked] = useState(false);
@@ -25,29 +26,48 @@ export const LocationContextProvider = ({ children }) => {
       if(locationsFiltered.error) {setError(locationsFiltered.error); return error}
       else {
          setLocations(locationsFiltered);
-         setCity('');
-         setDate('');
-         setTypeOfDancing('')
-         setDateInput(dayjs(Date))
          return true
         
       }
         
    }
+
+   const cleanFilter=  ()=>{
+     
+      setCity('');
+      setDate('');
+      setTypeOfDancing('')
+      setDateInput(dayjs(Date))
+
+   }
  
-   const click_Buttons_Events = (idLocal) => {
-      setIdLocal(idLocal)
+   const click_Buttons_Events = ( idLocal ) => {
+      setIdLocal(idLocal)  
       setButton_Events_Clicked(true);
       return true
       
    }
-   //Se obtienen tanto los datos del local (setLocationData), como el listado de los eventos (LocationEventsData) de ese idLocal.
-   const getLocationData = async () => {
+   const navigate = useNavigate();
+   
+   useEffect (()=>{
+
+      if (button_Events_Clicked) {
+         navigate(`/location/${idLocal}/events`)
+
+      }
+      setButton_Events_Clicked(false)
+      
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[button_Events_Clicked])
+   
+   const getLocationData = async (  idLocal ) => {
 
       if (idLocal) {
-         const local = await getOneLocationApi(idLocal);
-         setLocationData(local.data);
-         setLocationEventsData(local.data.events)
+         const local = await getOneLocationApi(idLocal,city,date,typeOfDancing);
+         setLocationData(local.data.infoLocation);
+         setEventsFilteredData(local.data.filteredEvents)
+         setEventsUnFilteredData(local.data.unfilteredEvents)
+         
          return true
                 
       }
@@ -74,7 +94,7 @@ export const LocationContextProvider = ({ children }) => {
                'address':local.address,
                '_id':local._id,
                'events':local.events,
-               'img':'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt_fcdW_dwM-vM7XKx-dQyEpkN4RUTwhrSPQ&s'
+               'img':local.photoURL[0]
             }
            
          }
@@ -92,11 +112,12 @@ export const LocationContextProvider = ({ children }) => {
       typeOfDancing,
       locations,
       date,
-      idLocal,
-      setIdLocal,
+      idLocal, 
+      setIdLocal, 
       getLocationData,
       locationDatas,
-      LocationEventsData,
+      eventsFilteredData,
+      eventsUnFilteredData,
       setCity,
       setDate,
       setTypeOfDancing,
@@ -106,7 +127,8 @@ export const LocationContextProvider = ({ children }) => {
       button_Events_Clicked,
       setButton_Events_Clicked,
       click_Buttons_Events,
-      getDataForCluster 
+      getDataForCluster,
+      cleanFilter
               
    }
   

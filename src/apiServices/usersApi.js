@@ -1,9 +1,8 @@
-// const Servidorurl='http://localhost:3000' 
 
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
 const token = localStorage.getItem('access_token');
 const getAllUsers = async () => {
-   //Esta funcion hace lo mismo que la de ListOfInterestedUsers, esta se puede eliminar.
+
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users`, {
       headers: { 'authorization': `Bearer ${token}` },
@@ -13,11 +12,10 @@ const getAllUsers = async () => {
 };
 
 const detailByIdUser = async (id) => {
-   // console.log('entrado en la llamda de la api con su id',id)
+
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`);
    const user = await response.json();
-   // console.log('esta es la respues de la api',user)
-   return user; /* .user */ //? hay quew revisar lo que se estta devolviendo //Yirka:he modificado aqui
+   return user;
 };
 
 const addUser = async (newUserData) => {
@@ -32,7 +30,7 @@ const addUser = async (newUserData) => {
       if (response.status == 403)
          return {
             error1:
-          'Este email ya existe,si has olvidado tu contraseña puedes recuperarla',
+               'Este email ya existe,si has olvidado tu contraseña puedes recuperarla',
          };
    }
    const users = await response.json();
@@ -40,7 +38,7 @@ const addUser = async (newUserData) => {
 };
 
 const loginUser = async (data) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/login`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
@@ -50,8 +48,7 @@ const loginUser = async (data) => {
 };
 
 export const deleteUser = async (id) => {
-   // console.log('esto es id de delete',id)
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
       method: 'DELETE',
       headers: { 'authorization': `Bearer ${token}` }
    });
@@ -61,8 +58,7 @@ export const deleteUser = async (id) => {
 };
 
 export const updateUser = async (id, modifiedData) => {
-   console.log('esto es id en la api', id);
-   console.log('esto es modifiedData la api', modifiedData);
+
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'PUT',
@@ -80,7 +76,7 @@ export const updateUser = async (id, modifiedData) => {
 };
 
 const changeMyPass = async (newData) => {
-   console.log('esto es new Data en api',newData)
+  
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${newData.id}`, {
       method: 'PATCH',
@@ -90,7 +86,7 @@ const changeMyPass = async (newData) => {
          authorization: `Bearer ${token}`,
       },
    });
-   if(!response.ok || response.status === 401 || response.status === 400 ) return { error: await response.json() };
+   if (!response.ok || response.status === 401 || response.status === 400) return { error: await response.json() };
    const data = await response.json();
    return { dataReceiver: 'contraseña cambiada correctamente' };
 }
@@ -106,7 +102,7 @@ const login = async (email, password) => {
       if (response.status == 403)
          return {
             error:
-          'La contraseña es incorrecta, por favor inserte contraseña correcta.',
+               'La contraseña es incorrecta, por favor inserte contraseña correcta.',
          };
       if (response.status == 404)
          return {
@@ -134,22 +130,12 @@ const getMyprofile = async () => {
          return { error: error };
       }
       const data = await response.json();
-      console.log('esto es la la respuesta del back de getmYprofile', data);
-      return data; //LO que me devuelve el backend es toda la información de usuario.
+
+      return data;
    } catch (error) {
       return { error: 'Problema de conexion' };
    }
 };
-
-const getOneUserApi=async(userId)=>{ //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
-   
-   const response=await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
-  
-   if (!response.ok)   return { error: await response.json() }
-  
-   const user=await response.json()
-   return user
-}
 
 const recoverMypass = async (data) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/forgotPassword`, {
@@ -159,27 +145,43 @@ const recoverMypass = async (data) => {
    })
    if (!response.ok) {
       const error = await response.json();
-      return { error};
+      return { error };
    }
-   const info =  await response.json()
+   const info = await response.json()
    return info
 }
 
 const resetPassword = async (data) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/reset-password/${data.token}`,{
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/reset-password/${data.token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
    })
    if (!response.ok) {
       const error = await response.json();
-      return { error};
+      return { error };
    }
    const resultPass = await response.json()
-   return  resultPass
-} 
+   return resultPass
+}
 
-export default { 
+export const getEventsUserInfApi = async () => {
+
+   const token = localStorage.getItem('access_token');
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/events/interested`, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${token}` },
+   });
+
+   if (!response.ok) {
+      const error = await response.json();
+      return { error };
+   }
+   const allUserEvents= await response.json()
+   return allUserEvents;
+ 
+};
+export default {
    getAllUsers,
    addUser,
    deleteUser,
@@ -187,9 +189,9 @@ export default {
    login,
    detailByIdUser,
    getMyprofile,
-   getOneUserApi,
    updateUser,
    changeMyPass,
    recoverMypass,
-   resetPassword
+   resetPassword,
+ 
 };

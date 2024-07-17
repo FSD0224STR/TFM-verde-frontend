@@ -25,7 +25,7 @@ export default function AlertDelete({alertStatusDelete,openAlert,handleClose,han
          return (
             <DialogContent>
                <Alert icon={<CheckIcon fontSize="inherit" />} severity="error">
-            No se ha podido la Conversación
+            No se ha podido eliminar  la Conversación
                </Alert>
             </DialogContent>
          )

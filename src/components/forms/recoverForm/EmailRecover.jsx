@@ -65,11 +65,11 @@ export default function EmailRecover() {
          <Box width={'50%'} sx={{ mb: '5rem' }}>
             <Typography
                variant="h3"
-               sx={{ fontWeight: 'bold', textAlign: 'center', mb: '5rem',color:'text.terciary' }}
+               sx={{ fontWeight: 'bold', textAlign: 'center', mb: '5rem',color:'primary.main' }}
             >
           ¡Upsss! ¿Se te ha olvidado tu contraseña?{' '}
             </Typography>
-            <Typography sx={{color:'text.terciary'}} fontSize={'1.5rem'} textAlign={'center'}>
+            <Typography sx={{color:'primary.main'}} fontSize={'1.5rem'} textAlign={'center'}>
           Escribe tu dirección de e-mail. En unos cuantos minutos recibirás un
           enlace que puedes usar para crear una nueva contraseña
             </Typography>

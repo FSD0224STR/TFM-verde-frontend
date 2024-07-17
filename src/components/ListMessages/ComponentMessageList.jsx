@@ -5,18 +5,24 @@ import {
    TextField,
    Button,
    IconButton,
+   InputLabel,
+   FormControl,
+   MenuItem,
+   Select,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import BoxMessageDestinatario from '../Pure/BoxMessageDestinatario';
 import BoxMessageRemitente from '../Pure/BoxMessageRemitente';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import InvitationMessageText from '../Pure/InvitationMessageText';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import { UserContext } from '../../context/userContext';
 import AlertDelete from './AlertDelete';
+import { EventContext } from '../../context/eventContext';
+import dayjs from 'dayjs';
 
 export default function ComponentMessageList() {
    const {
@@ -31,39 +37,88 @@ export default function ComponentMessageList() {
       setAlertStatusDelete,
       invitationMessage,
       handleRequestCouple,
-      infoConversation
+      setInvitationMessage,
+      setSendEventForCouple,
+      setResponseInvitation
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-   const [responseInvitation, setResponseInvitation] = useState(null);
+   const { eventsInfoList } = useContext(EventContext);
    const messagesEndRef = useRef(null);
+   const [openAlert, setOpenAlert] = useState(false);
+   const [eventsId, setEventsId] = useState('');
+   const [isDisable, setisDisable] = useState(false);
+   // console.log('mis eventos interesados en componenteMessage', eventsInfoList);
+  
+   // console.log('messageSemd',messageSend)
+
+   useEffect(() => {
+      console.log('entrando en use effect de reseteo')
+      setResponseInvitation('')
+      setInvitationMessage(false)
+   }, []);
+
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
    };
-   console.log('messageSemd',messageSend)
    useEffect(() => {
       scrollToBottom();
    }, [messageSend]);
 
+   useEffect(() => {
+      messageSend.forEach((msg) => {
+         if (msg.type === 'request') {
+            setInvitationMessage(true);
+         }
+      });
+   }, [messageSend, profileDetails._id]);
+
    //TODO gestinar el alerta
-   
-   const [openAlert, setOpenAlert] = useState(false);
-    
-   const handleClickOpen = () => {
+
+   const handleClickOpenAlert = () => {
       setOpenAlert(true);
    };
-    
+
    const handleClose = () => {
       setOpenAlert(false);
    };
-  
-   const handleResetStatus = () => {
-      setAlertStatusDelete(null)
-      setOpenAlert(false);
-        
+
+   //enviar mensajes presionando la tecla enter
+   function keypress(e) {
+      const keypress = e.keyCode;
+      if (keypress === 13) return handleSendMessage();
    }
 
-   const dataForRequest = {sender:profileDetails._id,receiver:userDetail._id,idConversation:infoConversation._id}
+   const handleResetStatus = () => {
+      setAlertStatusDelete(null);
+      setOpenAlert(false);
+   };
+
+   //Informacion de la request 
+   const infoEvent = useMemo(
+      () => eventsInfoList.filter((eve) => eve._id === eventsId)[0],
+      [eventsId]
+   );
+
+   // console.log('esto es InfoEVENT',infoEvent)
+   useEffect(() => {
+      if (!infoEvent) {
+         setisDisable(true)
+      }else setisDisable(false) 
+      
+      const dateFormat = dayjs(infoEvent?.date.start).format('DD MMMM YYYY').toUpperCase();
+      const hourFormat = dayjs(infoEvent?.date.start).format('HH:mm').toUpperCase();
+      setSendEventForCouple({ name:infoEvent?.name, date: dateFormat, hour: hourFormat, _id:infoEvent?._id});
+   }, [infoEvent]);
+
+   const dataForRequest = {
+      sender: profileDetails._id,
+      nameSender: profileDetails.name,
+      subnameSender: profileDetails.subName,
+      receiver: userDetail._id,
+      nameReceiver: userDetail.name,
+      subnameReceiver: userDetail.subName, //TODO HAYQ UE PASSAR EL APELLIDO CUANDOSE SOLICITA EL CHAT 
+   };
 
    return (
       <Box
@@ -75,7 +130,6 @@ export default function ComponentMessageList() {
             width: '100%',
             minHeight: '83vh',
             display: 'flex',
-           
             flexDirection: 'column',
             p: '1rem',
          }}
@@ -83,7 +137,7 @@ export default function ComponentMessageList() {
          <Box width="100%" display="flex" p={1}>
             <Box display="flex" flexGrow={1}>
                <Avatar
-                  sx={{ width: '40px', height: '40px' }}
+                  sx={{ width: '55px', height: '55px' }}
                   alt="Profile"
                   src={userDetail.imgProfile}
                />
@@ -98,26 +152,59 @@ export default function ComponentMessageList() {
                   {userDetail.name}
                </Typography>
             </Box>
+            <FormControl sx={{ mr: '2rem', width: '200px', fontSize: '1.2rem' }}>
+               <InputLabel id="Selecte_IdEvents_Interesting_label">
+            Elige uno de tus Eventos
+               </InputLabel>
+               <Select
+                  labelId="selector del id del evento"
+                  id="Selecte_IdEvents_Interesting"
+                  value={eventsId}
+                  label="Elegi  uno de tus Eventos "
+                  onChange={(e) => {
+                     setEventsId(e.target.value);
+                     console.log('informacion de mis eventos en select',e.target.value)
+                  }}
+               >
+                  <MenuItem value="">
+                     <em>Selecionar</em>
+                  </MenuItem>
+                  {eventsInfoList.map((ev) => (
+                     <MenuItem value={ev._id} key={ev._id}>
+                        {ev.name}
+                     </MenuItem>
+                  ))}
+               </Select>
+            </FormControl>
             <Box display="flex" minWidth="auto">
                <Button
                   variant="contained"
-                  sx={{ bgcolor: 'secondary.variante', p: '0.5rem', mr: '0.5rem' }}
+                  sx={{
+                     bgcolor: 'secondary.variante',
+                     p: '0.5rem',
+                     mr: '0.5rem',
+                     ':disabled': { bgcolor: 'stack.terciary', color: 'primary.main' },
+                  }}
                   onClick={() => handleRequestCouple(dataForRequest)}
+                  disabled={isDisable}
                >
-                  {invitationMessage
-                     ? 'Solicitud Enviada'
+                  {isDisable
+                     ? 'Elige un evento'
                      : `Invita a ${userDetail.name} a este evento`}
                </Button>
-               <IconButton onClick={() => {
-                  setSendMessage([])
-                  setOpenMessage(false)
-               }}>
+
+               <IconButton
+                  onClick={() => {
+                     setSendMessage([]);
+                     setOpenMessage(false);
+                  }}
+               >
                   <CancelIcon
                      color="primary"
                      sx={{ mr: '0.5rem', fontSize: '2rem' }}
                   />
                </IconButton>
-               <IconButton onClick={handleClickOpen}>
+               <IconButton onClick={handleClickOpenAlert}>
                   <DeleteIcon color="primary" sx={{ fontSize: '2rem' }} />
                </IconButton>
             </Box>
@@ -133,30 +220,37 @@ export default function ComponentMessageList() {
                   overflowX: 'hidden', // Opcional: ocultar el desplazamiento horizontal si no es necesario
                }}
             >
-               {messageSend.map((msg, index) =>
-                  msg.sender === profileDetails._id ? (
-                     <BoxMessageRemitente key={index} msg={msg.message} />
-                  ) : (
-                     <BoxMessageDestinatario key={index} msg={msg.message} />
-                  )
-               )}
-               {invitationMessage && (
-                  <InvitationMessageText
-                     responseInvitation={responseInvitation}
-                     setResponseInvitation={setResponseInvitation}
-                  />
-               )}
+               {messageSend.map((msg, index) => {
+                  if (msg.sender === profileDetails._id && msg.type === 'message') {
+                     return <BoxMessageRemitente key={index} msg={msg.message} />;
+                  }
+                  if (msg.type === 'request') {
+                     return (
+                        <InvitationMessageText
+                           key={index}
+                           msg={msg.message}
+                           sender={msg.sender}
+                           status={msg.idRequest.status}
+                           idRequest={msg.idRequest._id}
+                           idEvent={msg.idRequest.idEvent}
+                       
+                        />
+                     );
+                  } else {
+                     return <BoxMessageDestinatario key={index} msg={msg.message} />;
+                  }
+               })}
                <div ref={messagesEndRef} />
             </Box>
          </Box>
          <Box display="flex" m="1rem">
             <Avatar
-               sx={{ width: '60px', height: '60px', mr: '1rem', mt: '0.3rem' }}
+               sx={{ width: '60px', height: '60px', mr: '1rem', mb: '0.3rem' }}
                alt={profileDetails.name}
                src={profileDetails.imgProfile}
             />
             <TextField
-               id="outlined-textarea"
+               id="entrada"
                label="Ecribe un mensaje"
                placeholder="escribe un mensaje "
                multiline
@@ -171,19 +265,28 @@ export default function ComponentMessageList() {
                      overflow: 'auto',
                      whiteSpace: 'nowrap',
                   },
-             
                }}
                onChange={(e) => setMessage(e.currentTarget.value)}
+               onKeyDown={keypress}
             />
-            <Button
-               sx={{ px: '2rem', py: '1rem' }}
-               variant="contained"
-               endIcon={<SendIcon />}
-               onClick={handleSendMessage}
-            >
-          Send
-            </Button>
-            <AlertDelete alertStatusDelete={alertStatusDelete} openAlert={openAlert} handleClose={handleClose} handleResetStatus={handleResetStatus} deleteMyConversation={deleteMyConversation} />
+            <div id="press">
+               <Button
+                  id="Button_Send"
+                  sx={{ px: '2rem', py: '1rem' }}
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  onClick={handleSendMessage}
+               >
+            Enviar
+               </Button>
+            </div>
+            <AlertDelete
+               alertStatusDelete={alertStatusDelete}
+               openAlert={openAlert}
+               handleClose={handleClose}
+               handleResetStatus={handleResetStatus}
+               deleteMyConversation={deleteMyConversation}
+            />
          </Box>
       </Box>
    );

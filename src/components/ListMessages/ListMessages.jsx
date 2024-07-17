@@ -50,6 +50,7 @@ export default function ListMessages() {
               Bandeja de entrada
                      </Typography>
                   </Box>
+                  {allConversation.length === 0 && <Typography sx={{fontSize:'1.3rem',m:'1rem',fontWeight:'bold'}}>No hay conversaciones</Typography>}
                   {allConversation?.map(chat => {
                      let checkLastMessage = chat.idMensage[0]
                      if (!checkLastMessage) {
@@ -69,6 +70,7 @@ export default function ListMessages() {
                      display: 'flex',
                      justifyContent: 'center',
                      alignItems: 'center',
+                     minHeight:'80vh'
                   }}
                >
                   {openMessage === true && loadingChat === false ? (

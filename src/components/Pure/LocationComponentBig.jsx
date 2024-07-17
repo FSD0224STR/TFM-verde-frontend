@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import elson from '../../img/elson.jpg'
-import { CardMedia, Grid, Paper, Typography } from '@mui/material';
+import unavailableimage from '../../img/unavailable-image.jpg'
+import {CardMedia, Grid, Typography } from '@mui/material';
 
 export const LocationComponentBig=({location})=> {
 
@@ -9,48 +9,82 @@ export const LocationComponentBig=({location})=> {
 
       name,
       address,
+      photoURL
 
    }=location
 
-   console.log('Que es location',location)
-
    return (
-     
-      <Paper square={false} elevation={15} sx={{ minWidth: '90%', m: '1rem', p: '1rem'}} >
 
-         <Grid
-            container
-            minWidth="100%"
-            justifyContent="left"
-            spacing={1}
+      <Grid
+         container
+         maxWidth="50%" 
+         minWidth='600px'
+         justifyContent="center"
+         spacing={1}
+         sx={{ m: '1rem',bgcolor:'white', borderRadius: '50px' ,  padding: '5px 5px'}}
          
-         >
+      >
             
-            <Grid item  xs={6} lg={2}> 
+         <Grid  item
+       
+            display="flex"
+            justifyContent="center"
+            p={1}
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6}
+         > 
           
-               <CardMedia
-                  component="img"
-                  sx={{maxWidth: 280,minWidth:280}}
-                  image={elson}
-     
-               />
+            <CardMedia
+               component="img"
+               sx={{maxWidth: 290,minWidth:290,borderRadius: '50px'}}
+
+               image={photoURL ? (photoURL[0]):( unavailableimage)}
+              
+            />
+         </Grid>
+
+         <Grid  item
+            display="flex"
+            flexDirection='column'
+          
+            xs={12}
+            sm={6}
+            md={6}
+            lg={6} >
+             
+            <Grid item
+       
+               display="flex"
+               justifyContent="center" 
+               alignItems='center'
+               p={1}
+               xs={12}
+               sm={12}
+               md={12}
+               lg={12}> 
+          
+               <Typography  sx={{color:'primary.main',fontSize: '1.5rem', fontWeight: 'bold',textAlign: 'center'}} >{name}</Typography>
             </Grid>
 
-            <Grid  item  xs={6} >
-             
-               <Grid item xs={12} lg={2}> 
+            <Grid item
+       
+               display="flex"
+               justifyContent="center"
+               
+               p={1}
+               xs={12}
+               sm={12}
+               md={12}
+               lg={12}> 
           
-                  <Typography  sx={{color:'primary.main',fontSize: '1.20rem', fontWeight: 'bold'}} >{name}</Typography>
-               </Grid>
-
-               <Grid item xs={12} lg={2}> 
-          
-                  <Typography  sx={{color:'primary.main',fontSize: '1.20rem', fontWeight: 'bold'}}>{address}</Typography>
-               </Grid>
+               <Typography  sx={{color:'stack.secondary',fontSize: '1.1rem', fontWeight: 'bold',  textAlign: 'center',fontStyle:'italic'
+               }}>{address}</Typography>
             </Grid>
          </Grid>
-   
-      </Paper>
+      </Grid>
 
    );
+      
 }

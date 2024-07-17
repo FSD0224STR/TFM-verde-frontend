@@ -29,6 +29,7 @@ import { Password, Visibility, VisibilityOff } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import upload from '../../../apiServices/upload'
+import { useNavigate } from 'react-router-dom';
 export default function FormRegister() {
    const danceStylesList = [
       { style: 'Salsa', level: 1 },
@@ -43,6 +44,7 @@ export default function FormRegister() {
    
    const [loading, setLoading] = useState(false);
 
+   const navigate = useNavigate()
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
       
@@ -59,11 +61,8 @@ export default function FormRegister() {
          const dataUpdate = { ...newUserData, imgProfile: ' ', password: newUserData.newPassword }
          const user = await usersApi.addUser(dataUpdate);
          if (user) {
-            setTimeout(() => {
-               
-               setLoading(false)
-            }, 2000);
-            
+            setLoading(false)
+            navigate('/register/welcome')
          }
          if (user.error1) {
             setLoading(false)
@@ -74,10 +73,8 @@ export default function FormRegister() {
          setLoading(true)
          const user = await usersApi.addUser(dataUpdate);  
          if (user) {
-            setTimeout(() => {
-               
-               setLoading(false)
-            }, 2000);
+            setLoading(false)
+            navigate('/register/welcome')
             
          }
          if (user.error1) {
@@ -128,7 +125,7 @@ export default function FormRegister() {
 
    const registerSchema = Yup.object().shape({
       name: Yup.string().required('Debes ingrensar un nombre'),
-      email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
+      email: Yup.string().required('Debes ingrensar un email').matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.(com|es)$/, 'Este correo electrónico no es válido'),
       newPassword: Yup.string().required('Debes ingrensar un contraseña').min(8, 'la contraseña tiene que tener minimo 8 carateres'),
       passwordC: Yup.string().required('Debes Confirmar tu contraseña').oneOf([Yup.ref('newPassword'),null],'la contraseñas no coinciden'),
       gender: Yup.string().required('Debes ingrensar un genero'),
@@ -359,6 +356,18 @@ export default function FormRegister() {
                                  value="Follower"
                                  control={<Radio />}
                                  label="Follower"
+                              />
+                              <FormControlLabel
+                                 sx={{
+                                    '& .MuiTypography-root': {
+                                       color: 'text.secondary',
+                                       fontSize: '1.5rem',
+                                       fontWeight: '600',
+                                    },
+                                 }}
+                                 value="Switch"
+                                 control={<Radio />}
+                                 label="Switch"
                               />
                            </RadioGroup>
                         </FormControl>

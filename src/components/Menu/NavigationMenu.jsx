@@ -24,11 +24,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuDrawerList from './MenuDrawerList';
 import { MessagesContext } from '../../context/messagesContext';
 import { UserContext } from '../../context/userContext';
+import { EventContext } from '../../context/eventContext';
 
 export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
    const { getListMessages } = useContext(MessagesContext)
    const { handleNavConfig} = useContext(UserContext)
    const [open, setOpen] = useState(false);
+   const {setCheckInterestedEvents_Button}=useContext(EventContext) 
    const navigate = useNavigate()
    return (
       <>
@@ -68,13 +70,13 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
                   </Tooltip>
                   <Tooltip title="mensajes">
                      <IconButton onClick={getListMessages}>
-                        <Badge  badgeContent={100} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
+                        <Badge  sx={{'&.MuiBadge-root':{color:'white'}}} >
                            <MailIcon sx={{fontSize:45,ml:'0.5rem'}}/>
                         </Badge>
                      </IconButton>
                   </Tooltip>
                   <Tooltip title="Eventos de interés">
-                     <IconButton onClick={()=> navigate('/events')} >
+                     <IconButton onClick={()=>setCheckInterestedEvents_Button(true)} >
                    
                         <Icon component="img" src={events} sx={{ fontSize: 35,ml:'0.5rem'}}></Icon>
                        
@@ -82,13 +84,7 @@ export default function NavigationMenu({ handleNavProfile, handleSwitchNav }) {
                   </Tooltip>
                </Box>
                <Box sx={{display: { xs: 'none', sm: 'flex' }, alignItems: 'center', textAlign: 'center' }}>
-                  <Tooltip title="Notificaciones">
-                     <IconButton>
-                        <Badge  badgeContent={5} max={99} color='error' sx={{'&.MuiBadge-root':{color:'white'}}} >
-                           <NotificationsIcon sx={{ fontSize: 45, color: 'white' }} />
-                        </Badge>
-                     </IconButton>
-                  </Tooltip>
+              
                   <MenuProfile handleNavProfile={handleNavProfile} handleSwitchNav={ handleSwitchNav} />
                </Box>
             </Toolbar>

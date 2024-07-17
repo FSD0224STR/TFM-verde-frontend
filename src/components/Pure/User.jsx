@@ -1,19 +1,10 @@
-import {
-   Card,
-   CardMedia,
-   CardContent,
-   Typography,
-   CardActions,
-   Button,
-   Box,
-   Chip,
-   Stack,
-} from '@mui/material';
-// import { useNavigate } from 'react-router-dom';
+import {Card,CardMedia, CardContent,Typography,Button, Box} from '@mui/material';
+
 import RoleComponent from './RoleComponent';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import { useEffect } from 'react';
+import unavailableimage from '../../img/unavailable-image.jpg'
 
 export default function User({ userApi }) {
    const { getUserDetail,getOneUser} = useContext(UserContext);
@@ -34,9 +25,8 @@ export default function User({ userApi }) {
    } = userInfo
 
    const getUser=async ()=>{
-      const user=await getOneUser(userApi.userId)
+      const user=await getOneUser(userApi)
       setUserInfo(user)
-      // console.log('Que es useIfo',user)
   
    }
    useEffect( ()=>{
@@ -88,7 +78,8 @@ export default function User({ userApi }) {
                <CardMedia
                   component="img"
                   title="Profile picture"
-                  src={!imgProfile ? 'https://via.placeholder.com/250' : imgProfile}
+               
+                  src={imgProfile ? imgProfile : unavailableimage}
                   sx={{
                      width: '100%',
                      height: '300px', 

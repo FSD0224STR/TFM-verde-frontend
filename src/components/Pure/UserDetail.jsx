@@ -14,12 +14,14 @@ import {
 import RoleComponent from './RoleComponent';
 import RatingDanceStar from './RatingDanceStar';
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import ComponentMessage from './ComponentMessage';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { MessagesContext } from '../../context/messagesContext';
 import profileDefault from '../../img/profile.png'
 import { LoginContextP } from '../../context/loginContextPrueba';
+import AlertRequest from './AlertRequest';
+import unavailableimage from '../../img/unavailable-image.jpg'
 
 export default function ComponentUserDetail({ userDetail }) {
 
@@ -41,6 +43,15 @@ export default function ComponentUserDetail({ userDetail }) {
       dancingStyles,
       _id
    } = userDetail
+
+   const dataForRequest = {
+      sender: profileDetails._id,
+      nameSender: profileDetails.name,
+      subnameSender: profileDetails.subName,
+      receiver: userDetail._id,
+      nameReceiver: userDetail.name,
+      subnamereceiver: userDetail.subName,
+   };
 
    const idUsers = { sender: profileDetails._id, receiver: _id }
    return (
@@ -106,9 +117,11 @@ export default function ComponentUserDetail({ userDetail }) {
                         </CardActions>
                         <Divider variant='fullWidth' flexItem={true} sx={{ color: 'primary.main', mt: '1rem' }}>o</Divider>
                         <CardActions>
-                           <Button onClick={handleRequestCouple} size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
+                           <Button  onClick={() => handleRequestCouple(dataForRequest)} size="large" variant='contained' sx={{ mt: '2rem', p: '1rem' }}>Invita a {name} a Bailar!</Button>
                         </CardActions>
                      </CardContent>
+
+                     <AlertRequest/>
                   </CardContent>
                </>}
                  
@@ -118,7 +131,7 @@ export default function ComponentUserDetail({ userDetail }) {
                   component="img"
                   alt="Foto Perfil"
                   height="300px"
-                  src={!imgProfile? {profileDefault}  : imgProfile}
+                  src={imgProfile ? imgProfile : unavailableimage}
                />
                <Typography
                   color="primary.main"
@@ -135,10 +148,7 @@ export default function ComponentUserDetail({ userDetail }) {
                           ({gender === 'Male' ? 'M' : 'F'}/{age}){city}
                </Box>
                <Box>
-                  <Box display='flex' flexDirection='row-reverse' justifyContent='left' my='1rem'>
-                     <Link> <Typography fontSize='1rem' variant='body2' color='text.secondary' mt='0.2rem' ml='1rem'>Reseña</Typography></Link>
-                     <Rating name="read-only" value={4} readOnly />
-                  </Box>
+                 
                   <RoleComponent role={role}  />
                </Box>
                   

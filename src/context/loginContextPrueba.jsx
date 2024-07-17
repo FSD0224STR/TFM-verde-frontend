@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import usersApi from '../apiServices/usersApi';
+import { WebSocketsContext } from './websocketsContext';
 
 //Se crea el contexto
 export const LoginContextP = React.createContext();
@@ -9,38 +10,47 @@ export const LoginContextP = React.createContext();
 //se desee interactuar (siempre y cuando sean componentes hijos de este componente LoginContextProvider), por ello se completa el nombre con la palabra provider.
 //Aqui se incluye toda la logica, funciones etc.
 export const LoginContextProviderP = ({ children }) => {
+   const { onUserDisconnected, socket } = useContext(WebSocketsContext)
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [error, setError] = useState('');
    const [profileDetails, setProfileDetails] = useState();
+   const [loading, setLoading] = useState(false)
 
    const navigate = useNavigate();
    let tokenRecoveryparams = useParams();
    const urlLocation = useLocation();
-
    useEffect(() => {
+
       // Si la URL no incluye '/reset-password/', ejecuta checkToken
       if (!urlLocation.pathname.includes('/reset-password/')) {
-      // console.log('Estado URL y su comprobación:', urlLocation.pathname);
-         console.log('Componente siendo montado llamando a checkToken');
          checkToken();
       }
    }, []);
 
    const checkToken = async () => {
+
       const token = localStorage.getItem('access_token');
       if (!token) {
          navigate('/');
          return;
       }
+
       try {
+
+         /*     setLoading(true) */
          const response = await usersApi.getMyprofile();
          const auth = localStorage.getItem('auth');
+         /*   setLoading(false) */
          if (token && !response.error) {
-            setIsLoggedIn(true);
-            setProfileDetails(response);
-            // console.log('esto es CheckLogin response',profileDetails) //TODO PREGUNTAR PORQUE SALE UNDERFINED
+
+            if (urlLocation.pathname === '/login') {
+               setIsLoggedIn(true);
+               setProfileDetails(response);
+               navigate('/home')
+            }
             if (auth === 'true') {
                if (urlLocation.pathname === '/') {
+                  setIsLoggedIn(true);
                   setProfileDetails(response);
                   navigate('/home');
                }
@@ -48,6 +58,7 @@ export const LoginContextProviderP = ({ children }) => {
                return;
             } else {
                localStorage.setItem('auth', true);
+               setIsLoggedIn(true);
                navigate('/home');
             }
          } else {
@@ -67,22 +78,27 @@ export const LoginContextProviderP = ({ children }) => {
          const userdetails = response.userDetails;
          localStorage.setItem('access_token', token);
          console.log('Cuales son los datos del usuario logeado', userdetails);
+         setIsLoggedIn(true);
          navigate('/home');
          setProfileDetails(userdetails);
          console.log('esto es login abajo', profileDetails);
       }
-      setIsLoggedIn(true);
    };
 
    const logout = () => {
       console.log('cerrando session')
+      const token = localStorage.getItem('access_token')
+      socket.emit('userDisconnected', token)
       localStorage.removeItem('access_token')
-      localStorage.setItem('auth',false)
+      localStorage.setItem('auth', false)
+      setIsLoggedIn(false)
       navigate('/')
+
    }
-   
+
    const loginContextValue = {
       isLoggedIn,
+      setIsLoggedIn,
       error,
       setError,
       login,
@@ -90,6 +106,7 @@ export const LoginContextProviderP = ({ children }) => {
       setProfileDetails,
       logout,
       tokenRecoveryparams,
+      checkToken
    };
 
    return (

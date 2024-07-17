@@ -1,8 +1,6 @@
 
-/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
-
 const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
-
+const token = localStorage.getItem('access_token');
 export const queryParamsDynamic=  (city,date,typeOfDancing)=>{
    const queryParams = new URLSearchParams()
         
@@ -20,7 +18,13 @@ export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
    const queryParamsdone=queryParamsDynamic(city,date,typeOfDancing)
            
-   const response =await fetch(`${VITE_HOSTING_BACKEND}/locations/?${queryParamsdone.toString()}`)
+   const response =await fetch(`${VITE_HOSTING_BACKEND}/locations/?${queryParamsdone.toString()}`,{
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      },
+   })
 
    if(!response.ok){
 
@@ -33,9 +37,11 @@ export const getLocationfilteredApi=async(city,date,typeOfDancing)=>{
 
 }
 
-export const getOneLocationApi=async (id)=>{
+export const getOneLocationApi=async (id,city,date,typeOfDancing)=>{
 
-   const response=await fetch(`${VITE_HOSTING_BACKEND}/locations/${id}`)
+   const queryParamsdone=queryParamsDynamic(city,date,typeOfDancing)
+
+   const response=await fetch(`${VITE_HOSTING_BACKEND}/locations/${id}/?${queryParamsdone.toString()}`)
 
    if (!response.ok)   {
              
@@ -43,20 +49,5 @@ export const getOneLocationApi=async (id)=>{
            
    }
        
-   return {data: await response.json()}
+   return {data: (await response.json()).data}
 }
-
-/* export const getAllLocation=async ()=>{
-
-   const response=await fetch(`${VITE_HOSTING_BACKEND}/locations/all`)
-
-   const data=await response.json()
-
-   if (!response.ok)   {
-             
-      return {error: response.statusText}
-           
-   }
-       
-   return data
-} */

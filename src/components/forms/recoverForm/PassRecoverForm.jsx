@@ -82,11 +82,11 @@ export default function PassRecoverForm({tokenRecoveryparams}) {
          <Box width={'50%'} sx={{ mb: '5rem' }}>
             <Typography
                variant="h3"
-               sx={{ fontWeight: 'bold', textAlign: 'center', mb: '5rem',color:'text.terciary' }}
+               sx={{ fontWeight: 'bold', textAlign: 'center', mb: '5rem',color:'primary.main' }}
             >
           No te preocupes. ¡Podrás conectarte en un abrir y cerrar de ojos!{' '}
             </Typography>
-            <Typography sx={{color:'text.terciary'}} fontSize={'1.5rem'} textAlign={'center'}>
+            <Typography sx={{color:'primary.main'}} fontSize={'1.5rem'} textAlign={'center'}>
           A continuación crea una nueva contraseña y serás capaz de conectarte
           nuevamente. Por favor, no uses caracteres extraños, solamente letras y
           números.

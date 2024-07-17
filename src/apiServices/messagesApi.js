@@ -1,7 +1,6 @@
 
-/* const VITE_HOSTING_BACKEND='http://localhost:3000' */
-
-const VITE_HOSTING_BACKEND=import.meta.env.VITE_HOSTING_BACK
+const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
+const token = localStorage.getItem('access_token');
 const sendNewMessage = async (newMessage) => {
     
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation`, {
@@ -9,6 +8,7 @@ const sendNewMessage = async (newMessage) => {
       body: JSON.stringify(newMessage),
       headers: {
          'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
       },
    });
    if (!response.ok) {
@@ -27,7 +27,11 @@ const sendNewMessage = async (newMessage) => {
 
 const getMyConversation = async (idUsers) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${idUsers.sender}/${idUsers.receiver}`, {
-      method:'GET'  
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      },
    })
    
    // console.log('primera llamada',response)
@@ -49,8 +53,14 @@ const getMyConversation = async (idUsers) => {
 }
 
 const getAllMyconversation = async (myId) => {
-   console.log('esto es my Id',myId)
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`)
+   // console.log('esto es my Id',myId)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
+      }
+   })
    if (!response.ok) {
       const error = await response.json()
       return { error }
@@ -94,8 +104,42 @@ const addRequestCouple = async (dataForRequest) => {
       return {error}
    }
    const responseRequest = await response.json()
-   console.log('esto es la respuesta request',responseRequest)
+   return responseRequest
+}
 
+const answerRequest = async (dataForAnswer) => {
+   console.log('data for Reqst',dataForAnswer)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${dataForAnswer.idRequest}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dataForAnswer),
+      headers: {
+         'Content-Type': 'application/json',
+      },
+   });
+   if (!response.ok) {
+        
+      const error = await response.json()
+      console.log('esto es error',error)
+      return  {error};
+   }
+   const updateRequest = await response.json()
+   return updateRequest
+   
+} 
+
+const getRequest = async (idRequest) => {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${idRequest}`, {
+      method: 'GET',
+   })
+   if (!response.ok) {
+        
+      const error = await response.json()
+      console.log('esto es error',error)
+      return  {error};
+   }
+   const myRequest = await response.json()
+   return myRequest
+   
 }
 
 export default {
@@ -103,6 +147,8 @@ export default {
    getMyConversation,
    deleletConversation,
    getAllMyconversation,
-   addRequestCouple
+   addRequestCouple,
+   answerRequest,
+   getRequest
    
 }

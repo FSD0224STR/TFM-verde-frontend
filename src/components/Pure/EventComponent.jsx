@@ -6,14 +6,9 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LoginContextP } from '../../context/loginContextPrueba';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Alert, Box, Button, Icon, Paper, Stack} from '@mui/material';
-import { updateEventApi, updateInterestedPeopleApi } from '../../apiServices/eventsApi';
-import { useContext } from 'react';
+import {Box, Button, Icon, Paper, Stack} from '@mui/material';
 import { RepeatButton } from './CommonButton';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import dayjs from 'dayjs';
@@ -22,12 +17,18 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import danceCouple from '../../img/danceCouple.png'
 import priceImg from '../../img/price.png'
 import people from '../../img/people.png'
-import {updateUser} from '../../apiServices/usersApi'
-import { useEffect } from 'react';
+import { MessagesContext } from '../../context/messagesContext';
+import { useContext,useEffect } from 'react';
+import { CircularProgressLoadingEvent } from './Loading';
+import { AlertTiming } from './AlertTiming';
 import { EventContext } from '../../context/eventContext';
+import unavailableimage from '../../img/unavailable-image.jpg'
+import coupleconfirmed from '../../img/coupleconfirmed.png'
+import locationIcon  from '../../img/locationIcon.png'
+import { LocationContext } from '../../context/locationContext';
 
 const ExpandMore = styled((props) => {
-   const { expand, ...other } = props;
+   const {expand, ...other } = props;
    return <IconButton {...other} />;
 })(({ theme, expand }) => ({
    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
@@ -37,7 +38,8 @@ const ExpandMore = styled((props) => {
    }),
 }));
 
-export function EventComponent({event}) {
+export function EventComponent({event,findPartner}) {
+   const {locationDatas}=useContext(LocationContext)
 
    const {
 
@@ -49,107 +51,93 @@ export function EventComponent({event}) {
       date,
       danceCouples,
       description,
-      interestedPeople,
-      photoURL,      
+      photoURL,
 
    }=event
-   
-   const navigate = useNavigate();
+
+   const {setSendEventForCouple} = useContext(MessagesContext)
+   const {addInterestedPeople,deleteInterestedPeople,setEventId,click_Find_Partner}=useContext (EventContext)
+
+   const [loading,setLoading]=useState(false)
    const [expanded, setExpanded] = useState(false);
-   const [error,setError] = useState();
-   const {profileDetails} = useContext(LoginContextP)
-   const{setListOfInterested}=useContext(EventContext)
+   const [error,setError] = useState('');
+   const [success,setSuccess] = useState('');
    const [isInterested,setIsInterested]=useState(false)
+ 
    const dateFormat=dayjs(date.start).format('DD MMMM YYYY').toUpperCase()
    const hourFormat=dayjs(date.start).format('HH:mm').toUpperCase()
    const hourFormatEnd=dayjs(date.end).format('HH:mm').toUpperCase()
-   const userId=profileDetails._id
 
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
-
-   const check_interested_event=()=>{
-      const eventId =_id
-      const arrayInterestingEvent=profileDetails.interestingEvent
-      const eventId_exist=arrayInterestingEvent.find((event)=>event===eventId)
-      if (eventId_exist!==undefined) setIsInterested(true)
-      return eventId_exist
-   }
-
    useEffect(() => {
-      console.log('entrnado en use efeect de interested')
-      check_interested_event()
-      setListOfInterested(interestedPeople)    
-   },[interestedPeople])
+      const InfoEventForRequest = () => {
+         setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
+      };
 
-   //Esta función incluye el evento en el usuario en el array de interestingEvent
-   const update_User_Id_Event= async ()=>{
+      InfoEventForRequest()
+   }, []);
 
-      const eventId_exist=check_interested_event()
-
-      if (eventId_exist===undefined){
-         const interesting_Event_Updated = [...profileDetails.interestingEvent,_id] //Añadimos el id de este evento a los que ya hay en interestingEvent del user.
-         const modifiedData={interestingEvent:interesting_Event_Updated}
-         const user = await updateUser(userId,modifiedData) 
-
-         if (user.error) return setError('Este es el error al intentar añadir el evento a user',user.error )
-         
-         console.log('Has añadido este evento en interestingEvent en tu perfil:',user.data.interestingEvent)
-         return (user.data.interestingEvent)
-
-      }
-   }
-
-   const delete_Interest_Event= async ()=>{
-
-      const delete_event_InUser=profileDetails.interestingEvent.filter(event=>event !=_id) //Me devuelve todos los eventos de interesados menos este.
-      const modifyUser={interestingEvent:delete_event_InUser}
-      const user = await updateUser(userId,modifyUser) 
-
-      //////////////////////////////////////////////////////////////////////////
-      const  delete_user_InEvent=interestedPeople.filter(user=>user.userId!==userId)
-      console.log('Que es delete_user_InEvent',delete_user_InEvent)
-      const modifyEvent={interestedPeople:delete_user_InEvent}
-      const event = await updateEventApi(_id,modifyEvent)
-      if(event.error || user.error) setError(`aqui estan los posibles errores al eliminar evento evento:${event.error} user:${user.error}`)  
-      
-      console.log('Tras eliminar el evento quiero ver que hay en interestedPeople dentro de este evento:' ,event.data.interestedPeople,'y user',user.data.interestingEvent)
-      setIsInterested(false)
-     
-   }
-
-   const  updateInterestedPeople_Event = async () => {
-  
-      const event = await updateInterestedPeopleApi(_id,userId)
-  
-      if(event.error) return setError(`aqui esta el error',${event.error}`)
-         
-      console.log('Te has interesad por este evento, ver evento con interestedPeople modificado:',event.data.interestedPeople)
-      
-   }
-
-   const click_Find_Partner = async () => {
-     
-      navigate('/profiles'); 
- 
-   };
+   const availableSpot=`${availability-(danceCouples.length)*2}`
 
    const click_For_interesting = async () => {
-      setIsInterested(true)
-      await update_User_Id_Event(); 
-      await updateInterestedPeople_Event(); 
+
+      setLoading(true)
+
+      const response=await addInterestedPeople(_id)
+
+      if (response.error)  {
+
+         if (response.error==='Ya estas interesad@ en este evento'){
+
+            setError(response.error)
+            setLoading(false)
+            setIsInterested(true)
+            setEventId(_id) 
+            return 
+         }
+         
+         setError(response.error)
+         setLoading(false)
+         return
+ 
+      }
       
+      setLoading(false)
+      setIsInterested(true)
+      setEventId(_id)
+      setSuccess('Te has INTERESADO a este evento')
+    
    };
-  
+
+   const delete_Interest_Event= async () => {
+      
+      setLoading(true)
+
+      const response= await deleteInterestedPeople(_id)
+
+      if (response.error)  {
+         
+         setError(response.error)
+         setLoading(false)
+         return 
+ 
+      }
+      
+      setLoading(false)
+      setIsInterested(false)
+      setSuccess('Ya NO estas interesado')
+   };
+   
    return (
       <Paper  elevation={22}  sx={{ minWidth: 400, minHeight:600, color: 'text.secondary'}}>
         
          <CardMedia
             component="img"
             height="200"
-            image= {photoURL[0]} 
-            alt=""
+            image={photoURL[0] ? (photoURL[0]):( unavailableimage)}
+            alt="Imagen de evento"
          />
             
          <CardContent sx={{display: 'flex',flexDirection:'column',gap:'15px',fontSize: '1rem'}}>
@@ -171,37 +159,118 @@ export function EventComponent({event}) {
                   {typeOfDancing.toUpperCase()}
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
+           
                   <Icon component="img" src={people}  ></Icon>
-                  {availability}
+                  <Typography  >{`${availability} plazas`}  </Typography>
+                  
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
                   <Icon component="img" src={priceImg}  ></Icon>
                   {`${price}€`}
                </Box>
                <Box sx={{ display: 'flex',gap:'5px'}}>
-                  <Icon component="img" src={people}  ></Icon>
-                  {_id}
+                  <Icon component="img" src={coupleconfirmed}  ></Icon>
+                  {`${danceCouples.length} Parejas `}
+                  <Typography sx={{color:'red',fontSize:'small',marginLeft:'5px',p:'3px'}}>{`(${availableSpot} plazas disponibles)`} </Typography>
                </Box>
+
+               <Box sx={{ display: 'flex',gap:'5px'}}>
+                  <Icon component="img" src={ locationIcon }  ></Icon>
+
+                  <Typography sx={{color:'stack.secondary', fontWeight: 'bold',  textAlign: 'left',fontStyle:'italic'}}>{`${locationDatas.name},${locationDatas.address} `} </Typography>
+                  
+               </Box>
+               
             </Stack>
          </CardContent>
 
          <CardActions   sx={{justifyContent: 'center',display:'flex',flexDirection:'column',padding: '0',gap: '0'}}>
 
-            {isInterested ?
-            
-               (<>
-                  <RepeatButton name='Encuentra tu pareja' onClick={click_Find_Partner} ></RepeatButton>
-                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}  onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
-  Ya no me interesa este evento
+            {findPartner ? (
+
+               <>
+
+                  <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                  <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
+Ya no me interesa este evento
                   </Button>
-           
+
                </>
+            ):(
+               
+               <> 
+
+                  {availableSpot !== 0 ?(
+
+                     <>
+               
+                        {isInterested || success=='Te has interesado a este evento' ?
             
-               )                     
-               :(<RepeatButton name='Me interesa' onClick={click_For_interesting} ></RepeatButton>)
+                           (<>
             
-            }
-           
+                              {loading ? (<CircularProgressLoadingEvent />) :(
+
+                                 <>
+
+                                    <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                                    <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
+Ya no me interesa este evento
+                                    </Button>
+
+                                 </>
+                              )}
+        
+                           </>
+         
+                           )                     
+                           :(
+                              <>
+
+                                 {loading ? (<CircularProgressLoadingEvent />) :(
+
+                                    <RepeatButton name='Me interesa'  onClick={click_For_interesting}  ></RepeatButton>
+                          
+                                 )}
+                              </>
+         
+                           )
+         
+                        }
+
+                        <AlertTiming sx={{ mb: 1,mt:1 }}   onClose={() => {setSuccess(''),setError('')}}   success={success} error={error}/> 
+               
+                     </>
+
+                  ):(
+
+                     <Button
+                    
+                        size="medium"
+                        sx={{
+                      
+                           padding: '0.5rem',
+                           mb: '1rem',                 
+                           bgcolor: 'red',
+                           color: '#ffff',
+                           px: '1rem',
+                           '&:hover': {
+                              '& .MuiTypography-root': {
+                                 color: 'text.secondary',
+                              },
+                              backgroundColor: 'background.nav',
+                           },
+                        }}
+                     >
+                 AFORO COMPLETO
+                     
+                     </Button>
+
+                  )}
+
+               </>    
+
+            )}
+
          </CardActions>
 
          <CardActions>
@@ -213,10 +282,6 @@ export function EventComponent({event}) {
                <ExpandMoreIcon   />
             
             </ExpandMore>
-
-            <IconButton>
-               <ShareIcon />
-            </IconButton>
 
          </CardActions>
          
@@ -231,8 +296,6 @@ export function EventComponent({event}) {
                </Typography>
             </CardContent>
          </Collapse>
-
-         {error && <Alert sx={{ mb: 2,mt:2 }}  variant="outlined" severity="error" onClose={() => setError('')}>{` ${error}`}</Alert>}
                      
       </Paper>
 

@@ -1,4 +1,4 @@
-import {  Route, Routes, useParams } from 'react-router-dom';
+import {  Route, Routes} from 'react-router-dom';
 
 import './App.css';
 import Home from './pages/Home';
@@ -14,10 +14,13 @@ import MessagesPage from './pages/MessagesPage';
 import EventsInterested from './pages/EventsInterested'
 import RecoverPage from './pages/RecoverPage';
 import ChangePassPage from './pages/ChangePassPage';
+import WelcomePage from './pages/WelcomePage';
 
 function App() {
+
    return (
       <>
+
          <Routes >
             <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
@@ -25,12 +28,13 @@ function App() {
             <Route path="/recoverpass" element={<RecoverPage/>} />
             <Route path="/reset-password/:tokenRecoveryparams" element={<ChangePassPage/>} />
             <Route path="/home" element={<Home />} />
-            <Route path="/events" element={<EventsInterested />} />
-            <Route path="/location/:id/events" element={<EventsList />} /> 
-            <Route path="/profiles" element={<ProfileList />} />
+            <Route path="/events/:loggedUserId" element={<EventsInterested />} />
+            <Route path="/location/:idLocalurl/events" element={<EventsList />} /> 
+            <Route path="/profiles/:idEventurl/:loggedUserId" element={<ProfileList />} />
             <Route path="/profile" element={<SettingsProfile />} />
-            <Route path="/profile/:id" element={<DetailUser />} />
-            <Route path="/messages" element={<MessagesPage/>} />
+            <Route path="/profile/:idUser" element={<DetailUser />} />
+            <Route path="/messages/:loggedUserId" element={<MessagesPage/>} />
+            <Route path="/register/welcome" element={<WelcomePage/>} />
             <Route path="*" element={<NotFound />} />
          </Routes>
       </>

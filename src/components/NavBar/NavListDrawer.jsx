@@ -95,7 +95,7 @@ export default function NavListDrawer({ setOpen }) {
                               backgroundColor: 'background.nav',
                            },
                            paddingBlock: '1rem',
-                           color:'text.primary'
+                           color:'text.terciary'
                         }}
                      >
                 Encuentra tu pareja de baile!

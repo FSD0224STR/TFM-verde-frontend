@@ -16,17 +16,13 @@ import { useNavigate } from 'react-router-dom';
 export const Map=()=>{
 
    mapboxgl.accessToken = 'pk.eyJ1IjoibWVldGFuY2luZyIsImEiOiJjbHhzd3dldDIwczNnMmpzZW1iaTN2dWxjIn0.RXMnscY4UR13dJD2PCD5aw';
-   const { clusterData,click_Buttons_Events} = useContext(LocationContext)
+   const { clusterData,click_Buttons_Events,city} = useContext(LocationContext)
    const mapContainer = useRef(null);
    const map = useRef(null);
    const navigate = useNavigate();
    const [lng, setLng] = useState(-3.4375  );
    const [lat, setLat] = useState( 39.7514);
    const [zoom, setZoom] = useState(5.1);
- 
-   /* const [lng, setLng] = useState(-3.6153);
-   const [lat, setLat] = useState( 40.4156 );
-   const [zoom, setZoom] = useState(10.44); */
 
    useEffect(() => {
     
@@ -34,7 +30,7 @@ export const Map=()=>{
       map.current = new mapboxgl.Map({
         
          container: mapContainer.current,
-         style: 	'mapbox://styles/mapbox/light-v11', //Opcion 2:'mapbox://styles/examples/clg45vm7400c501pfubolb0xz' opcion 1:'mapbox://styles/mapbox/light-v11'
+         style: 	'mapbox://styles/mapbox/light-v11',
          center: [lng, lat],
          zoom: zoom,
          attributionControl: false  
@@ -108,7 +104,7 @@ export const Map=()=>{
                'text-size': 12
             },
             paint: {
-               'text-color': '#000'  // Color de los puntos del cluster
+               'text-color': '#000' 
             }
          });
 
@@ -136,7 +132,7 @@ export const Map=()=>{
             
             return
          }
-         const feature = features[0]; //Se coge el primer objeto de propiedades
+         const feature = features[0]; 
 
          //Este es el contenedor para el popup
          const div = document.createElement('div');
@@ -166,27 +162,49 @@ export const Map=()=>{
          defaultLanguage:'es',
 
       }))
- 
-      map.current.addControl(
+
+      const geocoder=(
          new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
             mapboxgl: mapboxgl,
             language: 'es-ES',
-            placeholder: 'Buscar dirección' 
+            placeholder: 'Buscar dirección',
+         
+         })
+         
+      )
+
+      map.current.addControl(geocoder )
       
-         }))
+      function searchCity() {
+         
+         geocoder.query(city, function(err, results) {
+          
+            if (results && results.features && results.features.length > 0) {
+               const firstResult = results.features[0];
+               const coordinates = firstResult.geometry.coordinates;
+               map.current.flyTo({
+                  center: coordinates,
+                  zoom: 12 
+               });
+            }
+         });
+        
+      }
+      
+      searchCity()
 
    });
   
    return (
     
-      <Paper  square={false}  sx={{ width: '97%', height:'80vh',m: '1.5rem',position:'relative'}} >
+      <Paper  square={false}  sx={{ width: '97%', height:'90vh',m: '1rem',position:'relative'}} >
 
          <div className="sidebar">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
          </div>
          
-         <div ref={mapContainer} style={{ height: '100%', width: '100%',color:'black' }} />
+         <div  ref={mapContainer} style={{ height: '100%', width: '100%',color:'black' }} />
       </Paper>
       
    );

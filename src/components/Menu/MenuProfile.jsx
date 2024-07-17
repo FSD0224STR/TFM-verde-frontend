@@ -14,6 +14,7 @@ import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlin
 import Person2Icon from '@mui/icons-material/Person2';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import { Navigate, useNavigate } from 'react-router-dom';
+import AvatarComponent from '../Pure/AvatarComponent';
 
 export default function MenuProfile({handleNavProfile}) {
 
@@ -45,7 +46,7 @@ export default function MenuProfile({handleNavProfile}) {
                         aria-expanded={open ? 'true' : undefined}
                      >
                         {profileDetails.imgProfile !== undefined || null ?
-                           <Avatar src={profileDetails.imgProfile} sx={{ width: 60, height: 60, bgcolor: ' background.avatar' }} /> :
+                           <AvatarComponent/> :
                            <Avatar sx={{ width: 60, height: 60,bgcolor:' background.avatar' }}>{profileDetails.name[0]+profileDetails.subName[0]}</Avatar>}
                  
                      </IconButton>
@@ -66,22 +67,22 @@ export default function MenuProfile({handleNavProfile}) {
                      }}}>
                      <Person2Icon color='primary' sx={{mr:'0.8rem'}}/> Perfil
                   </MenuItem>
-                  <MenuItem onClick={handleNavProfile} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
+                  {/* <MenuItem onClick={handleNavProfile} sx={{ color: 'secondary.variante',fontSize:'1.3rem' ,':hover': {
                      color:'primary.main',fontWeight:'600'
                   }}}>
                      <ListItemIcon>
                         <Settings color='primary' fontSize="medium" />
                      </ListItemIcon>
          Configuración
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
+                  </MenuItem> */}
+                  {/* <MenuItem onClick={handleClose} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                      color:'primary.main',fontWeight:'600'
                   } }}>
                      <ListItemIcon>
                         <ContactSupportOutlinedIcon color='primary' fontSize="medium" />
                      </ListItemIcon>
        Servicio al cliente
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem onClick={logout} sx={{ color: 'secondary.variante',fontSize:'1.3rem',':hover': {
                      color:'primary.main',fontWeight:'600'
                   } }}>
