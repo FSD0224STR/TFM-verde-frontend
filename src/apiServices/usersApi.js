@@ -50,7 +50,10 @@ const loginUser = async (data) => {
 export const deleteUser = async (id) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
       method: 'DELETE',
-      headers: { 'authorization': `Bearer ${token}` }
+      headers: {
+         'authorization': `Bearer ${token}`,
+         'Content-Type': 'application/json'
+      }
    });
    if (!response.ok) return { error: await response.json() };
    const deleteUser = await response.json();
