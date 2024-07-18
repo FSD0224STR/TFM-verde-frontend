@@ -7,14 +7,14 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 
 const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
 
-   // console.log('esto es idRequest inincio', idRequest)
+   console.log('esto es idRequest inincio', idRequest)
    // console.log('esto es status', status)
 
    const { profileDetails } = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
    const {responseInvitation,hanldeAnswerRequest, invitationMessageRef,setSendEventForCouple,} = useContext(MessagesContext)
    
-   console.log('estado de responseInvitation fuera de del controlerResponse',responseInvitation)
+   // console.log('estado de responseInvitation fuera de del controlerResponse',responseInvitation)
 
    useEffect(() => {
       updateDataForRequest()
@@ -30,7 +30,7 @@ const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
    const ControlledResponse = () => {
       // console.log('idrequest',idRequest)
       // console.log('status', status)
-      console.log('responseInvitation dentro de controler',responseInvitation)
+      // console.log('responseInvitation dentro de controler',responseInvitation)
       if (status === 'Pending' && sender === profileDetails._id && responseInvitation === '') {
          // console.log('estoy entrando en la primera condicion')
          return (

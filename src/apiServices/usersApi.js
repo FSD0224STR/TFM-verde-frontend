@@ -50,7 +50,7 @@ export const deleteUser = async (id) => {
    // console.log('esto es id de delete',id)
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
-      headers: { 'authorization': `Bearer ${token}` }
+      headers: { 'Authorization': `Bearer ${token}` }
    });
    if (!response.ok) return { error: await response.json() };
    const deleteUser = await response.json();

@@ -30,7 +30,7 @@ export default function ConfigurationComponent({
    loading,
    setFieldError
 }) {
-   console.log('error',errors)
+  
    const { editPass, setEditPass } = useContext(UserContext)
    const {profileDetails} = useContext(LoginContextP)
    const [showPassword, setShowPassword] = useState(false);

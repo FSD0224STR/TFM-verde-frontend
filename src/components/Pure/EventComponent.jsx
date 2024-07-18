@@ -70,13 +70,15 @@ export function EventComponent({event,findPartner,couple,coupleInfo,locationData
    const handleExpandClick = () => {
       setExpanded(!expanded);
    };
-   useEffect(() => {
-      const InfoEventForRequest = () => {
-         setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
-      };
+   const infoEventForRequest = () => {
+      console.log('ejecuntando funcion')
+      setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
+   };
+   // useEffect(() => {
+   //    console.log('esto es event',event,'esto su id',_id)
 
-      InfoEventForRequest()
-   }, []);
+   //    InfoEventForRequest()
+   // }, []);
 
    const availableSpot=`${availability-(danceCouples.length)*2}`
 
@@ -220,7 +222,11 @@ AFORO COMPLETO
 
                      <>
 
-                        <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                        <RepeatButton name='Encuentra tu pareja' onClick={() => {
+                           click_Find_Partner(_id)
+                           infoEventForRequest()
+                        }
+                        } ></RepeatButton>
                         <Button  variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event }  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
                         </Button>
@@ -267,7 +273,11 @@ Ya no me interesa este evento
 
                                        <>
 
-                                          <RepeatButton name='Encuentra tu pareja' onClick={()=>click_Find_Partner (_id)} ></RepeatButton>
+                                          <RepeatButton name='Encuentra tu pareja' onClick={() => {
+                                             click_Find_Partner(_id)
+                                             infoEventForRequest()
+                                                 
+                                          }} ></RepeatButton>
                                           <Button variant="text" sx={{color:'red',fontSize:'xx-small'}}   onClick={delete_Interest_Event}  startIcon={<HighlightOffIcon/>}>
 Ya no me interesa este evento
                                           </Button>

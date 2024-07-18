@@ -25,7 +25,7 @@ export default function MessagesContextProvider({ children }) {
    const [sendEventForCouple, setSendEventForCouple] = useState({});
    const [buttonReceiver, setbuttonReceiver] = useState(false);
    const navigate = useNavigate();
-
+   console.log('sendForCouples',sendEventForCouple)
    useEffect(() => {
       setOpenMessage(false); //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
       setSendMessage([]);
@@ -148,6 +148,7 @@ export default function MessagesContextProvider({ children }) {
    };
 
    const hanldeAnswerRequest = async (data) => {
+      console.log('esto es sendForCuoples',sendEventForCouple)
       console.log('data recibida para answer', data)
       const dataForAnswer = { ...data, idUser1: profileDetails._id, idUser2: userDetail._id, idEvent: sendEventForCouple._id ? sendEventForCouple._id : data.idEvent }
       const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
@@ -160,11 +161,11 @@ export default function MessagesContextProvider({ children }) {
       if (response.data.status === 'Accepted') {
          console.log('entrando en Acepted')
          setResponseInvitation('Accepted')
-
+         setSendEventForCouple({})
       } else if (response.data.status === 'Declined') {
          console.log('entrando en Declined')
          setResponseInvitation('Declined')
-
+       
       } else {
          console.log('entrando en Cancelled')
          setResponseInvitation('Cancelled')

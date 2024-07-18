@@ -100,7 +100,7 @@ export default function ComponentMessageList() {
       [eventsId]
    );
 
-   // console.log('esto es InfoEVENT',infoEvent)
+   console.log('esto es InfoEVENT',infoEvent)
    useEffect(() => {
       if (!infoEvent) {
          setisDisable(true)

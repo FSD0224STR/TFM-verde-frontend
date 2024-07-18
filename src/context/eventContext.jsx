@@ -7,6 +7,7 @@ import { LoginContextP } from './loginContextPrueba';
 import usersApi, { getEventsUserInfApi } from '../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { MessagesContext } from './messagesContext';
 
 export const EventContext = createContext();
 
@@ -24,7 +25,6 @@ export const EventContextProvider = ({ children }) => {
    const navigate=useNavigate()
 
    const click_Find_Partner =  (idEvent) => {
-  
       setEventId(idEvent)
       setButton_findPartner_Clicked(true) 
  
