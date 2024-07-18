@@ -121,6 +121,7 @@ export default function UserSettings({ navProfile }) {
    const registerSchema = Yup.object().shape({
       isDisabled:  Yup.boolean(),
       name: Yup.string().required('Debes ingrensar un nombre'),
+      subName: Yup.string().required('Debes ingrensar un Apellido'),
       email: Yup.string().required('Debes ingrensar un email').email('formato incorrecto de email example@example.com'),
       current_pass: Yup.string().when('isDisabled', {
          is: false,
@@ -208,6 +209,7 @@ export default function UserSettings({ navProfile }) {
             setAlertImg(null)
          }, 3000);
       } else {
+         setFieldValue('imgProfile',imgUser)
          setLoading(false);
          setAlertImg(true)
          setTimeout(() => {
@@ -336,6 +338,27 @@ export default function UserSettings({ navProfile }) {
                                  '& .MuiInputBase-input': {
                                     color: 'text.secondary',
                                  },
+                              }}
+                           />
+                           <TextField
+                              id="subNameRegister"
+                              type="text"
+                              label="Apellido"
+                              variant="outlined"
+                              placeholder="tu Apellido"
+                              fullWidth
+                              //   name="subName"
+                              value={values.subName} 
+                              onChange={(e) => {
+                                 setFieldValue('subName', e.target.value); //PARA RECOGER VALORES DE TARGET
+                              }}
+                              error={!!errors.subName}
+                              helperText={errors.subName}
+                              sx={{
+                                 '& .MuiInputBase-input': {
+                                    color: 'text.secondary',
+                                 },
+                                 mt:'1rem'
                               }}
                            />
 
