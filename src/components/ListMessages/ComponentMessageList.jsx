@@ -38,18 +38,25 @@ export default function ComponentMessageList() {
       invitationMessage,
       handleRequestCouple,
       setInvitationMessage,
-      setSendEventForCouple
+      setSendEventForCouple,
+      setResponseInvitation
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-   const { eventsInfoList } = useContext(EventContext);
+   const { listEventsInterested } = useContext(EventContext);
    const messagesEndRef = useRef(null);
    const [openAlert, setOpenAlert] = useState(false);
    const [eventsId, setEventsId] = useState('');
    const [isDisable, setisDisable] = useState(false);
-   console.log('mis eventos interesados en componenteMessage', eventsInfoList);
+   // console.log('mis eventos interesados en componenteMessage', eventsInfoList);
   
    // console.log('messageSemd',messageSend)
+
+   useEffect(() => {
+      console.log('entrando en use effect de reseteo')
+      setResponseInvitation('')
+      setInvitationMessage(false)
+   }, []);
 
    const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ block: 'end' });
@@ -89,11 +96,11 @@ export default function ComponentMessageList() {
 
    //Informacion de la request 
    const infoEvent = useMemo(
-      () => eventsInfoList.filter((eve) => eve._id === eventsId)[0],
+      () => listEventsInterested.filter((eve) => eve._id === eventsId)[0],
       [eventsId]
    );
 
-   // console.log('esto es InfoEVENT',infoEvent)
+   console.log('esto es InfoEVENT',infoEvent)
    useEffect(() => {
       if (!infoEvent) {
          setisDisable(true)
@@ -162,7 +169,7 @@ export default function ComponentMessageList() {
                   <MenuItem value="">
                      <em>Selecionar</em>
                   </MenuItem>
-                  {eventsInfoList.map((ev) => (
+                  {listEventsInterested.map((ev) => (
                      <MenuItem value={ev._id} key={ev._id}>
                         {ev.name}
                      </MenuItem>

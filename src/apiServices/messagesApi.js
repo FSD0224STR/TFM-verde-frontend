@@ -53,7 +53,7 @@ const getMyConversation = async (idUsers) => {
 }
 
 const getAllMyconversation = async (myId) => {
-   console.log('esto es my Id',myId)
+   // console.log('esto es my Id',myId)
    const response = await fetch(`${VITE_HOSTING_BACKEND}/conversation/${myId}`, {
       method: 'GET',
       headers: {
@@ -108,7 +108,7 @@ const addRequestCouple = async (dataForRequest) => {
 }
 
 const answerRequest = async (dataForAnswer) => {
-   console.log('data for Reqst',dataForAnswer)
+   // console.log('data for Reqst',dataForAnswer)
    const response = await fetch(`${VITE_HOSTING_BACKEND}/requests/${dataForAnswer.idRequest}`, {
       method: 'PATCH',
       body: JSON.stringify(dataForAnswer),

@@ -4,11 +4,11 @@ import RoleComponent from './RoleComponent';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import { useEffect } from 'react';
+import unavailableimage from '../../img/unavailable-image.jpg'
 
 export default function User({ userApi }) {
    const { getUserDetail,getOneUser} = useContext(UserContext);
    const[userInfo,setUserInfo]=useState({})
-   console.log('Que es userApi en el componente user',userApi)
     
    const { 
       _id,
@@ -78,7 +78,8 @@ export default function User({ userApi }) {
                <CardMedia
                   component="img"
                   title="Profile picture"
-                  src={!imgProfile ? 'https://via.placeholder.com/250' : imgProfile}
+               
+                  src={imgProfile ? imgProfile : unavailableimage}
                   sx={{
                      width: '100%',
                      height: '300px', 

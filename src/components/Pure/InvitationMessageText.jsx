@@ -8,7 +8,7 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
 
    // console.log('esto es idRequest inincio', idRequest)
-   // console.log('esto es status', status)
+   // console.log('esto es idEvent', idEvent)
 
    const { profileDetails } = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
@@ -65,7 +65,7 @@ const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
          return <Alert severity="error"sx={{ fontSize: '1.2rem' } } >Invitación Rechazada por {sender === profileDetails._id ? userDetail.name : profileDetails.name }</Alert>;
       }
       if (status === 'Cancelled'  || responseInvitation === 'Cancelled' ) {
-         return <Alert severity="warning" sx={{ fontSize: '1.2rem' }} >Invitación Cancelada por {profileDetails.name} </Alert>;
+         return <Alert severity="warning" sx={{ fontSize: '1.2rem' }} >Invitación Cancelada por {sender === profileDetails._id ? profileDetails.name : userDetail.name} </Alert>;
          
       }
       return (

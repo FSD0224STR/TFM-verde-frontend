@@ -18,6 +18,7 @@ import {
    MenuItem,
    IconButton,
    Tooltip,
+   Alert,
 } from '@mui/material';
 import RoleComponent from '../Pure/RoleComponent';
 import { Link, useNavigate } from 'react-router-dom';
@@ -45,6 +46,7 @@ export default function UserSettings({ navProfile }) {
    const [alertStatus, setAlertStatus] = useState({});
    const [loading, setLoading] = useState(false);
    const [loadingAlert, setLoadingAlert] = useState(false);
+   const [alertImg,setAlertImg] = useState(null)
 
    const handleClickOpen = () => {
       setOpenDialog(true);
@@ -199,10 +201,18 @@ export default function UserSettings({ navProfile }) {
       console.log('Que es imgUser', imgUser);
 
       if (imgUser.error) {
-         setLoading(false);
          console.log('este es el error', imgUser.error);
+         setLoading(false);
+         setAlertImg(false)
+         setTimeout(() => {
+            setAlertImg(null)
+         }, 3000);
       } else {
          setLoading(false);
+         setAlertImg(true)
+         setTimeout(() => {
+            setAlertImg(null)
+         }, 3000);
          setProfileDetails({ ...profileDetails, imgProfile: imgUser });
       }
    };
@@ -230,6 +240,18 @@ export default function UserSettings({ navProfile }) {
    return (
       <>
          <Container sx={{ my: '4rem', minHeight: '100%', maxWidth: '100%' }}>
+            {alertImg &&
+               <Alert variant="filled" severity="success" sx={{ textAlign: 'center', width: '400px', m: '1rem' }}>
+                        Imagen Cambiada Correctamente
+               </Alert>   }
+            {
+               alertImg === false &&
+               <Alert variant="filled" severity="warning" sx={{ textAlign: 'center', width: '400px', m: '1rem' }}>
+                       Imagen con un tamaño superiror a 5mb
+               </Alert>
+         
+            }
+       
             <Card
                sx={{
                   maxWidth: '100%',
@@ -240,7 +262,7 @@ export default function UserSettings({ navProfile }) {
             >
                <Box sx={{ position: 'absolute', right: 0, top: 5 }}>
                   <Tooltip title="Volver">
-                     <IconButton onClick={() => navigate(-1)}>
+                     <IconButton onClick={() => navigate('/home')}>
                         <CancelIcon
                            color="primary"
                            sx={{ mr: '0.5rem', fontSize: '2rem' }}
@@ -616,7 +638,7 @@ export default function UserSettings({ navProfile }) {
                                     endIcon={<EditIcon />}
                                     sx={{
                                        border: 'none',
-                                       color: 'text.primary',
+                                       color: 'text.terciary',
                                        position: 'relative',
                                        mb: '5rem',
                                     }}
@@ -667,26 +689,7 @@ export default function UserSettings({ navProfile }) {
                 ({gender === 'Male' ? 'M' : 'F'}/{age}) {city}
                      </Box>
                      <Box>
-                        <Box
-                           display="flex"
-                           flexDirection="row-reverse"
-                           justifyContent="left"
-                           my="0.5rem"
-                        >
-                           <Link>
-                              {' '}
-                              <Typography
-                                 fontSize="1rem"
-                                 variant="body2"
-                                 color="text.secondary"
-                                 mt="0.2rem"
-                                 ml="1rem"
-                              >
-                      Reseña
-                              </Typography>
-                           </Link>
-                           <Rating name="read-only" value={4} readOnly />
-                        </Box>
+                        
                         <RoleComponent role={role} />
                      </Box>
 

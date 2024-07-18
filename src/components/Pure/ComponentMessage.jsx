@@ -18,6 +18,7 @@ import { UserContext } from '../../context/userContext';
 import { MessagesContext } from '../../context/messagesContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import AlertRequest from './AlertRequest';
+import { useNavigate } from 'react-router-dom';
 
 export default function ComponentMessage({ setOpenMessage }) {
 
@@ -32,28 +33,35 @@ export default function ComponentMessage({ setOpenMessage }) {
       handleRequestCouple,
       invitationMessage,
       setInvitationMessage,
-      resetBoxMessage
+      resetBoxMessage,
+      setResponseInvitation
 
    } = useContext(MessagesContext);
    const { userDetail } = useContext(UserContext);
    const { profileDetails } = useContext(LoginContextP);
-   const [loadingChat,setloadingChat] = useState(false)
-   console.log('esto es invitationMessage', invitationMessage)
+   const [loadingChat, setloadingChat] = useState(false)
+   const navigate = useNavigate()
+   // console.log('esto es invitationMessage', invitationMessage)
+   useEffect(() => {
+      // console.log('entrando en use effect de reseteo')
+      setResponseInvitation('')
+      setInvitationMessage(false)
+   }, []);
 
    useEffect(() => {
 
       setloadingChat(true)
       messageSend.forEach((msg) => {
          if ( msg.idRequest && msg.idRequest.status) {
-            if (msg.type === 'request' && msg.idRequest.status === 'Accepted') {
-               console.log('estoy entrando para invitacion true')
-               setInvitationMessage(true);
-            }
+            // if (msg.type === 'request' && msg.idRequest.status === 'Accepted') {
+            //    console.log('estoy entrando para invitacion true')
+            //    setInvitationMessage(true);
+            // }
             if ((msg.type === 'request' && msg.idRequest.status === 'Pending')) {
                setInvitationMessage(true)
             }
          } else {
-            return
+            setInvitationMessage(false)
          }
       })
       setloadingChat(false)

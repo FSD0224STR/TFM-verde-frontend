@@ -1,65 +1,51 @@
 import  { useContext, useEffect, useState} from 'react'
 import NavigationMenu from '../components/Menu/NavigationMenu'
-import { Box, Grid,Typography } from '@mui/material'
+import { Alert, Box, Grid,Typography } from '@mui/material'
 import { EventComponent } from '../components/Pure/EventComponent'
 import { EventContext } from '../context/eventContext'
 import { CircularProgressLoading } from '../components/Pure/Loading'
-import { useParams } from 'react-router-dom'
 import { LoginContextP } from '../context/loginContextPrueba'
+import { DividerWithText } from '../components/Pure/Divider'
 
 export default function EventsList() {
-   
-   const { loggedUserId} = useParams()  
+
    const [loading,setLoading]=useState(false)
-   const {listEventsInterested,getListEventsUser,fetchAllEvent,eventsInfoList, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext) 
+   const [error,setError]=useState('')
+   const {listEventsInterested,   getAllEventsUser,listUpcomingEvents, button_interestedEvent_Clicked,setButton_interestedEvent_Clicked}=useContext(EventContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
-   const getListEventsInterested  = async () => {
-
+   const getAllEvents= async () => {
       setLoading(true)
-      const listEvents=await getListEventsUser(loggedUserId)
-      const response=await fetchAllEvent(listEvents)
-      
-      if (response) {
-         
-         setLoading(false)
-         setButton_interestedEvent_Clicked(false);
-         return 
-      } 
-   
-   };
-
+      const response=await getAllEventsUser()
+      if (response.error) {
+         setError('Ha habido un error al visualizar tus eventos de interés')
+         setTimeout(()=>{
+            setError('')
+         },3000)
+         return
+      }
+      setLoading(false)
+      setButton_interestedEvent_Clicked(false);
+      return
+   }
    useEffect(() => {
       const token = localStorage.getItem('access_token');
       if(token)setIsLoggedIn(true)
    }, [profileDetails]);
-  
-   useEffect (()=>{
-      
-      getListEventsInterested()
-   
-   },[button_interestedEvent_Clicked ]) 
-  
-   return (
 
+   useEffect (()=>{
+      getAllEvents()
+   },[button_interestedEvent_Clicked ])
+   return (
       <>
          <NavigationMenu />
-
+         {error && <Alert variant="filled" severity="error"  sx={{textAlign:'center',fontSize:'2rem',m:'20px'}}  >
+            {error}
+         </Alert> }
+       
          {loading ?  (  <CircularProgressLoading/>):(
-
             <>
-            
-               <Typography
-                  textAlign="center"
-                  variant="h2"
-                  my="3rem"
-                  color="primary.main"
-                  fontWeight='bold'
-               >
-                 Eventos de interés
-               </Typography>
-
-               {listEventsInterested?.length ? (
-                  
+               
+               {listEventsInterested.length || listUpcomingEvents.length ? (
                   <Box
                      width="100%"
                      display="flex"
@@ -67,52 +53,123 @@ export default function EventsList() {
                      justifyContent="center"
                      alignItems="center"
                   >
+                     
+                     {listEventsInterested.length && (
+                           
+                        <Grid container
+                           maxWidth="100%"
+                           justifyContent="center"
+                           gap={4}
+                           spacing={4}
+                           sx={{ m: '2rem' }}>
 
-                     <Grid
-                        container
-                        maxWidth="100%"
-                        justifyContent="center"
-                        gap={4}
-                        spacing={4}
-                        sx={{ m: '4rem' }}
-                     >
-
-                        {eventsInfoList.map((event,index)=> (
                            <Grid
                               item
-                              key={index}
                               display="flex"
                               justifyContent="center"
                               xs={12}
-                              sm={6}
-                              md={4}
-                              lg={3}
+                              sm={12}
+                              md={12}
+                              lg={12}
                            >
 
-                              <EventComponent findPartner={true}  event={event} />  
-                             
-                           </Grid> 
-                        ))}
-                     
-                     </Grid>
+                              <Typography
+                                 textAlign="center"
+                                 variant="h2"
+                                 my="1rem"
+                                 color="primary.main"
+                                 fontWeight='bold'
+                              >
+                 Eventos de interés
+                              </Typography>
+
+                           </Grid>
+                           {listEventsInterested.map((event,index)=> (
+                              <Grid
+                                 item
+                                 key={index}
+                                 display="flex"
+                                 justifyContent="center"
+                                 xs={12}
+                                 sm={6}
+                                 md={4}
+                                 lg={3}
+                              >
+                                 <EventComponent findPartner={true}  event={event}   locationDatas={event.idLocation}  />
+                              </Grid>
+                           ))}
+                        </Grid>
+                        
+                     )}
+
+                     {listUpcomingEvents.length && (
+
+                        <Grid container
+                           maxWidth="100%"
+                           justifyContent="center"
+                           gap={4}
+                           spacing={4}
+                           sx={{ m: '2rem' }}>
+
+                           <Grid
+                              item
+                              display="flex"
+                              justifyContent="center"
+                              xs={12}
+                              sm={12}
+                              md={12}
+                              lg={12}
+                           >
+
+                              <DividerWithText text='Eventos Confirmados' />
+                           
+                           </Grid>
+                         
+                           {listUpcomingEvents.map((event,index)=> (
+                              <Grid
+                                 item
+                                 key={index}
+                                 display="flex"
+                                 justifyContent="center"
+                                 xs={12}
+                                 sm={6}
+                                 md={4}
+                                 lg={3}
+                              >
+                                 <EventComponent   couple={true}   locationDatas={event.idEvent.idLocation}  event={event.idEvent} coupleInfo={event.idCouple} />
+                              </Grid>
+                           ))}
+                          
+                        </Grid>
+                     )} 
+                   
                   </Box>
-
                ):(
-               
-                  <Typography
-                     textAlign="center"
-                     variant="h2"
-                     my="3rem"
-                     color="text.secondary"
-                  >
-                   Actualmente no te has interesado en ningun evento.
-                  </Typography>
-               )}
-            
-            </>
+                  <>
 
-         )} 
-       
+                     <Typography
+                        textAlign="center"
+                        variant="h2"
+                        my="3rem"
+                        color="primary.main"
+                        fontWeight='bold'
+                     >
+                       Eventos de interés
+                     </Typography> 
+
+                     <Typography
+                        textAlign="center"
+                        variant="h2"
+                        my="3rem"
+                        color="text.secondary"
+                     >
+                   Actualmente no te has interesado en ningun evento.
+                     </Typography>
+
+                  </>
+               )}
+            </>
+         )}
       </>
    )
 }

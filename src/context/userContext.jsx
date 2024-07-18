@@ -20,7 +20,7 @@ export const UserContextProvider = ({ children }) => {
    const getUserDetail = async (id) => {
       try {
          const detailUser = await usersApi.detailByIdUser(id);
-         console.log('esto es detailUser',detailUser)
+ 
          setUserDetail(detailUser);
          
          navigate(`/profile/${id}`)
@@ -48,8 +48,7 @@ export const UserContextProvider = ({ children }) => {
    }
 
    const handleNavConfig = () => {
-      
-      console.log('entrando en config de')
+  
       navigate('/profile')
       setNavProfile(true)
    }

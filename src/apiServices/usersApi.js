@@ -1,6 +1,6 @@
 
 const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
-
+const token = localStorage.getItem('access_token');
 const getAllUsers = async () => {
 
    const token = localStorage.getItem('access_token');
@@ -38,7 +38,7 @@ const addUser = async (newUserData) => {
 };
 
 const loginUser = async (data) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/login`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
@@ -46,13 +46,15 @@ const loginUser = async (data) => {
    const user = await response.json();
    return user;
 };
-
 export const deleteUser = async (id) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
+   // console.log('esto es id de delete',id)
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
    });
+   if (!response.ok) return { error: await response.json() };
    const deleteUser = await response.json();
-   return deleteUser;
+   return { data: deleteUser }
 };
 
 export const updateUser = async (id, modifiedData) => {
@@ -74,7 +76,7 @@ export const updateUser = async (id, modifiedData) => {
 };
 
 const changeMyPass = async (newData) => {
-   console.log('esto es new Data en api', newData)
+  
    const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${newData.id}`, {
       method: 'PATCH',
@@ -135,16 +137,6 @@ const getMyprofile = async () => {
    }
 };
 
-const getOneUserApi = async (userId) => { //Tengo que eliminar esta función y aplicar detailByIdUser, es la misma ruta
-
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${userId}`)
-
-   if (!response.ok) return { error: await response.json() }
-
-   const user = await response.json()
-   return user
-}
-
 const recoverMypass = async (data) => {
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/forgotPassword`, {
       method: 'POST',
@@ -173,6 +165,23 @@ const resetPassword = async (data) => {
    return resultPass
 }
 
+export const getEventsUserInfApi = async () => {
+
+   const token = localStorage.getItem('access_token'); 
+
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/events/interested`, {
+   
+      headers: { authorization: `Bearer ${token}` },
+   }); 
+
+   if (!response.ok) {
+      const error = await response.json();
+      return { error };
+   }
+   const allUserEvents= await response.json()
+   return allUserEvents;
+ 
+};
 export default {
    getAllUsers,
    addUser,
@@ -184,5 +193,6 @@ export default {
    updateUser,
    changeMyPass,
    recoverMypass,
-   resetPassword
+   resetPassword,
+ 
 };

@@ -548,7 +548,7 @@ export default function LandingPage() {
                         </Box>
                      </Card>
                   </Box>
-                  <Button
+                  {/* <Button
                      variant="contained"
                      size="large"
                      sx={{
@@ -561,7 +561,7 @@ export default function LandingPage() {
                      }}
                   >
                      Leer más comentarios
-                  </Button>
+                  </Button> */}
                </FullpageSection>
             </FullPageSections>
          </FullPage>

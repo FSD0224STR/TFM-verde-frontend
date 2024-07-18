@@ -11,31 +11,26 @@ import { io } from 'socket.io-client'
 const VITE_HOSTING_BACKEND = import.meta.env.VITE_HOSTING_BACK
 //const socket = io(VITE_HOSTING_BACKEND)
 import { EventContext } from '../context/eventContext'
-import { useParams } from 'react-router-dom'
 
 export default function MessagesPage() {
-
-   const { loggedUserId } = useParams()
 
    const { allConversation, getListMessages } = useContext(MessagesContext)
    const { profileDetails, setIsLoggedIn } = useContext(LoginContextP)
    const { /* token, */ socket, userConnected } = useContext(WebSocketsContext)
-   console.log("Usuarios conectados en este momento", userConnected)
+   // console.log("Usuarios conectados en este momento", userConnected)
    const token = localStorage.getItem('access_token')
 
-   const { getListEventsUser, fetchAllEvent } = useContext(EventContext)
+   const { getAllEventsUser } = useContext(EventContext)
 
    useEffect(() => {
-      if (loggedUserId) {
 
-         console.log('Estoy entrando en el usseEffect de MessagePage para ver getListEventsInterested')
-         const getListEventsInterested = async () => {
+      // console.log('Estoy entrando en el usseEffect de MessagePage para ver getListEventsInterested')
+      const getListEventsInterested = async () => {
 
-            const listEvents = await getListEventsUser(loggedUserId)
-            const response = await fetchAllEvent(listEvents)
-         };
-         getListEventsInterested()
-      }
+         await getAllEventsUser()
+  
+      };
+      getListEventsInterested()
    }, []);
 
    useEffect(() => {
@@ -49,7 +44,6 @@ export default function MessagesPage() {
    useEffect(() => {
       socket.emit('loginSuccess', token)
    }, []);
-
 
    return (
       <>
