@@ -117,12 +117,12 @@ export default function MessagesContextProvider({ children }) {
          event: sendEventForCouple,
       };
 
-      console.log('esto es dataforrequest', dataWithIdEvent);
+      // console.log('esto es dataforrequest', dataWithIdEvent);
 
       const response = await messagesApi.addRequestCouple(dataWithIdEvent);
 
-      console.log('response request', response.data.request._id);
-      console.log(' response.message.message', response.message.message)
+      // console.log('response request', response.data.request._id);
+      // console.log(' response.message.message', response.message.message)
       if (response.success) {
          setAlertRequest(true)
          setTimeout(() => {
@@ -148,26 +148,26 @@ export default function MessagesContextProvider({ children }) {
    };
 
    const hanldeAnswerRequest = async (data) => {
-      console.log('esto es sendForCuoples',sendEventForCouple)
-      console.log('data recibida para answer', data)
+      // console.log('esto es sendForCuoples',sendEventForCouple)
+      // console.log('data recibida para answer', data)
       const dataForAnswer = { ...data, idUser1: profileDetails._id, idUser2: userDetail._id, idEvent: sendEventForCouple._id ? sendEventForCouple._id : data.idEvent }
       const idUsers = { sender: profileDetails._id, receiver: userDetail._id }
-      console.log('dataforAnswer', dataForAnswer)
+      // console.log('dataforAnswer', dataForAnswer)
       const response = await messagesApi.answerRequest(dataForAnswer)
-      console.log('esto es la respuesta de Answer', response)
-      console.log('status request', response.data.status)
+      // console.log('esto es la respuesta de Answer', response)
+      // console.log('status request', response.data.status)
       
       if (response.error) setError(response.error)
       if (response.data.status === 'Accepted') {
-         console.log('entrando en Acepted')
+         // console.log('entrando en Acepted')
          setResponseInvitation('Accepted')
          setSendEventForCouple({})
       } else if (response.data.status === 'Declined') {
-         console.log('entrando en Declined')
+         // console.log('entrando en Declined')
          setResponseInvitation('Declined')
        
       } else {
-         console.log('entrando en Cancelled')
+         // console.log('entrando en Cancelled')
          setResponseInvitation('Cancelled')
 
       }

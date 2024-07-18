@@ -41,9 +41,9 @@ export default function ComponentMessage({ setOpenMessage }) {
    const { profileDetails } = useContext(LoginContextP);
    const [loadingChat, setloadingChat] = useState(false)
    const navigate = useNavigate()
-   console.log('esto es invitationMessage', invitationMessage)
+   // console.log('esto es invitationMessage', invitationMessage)
    useEffect(() => {
-      console.log('entrando en use effect de reseteo')
+      // console.log('entrando en use effect de reseteo')
       setResponseInvitation('')
       setInvitationMessage(false)
    }, []);

@@ -71,7 +71,7 @@ export function EventComponent({event,findPartner,couple,coupleInfo,locationData
       setExpanded(!expanded);
    };
    const infoEventForRequest = () => {
-      console.log('ejecuntando funcion')
+      // console.log('ejecuntando funcion')
       setSendEventForCouple({ name, date: dateFormat, hour: hourFormat, _id });
    };
    // useEffect(() => {

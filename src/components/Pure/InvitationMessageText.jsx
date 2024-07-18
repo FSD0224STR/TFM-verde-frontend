@@ -7,8 +7,8 @@ import { LoginContextP } from '../../context/loginContextPrueba';
 
 const InvitationMessageText = ({ msg, sender,status,idRequest,idEvent }) => {
 
-   console.log('esto es idRequest inincio', idRequest)
-   // console.log('esto es status', status)
+   // console.log('esto es idRequest inincio', idRequest)
+   // console.log('esto es idEvent', idEvent)
 
    const { profileDetails } = useContext(LoginContextP)
    const { userDetail } = useContext(UserContext)
