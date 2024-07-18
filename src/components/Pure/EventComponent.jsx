@@ -353,9 +353,9 @@ AFORO COMPLETO
          <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
 
-               <Typography variant='h6'> Descripción:</Typography>
+               <Typography variant='h6' sx={{color:couple ? '#fff':'inherit'}}> Descripción:</Typography>
 
-               <Typography paragraph fontSize='small' >
+               <Typography paragraph fontSize='small' sx={{color:couple ? '#fff':'inherit'}} >
             
                   {description}
                </Typography>
