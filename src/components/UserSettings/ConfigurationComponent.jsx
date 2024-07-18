@@ -17,6 +17,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext';
+import { deleteUser } from '../../apiServices/usersApi';
+import { useNavigate } from 'react-router-dom';
+import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ConfigurationComponent({
    values,
@@ -29,13 +32,14 @@ export default function ConfigurationComponent({
 }) {
    console.log('error',errors)
    const { editPass, setEditPass } = useContext(UserContext)
+   const {profileDetails} = useContext(LoginContextP)
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
    const [showPassworNew, setShowPassworNew] = useState(false);
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
    const handleClickShowPasswordNew = () => setShowPassworNew((show) => !show);
-
+   const navigate = useNavigate()
    const handleMouseDownPassword = (event) => {
       event.preventDefault();
    };
@@ -290,6 +294,7 @@ export default function ConfigurationComponent({
                   size="large"
                   fullWidth
                   disabled={editPass}
+                  onClick={deleteMyAccount}
                >
               Borrar mi Cuenta
                </Button>
@@ -305,6 +310,7 @@ export default function ConfigurationComponent({
                      sx={{ mt: '40px', fontSize: '20px' ,':hover':{bgcolor:'secondary.variante'},':disabled':{opacity:0}}}
                      size="large"
                      disabled={editPass}
+                      
                   >
           Guardar Cambios
                   </Button>
