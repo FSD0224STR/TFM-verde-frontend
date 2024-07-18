@@ -20,6 +20,7 @@ import { UserContext } from '../../context/userContext';
 import { LoginContextP } from '../../context/loginContextPrueba';
 import { deleteUser } from '../../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 export default function ConfigurationComponent({
    values,
@@ -63,6 +64,8 @@ export default function ConfigurationComponent({
          navigate('/')
       }
    }
+
+   const dateFormat=dayjs(profileDetails.createdAt).format('DD MMMM YYYY').toUpperCase()
 
    return (
       <Grid 
@@ -284,7 +287,7 @@ export default function ConfigurationComponent({
                      variant="body2"
                      sx={{ color: 'text.secondary' }}
                   >
-            22/06/24
+                     {dateFormat}
                   </Typography>
                </Box>
                <Button

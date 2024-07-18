@@ -46,7 +46,7 @@ export default function UserSettings({ navProfile }) {
    const [alertStatus, setAlertStatus] = useState({});
    const [loading, setLoading] = useState(false);
    const [loadingAlert, setLoadingAlert] = useState(false);
-   const [alertImg,setAlertImg] = useState(null)
+   const [alertImg, setAlertImg] = useState(null)
 
    const handleClickOpen = () => {
       setOpenDialog(true);
