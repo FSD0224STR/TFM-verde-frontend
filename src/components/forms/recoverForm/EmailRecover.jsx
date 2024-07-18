@@ -14,7 +14,7 @@ export default function EmailRecover() {
    const handleRecoverPass = async (data) => {
       setLoading(true)
       const recoveryPass = await usersApi.recoverMypass(data)
-      console.log('error en email',recoveryPass.error)
+   
       if (recoveryPass.error) {
          setLoading(false)
          setErrorSendEmail(true)
@@ -28,8 +28,7 @@ export default function EmailRecover() {
       setTimeout(() => {
          navigate('/')
       }, 5000);
-        
-      console.log( 'recoverymypas',recoveryPass)
+    
    };
 
    let initialValue = {

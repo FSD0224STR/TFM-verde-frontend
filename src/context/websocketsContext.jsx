@@ -31,7 +31,7 @@ export default function WebsocketsContextProvider({ children }) {
    }, []);
 
    function onLoginSuccess(data) {
-      console.log('data', data)
+    
       if (Object.keys(data).length === 0) {
          return
       }

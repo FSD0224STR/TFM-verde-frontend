@@ -19,7 +19,7 @@ export default function AlertDialog({
    loadingAlert,
 }) {
    const alertsUpdateUser = () => {
-      console.log('esto es Alert status', alertStatus);
+    
       if (alertStatus.errorUpdate === false) {
          return (
             <DialogContent>

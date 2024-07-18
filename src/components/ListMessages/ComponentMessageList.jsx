@@ -53,7 +53,7 @@ export default function ComponentMessageList() {
    // console.log('messageSemd',messageSend)
 
    useEffect(() => {
-      console.log('entrando en use effect de reseteo')
+     
       setResponseInvitation('')
       setInvitationMessage(false)
    }, []);
@@ -100,7 +100,6 @@ export default function ComponentMessageList() {
       [eventsId]
    );
 
-   console.log('esto es InfoEVENT',infoEvent)
    useEffect(() => {
       if (!infoEvent) {
          setisDisable(true)

@@ -71,7 +71,7 @@ export default function UserSettings({ navProfile }) {
    };
 
    const handleConfirmSubmit = () => {
-      console.log('llamadno a hanldeSubimt')
+      
       handleSubmit();
    };
 
@@ -140,15 +140,14 @@ export default function UserSettings({ navProfile }) {
    const ControllerUpdateSettings = (dataUpdateUser) => {
       const checkPass = dataUpdateUser.newPassword !== '' && dataUpdateUser.ConfirmPassword !== ''
       if (checkPass) {
-         console.log('que es checkpass',checkPass)
+         
          return  changeMyPass(dataUpdateUser)
       }
       updateUserSettings(dataUpdateUser)
    }
 
    const changeMyPass = async (dataUpdateUser) => {
-
-      console.log('llamando a pass')
+     
       setLoadingAlert(true);
       const newData = {
          password: dataUpdateUser.newPassword,
@@ -165,7 +164,7 @@ export default function UserSettings({ navProfile }) {
       } else {
          const dataAlert = { errorPass: false };
          setAlertStatus(dataAlert);
-         console.log('resouesta del cambio de contraseña', data.dataReceiver);
+
          setLoadingAlert(false);
          return;
       }
@@ -173,7 +172,7 @@ export default function UserSettings({ navProfile }) {
    }
 
    const updateUserSettings = async (dataUpdateUser) => {
-      console.log('llamando a update')
+      
       setLoadingAlert(true);
       const id = dataUpdateUser.id;
       const user = await usersApi.updateUser(id, dataUpdateUser);

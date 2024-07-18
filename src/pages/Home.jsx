@@ -48,15 +48,13 @@ export default function Home() {
       setLoading(true)
 
       if (NameMapButton === 'Ver listado') {
-
-         console.log('Mostrar mapa')
+      
          setNameMapButton('Mostrar mapa');
          setLoading(false)
       }
 
       if (NameMapButton === 'Mostrar mapa') {
-
-         console.log('Ver listado')
+        
          setNameMapButton('Ver listado')
          setLoading(false)
       }

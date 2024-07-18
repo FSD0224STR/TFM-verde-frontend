@@ -25,7 +25,7 @@ export default function MessagesContextProvider({ children }) {
    const [sendEventForCouple, setSendEventForCouple] = useState({});
    const [buttonReceiver, setbuttonReceiver] = useState(false);
    const navigate = useNavigate();
-   console.log('sendForCouples',sendEventForCouple)
+
    useEffect(() => {
       setOpenMessage(false); //asegurarme de que cada vez que se navegue siempre tenga el estado de sendMessage reseteado y actualizado
       setSendMessage([]);
@@ -92,7 +92,7 @@ export default function MessagesContextProvider({ children }) {
          setError(deleteMsg.error);
          setAlertStatusDelete(false);
       }
-      console.log('eliminando');
+      
       setAlertStatusDelete(true);
       setSendMessage([]);
       getListMessages();
@@ -182,7 +182,7 @@ export default function MessagesContextProvider({ children }) {
    //localizar request en chat 
    const invitationMessageRef = useRef(null);
    const scrollToInvitationMessage = () => {
-      console.log('ejecuntando scroll')
+  
       invitationMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
    };

@@ -47,7 +47,7 @@ export default function PassRecoverForm({tokenRecoveryparams}) {
       setloading(true)
       const dataWithToken = {...data,token:tokenRecoveryparams}
       const response = await usersApi.resetPassword(dataWithToken)
-      console.log('response en componente',response.error)
+ 
       if (response.error) {
          setloading(false)
          return setErrorChangePass(true)

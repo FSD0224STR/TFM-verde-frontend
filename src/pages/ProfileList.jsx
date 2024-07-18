@@ -7,6 +7,7 @@ import { EventContext } from '../context/eventContext';
 import { CircularProgressLoading } from '../components/Pure/Loading';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { LoginContextP } from '../context/loginContextPrueba';
 
 export default function ProfileList() {
 
@@ -16,6 +17,7 @@ export default function ProfileList() {
    const [loading,setLoading]=useState(false)
 
    const { listOfInterested,getProfileList,setButton_findPartner_Clicked} = useContext(EventContext);
+   const { setIsLoggedIn} = useContext(LoginContextP)
 
    const getListOfInterested  = async () => {
 
@@ -36,6 +38,12 @@ export default function ProfileList() {
       getListOfInterested()
    
    },[]) 
+
+   useEffect(() => {
+      const token = localStorage.getItem('access_token');
+      if (token) setIsLoggedIn(true)
+     
+   }, [])
 
    return (
       <>

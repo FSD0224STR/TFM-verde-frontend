@@ -77,11 +77,11 @@ export const LoginContextProviderP = ({ children }) => {
          const token = response.data;
          const userdetails = response.userDetails;
          localStorage.setItem('access_token', token);
-         console.log('Cuales son los datos del usuario logeado', userdetails);
+        
          setIsLoggedIn(true);
          navigate('/home');
          setProfileDetails(userdetails);
-         console.log('esto es login abajo', profileDetails);
+         
       }
    };
 

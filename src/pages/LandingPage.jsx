@@ -4,14 +4,12 @@ import NavBar from '../components/NavBar/NavBar';
 import FullPage, {
    FullPageSections,
    FullpageSection,
-   FullpageNavigation,
+   
 } from '@ap.cx/react-fullpage';
 import { useInView } from 'react-intersection-observer';
 import { NavLink } from 'react-router-dom';
 import { Avatar, Box, Button, Card, Rating, Typography } from '@mui/material';
-import UserPrueba from '../components/Pure/UserPrueba';
 import landingFondo from '../img/landingFondosm.png';
-import mapIcons from './../img/mapIcons.png';
 import aniversario from './../img/aniversario.png';
 import mejorVendido from './../img/mejor-vendido.png';
 import proteger from './../img/proteger.png';
