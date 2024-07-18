@@ -17,9 +17,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext';
+import { LoginContextP } from '../../context/loginContextPrueba';
 import { deleteUser } from '../../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
-import { LoginContextP } from '../../context/loginContextPrueba';
 
 export default function ConfigurationComponent({
    values,
@@ -32,7 +32,7 @@ export default function ConfigurationComponent({
 }) {
   
    const { editPass, setEditPass } = useContext(UserContext)
-   const {profileDetails} = useContext(LoginContextP)
+   const{profileDetails} = useContext(LoginContextP)
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
    const [showPassworNew, setShowPassworNew] = useState(false);
@@ -60,7 +60,6 @@ export default function ConfigurationComponent({
    const deleteMyAccount = async () => {
       const response = await deleteUser(profileDetails._id)
       if (response.data) {
-         console.log('esto es response data',response.data)
          navigate('/')
       }
    }
