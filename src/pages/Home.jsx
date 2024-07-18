@@ -110,7 +110,7 @@ export default function Home() {
 
       <>
 
-         {loading && profileDetails ? (<CircularProgressLoading />) : (
+         {loading && !profileDetails ? (<CircularProgressLoading />) : (
 
             <>
                <NavigationMenu />
