@@ -47,7 +47,7 @@ const loginUser = async (data) => {
    return user;
 };
 export const deleteUser = async (id) => {
-   const response = await fetch(`${VITE_HOSTING_BACKEND}/user/${id}`, {
+   const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
       headers: {
          'authorization': `Bearer ${token}`,
