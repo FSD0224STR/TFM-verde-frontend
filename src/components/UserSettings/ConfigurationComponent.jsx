@@ -17,10 +17,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext';
-import { LoginContextP } from '../../context/loginContextPrueba';
 import { deleteUser } from '../../apiServices/usersApi';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { LoginContextP } from '../../context/loginContextPrueba';
+import AlertDelete from './AlertDelete';
 
 export default function ConfigurationComponent({
    values,
@@ -33,10 +33,21 @@ export default function ConfigurationComponent({
 }) {
   
    const { editPass, setEditPass } = useContext(UserContext)
-   const{profileDetails} = useContext(LoginContextP)
+   const {profileDetails} = useContext(LoginContextP)
    const [showPassword, setShowPassword] = useState(false);
    const [showPasswordC, setShowPasswordC] = useState(false);
    const [showPassworNew, setShowPassworNew] = useState(false);
+   const [openAlertDelete, setOpenAlertDelete] = useState(false);
+   const [loadingDelete, setLoadingDelete] = useState(false);
+   const [answerDelete, setAnswerDelete] = useState(null);
+
+   const handleOpenAlertDelete = () => {
+      setOpenAlertDelete(true);
+   };
+
+   const handleCloseAlertDelete = () => {
+      setOpenAlertDelete(false);
+   };
    const handleClickShowPassword = () => setShowPassword((show) => !show);
    const handleClickShowPasswordC = () => setShowPasswordC((show) => !show);
    const handleClickShowPasswordNew = () => setShowPassworNew((show) => !show);
@@ -59,13 +70,17 @@ export default function ConfigurationComponent({
    }
 
    const deleteMyAccount = async () => {
+      setLoadingDelete(true)
       const response = await deleteUser(profileDetails._id)
       if (response.data) {
-         navigate('/')
+         setLoadingDelete(false)
+         setAnswerDelete(true)
+         localStorage.removeItem('access_token')
+      } else {
+         setLoadingDelete(false)
+         setAnswerDelete(false)
       }
    }
-
-   const dateFormat=dayjs(profileDetails.createdAt).format('DD MMMM YYYY').toUpperCase()
 
    return (
       <Grid 
@@ -75,6 +90,7 @@ export default function ConfigurationComponent({
             
          }}
       >
+         <AlertDelete deleteMyAccount={deleteMyAccount} handleCloseAlertDelete={handleCloseAlertDelete} openAlertDelete={openAlertDelete} loadingDelete={loadingDelete} answerDelete={answerDelete} />
          <Grid  minWidth='210%'sx={{display:'flex',flexDirection:'column',mt:'2rem'}} ml={'2.7rem'} item xs={12} md={9}>
             <Box sx={{  lineHeight: '1', mb: '1rem' }}>
                <Typography
@@ -287,7 +303,7 @@ export default function ConfigurationComponent({
                      variant="body2"
                      sx={{ color: 'text.secondary' }}
                   >
-                     {dateFormat}
+            22/06/24
                   </Typography>
                </Box>
                <Button
@@ -296,7 +312,7 @@ export default function ConfigurationComponent({
                   size="large"
                   fullWidth
                   disabled={editPass}
-                  onClick={deleteMyAccount}
+                  onClick={handleOpenAlertDelete}
                >
               Borrar mi Cuenta
                </Button>
