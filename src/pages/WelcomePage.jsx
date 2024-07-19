@@ -9,7 +9,7 @@ export default function WelcomePage() {
       setTimeout(() => {
             
          navigate('/login')
-      }, 20000);
+      }, 4000);
    })
    return (
       <>
