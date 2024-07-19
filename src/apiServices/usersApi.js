@@ -47,11 +47,12 @@ const loginUser = async (data) => {
    return user;
 };
 export const deleteUser = async (id) => {
+   const token = localStorage.getItem('access_token');
    const response = await fetch(`${VITE_HOSTING_BACKEND}/users/${id}`, {
       method: 'DELETE',
       headers: {
-         'authorization': `Bearer ${token}`,
-         'Content-Type': 'application/json'
+         'Content-Type': 'application/json',
+         authorization: `Bearer ${token}`
       }
    });
    if (!response.ok) return { error: await response.json() };

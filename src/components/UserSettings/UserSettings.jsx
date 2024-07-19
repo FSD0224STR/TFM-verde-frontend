@@ -28,7 +28,7 @@ import * as Yup from 'yup';
 import usersApi from '../../apiServices/usersApi';
 import { useFormik } from 'formik';
 import SliderRating from '../Pure/SliderRating';
-import profileDefault from '../../img/profile.png';
+import profileDefault from '../../img/unavailable-image.jpg';
 import dataAge from '../../utils/dataAge';
 import EditIcon from '@mui/icons-material/Edit';
 import ConfigurationComponent from './ConfigurationComponent';
@@ -644,8 +644,8 @@ export default function UserSettings({ navProfile }) {
                               {' '}
                               <CardMedia
                                  sx={{
-                                    MaxWidth: '300px',
-                                    MaxHeight: '300px',
+                                    maxWidth: '300px',
+                                    maxHeight: '300px',
                                     margin: 'auto',
                                     position: 'relative',
                                  }}
