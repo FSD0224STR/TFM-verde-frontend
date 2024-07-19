@@ -1,4 +1,4 @@
-import mapboxgl from 'mapbox-gl'; 
+import mapboxgl, { accessToken } from 'mapbox-gl'; 
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import React, { useRef, useEffect, useState } from 'react';
 import { Paper } from '@mui/material';
@@ -14,8 +14,9 @@ import { LocationComponentMap } from './LocationComponentMap';
 import { useNavigate } from 'react-router-dom';
 
 export const Map=()=>{
+   const ACCESS_TOKEN =import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN  
 
-   mapboxgl.accessToken = 'pk.eyJ1IjoibWVldGFuY2luZyIsImEiOiJjbHhzd3dldDIwczNnMmpzZW1iaTN2dWxjIn0.RXMnscY4UR13dJD2PCD5aw';
+   mapboxgl.accessToken =ACCESS_TOKEN
    const { clusterData,click_Buttons_Events,city} = useContext(LocationContext)
    const mapContainer = useRef(null);
    const map = useRef(null);
