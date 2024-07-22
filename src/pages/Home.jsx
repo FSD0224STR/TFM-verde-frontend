@@ -48,13 +48,15 @@ export default function Home() {
       setLoading(true)
 
       if (NameMapButton === 'Ver listado') {
-      
+
+         console.log('Mostrar mapa')
          setNameMapButton('Mostrar mapa');
          setLoading(false)
       }
 
       if (NameMapButton === 'Mostrar mapa') {
-        
+
+         console.log('Ver listado')
          setNameMapButton('Ver listado')
          setLoading(false)
       }
@@ -102,13 +104,13 @@ export default function Home() {
       'Valencia',
       'Zaragoza'
    ]
-   const optionsDanceStyle = ['Swing', 'Salsa cubana', 'Salsa', 'Merengue', 'Bachata', 'Kizomba', 'Festival', 'Bachata Dominicana']
+   const optionsDanceStyle = ['Swing', 'Salsa cubana', 'Salsa', 'Merengue', 'Bachata', 'Kizomba']
 
    return (
 
       <>
 
-         {loading && !profileDetails ? (<CircularProgressLoading />) : (
+         {loading && profileDetails ? (<CircularProgressLoading />) : (
 
             <>
                <NavigationMenu />
